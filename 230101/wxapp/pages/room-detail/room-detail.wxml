@@ -1,0 +1,38 @@
+<!--pages/roomDetail/room-detail.wxml-->
+<swiper class="swiper">
+    <swiper-item wx:for="{{detail.slides}}" wx:key="index">
+        <image src="{{item}}" mode="widthFix" class="image" bindtap="handlePreviewImage" data-image="{{item}}"></image>
+    </swiper-item>
+</swiper>
+
+<mp-sticky>
+    <view class="detail-tabbar">
+        <view class="{{current===0?'active':''}}" bindtap="handleChangeTabbar" data-current="{{0}}">详情</view>
+        <view class="{{current===1?'active':''}}" bindtap="handleChangeTabbar" data-current="{{1}}">评价</view>
+    </view>
+</mp-sticky>
+
+<view wx:if="{{current===0}}" style="padding-bottom: 100rpx;">
+    <view class="feature">{{detail.feature}}</view>
+    <image src="{{item}}" mode="widthFix" wx:for="{{detail.description}}" wx:key="index" style="width: 100%;margin-bottom: -10rpx;"></image>
+</view>
+<view wx:else style="padding-bottom: 100rpx;">
+    <view wx:for="{{detail.comments}}" wx:key="index" class="comment">
+        <view class="user">{{item.nickName}}</view>
+        <view style="background-color: #f5f5f5;">
+            <view class="content">{{item.content}}</view>
+            <view class="createTime">{{item.createTime}}</view>
+        </view>
+    </view>
+</view>
+
+<view class="good-nav">
+    <!-- <view bindtap="handleShopCart" style="background-color: #127970;">订单</view>
+    <view bindtap="handleAdd" style="background-color: #f76260;">加入订单</view>
+    <view bindtap="handlePurchase" style="background-color: #6c44ac;">立即预定</view> -->
+    <van-goods-action>
+        <van-goods-action-icon icon="cart-o" text="订单" bindtap="handleShopCart"/>
+        <van-goods-action-button color="#be99ff" text="加入订单" type="warning" bindtap="handleAdd"/>
+        <van-goods-action-button color="#7232dd" text="立即预定" bindtap="handlePurchase"/>
+    </van-goods-action>
+</view>

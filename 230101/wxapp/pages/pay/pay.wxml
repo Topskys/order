@@ -1,0 +1,83 @@
+<!--pages/pay/pay.wxml-->
+<!-- 确认订单 -->
+<view class="ready-pay" wx:if="{{order}}">
+    <!-- 房间信息 -->
+    <scroll-view scroll-y style="max-height: 450rpx;background-color: white;">
+        <view class="room">
+            <image src="{{order.room.imgUrl}}" mode="heightFix" style="width: 140rpx;height: 140rpx;"></image>
+            <view class="info-box">
+                <view class="title">{{order.room.title}}</view>
+                <view class="date">{{order.rent}}</view>
+                <view class="price">
+                    <text>房价</text>
+                    <text style="color: #ee0a24;">￥{{order.room.price}}</text>
+                </view>
+            </view>
+        </view>
+    </scroll-view>
+    <!-- 订单信息 -->
+    <view class="pay-info">
+        <van-field model:value="{{ order.nickName }}" label="预订人" placeholder="请输入预订人" input-align="right" required />
+        <van-field model:value="{{ order.phone }}" label="手机号" placeholder="请输入手机号" input-align="right" required />
+        <van-cell title="预定间数" value="{{'共'+ (order.number|| 0) +'间'}}" />
+        <van-field model:value="{{ order.message }}" label="备注留言" placeholder="其他需求" input-align="right" />
+    </view>
+    <!-- 支付配置 -->
+    <wxs src='./pay.wxs' module="obj"></wxs>
+    <view class="pay-config">
+        <!-- <van-checkbox value="{{ order.checked||false }}" bind:change="onCheckChange">复选框</van-checkbox> -->
+        <van-cell title="优惠劵" value="{{obj.discountsMax(userInfo.discounts)||'无'}}" />
+        <picker bindchange="onPickerChange" value="{{index}}" range="{{columns}}">
+            <van-cell title="支付方式" is-link value="{{order.payType||columns[index]}}" />
+        </picker>
+        <view class="attention">
+            <h3>订房须知</h3>
+            <view>1.微信支付将为您整晚保留</view>
+            <view>2.如需发票可向前台索取</view>
+            <view>3.支付后无法取消或变更</view>
+            <view>4.优惠劵无法和积分同时享用</view>
+        </view>
+    </view>
+    <!-- 支付导航栏 obj.sum([order],userInfo.discounts)-->
+    <view class="pay-nav">
+        <view class="total">
+            <text style="margin-right: 20rpx;">实付款</text>
+            <text class="price" style="color: #ee0a24;font-size: 36rpx;">{{obj.sum([order],userInfo.discounts)}}</text>
+        </view>
+        <view class="pay-btn" bindtap="handleOrder">
+            立即预订
+        </view>
+    </view>
+</view>
+<!-- 支付完成 -->
+<view class="over-pay" wx:else hidden="{{order}}">
+    <view class="pay-logo">
+        <van-icon name="passed" size="50" color="white" />
+        <view class="txt">支付成功</view>
+    </view>
+    <view class="res-info">
+        <view class="pay-price">
+            <text style="font-size: 28rpx;">￥</text>
+            <text style="font-size: 40rpx;font-weight: bold;">{{payRes.price||'00.00'}}</text>
+        </view>
+        <view class="info-item" style="margin-top: 30rpx;">
+            <text>订单编号</text>
+            <text>{{payRes._id}}</text>
+        </view>
+        <view class="info-item">
+            <text>收款账户</text>
+            <text>{{payRes.receiver}}</text>
+        </view>
+        <view class="info-item">
+            <text>下单时间</text>
+            <text>{{payRes.createTime}}</text>
+        </view>
+        <view class="info-item"  style="margin-bottom: 30rpx;">
+            <text>支付方式</text>
+            <text>{{payRes.payType}}</text>
+        </view>
+    </view>
+    <view class="back-btn" bindtap="handleBack">
+        返回首页
+    </view>
+</view>

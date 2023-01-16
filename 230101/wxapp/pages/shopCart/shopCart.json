@@ -1,0 +1,12 @@
+{
+    "usingComponents": {
+        "van-tab": "@vant/weapp/tab/index",
+        "van-tabs": "@vant/weapp/tabs/index",
+        "van-button": "@vant/weapp/button/index",
+        "m-order-item": "../../components/order-item/order-item",
+"mp-cells": "weui-miniprogram/cells/cells",
+        "mp-cell": "weui-miniprogram/cell/cell",
+        "mp-slideview": "weui-miniprogram/slideview/slideview"
+    },
+    "navigationBarTitleText": "住房订单"
+}

@@ -1,0 +1,30 @@
+// 微信小程序wxs不支持ES6+语法
+
+/*
+ * 计算价格
+*/
+function sum(array) {
+    var total = 0
+    for (var i = 0; i < array.length; i++) {
+        if (array[i].checked) {
+            total += array[i].room.price * array[i].number
+        }
+    }
+    return total
+}
+
+/*
+ * 全选
+*/
+function checkAll(arr) {
+    if(arr.length===0) return false
+    // every，数组中有一项不满足条件返回false，否则反之是true
+    return arr.every(function (x) {
+        return x.checked === true
+    })
+}
+// 不能简写
+module.exports = {
+    sum: sum,
+    checkAll:checkAll
+}

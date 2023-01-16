@@ -1,0 +1,9 @@
+{
+    "usingComponents": {
+        "mp-form":"weui-miniprogram/form/form",
+        "mp-form-page":"weui-miniprogram/form-page/form-page",
+        "mp-cells": "weui-miniprogram/cells/cells",
+    "mp-cell": "weui-miniprogram/cell/cell"
+    },
+    "navigationBarTitleText": "手机号绑定"
+}

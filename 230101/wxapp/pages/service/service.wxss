@@ -1,0 +1,83 @@
+/* pages/service/service.wxss */
+
+.welcome{
+    position: relative;
+    height: 450rpx;
+    overflow: hidden;
+}
+.welcome>image{
+    width: 100%;
+}
+.welcome>image::after{
+    content: '';
+    width: 100%;
+    height: 100%;
+    /* background-color: rgba(255, 255, 255, 0.3); */
+    /* backdrop-filter: blur(20rpx); */
+    background-image: linear-gradient(to top, rgb(255,255,255,1), rgba(255, 255, 255, 0));
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.welcome .txt-box{
+    position:absolute;
+    left: 30rpx;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.welcome .txt-box .welcome-txt{
+    font-size: 48rpx;
+    font-weight: bold;
+    padding: 10rpx 0;
+    letter-spacing:4rpx;
+}
+.welcome .txt-box .wish-txt{
+    /* opacity: .5; */
+    color: grey;
+    font-size: 30rpx;
+    letter-spacing:2rpx;
+}
+
+
+
+.hotel-services{
+    padding: 30rpx ;
+    border-bottom: 2rpx solid #eee;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+}
+.hotel-services .service{
+    text-align: center;
+}
+.hotel-services .service .title{
+    color: #9d2933;
+    font-size: 32rpx;
+    /* color: #ee0a24;*/
+}
+
+
+
+.safety{
+    padding: 20rpx 0;
+}
+.safety .title{
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin: 0 20rpx;
+}
+.safety .title::before{
+    content: '';
+    flex: 1;
+    height: 2rpx;
+    background-color: #eee;
+}
+.safety .title::after{
+    content: '';
+    flex: 1;
+    height: 2rpx;
+    background-color: #eee;
+}
+.safety>image{
+    width: 100%;
+}

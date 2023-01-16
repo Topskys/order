@@ -1,0 +1,59 @@
+<!--pages/mine/mine.wxml-->
+
+<view class="user">
+    <!-- 用户信息 -->
+    <view class="user-card" wx:if="{{showUser}}">
+        <view class="user-container">
+            <view class="user-info">
+                <view>尊贵的客人</view>
+                <view class="username">{{userInfo.nickName}}</view>
+                <view class="user-id">ID:{{userInfo._id}}</view>
+            </view>
+            <image src='{{userInfo.avatarUrl}}' mode="aspectFill"></image>
+        </view>
+    </view>
+    <!-- 登录 -->
+    <view class="login-container" wx:else>
+        <text>请登录查看您的权益</text>
+        <button class="login-btn mt20" bindtap="navToAuth">登录/注册</button>
+    </view>
+    <!-- 余额、积分、优惠劵 -->
+    <view class="user-menu">
+        <view class="balance">
+            <view>{{userInfo.balance||0}}</view>
+            <view>余额</view>
+        </view>
+        <view class="intergral">
+            <view>{{userInfo.intergral||0}}</view>
+            <view>积分</view>
+        </view>
+        <view class="discount">
+            <view>{{userInfo.discounts.length||0}}</view>
+            <view>优惠劵</view>
+        </view>
+    </view>
+    <!-- 订单 -->
+    <view class="order">
+        <view class="order-title">
+            <view>订单</view>
+            <view>
+                <!-- <text class="opy6">全部订单</text> -->
+                <van-icon name="arrow" color="grey" />
+            </view>
+        </view>
+        <view class="items">
+            <view class="order-item" wx:for="{{orders}}" wx:key="index" bindtap="handleOrderClick" data-url="{{item.url}}">
+                <van-icon name="{{item.icon}}" color="#aaa" size='30' dot='{{false}}' />
+                <view class="title">{{item.title}}</view>
+            </view>
+        </view>
+    </view>
+    <!-- 服务 -->
+    <view class="services">
+        <van-cell title="{{item.title}}" url="{{item.url}}" wx:for="{{services}}" wx:key="index" is-link link-type="navigateTo" />
+    </view>
+    <!-- 退出登录 -->
+    <view class="logout" hidden="{{!showUser}}">
+        <button type="warn" bindtap="logout">退出登录</button>
+    </view>
+</view>

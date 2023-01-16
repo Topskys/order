@@ -1,0 +1,21 @@
+{
+    "description": "项目私有配置文件。此文件中的内容将覆盖 project.config.json 中的相同字段。项目的改动优先同步到此文件中。详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
+    "projectname": "wxapp",
+    "setting": {
+        "compileHotReLoad": true,
+        "urlCheck": false
+    },
+    "condition": {
+        "miniprogram": {
+            "list": [
+                {
+                    "name": "",
+                    "pathName": "pages/home/home",
+                    "query": "ids=%5B%2263c219fbd0089a4c2d6c3b89%22%5D",
+                    "launchMode": "default",
+                    "scene": null
+                }
+            ]
+        }
+    }
+}

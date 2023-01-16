@@ -1,0 +1,2 @@
+<!--pages/auth/auth.wxml-->
+<button type="primary" bindtap="handleAuth">微信授权</button>

@@ -1,0 +1,8 @@
+{
+    "usingComponents": {
+        "van-calendar": "@vant/weapp/calendar/index",
+        "van-dropdown-menu": "@vant/weapp/dropdown-menu/index",
+        "van-dropdown-item": "@vant/weapp/dropdown-item/index"
+    },
+    "navigationBarTitleText": "今悦花园酒店"
+}

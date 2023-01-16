@@ -1,0 +1,24 @@
+<!--pages/service/service.wxml-->
+<!-- 欢迎 -->
+<view class="welcome">
+    <image src="https://img2.baidu.com/it/u=2707251916,397974718&fm=253&fmt=auto&app=138&f=JPEG?w=766&h=500" mode="widthFix" />
+    <view class="txt-box">
+        <view class="welcome-txt">欢迎光临</view>
+        <view class="wish-txt">祝您入住愉快</view>
+    </view>
+</view>
+<!-- 入住基本服务 -->
+<view class="hotel-services">
+    <view class="service" wx:for="{{baseService}}" wx:key="index" bindtap="handleService" data-item="{{item}}">
+        <van-icon name="{{item.icon}}" size="60rpx" color="#9d2933" />
+        <view class="title">{{item.title}}</view>
+    </view>
+    <van-dialog use-slot title="请确定需要清洁的房间" show="{{ showDialog }}" show-cancel-button bind:close="onClose" bind:confirm="confirm">
+        <input type="text" value="{{roomNumber}}" focus placeholder="请输入您的房间号" style="padding:20rpx 30rpx ;margin:100rpx 30rpx;background-color: #f5f5f5f5;"/>
+    </van-dialog> 
+</view>
+<!-- 消防安全 -->
+<view class="safety">
+    <view class="title"><text style="margin: 0 20rpx;color:rgba(69, 90, 100, 0.6)">安全通道</text></view>
+    <image src="https://img0.baidu.com/it/u=2045568172,1622181700&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=296" mode="widthFix"></image>
+</view>

@@ -1,0 +1,22 @@
+<!--components/order-item/order-item.wxml-->
+<view class="order-item">
+    <view class="order-top">
+        <view class="order-id">{{config._id}}</view>
+        <view class="order-status" style="color: #1989fa;">房间号:{{config.roomNumber}}</view>
+    </view>
+    <view class="order-desc"  bindtap="handleDetail" data-item="{{config}}">
+        <image src="{{config.room.imgUrl}}" mode="heightFix"></image>
+        <view class="order-info">
+            <view class="order-title">{{config.room.title}}</view>
+            <view class="order-tags">{{config.room.desc}}</view>
+        </view>
+    </view>
+    <view class="order-pay">
+        <view class="order-price">
+            <text class="icon">￥</text>
+            <text class="price">{{config.total}}</text>
+            <!-- <text class="prev-price">{{config.room.prevPrice}}</text> -->
+        </view>
+        <van-button type='info' size='small' bindtap="btnEvent"  data-item="{{config}}"  data-btn="{{btn}}">{{btn}}</van-button>
+    </view>
+</view>

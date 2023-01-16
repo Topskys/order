@@ -1,0 +1,118 @@
+/* pages/mine/mine.wxss */
+.opy6{
+    opacity: .6;
+}
+.mt20 {
+    margin-top: 40rpx;
+}
+
+
+
+
+.user {
+    background-color: #f7f8fa;
+}
+
+
+
+.login-container {
+    color: #000;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 32rpx;
+    text-align: center;
+    padding: 80rpx 60rpx;
+    margin: 30rpx;
+    background-color: #caab62;
+    /* background-color: #bc9843; */
+
+    /* background-image: linear-gradient(-225deg, #2CD8D5 0%, #C5C1FF 56%, #FFBAC3 100%); */
+    border-radius: 20rpx;
+}
+.login-btn {
+    color: #fff;
+    background: #643056;
+}
+
+
+
+.user-container {
+    margin: 30rpx;
+    padding: 80rpx 60rpx;
+    background-color: #caab62;
+    border-radius: 20rpx;
+    display: flex;
+    justify-content: space-between;
+    /* align-items: center; */
+    color: #fff;
+}
+.user-container>image {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50%;
+}
+.user-container .username {
+    font-size: 40rpx;
+    margin: 15rpx 0;
+}
+.user-container .user-id {
+    font-size: 28rpx;
+}
+
+
+
+
+
+.user-menu {
+    display: flex;
+    padding: 30rpx;
+    margin: 30rpx 0;
+    background-color: white;
+    border-radius: 10rpx;
+}
+.user-menu>view {
+    width: calc(100% / 3);
+    text-align: center;
+}
+
+
+
+
+
+
+
+.order{
+    padding: 20rpx 30rpx;
+    background-color: white;
+}
+.order-title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 20rpx 0;
+}
+.order .items{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+}
+.order .items .order-item{
+    width: 100%;
+    text-align: center;
+    color: grey;
+    padding: 20rpx;
+    box-sizing: border-box;
+}
+
+
+.services{
+    padding: 20rpx 0;
+}
+.van-cell{
+    border-bottom: 1rpx solid #eee;
+}
+
+
+
+
+.logout{
+    padding: 10rpx 60rpx 30rpx 60rpx;
+}

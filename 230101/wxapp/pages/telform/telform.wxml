@@ -1,0 +1,12 @@
+<!--pages/telform/telform.wxml-->
+<mp-form-page title="今悦花园酒店" subtitle="您的手机号将会作为该账户的唯一标识。">
+    <mp-cells ext-class="my-cells" title="信息">
+        <mp-cell prop="mobile" title="手机号" class="weui-cell_vcode">
+            <input bindinput="formInputChange" data-field="mobile" placeholder="请输入手机号" class="weui-input" />
+            <!-- <view slot="footer" class="weui-vcode-btn">获取验证码</view> -->
+        </mp-cell>
+    </mp-cells>
+    <view slot="button">
+        <button class="weui-btn" type="primary" bindtap="submitForm">确定</button>
+    </view>
+</mp-form-page>

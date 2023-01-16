@@ -1,0 +1,53 @@
+<!--pages/shopCart/shopCart.wxml-->
+<!-- 订单页 -->
+
+<!-- tab栏 -->
+<van-tabs active="{{ tabActive }}" bind:change="onChange">
+    <van-tab title="待付款">
+        <mp-cells wx:if="{{carts1.length}}">
+            <mp-slideview buttons="{{slideButtons}}" bindbuttontap="slideButtonTap" data-id="{{item._id}}" wx:for="{{carts1}}" wx:key="index">
+                <mp-cell>
+                    <view slot="footer" class="cell-footer">
+                        <text bindtap="handleMinus" data-item="{{item}}">-</text>
+                        <text style="background-color: white;">{{item.number}}</text>
+                        <text bindtap="handleAdd" data-item="{{item}}">+</text>
+                    </view>
+                    <view class="cell-content">
+                        <checkbox checked="{{ item.checked }}" bindtap="handleCheck" data-item="{{item}}"></checkbox>
+                        <!-- 左滑删除图片不能用widthFix -->
+                        <image src="{{item.room.imgUrl}}" mode="widthFix" style="width: 120rpx;height: 120rpx;padding: 20rpx;border-radius: 20rpx;"></image>
+                        <view style="font-size: 26rpx;">
+                            <view class="text-ellipsis">{{item.room.title}}</view>
+                            <view class="cell-price">￥{{item.room.price}}</view>
+                        </view>
+                    </view>
+                </mp-cell>
+            </mp-slideview>
+        </mp-cells>
+        <view wx:else style="text-align: center;font-size: 28rpx;opacity: .6;">购物车空空如也</view>
+
+        <wxs src="./shopCart.wxs" module="calObj"></wxs>
+        <view class="footer-nav">
+            <view class="footer-left">
+                <!-- <checkbox-group bindchange="handleCheckChange">
+                    <checkbox value="xxx" checked="{{calObj.checkAll(carts1)}}"></checkbox>
+                </checkbox-group>
+                <view class="all">全选</view> -->
+                <view class="total-txt">
+                    合计：<text class="icon">￥</text>
+                    <text class="total">{{calObj.sum(carts1)}}</text>
+                </view>
+            </view>
+            <view class="footer-right"><button type="primary" size="mini" bindtap="handlePay">去结算</button></view>
+        </view>
+    </van-tab>
+    <van-tab title="待入住">
+        <m-order-item config="{{item}}" btn='入住' wx:for="{{carts2}}" wx:key="index" bind:toDetail="toDetail" bind:btnEvent="btnEvent"></m-order-item>
+    </van-tab>
+    <van-tab title="入驻中">
+        <m-order-item config="{{item}}" btn='退房' wx:for="{{carts3}}" wx:key="index" bind:toDetail="toDetail" bind:btnEvent="btnEvent"></m-order-item>
+    </van-tab>
+    <van-tab title="待评价">
+        <m-order-item config="{{item}}" btn='评价' wx:for="{{carts4}}" wx:key="index" bind:toDetail="toDetail" bind:btnEvent="btnEvent"></m-order-item>
+    </van-tab>
+</van-tabs>

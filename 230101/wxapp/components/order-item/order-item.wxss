@@ -1,0 +1,82 @@
+/* components/order-item/order-item.wxss */
+.order-item {
+    margin: 30rpx;
+    padding: 20rpx;
+    border: 1rpx solid #ccc;
+    border-radius: 10rpx;
+}
+
+.order-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10rpx;
+    border-bottom: 1rpx solid #eee;
+}
+
+.order-top .order-id {
+    /* opacity: 0.5; */
+    color: #969799;
+}
+
+.order-top .order-status {
+    color: #ee0a24;
+}
+
+.order-desc {
+    display: flex;
+    padding: 10rpx 0;
+}
+
+.order-desc>image {
+    width: 176rpx;
+    height: 130rpx;
+    /* height: 176rpx; */
+    border-radius: 10rpx;
+    margin-right: 10rpx;
+}
+
+.order-desc .order-info {
+    width: calc(100% - 186rpx);
+}
+
+.order-title {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 32rpx;
+}
+
+.order-tags {
+    /* opacity: 0.5; */
+    color: #969799;
+    font-size: 28rpx;
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.order-pay{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10rpx;
+}
+.order-pay .icon{
+    font-size: 28rpx;
+    opacity: .8;
+}
+.order-pay .price{
+    color: crimson;
+    font-size: 36rpx;
+    margin-right: 10rpx;
+}
+.order-pay .prev-price{
+    opacity: .5;
+    font-size: 28rpx;
+    text-decoration: line-through;
+}

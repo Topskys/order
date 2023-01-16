@@ -1,0 +1,38 @@
+# 230101
+
+## 技术选型
+Node.js(koa) + Vue.js + 原生微信小程序
+
+## 项目进度
+
+
+### 初始化项目
+> 2023年1月1日14:08:45
+
+1、安装环境  
+[NodeJs](https://nodejs.org/dist/v18.13.0/node-v18.13.0-x64.msi)
+
+2、安装开发工具  
+[intelliJ IDEA](https://www.jetbrains.com/)  
+[Visual Studio Code](https://code.visualstudio.com/)  
+[微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)
+
+3、安装数据库及可视化工具  
+[MongoDB](https://www.mongodb.com/)  
+[MongoDB Compass](https://www.mongodb.com/products/compass)
+
+4、初始化微信小程序及Node.js(koa)服务  
+
+### 小程序编码
+> 2023年1月8日16:24:11
+
+初步完成四个Tabbar页面编码绘制，首页预定、服务(wifi、房间清洁、客服、退房、安全通道)、订单(待付款、待入住、入驻中、待评价)、会员中心。
+
+
+### 小程序封装及后端服务编码
+> 2023年1月16日16:35:55
+
+封装网络wx.request()请求、用户信息(权限)效验、各个页面组件，基本完成四个Tabbar页面数据服务。
+
+
+

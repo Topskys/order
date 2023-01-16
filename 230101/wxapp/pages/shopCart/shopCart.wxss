@@ -1,0 +1,74 @@
+/* pages/shopCart/shopCart.wxss */
+
+
+.van-tabs__nav {
+    border-top: 1rpx solid #eee;
+}
+
+
+
+.cell-footer>text {
+    width: 50rpx;
+    display: inline-block;
+    background-color: gainsboro;
+    text-align: center;
+    color: black;
+}
+
+.cell-content {
+    display: flex;
+    align-items: center;
+}
+
+.cell-content .cell-price {
+    color: #ee0a24;
+    margin-top: 5rpx;
+}
+
+.text-ellipsis {
+    width: 300rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.footer-nav {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 80rpx;
+    line-height: 80rpx;
+    padding: 20rpx;
+    box-sizing: border-box;
+    border-top: 1rpx solid #ddd;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.footer-nav .footer-left {
+    display: flex;
+    align-items: center;
+}
+
+.footer-nav .footer-right {
+    line-height: 100%;
+}
+
+.footer-nav .all {
+    margin-right: 20rpx;
+    font-size: 30rpx;
+}
+.footer-nav .total-txt{
+    font-size: 30rpx;
+}
+.icon{
+    color: #ee0a24;
+    font-size: 28rpx;
+}
+.total{
+    color: #ee0a24;
+    font-size: 36rpx;
+}
