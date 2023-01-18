@@ -27,9 +27,7 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad(options) {
-
-    },
+    onLoad(options) {},
     onShow() {
         this.setData({
             tabActive: getApp().globalData.tabActive || 0,
@@ -39,8 +37,8 @@ Page({
     /**
      * 生命周期函数--监听页面
      */
-    onHide(){
-        getApp().globalData.tabActive=0
+    onHide() {
+        getApp().globalData.tabActive = 0
     },
     // 左滑删除
     slideButtonTap(e) {
@@ -188,16 +186,33 @@ Page({
         })
     },
     // 跳转详情
-    toDetail(o){
+    toDetail(o) {
         wx.navigateTo({
-          url: `/pages/room-detail/room-detail?_id=${o.detail.roomId}&title=${o.detail.room.title}`
+            url: `/pages/detail/detail?_id=${o.detail.roomId}&title=${o.detail.room.title}`
         })
     },
     // 按钮点击事件的回调
-    btnEvent(o){
-        console.log(o)
-        CheckAuth(()=>{
-
+    btnEvent(o) {
+        CheckAuth(() => {
+            o.detail.btn === "评价" ? wx.navigateTo({
+                url: `/pages/comment/comment?orderId=${o.detail.item._id}&roomId=${o.detail.item.roomId}`
+            }) : request({
+                url: 'carts',
+                method: 'put',
+                data: {
+                    ...o.detail.item,
+                    status: o.detail.btn === "入住" ? '2' : '3'
+                }
+            }).then(({
+                code,
+                msg
+            }) => {
+                wx.showToast({
+                    title: msg,
+                    icon: code === 200 ? 'success' : 'error',
+                    complete: () => this.getOrderList()
+                })
+            })
         })
     }
 })

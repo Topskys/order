@@ -6,58 +6,41 @@ Page({
      * 页面的初始数据
      */
     data: {
-        userInfo: {} ,
-        showUser: false, // 显示登录注册按钮
+        userInfo: wx.getStorageSync('userInfo') ,
+        // 显示登录注册按钮
+        showUser: false, 
+        // 充值窗口显隐
+        popup:false,
         // 订单
         orders: [{
                 title: '待支付',
                 icon: 'peer-pay',
-                url: 'arrow'
+                params:0,
             },
             {
                 title: '待入住',
                 icon: 'underway-o',
-                url: 'arrow'
+                params:1,
             },
             {
                 title: '入驻中',
                 icon: 'sign',
-                url: 'arrow'
+                params:2,
             },
             {
                 title: '待评价',
                 icon: 'records',
-                url: 'arrow'
+                params:3,
             }
         ],
         // 服务
         services: [{
                 title: '客人信息',
-                url: '/pages',
-            },
-            {
-                title: '在线充值',
-                url: '/pages',
-            },
-            {
-                title: '哪个阿比',
-                url: '/pages',
-            },
-            {
-                title: '哪个阿比',
-                url: '/pages',
-            },
-            {
-                title: '哪个阿比',
-                url: '/pages',
-            },
-            {
-                title: '哪个阿比',
-                url: '/pages',
+                url: '/pages/info/info',
             },
             {
                 title: '领取优惠劵',
-                url: '/pages',
+                url: '/pages/discount/discount',
             },
             {
                 title: '关于',
@@ -138,8 +121,9 @@ Page({
     },
     // 订单项点击回调
     handleOrderClick(e) {
-        wx.navigateTo({
-            url: e.currentTarget.dataset.url,
+        getApp().globalData.tabActive =e.currentTarget.dataset.item.params || 0
+        wx.switchTab({
+            url: '/pages/shopCart/shopCart',
         })
     },
     // 退出登录按钮的回调
@@ -155,4 +139,9 @@ Page({
             userInfo:{}
         }),this.showLoginBtn())
     },
+    showPopup(){
+        this.setData({
+            popup:!this.data.popup
+        })
+    }
 })

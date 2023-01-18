@@ -1,4 +1,5 @@
 <!--pages/roomDetail/room-detail.wxml-->
+<!-- 房间详情页面 -->
 <swiper class="swiper">
     <swiper-item wx:for="{{detail.slides}}" wx:key="index">
         <image src="{{item}}" mode="widthFix" class="image" bindtap="handlePreviewImage" data-image="{{item}}"></image>

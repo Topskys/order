@@ -1,7 +1,8 @@
 {
     "usingComponents": {
         "van-icon": "@vant/weapp/icon/index",
-        "van-dialog": "@vant/weapp/dialog/index"
+        "van-dialog": "@vant/weapp/dialog/index",
+        "van-popup": "@vant/weapp/popup/index"
     },
     "navigationBarTitleText": "个性化服务"
 }

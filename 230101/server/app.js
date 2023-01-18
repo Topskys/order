@@ -18,6 +18,7 @@ const room = require('./routes/room')
 const roomDetail = require('./routes/room-detail')
 const banner = require('./routes/banner')
 const cart = require('./routes/cart')
+const discount = require('./routes/discount')
 
 
 // 启动数据库连接
@@ -73,6 +74,7 @@ app.use(room.routes(), room.allowedMethods())
 app.use(roomDetail.routes(), roomDetail.allowedMethods())
 app.use(banner.routes(), banner.allowedMethods())
 app.use(cart.routes(), cart.allowedMethods())
+app.use(discount.routes(), discount.allowedMethods())
 
 
 

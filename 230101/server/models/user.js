@@ -2,7 +2,7 @@
 * 微信用户模型
 */
 const mongoose = require('mongoose');
-
+const dtf = require('../util/dateTimeFormat')
 
 
 const schema =new mongoose.Schema({
@@ -38,17 +38,21 @@ const schema =new mongoose.Schema({
         type: String,
         default: ''
     },
+    roomNumber:{
+        type: Array,
+        default: []// 房间号
+    },
     status: {
         type: String,
         default: ''
     },// 状态
     createTime: {
         type: String,
-        default: `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}`
+        default: dtf(Date.now(),"YYYY-MM-DD hh:mm:ss")
     },
     updateTime: {
         type: String,
-        default: `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}`
+        default: dtf(Date.now(),"YYYY-MM-DD hh:mm:ss")
     }
 })
 

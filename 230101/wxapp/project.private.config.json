@@ -11,7 +11,7 @@
                 {
                     "name": "",
                     "pathName": "pages/home/home",
-                    "query": "ids=%5B%2263c219fbd0089a4c2d6c3b89%22%5D",
+                    "query": "",
                     "launchMode": "default",
                     "scene": null
                 }

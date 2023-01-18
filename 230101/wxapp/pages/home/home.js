@@ -70,14 +70,15 @@ Page({
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady() {
-        this.getBanner();
-        this.getDataList();
+        
     },
 
     /**
      * 生命周期函数--监听页面显示
      */
     onShow() {
+        this.getBanner();
+        this.getDataList();
         wx.setStorageSync('rentTime', this.data.rentTime)
     },
 
@@ -180,7 +181,7 @@ Page({
     // 预定按钮的回调
     navToDetail(e) {
         wx.navigateTo({
-            url: `/pages/room-detail/room-detail?_id=${e.currentTarget.dataset.id}&title=${e.currentTarget.dataset.title}`
+            url: `/pages/detail/detail?_id=${e.currentTarget.dataset.id}&title=${e.currentTarget.dataset.title}`
         })
     },
     // 筛选的回调

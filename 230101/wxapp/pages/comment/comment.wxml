@@ -1,0 +1,11 @@
+<!--pages/comment/comment.wxml-->
+<!-- 评价页面 -->
+<!-- <view class="coomment-textarea">
+    <textarea value="{{comment}}" cols="30" rows="10" placeholder="请输入您的评价内容"></textarea>
+</view>
+<button type="primary" bindtap="submitComment" style="margin: 60rpx;"></button> -->
+
+<form bindsubmit="submitComment">
+    <textarea placeholder="请输入您的评价内容" name="textarea"  cols="30" rows="10" class="txtarea" />
+    <button form-type="submit" type="primary" style="margin: 60rpx;"> 提交评价 </button>
+</form>

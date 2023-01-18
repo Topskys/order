@@ -1,0 +1,5 @@
+/* pages/about/about.wxss */
+.about .content{
+    padding: 5rpx 30rpx ;
+    text-indent: 2em;
+}

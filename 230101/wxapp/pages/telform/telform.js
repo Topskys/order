@@ -1,4 +1,5 @@
 import request from "../../utils/request";
+import user from "../../utils/user";
 
 // pages/telform/telform.js
 Page({
@@ -36,19 +37,9 @@ Page({
                 phone: this.data.phone || wx.getStorageSync('phone')
             }
         }).then(res => {
-            res.code === 200 && wx.setStorageSync('token', res.token)
-            request({
-                url: 'users/verify',
-                method:'post'
-            }).then(({
-                code,
-                userInfo
-            }) => {
-                code === 200 && wx.setStorageSync('userInfo', userInfo)
-                wx.navigateBack({
-                    delta: 3,
-                })
-            })
+            res.code === 200 && (wx.setStorageSync('token', res.token), user.verify(), wx.navigateBack({
+                delta: 3,
+            }))
         }) : wx.showToast({
             title: '手机号有误',
             icon: 'error',

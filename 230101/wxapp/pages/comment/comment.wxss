@@ -1,0 +1,12 @@
+/* pages/comment/comment.wxss */
+.coomment-textarea {
+    padding: 30rpx;
+    border: 2rpx solid #eee;
+}
+
+.txtarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 30rpx;
+    border: 2rpx solid #eee;
+}

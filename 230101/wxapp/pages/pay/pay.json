@@ -3,8 +3,7 @@
         "van-cell": "@vant/weapp/cell/index",
         "van-cell-group": "@vant/weapp/cell-group/index",
         "van-field": "@vant/weapp/field/index",
-        "van-checkbox": "@vant/weapp/checkbox/index",
-        "van-icon": "@vant/weapp/icon/index"
+        "van-checkbox": "@vant/weapp/checkbox/index"
     },
     "navigationBarTitleText": "确认订单"
 }

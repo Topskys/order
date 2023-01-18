@@ -54,6 +54,9 @@
     font-size: 32rpx;
     /* color: #ee0a24;*/
 }
+.hotel-services .popup-content{
+    padding: 80rpx 30rpx;
+}
 
 
 

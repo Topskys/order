@@ -1,0 +1,52 @@
+/* pages/discount/discount.wxss */
+.sy {
+    height: 100vh;
+    padding-bottom: 30rpx;
+    box-sizing: border-box;
+    /* background-color: rgb(174,23,24); */
+    background-color: rgb(194, 71, 72);
+}
+
+.discount,
+.dis-left {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.discount {
+    margin: 30rpx;
+    background-color: white;
+    border-radius: 10rpx;
+}
+
+.dis-left {
+    padding: 30rpx;
+    flex: 1;
+}
+
+.num {
+    font-size: 60rpx;
+    font-weight: bold;
+}
+
+.desc {
+    margin: 0 60rpx;
+    color: grey;
+    font-size: 32rpx;
+}
+.desc .title{
+    width: 254rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow:ellipsis;
+}
+
+.dis-right {
+    font-size: 32rpx;
+    width: 200rpx;
+    height: 160rpx;
+    text-align: center;
+    line-height: 160rpx;
+    border-left: 2rpx dashed red;
+}

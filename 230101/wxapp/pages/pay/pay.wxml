@@ -1,6 +1,6 @@
 <!--pages/pay/pay.wxml-->
-<!-- 确认订单 -->
-<view class="ready-pay" wx:if="{{order}}">
+<!-- 确认订单页面wx:if="{{order}}" -->
+<view class="ready-pay" >
     <!-- 房间信息 -->
     <scroll-view scroll-y style="max-height: 450rpx;background-color: white;">
         <view class="room">
@@ -42,15 +42,15 @@
     <view class="pay-nav">
         <view class="total">
             <text style="margin-right: 20rpx;">实付款</text>
-            <text class="price" style="color: #ee0a24;font-size: 36rpx;">{{obj.sum([order],userInfo.discounts)}}</text>
+            <text class="price" style="color: #ee0a24;font-size: 36rpx;">￥{{obj.sum([order],userInfo.discounts)}}</text>
         </view>
         <view class="pay-btn" bindtap="handleOrder">
             立即预订
         </view>
     </view>
 </view>
-<!-- 支付完成 -->
-<view class="over-pay" wx:else hidden="{{order}}">
+<!-- 支付完成--已移出并独立成一个页面 -->
+<!-- <view class="over-pay" wx:else hidden="{{order}}">
     <view class="pay-logo">
         <van-icon name="passed" size="50" color="white" />
         <view class="txt">支付成功</view>
@@ -80,4 +80,4 @@
     <view class="back-btn" bindtap="handleBack">
         返回首页
     </view>
-</view>
+</view> -->

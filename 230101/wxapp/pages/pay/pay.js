@@ -15,8 +15,6 @@ Page({
         index: 0,
         // 用户信息
         userInfo: wx.getStorageSync('userInfo'),
-        // 支付结果
-        payRes: null
     },
 
     /**
@@ -54,7 +52,7 @@ Page({
                 total += array[i].room.price * array[i].number
             }
         }
-        return Number((discounts.length ? (total - Math.max(discounts)) : total).toFixed(2))
+        return Number((discounts.length ? (total - Math.max(...discounts)) : total).toFixed(2))
     },
     // 点击复选框的回调
     onCheckChange(e) {
@@ -98,20 +96,13 @@ Page({
                     complete: () => {
                         code === 200 && (this.setData({
                             order: null,
-                            payRes: data
                         }), wx.setStorageSync('roomNumber', data.roomNumber))
-                        wx.setNavigationBarTitle({
-                            title: '支付'
+                        wx.navigateTo({
+                          url: `/pages/paid/paid?payRes=${JSON.stringify(data)}`
                         })
                     }
                 })
             })
-        })
-    },
-    // 返回首页按钮的回调
-    handleBack() {
-        wx.switchTab({
-            url: '/pages/home/home'
         })
     },
 

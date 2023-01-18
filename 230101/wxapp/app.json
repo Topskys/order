@@ -6,8 +6,13 @@
         "pages/mine/mine",
         "pages/auth/auth",
         "pages/telform/telform",
-        "pages/room-detail/room-detail",
-        "pages/pay/pay"
+        "pages/detail/detail",
+        "pages/pay/pay",
+        "pages/comment/comment",
+        "pages/discount/discount",
+        "pages/paid/paid",
+        "pages/about/about",
+        "pages/info/info"
     ],
     "window": {
         "backgroundTextStyle": "light",

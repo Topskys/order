@@ -1,0 +1,19 @@
+<!--pages/discount/discount.wxml-->
+<!-- 领取优惠劵页面 -->
+<scroll-view scroll-y class="sy">
+    <image src="https://inews.gtimg.com/newsapp_bt/0/14154772809/1000.jpg" mode="widthFix" style="width: 100%;"></image>
+    <view class="discount" wx:for="{{list}}" wx:key="index">
+        <view class="dis-left">
+            <view style="font-size: 32rpx;">
+                <text>￥</text>
+                <text class="num">{{item.discount}}</text>
+            </view>
+            <view class="desc">
+                <view class="title" >{{item.title}}</view>
+                <!-- <view class="date" style="font-size: 24rpx; ">有限期至2017.10.23</view> 一周年专用劵-->
+                <view class="date" style="font-size: 24rpx; ">有效期限{{item.limit}}日</view>
+            </view>
+        </view>
+        <view class="dis-right" bindtap="handleTake" data-item="{{item}}">立即领取</view>
+    </view>
+</scroll-view>

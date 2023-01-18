@@ -30,7 +30,9 @@ Page({
         // 显示弹窗
         showDialog: false,
         // 需要清洁房间号
-        roomNumber:wx.getStorageSync('roomNumber')||'',
+        roomNumber: wx.getStorageSync('roomNumber') || '',
+        // wifi popup
+        popup:false,
     },
 
     /**
@@ -52,9 +54,7 @@ Page({
         let x = e.currentTarget.dataset.item
         switch (x.url) {
             case 'wifi':
-                this.setData({
-                    showDialog: true
-                })
+                this.showPopup()
                 break
             case 'clear':
                 this.setData({
@@ -76,6 +76,12 @@ Page({
                 break
         }
     },
+    // wifi 
+    showPopup() {
+        this.setData({
+            popup: !this.data.popup
+        });
+    },
 
     /**
      * 生命周期函数--监听页面初次渲染完成
@@ -87,8 +93,7 @@ Page({
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow() {
-    },
+    onShow() {},
 
     /**
      * 生命周期函数--监听页面隐藏

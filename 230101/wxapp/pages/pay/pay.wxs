@@ -10,7 +10,7 @@ function sum(array, discounts = []) {
             total += array[i].room.price * array[i].number
         }
     }
-    return '￥' + (discounts.length ? (total - Math.max(discounts)) : total).toFixed(2)
+    return (discounts.length ? (total - discountsMax(discounts)) : total).toFixed(2)
 }
 
 /**
@@ -18,7 +18,10 @@ function sum(array, discounts = []) {
  * @param arr 
  */
 function discountsMax(arr) {
-    return  - Math.max(arr)
+    // return  - Math.max(...arr) wxs不支持ES6+
+    return arr.reduce(function (a, b) {
+        return a>b?a:b
+    })
 }
 
 
@@ -27,5 +30,5 @@ function discountsMax(arr) {
 
 module.exports = {
     sum: sum,
-    discountsMax:discountsMax
+    discountsMax: discountsMax
 }

@@ -1,0 +1,33 @@
+<!--pages/paid/paid.wxml-->
+<!-- 支付完成页面 -->
+<view class="over-pay" >
+    <view class="pay-logo">
+        <van-icon name="passed" size="50" color="white" />
+        <view class="txt">支付成功</view>
+    </view>
+    <view class="res-info">
+        <view class="pay-price">
+            <text style="font-size: 28rpx;">￥</text>
+            <text style="font-size: 40rpx;font-weight: bold;">{{payRes.price||'00.00'}}</text>
+        </view>
+        <view class="info-item" style="margin-top: 30rpx;">
+            <text>订单编号</text>
+            <text>{{payRes._id}}</text>
+        </view>
+        <view class="info-item">
+            <text>收款账户</text>
+            <text>{{payRes.receiver}}</text>
+        </view>
+        <view class="info-item">
+            <text>下单时间</text>
+            <text>{{payRes.createTime}}</text>
+        </view>
+        <view class="info-item"  style="margin-bottom: 30rpx;">
+            <text>支付方式</text>
+            <text>{{payRes.payType}}</text>
+        </view>
+    </view>
+    <view class="back-btn" bindtap="handleBack">
+        返回首页
+    </view>
+</view>

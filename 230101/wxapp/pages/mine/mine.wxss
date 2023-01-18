@@ -1,7 +1,8 @@
 /* pages/mine/mine.wxss */
-.opy6{
+.opy6 {
     opacity: .6;
 }
+
 .mt20 {
     margin-top: 40rpx;
 }
@@ -28,6 +29,7 @@
     /* background-image: linear-gradient(-225deg, #2CD8D5 0%, #C5C1FF 56%, #FFBAC3 100%); */
     border-radius: 20rpx;
 }
+
 .login-btn {
     color: #fff;
     background: #643056;
@@ -45,15 +47,18 @@
     /* align-items: center; */
     color: #fff;
 }
+
 .user-container>image {
     width: 100rpx;
     height: 100rpx;
     border-radius: 50%;
 }
+
 .user-container .username {
     font-size: 40rpx;
     margin: 15rpx 0;
 }
+
 .user-container .user-id {
     font-size: 28rpx;
 }
@@ -69,6 +74,7 @@
     background-color: white;
     border-radius: 10rpx;
 }
+
 .user-menu>view {
     width: calc(100% / 3);
     text-align: center;
@@ -80,21 +86,24 @@
 
 
 
-.order{
+.order {
     padding: 20rpx 30rpx;
     background-color: white;
 }
-.order-title{
+
+.order-title {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 0 20rpx 0;
 }
-.order .items{
+
+.order .items {
     display: grid;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(4, 1fr);
 }
-.order .items .order-item{
+
+.order .items .order-item {
     width: 100%;
     text-align: center;
     color: grey;
@@ -103,16 +112,66 @@
 }
 
 
-.services{
-    padding: 20rpx 0;
+
+.charge-banner{
+    margin: 30rpx 0;
+    padding: 30rpx;
+    font-size: 32rpx;
+    color: white;
+    background-color: white;
 }
-.van-cell{
+.charge-banner .content{
+    padding: 20rpx;
+    background-color: #c24748;
+    border-radius: 8rpx;
+} 
+.charge-banner .content .title{
+    text-align: center;
+    color: gold;
+    font-weight: bold;
+    letter-spacing: 4rpx;
+}
+.charge-banner .content .desc{
+    display: flex;
+    justify-content: space-between;
+    /* align-items: center; */
+}
+
+
+
+
+
+.services {
+    padding: 20rpx 0;
+    font-size: 32rpx;
+}
+
+.van-cell {
     border-bottom: 1rpx solid #eee;
 }
 
+.popup-content {
+    padding: 22rpx 30rpx 0 30rpx;
+    box-sizing: border-box;
+}
+
+.popup-content .ipt {
+    padding: 10rpx 30rpx;
+    height: 60rpx;
+    background-color: #f5f5f5;
+}
+
+.popup-content .payType {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20rpx 0;
+    color: grey;
+    font-size: 32rpx;
+}
 
 
 
-.logout{
+.logout {
     padding: 10rpx 60rpx 30rpx 60rpx;
 }

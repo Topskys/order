@@ -84,7 +84,6 @@ const findAll = (ctx,model, where,cb=null) => {
  */
 const findOne = (ctx, model, where,cb=null) => {
     return model.findOne(where).then(rel => {
-        // success(ctx, rel)
         cb?cb(rel) : success(ctx, rel)
     }).catch(err => {
         exception(ctx, err)

@@ -2,46 +2,8 @@ const jwt = require('jsonwebtoken')
 const Users =require('../models/user')
 const crud = require('../controller/crudUtil')
 const {responseSelf, fail,exception} = require('../util/response')
+const dtf=require('../util/dateTimeFormat');
 
-
-
-/**
- * 新增用户
- * @param ctx
- * @returns {Promise<void>}
- */
-const add=async (ctx,model,params)=>{
-    let {phone,nickName}=params
-    if(!phone || !nickName) {
-        fail(ctx,null,300,'手机号或昵称不能为空')
-        return
-    }
-    await model.create(params).then(rel=>{
-        if(rel){
-            let token = jwt.sign({
-                nickName: rel.nickName,
-                _id: rel._id,
-            }, '2311-server-jwt', {
-                expiresIn: 3600 * 24 * 7 // 1 days
-            })
-
-            responseSelf(ctx,{
-                code: 200,
-                msg: "登录成功",
-                token,
-                // userInfo:rel
-            })
-        }else{
-            responseSelf(ctx,{
-                code: 300,
-                msg: "登录失败",
-                rel
-            })
-        }
-    }).catch(err => {
-        exception(ctx,err)
-    })
-}
 
 
 /**
@@ -51,6 +13,7 @@ const add=async (ctx,model,params)=>{
  */
 const update=async ctx=>{
     let params=ctx.request.body;
+    params={...params,gender:params.gender.includes('女')?'1':'0',updateTime:dtf(Date.now(),"YYYY-MM-DD hh:mm:ss")}
     await crud.update(ctx,Users,{_id:params._id},params)
 }
 
@@ -105,30 +68,38 @@ const findAll=async ctx =>{
  * @returns {Promise<void>}
  */
 const login=async ctx =>{
-    let {nickName,phone} =ctx.request.body;
+    let flag = false;
+    let {phone,nickName,avatarUrl,gender}=ctx.request.body;
+    if(!phone || !nickName) {
+        fail(ctx,null,300,'手机号或昵称不能为空')
+        return
+    }
 
-    await Users.findOne({nickName,phone}).then(rel => {
-        if (rel) {
+    // 登录相关操作
+    const fun=(ctx,rel)=>{
+        let token = jwt.sign({
+            nickName: rel.nickName,
+            _id: rel._id,
+        }, '2311-server-jwt', {
+            expiresIn: 3600 * 24 * 7 // 1 days
+        })
 
-            let token = jwt.sign({
-                nickName: rel.nickName,
-                _id: rel._id,
-            }, '2311-server-jwt', {
-                expiresIn: 3600 * 24 * 7 // 1 days
-            })
+        responseSelf(ctx,{
+            code: 200,
+            msg: "登录成功",
+            token,
+            // userInfo:rel
+        })
+    }
 
-            responseSelf(ctx,{
-                code: 200,
-                msg: "登录成功",
-                token,
-                // userInfo:rel
-            })
+    // 执行登录操作
+    await crud.findOne(ctx,Users,{nickName:nickName,phone:phone},rel=>{
+        rel?fun(ctx,rel):(flag=true)
+    })
 
-        } else {
-            add(ctx,Users,ctx.request.body)
-        }
-    }).catch(err => {
-        exception(ctx,err)
+    // 新增用户并执行登录操作
+    flag && await crud.add(ctx,Users,ctx.request.body,rel=>{
+        rel?fun(ctx,rel):fail(ctx,rel,300,"登录失败")
     })
 }
 

@@ -1,0 +1,5 @@
+/* pages/info/info.wxss */
+.userInfo{
+    padding:80rpx 0;
+    text-align: center;
+}

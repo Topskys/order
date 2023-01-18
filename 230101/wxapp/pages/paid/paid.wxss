@@ -1,0 +1,44 @@
+/* pages/paid/paid.wxss */
+
+.over-pay .pay-logo {
+    padding: 150rpx 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(0, 157, 255);
+}
+
+.over-pay .pay-logo .txt {
+    margin-left: 20rpx;
+    letter-spacing: 2rpx;
+    color: white;
+    font-size: 36rpx;
+}
+.over-pay .res-info{
+    margin: 0 30rpx;
+}
+.over-pay .res-info .pay-price {
+    padding: 60rpx 0;
+    text-align: center;
+    border-bottom: 2rpx solid #eee;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+}
+.over-pay .res-info .info-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20rpx 0;
+    color: #969799;
+    font-size: 32rpx;
+}
+.back-btn{
+    margin: 60rpx;
+    padding: 18rpx 0;
+    color: white;
+    text-align: center;
+    overflow: hidden;
+    border-radius: 28rpx;
+    background-color: rgb(0, 157, 255);
+}
