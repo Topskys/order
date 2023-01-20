@@ -28,6 +28,10 @@ const schema =new mongoose.Schema({
         type: Boolean,
         default: true
     },
+    sale: {
+        type: Number,
+        default: 0
+    },// 销售量
 
     status: {
         type: String,
