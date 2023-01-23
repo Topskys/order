@@ -32,6 +32,11 @@ router.get('/:id',cart.findById)
 router.post('/pay',cart.pay)
 
 
+
+// 房间清洁
+router.put('/clear',cart.clear)
+
+
 module.exports = router
 
 

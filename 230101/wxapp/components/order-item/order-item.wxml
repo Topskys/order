@@ -2,7 +2,7 @@
 <view class="order-item">
     <view class="order-top">
         <view class="order-id">{{config._id}}</view>
-        <view class="order-status" style="color: #1989fa;">房间号:{{config.roomNumber}}</view>
+        <view class="order-status" style="color: #1989fa;">{{config.roomNumber}}</view>
     </view>
     <view class="order-desc"  bindtap="handleDetail" data-item="{{config}}">
         <image src="{{config.room.imgUrl}}" mode="heightFix"></image>

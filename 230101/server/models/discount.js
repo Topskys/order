@@ -9,7 +9,7 @@ const schema =new mongoose.Schema({
 
     title: {
         type: String,
-        default: Date.now() //dtf()
+        default: Date.now()
     },// 优惠劵名称
     discount: {
         type: Number,

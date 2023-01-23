@@ -23,8 +23,8 @@ const schema =new mongoose.Schema({
         default: '0'
     },
     balance: {
-        type: String,
-        default: '0'
+        type: Number,
+        default: 0
     },// 余额
     integral: {
         type: String,

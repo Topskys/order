@@ -3,6 +3,7 @@
  */
 
 const mongoose = require('mongoose');
+const dtf = require('../util/dateTimeFormat')
 
 
 
@@ -37,8 +38,8 @@ const schema =new mongoose.Schema({
         default:false
     },
     clear: {
-        type: String,
-        default:'0' // 0:不需要清洁; 1: 需要 2：完成清洁
+        type: Number,
+        default:0 // 0:不需要清洁; 1: 需要 2：完成清洁
     },
     room:{
         type:Object,
@@ -69,11 +70,11 @@ const schema =new mongoose.Schema({
     },
     createTime: {
         type: String,
-        default: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
+        default: dtf(Date.now(),"YYYY-MM-DD hh:mm:ss")
     },
     updateTime: {
-        type: String,
-        default: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
+        type:String,
+        default: dtf(Date.now(),"YYYY-MM-DD hh:mm:ss")
     },
 })
 

@@ -78,6 +78,9 @@ Page({
      */
     onShow() {
         this.getBanner();
+        this.setData({
+            rooms:[]
+        })
         this.getDataList();
         wx.setStorageSync('rentTime', this.data.rentTime)
     },

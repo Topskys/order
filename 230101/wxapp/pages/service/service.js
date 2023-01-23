@@ -1,3 +1,5 @@
+import request from "../../utils/request";
+
 // pages/service/service.js
 Page({
 
@@ -32,7 +34,7 @@ Page({
         // 需要清洁房间号
         roomNumber: wx.getStorageSync('roomNumber') || '',
         // wifi popup
-        popup:false,
+        popup: false,
     },
 
     /**
@@ -41,9 +43,23 @@ Page({
     onLoad(options) {
 
     },
+    // 清洁窗台确认按钮的回调
     confirm(e) {
-        console.log(e);
+        request({
+            url: 'carts/clear',
+            method: 'put',
+            data: {
+                roomNumber: this.data.roomNumber,
+            }
+        }).then(res => {
+            res.code===200 && this.onClose()
+            wx.showToast({
+                title: res.msg || '请稍后',
+                icon: res.code === 200 ? 'success' : 'error',
+            })
+        })
     },
+    // 关闭Dialog
     onClose() {
         this.setData({
             showDialog: false

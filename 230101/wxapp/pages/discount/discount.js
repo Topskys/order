@@ -35,10 +35,10 @@ Page({
                 code,
                 msg
             }) => {
+                code ===200 && user.verify()
                 wx.showToast({
                     title: msg,
                     icon: code === 200 ? 'success' : 'error',
-                    complete: () => user.verify()
                 })
             })
         })

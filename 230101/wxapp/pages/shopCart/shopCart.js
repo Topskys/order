@@ -1,6 +1,7 @@
 // // pages/shopCart/shopCart.js
 
 import CheckAuth from '../../utils/auth';
+import user from '../../utils/user';
 import request from '../../utils/request';
 
 
@@ -207,6 +208,7 @@ Page({
                 code,
                 msg
             }) => {
+                code===200 && user.verify()
                 wx.showToast({
                     title: msg,
                     icon: code === 200 ? 'success' : 'error',

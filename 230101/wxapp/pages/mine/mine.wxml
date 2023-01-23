@@ -67,12 +67,12 @@
         <van-popup show="{{ popup }}" position="bottom" custom-style="max-height: 50%;" bind:close="showPopup" closeable>
             <view class="popup-content">
                 <view style="text-align: center;margin-bottom: 50rpx ;">在线充值金额</view>
-                <input type="number" value="{{userInfo.balance||0}}" auto-focus placeholder="请输入充值金额" class="ipt" />
+                <input type="number" bindinput="bindInput"  auto-focus placeholder="请输入充值金额" class="ipt" />
                 <view class="payType">
                     <text>支付方式</text>
                     <text>微信支付</text>
                 </view>
-                <button type="primary" style="margin-top: 80rpx ;">支 付</button>
+                <button type="primary" bindtap="payCharge" style="margin-top: 80rpx ;">支 付</button>
             </view>
         </van-popup>
     </view>

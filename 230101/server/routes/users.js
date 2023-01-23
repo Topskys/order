@@ -14,7 +14,8 @@ router.post('/login',user.login)
 router.post('/verify',user.verify)
 
 
-
+// 在线充值
+router.post('/charge',user.charge)
 
 
 

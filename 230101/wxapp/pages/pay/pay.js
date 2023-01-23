@@ -1,4 +1,5 @@
 import CheckAuth from "../../utils/auth"
+import user from "../../utils/user"
 import request from "../../utils/request"
 
 // pages/pay/pay.js
@@ -21,7 +22,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-        JSON.parse(options.ids || '{}').forEach(id => this.getOrderInfo(id))
+        JSON.parse(options.ids).forEach(id => this.getOrderInfo(id))
     },
     // 获取订单信息
     getOrderInfo(id) {
@@ -45,14 +46,14 @@ Page({
         })
     },
     // 计算价格
-    sum(array, discounts = []) {
+    sum(arr, dis = []) {
         var total = 0
-        for (var i = 0; i < array.length; i++) {
-            if (array[i].checked) {
-                total += array[i].room.price * array[i].number
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i].checked) {
+                total += arr[i].room.price * arr[i].number
             }
         }
-        return Number((discounts.length ? (total - Math.max(...discounts)) : total).toFixed(2))
+        return Number((dis.length > 0 ? (total - Math.max(...dis)) : total).toFixed(2))
     },
     // 点击复选框的回调
     onCheckChange(e) {
@@ -70,10 +71,9 @@ Page({
         this.setData({
             order: {
                 ..._this.data.order,
-                payType: e.detail.value === '1' ? '余额支付' : '微信支付'
+                payType: e.detail.value === "1" ? '余额支付' : '微信支付'
             }
         });
-        console.log(_this.data.order)
     },
     // 立即预订按钮的回调
     handleOrder() {
@@ -83,6 +83,7 @@ Page({
                 method: 'post',
                 data: {
                     ...this.data.order,
+                    discount: this.data.userInfo.discounts.length > 0 ? Math.max(...this.data.userInfo.discounts) : 0,
                     rent: null
                 }
             }).then(({
@@ -90,17 +91,19 @@ Page({
                 data,
                 msg
             }) => {
+                if (code === 200) {
+                    this.setData({
+                        order: null,
+                    });
+                    wx.setStorageSync('roomNumber', data.roomNumber)
+                    wx.navigateTo({
+                        url: `/pages/paid/paid?payRes=${JSON.stringify(data)}`
+                    })
+                    user.verify()
+                }
                 wx.showToast({
                     title: msg || '支付失败',
                     icon: code === 200 ? 'success' : 'error',
-                    complete: () => {
-                        code === 200 && (this.setData({
-                            order: null,
-                        }), wx.setStorageSync('roomNumber', data.roomNumber))
-                        wx.navigateTo({
-                          url: `/pages/paid/paid?payRes=${JSON.stringify(data)}`
-                        })
-                    }
                 })
             })
         })

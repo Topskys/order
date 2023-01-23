@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const dtf = require('../util/dateTimeFormat')
 
 
 
@@ -28,10 +29,10 @@ const schema =new mongoose.Schema({
         type: Boolean,
         default: true
     },
-    sale: {
-        type: Number,
-        default: 0
-    },// 销售量
+    // sale: {
+    //     type: Number,
+    //     default: 0
+    // },// 销售量
 
     status: {
         type: String,
@@ -39,11 +40,11 @@ const schema =new mongoose.Schema({
     },
     createTime: {
         type: String,
-        default: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
+        default: dtf(Date.now,"YYYY-MM-DD hh:mm:ss")
     },
     updateTime: {
         type: String,
-        default: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
+        default: dtf(Date.now,"YYYY-MM-DD hh:mm:ss")
     },
 })
 

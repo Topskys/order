@@ -3,11 +3,11 @@
  * @param array 商品数组
  * @param discounts 优惠劵数组
  */
-function sum(array, discounts = []) {
+function sum(arr, discounts = []) {
     var total = 0
-    for (var i = 0; i < array.length; i++) {
-        if (array[i].checked) {
-            total += array[i].room.price * array[i].number
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i].checked) {
+            total += arr[i].room.price * arr[i].number
         }
     }
     return (discounts.length ? (total - discountsMax(discounts)) : total).toFixed(2)
@@ -17,11 +17,11 @@ function sum(array, discounts = []) {
  * 求优惠劵最大值
  * @param arr 
  */
-function discountsMax(arr) {
+function discountsMax(arr=[]) {
     // return  - Math.max(...arr) wxs不支持ES6+
-    return arr.reduce(function (a, b) {
-        return a>b?a:b
-    })
+    return arr.sort(function (a, b) {
+        return a - b
+    })[arr.length - 1]
 }
 
 

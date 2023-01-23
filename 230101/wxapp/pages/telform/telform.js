@@ -38,7 +38,7 @@ Page({
             }
         }).then(res => {
             res.code === 200 && (wx.setStorageSync('token', res.token), user.verify(), wx.navigateBack({
-                delta: 3,
+                delta: 3, // 回退第二个页面
             }))
         }) : wx.showToast({
             title: '手机号有误',
