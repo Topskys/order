@@ -1,5 +1,5 @@
 const Room = require('../models/room.js')
-const RoomDetail=require('../models/room-detail.js')
+const RoomDetail=require('../models/detail.js')
 const {success,responseSelf, fail,exception} = require('../util/response')
 const crud = require('./crudUtil')
 

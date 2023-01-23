@@ -42,8 +42,8 @@ const schema =new mongoose.Schema({
 
 
 
-const RoomDetail = mongoose.model('rooms_detail', schema)
+const Detail = mongoose.model('rooms_details', schema)
 
 
 
-module.exports = RoomDetail
+module.exports = Detail

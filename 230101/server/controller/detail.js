@@ -1,4 +1,4 @@
-const RoomDetail = require('../models/room-detail');
+const Detail = require('../models/detail');
 const Carts =require('../models/cart');
 const {success,responseSelf, fail} = require('../util/response')
 const crud = require('./crudUtil')
@@ -12,7 +12,7 @@ const dtf=require('../util/dateTimeFormat')
  */
 const add = async ctx => {
     let params=ctx.request.body
-    await crud.add(ctx, RoomDetail, {roomId:params._id,...params})
+    await crud.add(ctx, Detail, {roomId:params._id,...params})
 }
 
 
@@ -23,7 +23,7 @@ const add = async ctx => {
  */
 const findById = async ctx => {
     let roomId = ctx.params.id
-    await crud.findOne(ctx,RoomDetail, {roomId})
+    await crud.findOne(ctx,Detail, {roomId})
 }
 
 
@@ -42,11 +42,11 @@ const addComment=async ctx => {
     await crud.update(ctx,Carts,{_id:params.orderId},obj)
 
 
-    await crud.findOne(ctx,RoomDetail,{roomId:params.roomId},(rel)=>{
+    await crud.findOne(ctx,Detail,{roomId:params.roomId},(rel)=>{
         rel.comments.push({...params,createTime:dtf()})
         update=rel
     })
-    await crud.update(ctx,RoomDetail,{roomId:params.roomId},update)
+    await crud.update(ctx,Detail,{roomId:params.roomId},update)
 }
 
 

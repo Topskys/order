@@ -3,8 +3,27 @@
 ## 技术选型
 > Node.js(koa) + Vue.js + 原生微信小程序 + MongoDB
 
-## 项目进度
 
+## 运行项目
+
+首先，克隆（下载）项目，在Visual Studio Code 打开前台项目 **admin**文件夹，找到新建终端（或终端），下载依赖运行项目；
+在微信开发者工具打开**wxapp**文件夹，后面与前台项目admin同样操作；
+在IDEA打开**server**文件夹，后面与前台项目admin同样操作：
+```bash
+# 在此之前，你需要下载git项目版本管理工具，亦可在https://github.com/Topskys/order.git上直接下载项目zip再导入编译器运行
+
+# 克隆项目
+git clone https://github.com/Topskys/order.git
+
+# 下载项目依赖
+npm install
+# 运行项目
+npm run dev
+```
+
+
+
+## 项目进度
 
 ### 初始化项目
 > 2023年1月1日14:08:45
@@ -21,7 +40,7 @@
 [MongoDB](https://www.mongodb.com/)  
 [MongoDB Compass](https://www.mongodb.com/products/compass)
 
-4、初始化微信小程序及Node.js(koa)服务  
+4、初始化微信小程序、后台管理、Node.js(koa)服务  
 
 ### 小程序页面编码
 > 2023年1月8日16:24:11

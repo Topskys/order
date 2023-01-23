@@ -1,5 +1,5 @@
 const router = require('koa-router')();
-const rd=require('../controller/room-detail')
+const rd=require('../controller/detail')
 
 
 // 路由前缀
