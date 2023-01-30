@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container">
+  <!-- <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
@@ -49,189 +49,191 @@
       </div>
 
     </el-form>
+  </div> -->
+  <div class="login-container">
+    <h1 class="logo">XXX大酒店</h1>
+    <el-form ref="form" :model="form" :rules="rules" class="login-form">
+      <div class="title">
+        <h3>欢迎登录</h3>
+        <span class="title-en">welcome to login</span>
+      </div>
+      <el-form-item prop="username">
+        <el-input
+          placeholder="请输入内容"
+          prefix-icon="el-icon-user"
+          v-model="form.username"
+        >
+        </el-input>
+      </el-form-item>
+      <el-form-item prop="password">
+        <el-input
+          type="password"
+          placeholder="请输入内容"
+          prefix-icon="el-icon-lock"
+          show-password
+          v-model="form.password"
+        >
+        </el-input>
+      </el-form-item>
+      <div class="form-check">
+        <el-checkbox v-model="checked">记住密码</el-checkbox>
+        <el-tooltip effect="dark" content="请咨询 86599697" placement="bottom">
+          <span>忘记密码</span>
+        </el-tooltip>
+      </div>
+      <el-button @click="login" type="primary" :loading="loading" style="width: 100%; margin-top: 50px"
+        >登 录</el-button
+      >
+    </el-form>
   </div>
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
+import { validUsername } from "@/utils/validate";
 
 export default {
-  name: 'Login',
+  name: "Login",
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
-      } else {
-        callback()
-      }
-    }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
-      } else {
-        callback()
-      }
-    }
+    // 验证规则函数
+    const validateUsername = (rule, value, callback) =>
+      !validUsername(value)
+        ? callback(new Error("Please enter the correct user name"))
+        : callback();
+
+    const validatePassword = (rule, value, callback) =>
+      value.length < 6
+        ? callback(new Error("The password can not be less than 6 digits"))
+        : callback();
+
     return {
-      loginForm: {
-        username: 'admin',
-        password: '111111'
+      // 收集表单数据
+      form: {
+        username: "admin",
+        password: "123456",
       },
-      loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
-      },
+      // 记住密码
+      checked: false,
+      // 登录按钮加载效果
       loading: false,
-      passwordType: 'password',
-      redirect: undefined
-    }
+      // 表单验证
+      rules: {
+        username: [
+          { required: true, trigger: "blur", validator: validateUsername },
+        ],
+        password: [
+          { required: true, trigger: "blur", validator: validatePassword },
+        ],
+      },
+      // 路由重定向
+      redirect: undefined,
+    };
   },
   watch: {
+    // 监听路由重定向
     $route: {
-      handler: function(route) {
-        this.redirect = route.query && route.query.redirect
+      handler: function (route) {
+        this.redirect = route.query && route.query.redirect;
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
-    showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
-      } else {
-        this.passwordType = 'password'
-      }
-      this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
-    },
-    handleLogin() {
-      this.$refs.loginForm.validate(valid => {
+    // 登录
+    login() {
+      this.$refs.form.validate((valid) => {
         if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
+          this.loading = true;
+          this.$store.dispatch("user/login", this.form).then(() => {
+              this.$router.push({ path: this.redirect || "/" });
+              this.loading = false;
+            }).catch(() => {
+              this.loading = false;
+            });
         } else {
-          console.log('error submit!!')
-          return false
+          console.log("error submit!!");
+          return false;
         }
-      })
-    }
-  }
-}
+      });
+    },
+    // 记住密码
+    remember(){}
+  },
+};
 </script>
 
-<style lang="scss">
-/* 修复input 背景不协调 和光标变色 */
-/* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
-
-$bg:#283443;
-$light_gray:#fff;
-$cursor: #fff;
-
-@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
-    color: $cursor;
-  }
-}
-
-/* reset element-ui css */
-.login-container {
-  .el-input {
-    display: inline-block;
-    height: 47px;
-    width: 85%;
-
-    input {
-      background: transparent;
-      border: 0px;
-      -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      color: $light_gray;
-      height: 47px;
-      caret-color: $cursor;
-
-      &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
-      }
-    }
-  }
-
-  .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    color: #454545;
-  }
-}
-</style>
-
 <style lang="scss" scoped>
-$bg:#2d3a4b;
-$dark_gray:#889aa4;
-$light_gray:#eee;
-
 .login-container {
-  min-height: 100%;
-  width: 100%;
-  background-color: $bg;
-  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  // background-color: rgb(99, 99, 116);
+  background: no-repeat center/cover
+    url("https://img1.baidu.com/it/u=1346652016,2731272568&fm=253&fmt=auto&app=138&f=JPEG?w=591&h=320");
+
+  .logo {
+    position: fixed;
+    top: 10px;
+    left: 50px;
+    color: white;
+    letter-spacing: 5px;
+  }
 
   .login-form {
-    position: relative;
-    width: 520px;
-    max-width: 100%;
-    padding: 160px 35px 0;
-    margin: 0 auto;
-    overflow: hidden;
-  }
-
-  .tips {
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 10px;
-
-    span {
-      &:first-of-type {
-        margin-right: 16px;
+    position: fixed;
+    top: 50%;
+    right: 10%;
+    transform: translate(10%, -50%);
+    width: 350px;
+    max-width: 500px;
+    // height: 500px;
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    // backdrop-filter: blur(5px);
+    background-color: rgba(255, 255, 255, 0.8);
+    .title {
+      margin-bottom: 50px;
+      overflow: hidden;
+      h3 {
+        text-align: center;
+        letter-spacing: 2px;
+      }
+      .title-en {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        // opacity: .5;
+        color: rgb(117, 116, 116);
+      }
+      .title-en::before {
+        content: "";
+        width: 15px;
+        height: 1px;
+        background-color: rgb(117, 116, 116);
+        margin-right: 8px;
+      }
+      .title-en::after {
+        content: "";
+        width: 15px;
+        height: 1px;
+        background-color: rgb(117, 116, 116);
+        margin-left: 8px;
       }
     }
-  }
-
-  .svg-container {
-    padding: 6px 5px 6px 15px;
-    color: $dark_gray;
-    vertical-align: middle;
-    width: 30px;
-    display: inline-block;
-  }
-
-  .title-container {
-    position: relative;
-
-    .title {
-      font-size: 26px;
-      color: $light_gray;
-      margin: 0px auto 40px auto;
-      text-align: center;
-      font-weight: bold;
+    .form-item {
+      margin: 20px 0;
+      border-radius: 4px;
+      background-color: white;
     }
-  }
-
-  .show-pwd {
-    position: absolute;
-    right: 10px;
-    top: 7px;
-    font-size: 16px;
-    color: $dark_gray;
-    cursor: pointer;
-    user-select: none;
+    .form-check {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #606266;
+      font-size: 14px;
+    }
   }
 }
 </style>
+
+
+

@@ -9,7 +9,7 @@ router.prefix('/rooms')
 // 前台路由
 
 // 分页查询所有房间
-router.get('/findAll', room.findAll)
+router.get('/', room.findAll)
 
 // 查询房间详情
 router.get('/:id',room.detail)

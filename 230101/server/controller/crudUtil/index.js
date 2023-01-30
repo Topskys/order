@@ -32,7 +32,6 @@ const add = (ctx, model, params,cb=null) => {
  */
 const del = (ctx, model, where,cb=null) => {
     return model.findOneAndDelete(where).then(rel => {
-        // success(ctx, rel)
         cb?cb(rel) : success(ctx, rel)
     }).catch(err => {
         exception(ctx, err)
@@ -66,7 +65,6 @@ const update = (ctx, model, where, params,cb=null) => {
  */
 const findAll = (ctx,model, where,cb=null) => {
     return model.find(where).then(rel => {
-        // success(ctx, rel)
         cb?cb(rel) : success(ctx, rel)
     }).catch(err => {
         exception(ctx,err)

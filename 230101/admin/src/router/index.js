@@ -55,6 +55,39 @@ export const constantRoutes = [
     }]
   },
   {
+    path: '/room',
+    component: Layout,
+    redirect: '/room/list',
+    name: 'Room',
+    meta: { title: '房间管理', icon: 'el-icon-house' },
+    children: [
+      {
+        path: 'roomList',
+        name: 'RoomList',
+        component: () => import('@/views/room/index'),
+        meta: { title: '房间列表', icon: '' }
+      },
+      {
+        path: 'detailList',
+        name: 'DetailList',
+        component: () => import('@/views/room/detail.vue'),
+        meta: { title: '详情列表', icon: '' }
+      },
+      {
+        path: 'roomAdd',
+        name: 'RoomAdd',
+        component: () => import('@/views/room/add.vue'),
+        meta: { title: '新增房间', icon: '' }
+      },
+      {
+        path: 'detailAdd',
+        name: 'DetailAdd',
+        component: () => import('@/views/room/add.vue'),
+        meta: { title: '新增详情', icon: '' }
+      }
+    ]
+  },
+  {
     path: '/order',
     component: Layout,
     redirect: '/order/list',
@@ -64,54 +97,24 @@ export const constantRoutes = [
       {
         path: 'list',
         name: 'OrderList',
-        component: () => import('@/views/table/index'),
-        meta: { title: '订单列表', icon: 'table' }
-      }, {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
+        component: () => import('@/views/order/index'),
+        meta: { title: '订单列表', icon: '' }
+      }, 
     ]
   },
   {
-    path: '/room',
+    path: '/member',
     component: Layout,
-    redirect: '/room/list',
-    name: 'Room',
-    meta: { title: '房间管理', icon: 'el-icon-house' },
-    children: [
-      {
-        path: 'list',
-        name: 'RoomList',
-        component: () => import('@/views/table/index'),
-        meta: { title: '房间列表', icon: 'table' }
-      }, {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
-  {
-    path: '/user',
-    component: Layout,
-    redirect: '/user/list',
-    name: 'User',
-    meta: { title: '顾客管理', icon: 'user' },
+    redirect: '/member/list',
+    name: 'Member',
+    meta: { title: '会员管理', icon: 'peoples' },
     children: [
       {
         path: 'list',
         name: 'UserList',
-        component: () => import('@/views/table/index'),
-        meta: { title: '顾客列表', icon: 'table' }
-      }, {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
+        component: () => import('@/views/member/index'),
+        meta: { title: '顾客列表', icon: '' }
+      }, 
     ]
   },
   {
@@ -124,13 +127,23 @@ export const constantRoutes = [
       {
         path: 'list',
         name: 'LoseList',
-        component: () => import('@/views/table/index'),
+        component: () => import('@/views/lose/index'),
         meta: { title: '招领列表', icon: 'table' }
-      }, {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+      },
+    ]
+  },
+  {
+    path: '/personal',
+    component: Layout,
+    redirect: 'Personal',
+    name: 'Personal',
+    meta: { title: '个人中心', icon: 'el-icon-s-custom' },
+    children: [
+      {
+        path: 'info',
+        name: 'PersonalInfo',
+        component: () => import('@/views/table/index'),
+        meta: { title: '个人信息', icon: 'el-icon-s-custom' }
       }
     ]
   },
@@ -139,14 +152,15 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        path: 'https://github.com/Topskys/order/tree/main/230101',
+        meta: { title: 'Github', icon: 'link' }
       }
     ]
   },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
+
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support

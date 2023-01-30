@@ -19,6 +19,8 @@ const detail = require('./routes/detail')
 const banner = require('./routes/banner')
 const cart = require('./routes/cart')
 const discount = require('./routes/discount')
+const admin = require('./routes/admin')
+const chart = require('./routes/chart')
 
 
 // 启动数据库连接
@@ -48,7 +50,7 @@ app.use(views(__dirname + '/views', {
 app.use(koajwt({
   secret: '2311-server-jwt'
 }).unless({
-  path: [/^\/users\/login/, /^\/users/,/^\/banners/,/^\/rooms/]
+  path: [/^\/users\/login/, /^\/users/,/^\/banners/,/^\/rooms/,/^\/admins\/login/,/^\/admins\/reg/,/^\/admins\/verify/]
 }))
 
 
@@ -75,6 +77,8 @@ app.use(detail.routes(), detail.allowedMethods())
 app.use(banner.routes(), banner.allowedMethods())
 app.use(cart.routes(), cart.allowedMethods())
 app.use(discount.routes(), discount.allowedMethods())
+app.use(chart.routes(), chart.allowedMethods())
+app.use(admin.routes(), admin.allowedMethods())
 
 
 

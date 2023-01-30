@@ -6,11 +6,11 @@
 * Ctrl+Alt+L
 */
 
-const success = (ctx, data, code, msg=null) => {
+const success = (ctx, data = null, code = null, msg = null) => {
     ctx.body = {
-        code: code || (data ? 200 : Array.isArray(data)?200:300),
-        msg:  data ? msg?msg:'成功' : '失败',
-        data
+        code: code || (data ? 200 : Array.isArray(data) ? 200 : 300),
+        msg: data ? msg ? msg : '成功' : '失败',
+        data: data
     }
 }
 
