@@ -49,9 +49,7 @@ const add = async ctx => {
  * @param ctx
  * @returns {Promise<void>}
  */
-const del = async ctx => {
-    await crud.del(ctx, Carts, {_id: ctx.params.id})
-}
+const del = async ctx => await crud.del(ctx, Carts, {_id: ctx.params.id})
 
 
 /**
@@ -60,86 +58,40 @@ const del = async ctx => {
  * @returns {Promise<void>}
  */
 const update = async ctx => {
-    let [params, update] = [ctx.request.body, null];
+    let params= ctx.request.body;
 
-    // 入住返回房间号
-    params.status === "2" && (
-        params = {
-            ...params,
-            roomNumber: `${Date.now()}`.slice(9) // 房间号
-        },
-            await crud.findOne(ctx, Users, {_id: params.userId}, rel => (update = rel)),
-
-            await crud.update(ctx, Users, {_id: params.userId}, {
-                $set: {
-                    roomNumber: update.roomNumber.push(params.roomNumber),
-                    updateTime: dtf(undefined, "YYYY-MM-DD hh:mm:ss")
-                }
-            })
-    )
-
-    // 退房
-    params.status === "3" && (
-        await crud.findOne(ctx, Users, {_id: params.userId}, rel => (update = rel)),
-            await crud.update(ctx, Users, {_id: params.userId}, {
-                $set: {
-                    roomNumber: update.roomNumber.filter(x => x !== params.roomNumber && x),
-                    updateTime: dtf(undefined, "YYYY-MM-DD hh:mm:ss")
-                }
-            })
-    )
-
-    await crud.update(ctx, Carts, {_id: params._id}, {
-        ...params, updateTime: dtf(undefined, "YYYY-MM-DD hh:mm:ss")
+    // 入住 或 退房
+    ["2","3"].includes(params.status) && await crud.update(ctx, Users, {_id: params.userId}, {
+        $set: {
+            room_number: params.status === "2"?params.room_number:'',
+            updateTime: dtf(undefined, "YYYY-MM-DD hh:mm:ss")
+        }
     })
+
+    await crud.update(ctx, Carts, {_id: params._id}, {...params, updateTime: dtf(undefined, "YYYY-MM-DD hh:mm:ss")})
 }
 
 
 /**
- * 查询购物车的所有商品
+ * 用顾客查询购物车的所有商品
  * @param ctx
  * @returns {Promise<void>}
  */
-const findAll = async ctx => {
-    let {page = 1, pageSize = 10, phone = null} = ctx.query;
+const queryAll = ctx => {
+    let {page = 1, pageSize = 10, phone = ''} = ctx.query;
 
-    if (!phone) return fail(ctx, null, 400, '请重新登录')
+    if (!phone) return fail(ctx, null, 400, '请重新登录');
 
-    // 判断页码
-    !page || isNaN(Number(page)) ? (page = 1) : (page = Number(page))
-
-    // 计算总页数
-    let count = 0
-    await Carts.find({phone}).count().then(rel => {
-        count = rel
-    })
-    let totalPage = 0
-    count > 0 && (totalPage = Math.ceil(count / pageSize))
-
-    // 判断当前页码的范围
-    if (totalPage > 0 && page > totalPage) {
-        page = totalPage
-    } else if (page < 1) {
-        page = 1
-    }
-
-    // 计算起始位置
-    let start = (page - 1) / pageSize
-
-    await Carts.find({phone}).skip(start).limit(pageSize).then(rel => {
-        responseSelf(ctx, {
-            code: 200,
-            msg: 'success',
-            data: rel,
-            page,
-            pageSize,
-            total: count
-        })
-    }).catch(err => {
-        exception(ctx, err)
-    })
-
+    return crud.findByPagination(ctx, Carts, {page, pageSize}, {phone});
 }
+
+
+/**
+ * 后台查询购物车的所有商品
+ * @param ctx
+ * @returns {Promise<void>}
+ */
+const findAll = async ctx => crud.findByPagination(ctx, Carts, ctx.query, {keyword: new RegExp(ctx.query.keyword || '')});
 
 
 /**
@@ -147,11 +99,7 @@ const findAll = async ctx => {
  * @param ctx
  * @returns {Promise<void>}
  */
-const findById = async ctx => {
-    await Carts.findOne({_id: ctx.params.id}).then(rel => {
-        success(ctx, rel)
-    })
-}
+const findById = async ctx => await crud.findOne(ctx, Carts, {_id: ctx.params.id});
 
 
 /**
@@ -188,7 +136,7 @@ const pay = async ctx => {
     // 余额支付
     if (params.payType === "余额支付") {
         user.balance = +(user.balance - update.total).toFixed(2);
-        user.balance < 0 ? (update = null, params.discount=0,fail(ctx, null, 300, '余额不足')) : await fun({balance: user.balance});
+        user.balance < 0 ? (update = null, params.discount = 0, fail(ctx, null, 300, '余额不足')) : await fun({balance: user.balance});
     }
 
     // 优惠劵
@@ -230,11 +178,11 @@ async function clear(ctx) {
 }
 
 
-
 module.exports = {
     add,
     del,
     update,
+    queryAll,
     findAll,
     findById,
     pay,

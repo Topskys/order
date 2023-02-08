@@ -8,7 +8,7 @@ const dtf = require('../util/dateTimeFormat')
 const schema =new mongoose.Schema({
     username: {
         type: String,
-        default: 'admin'
+        default: 'admin',
     },// 账户
     password: {
         type: String,
@@ -35,9 +35,17 @@ const schema =new mongoose.Schema({
         type: String,
         default: 'admin'
     }, // 管理员类型
+    last:{
+        type: String,
+        default: ''
+    }, // 上次登录时间
+    current:{
+        type: String,
+        default: ''
+    }, // 登录时间
     status: {
         type: String,
-        default: '0'
+        default: 'normal'
     },// 状态
     createTime: {
         type: String,

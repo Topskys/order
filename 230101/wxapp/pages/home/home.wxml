@@ -2,17 +2,17 @@
 <!-- 轮播图 -->
 <swiper autoplay indicator-dots>
     <swiper-item wx:for="{{banners}}" wx:key="index">
-        <image src="{{item.imgUrl}}" mode="widthFix" style="width: 100%;"></image>
+        <image src="{{item.imgUrl||item}}" mode="widthFix" style="width: 100%;"></image>
     </swiper-item>
 </swiper>
 <!-- 酒店信息 -->
 <view class="hotel-info">
     <view class="info-left">
         <view class="hotel-name">今悦花园酒店</view>
-        <view class="hotel-address">深圳市南山区南山街道前海湾花园69号</view>
+        <view class="hotel-address">深圳市南山区南山街道前海湾花园33号</view>
     </view>
     <view class="info-right">
-        <view class="hotel-map">地图</view>
+        <view class="hotel-map" bindtap="mapHandler">地图</view>
         <view class="hotel-tele" bindtap="callHotel">电话</view>
     </view>
 </view>
@@ -43,19 +43,19 @@
         </view>
     </view>
     <view class="room" wx:for="{{rooms}}" wx:key="index">
-        <image src="{{item.imgUrl}}" mode="widthFix" class="room-img" />
+        <image src="{{item.poster}}" mode="widthFix" class="room-img" />
         <view class="room-info">
             <view class="room-title">
                 {{item.title}}
             </view>
             <view class="room-desc">
-                {{item.desc}}
+                {{item.description}}
             </view>
             <view class="room-price">
                 <view>
                     <text class="price-icon">￥</text>
                     <text class="price-number">{{item.price}}</text>
-                    <text class="prev-price">{{item.prevPrice}}元</text>
+                    <text class="prev-price">{{item.origin_price}}元</text>
                 </view>
                 <view class="room-order">
                     <text bindtap="navToDetail" data-id="{{item._id}}" data-title="{{item.title}}">在线预定</text>

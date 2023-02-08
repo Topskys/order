@@ -2,13 +2,13 @@
 <view class="order-item">
     <view class="order-top">
         <view class="order-id">{{config._id}}</view>
-        <view class="order-status" style="color: #1989fa;">{{config.roomNumber}}</view>
+        <view class="order-status" style="color: #1989fa;">{{config.room.room_number}}</view>
     </view>
     <view class="order-desc"  bindtap="handleDetail" data-item="{{config}}">
-        <image src="{{config.room.imgUrl}}" mode="heightFix"></image>
+        <image src="{{config.room.poster}}" mode="heightFix"></image>
         <view class="order-info">
             <view class="order-title">{{config.room.title}}</view>
-            <view class="order-tags">{{config.room.desc}}</view>
+            <view class="order-tags">{{config.room.description}}</view>
         </view>
     </view>
     <view class="order-pay">

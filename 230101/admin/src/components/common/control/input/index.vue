@@ -1,5 +1,5 @@
 <template>
-  <el-input v-model="val" @input="inputEnter" placeholder="请输入"></el-input>
+  <el-input v-model="val" @input="inputEnter" placeholder="请输入" :disabled="config.disabled"></el-input>
 </template>
 
 <script>
@@ -9,6 +9,10 @@ export default {
         value:{
             type:[String,Number],
             default:''
+        },
+        config:{
+            type:Object,
+            default:()=>({})
         }
     },
     data () {

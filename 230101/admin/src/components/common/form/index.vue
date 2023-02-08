@@ -14,7 +14,8 @@
               :name="item.slot_name"
               :data="item"
             ></slot>
-            <!-- 动态组件 :value.sync="field[item.prop]" .sync：可以将子组件的数据同步到父组件-->
+            <!-- 动态组件-->
+            <!--  :value.sync="field[item.prop]" .sync：可以将子组件的数据同步到父组件 -->
             <component
               v-else
               :value.sync="field[item.prop]" 
@@ -59,10 +60,10 @@
           >
           </el-option>
         </el-select> 
-      </el-form-item>-->
+      </el-form-item>:style="[cssStyle]"-->
     </template>
 
-    <el-form-item>
+    <el-form-item style="text-align:right;margin-top:50px">
       <el-button
         v-for="(button, i) in buttons"
         :key="button.key"
@@ -114,6 +115,14 @@ export default {
     return {
       f_items: [],
     };
+  },
+  computed: {
+    cssStyle() {
+      const []=[]
+      return {
+// al
+      }
+    }
   },
   beforeMount() {
     // this.f_items = createRules(this.items); // 官方不建议直接在html中使用props接收的属性

@@ -10,6 +10,7 @@ Page({
     data: {
         detail: {},
         current: 0,
+        comments:[],
     },
 
     /**
@@ -24,10 +25,17 @@ Page({
     // 获取详情
     getDetailInfo(id) {
         request({
-            url: `rooms/${id}`
+            url: `detail/${id}`
         }).then(res => {
             this.setData({
                 detail: res.data
+            })
+        })
+        request({
+            url: `comments/${id}`
+        }).then(res => {
+            this.setData({
+                comments: res.data
             })
         })
     },

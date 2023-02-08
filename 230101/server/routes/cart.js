@@ -10,7 +10,7 @@ router.prefix('/carts')
 router.post('/',cart.add)
 
 
-// 删除购物车商品
+// 删除订单/购物车商品
 router.delete('/:id',cart.del)
 
 
@@ -18,12 +18,17 @@ router.delete('/:id',cart.del)
 router.put('/',cart.update)
 
 
-// 查询购物车1
-router.get('/',cart.findAll)
+// 前台查询购物车
+router.get('/',cart.queryAll)
 
 
 
-// 查询购物车2
+// 后台查看所有订单
+router.get('/all',cart.findAll)
+
+
+
+// 查询购物车by _id
 router.get('/:id',cart.findById)
 
 

@@ -18,7 +18,7 @@
     <image src="{{item}}" mode="widthFix" wx:for="{{detail.description}}" wx:key="index" style="width: 100%;margin-bottom: -10rpx;"></image>
 </view>
 <view wx:else style="padding-bottom: 100rpx;">
-    <view wx:for="{{detail.comments}}" wx:key="index" class="comment">
+    <view wx:for="{{comments}}" wx:key="index" class="comment">
         <view class="user">{{item.nickName}}</view>
         <view style="background-color: #f5f5f5;">
             <view class="content">{{item.content}}</view>

@@ -26,11 +26,13 @@
 <script>
 // import { transactionList } from '@/api/remote-search'
 export default {
+  props: ['hot'],
   filters: {
     statusFilter(status) {
       const statusMap = {
-        success: "success",
-        pending: "danger",
+        normal: "success",
+        delete: "danger",
+        live: "warning",
       };
       return statusMap[status];
     },
@@ -44,36 +46,39 @@ export default {
         {
           title: `${Date.now()}`,
           price: 699,
-          sale: Math.floor(Math.random( )*(500-1)+1),
+          sale: Math.floor(Math.random() * (500 - 1) + 1),
           status: "success",
         },
         {
           title: Date.now() + "",
           price: 699,
-          sale: Math.floor(Math.random( )*(500-1)+1),
+          sale: Math.floor(Math.random() * (500 - 1) + 1),
           status: "pending",
         },
         {
           title: Date.now() + "",
           price: 699,
-          sale: Math.floor(Math.random( )*(500-1)+1),
+          sale: Math.floor(Math.random() * (500 - 1) + 1),
           status: "success",
         },
         {
           title: Date.now() + "",
           price: 699,
-          sale: Math.floor(Math.random( )*(500-1)+1),
+          sale: Math.floor(Math.random() * (500 - 1) + 1),
           status: "pending",
         },
       ],
     };
   },
-  created() {
+  mounted() {
     this.fetchData();
   },
   methods: {
     fetchData() {
-      this.list = this.list.sort((a, b) => (a > b ? a : b));
+      // this.list = this.list.sort((a, b) => (a > b ? a : b));
+      // this.list = this.hot.sort((a, b) => (a.sale > b.sale ? a : b));
+      console.log(this.hot);
+      this.list = this.hot.slice(0,4)
     },
   },
 };

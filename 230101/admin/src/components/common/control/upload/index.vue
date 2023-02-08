@@ -1,5 +1,22 @@
 <template>
   <div class="e-upload">
+    <div class="images" v-if="images.length > 0">
+      <div
+        class="image-item"
+        v-for="(item, i) in images"
+        :key="`${item}-${Math.random() * 1000}}`"
+      >
+        <el-popover placement="left" title="" trigger="hover" width="300">
+          <img v-if="item" :src="item" width="100%" />
+          <img
+            slot="reference"
+            :src="item"
+            style="height: 150px; width: 150px"
+          />
+        </el-popover>
+        <i class="el-icon-delete" @click="removeImage(i)"></i>
+      </div>
+    </div>
     <el-upload
       action="http"
       :on-exceed="onExceed"
@@ -17,14 +34,13 @@
         >点击上传</el-button
       >
       <div
-        v-if="model  === 'card'"
+        v-if="model === 'card'"
         class="upload-wrap"
-        style="width:150px;height:150px;"
         :class="{ 'is-round': isRound }"
         :style="[sizeStyle]"
       >
-        <img v-if="value" :src="value" width="100%" height="100%" />
-        <i v-else class="el-icon-plus"></i>
+        <!-- <img v-else  v-if="imageUrl" :src="imageUrl" width="100%" height="100%" /> -->
+        <i class="el-icon-plus"></i>
       </div>
     </el-upload>
   </div>
@@ -38,17 +54,18 @@ export default {
   props: {
     // ...props,
     config: {
-            type: Object,
-            default: () => ({}),
-        },
-        value: {
-            type: [String,Number,Array,Object],
-            default: "",
-        },
+      type: Object,
+      default: () => ({}),
+    },
+    value: {
+      type: [String, Number, Array, Object],
+      default: "",
+    },
   },
   data() {
     return {
-      imageUrl: "",
+      imageUrl: null,
+      images: this.value, // 避免直接修改props,
     };
   },
   computed: {
@@ -58,17 +75,13 @@ export default {
     },
     // css
     sizeStyle() {
-      const width = this.config?.width || "100px";
-      const height = this.config?.height || "100px";
+      const width = this.config?.width || "150px";
+      const height = this.config?.height || "150px";
       return { width, height };
     },
     isRound() {
       return this.config?.round || false;
     },
-  },
-  beforeMount() {
-    this.imageUrl=this.value;
-    console.log('e-upload..config--',this.config)
   },
   methods: {
     // 上传文件
@@ -78,17 +91,18 @@ export default {
       const form = new FormData();
       form.append("file", file);
       // 接口
-      const req_data = {...this.config?.request_data,data:form}||{
-        url: this.url||this.config.url,
-        method: this.method|| this.config.method,
+      const req_data = { ...this.config?.request_data, data: form } || {
+        url: this.url || this.config.url,
+        method: this.method || this.config.method,
         headers: {
-          "Content-Type": "multiple/form-data",
+          "Content-Type": "multipart/form-data",
         },
         data: form,
       };
+
       Axios(req_data).then((res) => {
         const data = res.data.data;
-        this.imageUrl = data.url;
+        this.images.push(data.url)
       });
     },
     /**
@@ -139,6 +153,10 @@ export default {
     handleRemove(file, fileList) {
       console.log(file, fileList);
     },
+    removeImage(data) {
+      console.log(data)
+      this.images = this.images.filter((x, i) => i !== data && x);
+    },
     /**
      * 文件预览
      */
@@ -150,6 +168,35 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.e-upload {
+  display: flex;
+  .images {
+    display: flex;
+    .image-item {
+      margin-right: 10px;
+      position: relative;
+      .el-icon-delete {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: none;
+        color: white;
+        font-size: 16px;
+      }
+      &:hover {
+        .el-icon-delete {
+          display: block;
+          // color: #409eff;
+        }
+      }
+    }
+
+    img {
+      border-radius: 6px;
+    }
+  }
+}
 .upload-wrap {
   display: flex;
   align-items: center;

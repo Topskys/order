@@ -20,7 +20,11 @@ const banner = require('./routes/banner')
 const cart = require('./routes/cart')
 const discount = require('./routes/discount')
 const admin = require('./routes/admin')
-const chart = require('./routes/chart')
+const dashboard = require('./routes/dashboard')
+const upload = require('./routes/upload')
+const lose = require('./routes/lose')
+const service = require('./routes/service')
+const comment = require('./routes/comment')
 
 
 // 启动数据库连接
@@ -37,6 +41,7 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
+// 访问静态文件路径
 app.use(require('koa-static')(__dirname + '/public'))
 
 // 允许跨域请求
@@ -77,8 +82,12 @@ app.use(detail.routes(), detail.allowedMethods())
 app.use(banner.routes(), banner.allowedMethods())
 app.use(cart.routes(), cart.allowedMethods())
 app.use(discount.routes(), discount.allowedMethods())
-app.use(chart.routes(), chart.allowedMethods())
+app.use(dashboard.routes(), dashboard.allowedMethods())
 app.use(admin.routes(), admin.allowedMethods())
+app.use(upload.routes(), upload.allowedMethods())
+app.use(lose.routes(), lose.allowedMethods())
+app.use(service.routes(), service.allowedMethods())
+app.use(comment.routes(), comment.allowedMethods())
 
 
 

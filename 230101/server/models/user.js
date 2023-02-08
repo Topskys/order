@@ -17,11 +17,11 @@ const schema =new mongoose.Schema({
     phone: {
         type: String,
         default: ''
-    },
+    },// 手机号
     gender: {
         type: String,
         default: '0'
-    },
+    },// 性别
     balance: {
         type: Number,
         default: 0
@@ -37,14 +37,14 @@ const schema =new mongoose.Schema({
     email: {
         type: String,
         default: ''
-    },
-    roomNumber:{
-        type: Array,
-        default: []// 房间号
+    },// 邮箱
+    room_number:{
+        type: String,
+        default: ''// 房间号
     },
     status: {
         type: String,
-        default: ''
+        default: 'normal' // normal: 正常(success) ; delete : 删除(danger)  ;
     },// 状态
     createTime: {
         type: String,

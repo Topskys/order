@@ -55,6 +55,21 @@ export const constantRoutes = [
     }]
   },
   {
+    path: '/x',
+    component: Layout,
+    redirect: '/x/y',
+    name: 'y',
+    meta: { title: '组件例子', icon: 'el-icon-more' },
+    children: [
+      {
+        path: 'y',
+        name: 'Y',
+        component: () => import('@/components/common/form/example.vue'),
+        meta: { title: '运用例子' }
+      }
+    ]
+  },
+  {
     path: '/room',
     component: Layout,
     redirect: '/room/list',
@@ -62,29 +77,23 @@ export const constantRoutes = [
     meta: { title: '房间管理', icon: 'el-icon-house' },
     children: [
       {
-        path: 'roomList',
+        path: 'list',
         name: 'RoomList',
         component: () => import('@/views/room/index'),
         meta: { title: '房间列表', icon: '' }
       },
       {
-        path: 'detailList',
-        name: 'DetailList',
-        component: () => import('@/views/room/detail.vue'),
-        meta: { title: '详情列表', icon: '' }
+        path: 'comment',
+        name: 'Comment',
+        component: () => import('@/views/room/comment.vue'),
+        meta: { title: '评论列表', icon: '' }
       },
       {
-        path: 'roomAdd',
+        path: 'add',
         name: 'RoomAdd',
         component: () => import('@/views/room/add.vue'),
         meta: { title: '新增房间', icon: '' }
       },
-      {
-        path: 'detailAdd',
-        name: 'DetailAdd',
-        component: () => import('@/views/room/add.vue'),
-        meta: { title: '新增详情', icon: '' }
-      }
     ]
   },
   {
@@ -99,6 +108,12 @@ export const constantRoutes = [
         name: 'OrderList',
         component: () => import('@/views/order/index'),
         meta: { title: '订单列表', icon: '' }
+      },
+      {
+        path: 'clear',
+        name: 'OrderClear',
+        component: () => import('@/views/order/clear.vue'),
+        meta: { title: '房间清洁', icon: '' }
       }, 
     ]
   },
@@ -112,8 +127,8 @@ export const constantRoutes = [
       {
         path: 'list',
         name: 'UserList',
-        component: () => import('@/views/member/index'),
-        meta: { title: '顾客列表', icon: '' }
+        component: () => import('@/views/member/index.vue'),
+        meta: { title: '会员列表', icon: '' }
       }, 
     ]
   },
@@ -128,21 +143,21 @@ export const constantRoutes = [
         path: 'list',
         name: 'LoseList',
         component: () => import('@/views/lose/index'),
-        meta: { title: '招领列表', icon: 'table' }
+        meta: { title: '失物招领', icon: '' }
       },
     ]
   },
   {
     path: '/personal',
     component: Layout,
-    redirect: 'Personal',
+    redirect: 'personal/info',
     name: 'Personal',
     meta: { title: '个人中心', icon: 'el-icon-s-custom' },
     children: [
       {
         path: 'info',
         name: 'PersonalInfo',
-        component: () => import('@/views/table/index'),
+        component: () => import('@/views/personal/index.vue'),
         meta: { title: '个人信息', icon: 'el-icon-s-custom' }
       }
     ]

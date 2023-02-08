@@ -18,6 +18,10 @@ router.post('/verify',admin.verify)
 router.post('/reg',admin.register)
 
 
+// 更新管理员的信息
+router.put('/',admin.update)
+
+
 
 
 

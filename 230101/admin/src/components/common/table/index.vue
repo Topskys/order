@@ -35,12 +35,10 @@
           :sortable="col.sortable || false"
           :sort-by="col.sort_by"
           :render-header="col.rh"
-          :show-overflow-tooltip="
-            col.show_tooltip || (col.type === 'image' ? false : true)
-          "
+          :show-overflow-tooltip="JSON.stringify(col.show_tooltip)===undefined?true:col.show_tooltip"
         >
           <template slot-scope="scope">
-            <!-- 插槽 -->
+            <!-- 插槽  || (col.type === 'image' ? false : true)-->
             <slot
               v-if="col.type === 'slot'"
               :name="col.slot_name"

@@ -1,6 +1,6 @@
 <template>
   <div class="room-add">
-    <el-card shadow="never">
+    <el-card shadow="never" v-if="add">
       <div slot="header">新增房间</div>
       <!-- xlsx导入数据 -->
       <e-table v-if="showTable" :config="t_config"></e-table>
@@ -10,6 +10,30 @@
         :items="f_items"
         :field="f_field"
         :buttons="f_buttons"
+        :before-submit="submitForm"
+      >
+      <template v-slot:upload>
+        <el-upload
+            action="http"
+            list-type="picture-card"
+            :on-remove="handleRemove"
+            :file-list="imgList"
+            :on-success="handleSuccess"
+            :http-request="handlerUpload"
+            :multiple='false'
+            :limit="1"
+          >
+            <i class="el-icon-plus"></i>
+          </el-upload>
+      </template>
+      </e-form>
+    </el-card>
+    <el-card shadow="never" v-else>
+      <div slot="header">新增详情</div>
+      <e-form
+        :items="d_items"
+        :field="d_field"
+        :buttons="d_buttons"
         :before-submit="submitForm"
       >
       </e-form>
@@ -22,16 +46,18 @@ import { getToken } from '@/utils/auth';
 
 
 export default {
-  name: "room",
+  name: "room-add",
   components: {
     "e-table": () => import("@/components/common/table/index.vue"),
     "e-form": () => import("@/components/common/form/index.vue"),
   },
   data() {
-    const vName = (rule, value, cb) => (value ? cb() : cb(new Error("请输入")));
 
     return {
+      add:true,
       showTable: false,
+      // 
+      imgList:[],
       // table
       t_config: {
         // 边框
@@ -110,7 +136,6 @@ export default {
           label: "标题",
           placeholder: "请输入",
           required: true,
-          // message: "必填",
           rules: [
             { required: true,message: "必填", trigger: "blur" }
           ],
@@ -142,42 +167,94 @@ export default {
           ],
         },
         {
-          type: "upload",
+          type: "slot",
+          slot_name: "upload",
           prop: "poster",
           label: "图片",
-          model: "card",
           required: true,
-          url:'http://localhost:3000/upload',
-          method:'post',
-          show_files:false,
-          accept:'.jpg,.zip,.rar,.png',
-          multiple:false,
-          limit:1,
-          max_size:10,
-          round:false,
-          request_data:{
-            url:'http://localhost:3000/upload',
-            method:'post',
-            data:'',
-            headers:{
-              "Content-Type": "multiple/form-data",
-              "Authorization":getToken(),
-            }
-          }
         },
       ],
       f_field: {
-        title: "",
-        price: "",
-        origin_price: "",
-        description: "",
+        // title: "",
+        // price: "",
+        // origin_price: "",
+        // description: "",
         // poster:"",
-        poster: "https://img0.baidu.com/it/u=1169262494,2179885545&fm=253&fmt=auto&app=138&f=JPEG?w=658&h=372",
       },
       f_buttons: [
-        { label: "确定", key: "confirm", type: "primary" },
         { label: "取消", key: "cancel", type: "danger" },
-        { label: "下一步", key: "next", type: "primary",cb:(data)=>{console.log("next",data)} },
+        { label: "下一步", key: "next", type: "primary",cb:(data)=>(this.add=false) },
+      ],
+      d_items: [
+        {
+          type: "input",
+          prop: "feature",
+          label: "特色",
+          placeholder: "请输入",
+          required: true,
+        },
+        {
+          type: "upload",
+          prop: "slides",
+          label: "详情轮播",
+          model: "card",
+          required: true,
+          url: "http://localhost:3000/upload",
+          method: "post",
+          show_files: false,
+          accept: ".jpg,.zip,.rar,.png",
+          multiple: true,
+          limit: 3,
+          max_size: 10,
+          round: false,
+          request_data: {
+            url: "http://localhost:3000/upload",
+            method: "post",
+            data: "",
+            headers: {
+              "Content-Type": "multiple/form-data",
+              Authorization: "Bearer " + getToken(),
+            },
+          },
+        },
+        {
+          type: "upload",
+          prop: "description1",
+          label: "图片描述",
+          model: "card",
+          required: true,
+          url: "http://localhost:3000/upload",
+          method: "post",
+          show_files: false,
+          accept: ".jpg,.zip,.rar,.png",
+          multiple: true,
+          limit: 3,
+          max_size: 10,
+          round: false,
+          request_data: {
+            url: "http://localhost:3000/upload",
+            method: "post",
+            data: "",
+            headers: {
+              "Content-Type": "multiple/form-data",
+              Authorization: "Bearer " + getToken(),
+            },
+          },
+        },
+      ],
+      d_field: {
+        slides: [], // 房间详情轮播图数据
+        feature: "", // 特色，文字描述
+        description: [], // 图片形式详细描述
+      },
+      d_buttons: [
+        {
+          label: "上一步",
+          key: "cancel",
+          type: "danger",
+          cb: (data) => (this.add=true),
+        },
+        { label: "确定", key: "confirm", type: "primary" },
       ],
     };
   },
@@ -191,6 +268,37 @@ export default {
         }, 200);
       });
     },
+
+    handleClose() {
+      this.dialogVisible = false;
+      this.imgList = [];
+      this.f_field = {};
+    },
+    handleRemove(file, fileList) {
+      // file删除的那张图，剩下的照片墙fileList
+      // 含name和url等服务器不需要的字段
+      this.imgList = fileList;
+      this.f_field.poster = "";
+    },
+    handleSuccess(response, file, fileList) {
+      // 收集刚上传的图片
+      this.imgList = fileList;
+      this.f_field.poster = response.data;
+    },
+    // 上传文件
+    handlerUpload(data) {
+      const form = new FormData(); // "Content-Type": "multipart/form-data"
+      form.append("file", data.file); // file(key):value
+
+      this.$http({
+        url: "/upload",
+        method: "post",
+        data: form,
+      }).then(({ data }) => {
+        this.f_field.poster= data.url;
+      });
+    },
+
   },
 };
 </script>

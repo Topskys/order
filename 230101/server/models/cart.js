@@ -45,7 +45,7 @@ const schema =new mongoose.Schema({
         type:Object,
         default: {}
     },
-    roomNumber:{
+    room_number:{
         type:String,
         default: ''
     },
@@ -66,7 +66,7 @@ const schema =new mongoose.Schema({
     },
     status: {
         type: String,
-        default: '0' // 0：未付款；1：待入住；2：入驻中；3：待评价；4：完成
+        default: '0' // 0：未付款；1：待入住；2：入驻中；3：待评价；4：完成；
     },
     createTime: {
         type: String,

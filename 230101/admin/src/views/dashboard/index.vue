@@ -14,12 +14,14 @@
                   <div class="card-title">入住率</div>
                   <countTo
                     :startVal="startVal"
-                    :endVal="endVal"
+                    :endVal="ev1"
                     :duration="3000"
-                  ></countTo>%
+                  ></countTo
+                  >%
                 </div>
-              </div> </el-card
-          ></el-col>
+              </div>
+            </el-card></el-col
+          >
           <el-col :span="12"
             ><el-card shadow="never">
               <div class="c-content">
@@ -27,12 +29,10 @@
                   <svg-icon icon-class="money" class-name="money" />
                 </div>
                 <div class="card-right">
-                  <div class="card-title">
-                    日充值
-                  </div>
+                  <div class="card-title">日充值</div>
                   <countTo
                     :startVal="startVal"
-                    :endVal="endVal"
+                    :endVal="ev2"
                     :duration="3000"
                   ></countTo>
                 </div>
@@ -47,17 +47,17 @@
                   <svg-icon icon-class="comment" class-name="comment" />
                 </div>
                 <div class="card-right">
-                  <div class="card-title">
-                    好评率
-                  </div>
+                  <div class="card-title">好评率</div>
                   <countTo
                     :startVal="startVal"
-                    :endVal="endVal"
+                    :endVal="ev3"
                     :duration="3000"
-                  ></countTo>%
+                  ></countTo
+                  >%
                 </div>
-              </div> </el-card
-          ></el-col>
+              </div>
+            </el-card></el-col
+          >
           <el-col :span="12"
             ><el-card shadow="never">
               <div class="c-content">
@@ -65,12 +65,10 @@
                   <svg-icon icon-class="peoples" class-name="peoples" />
                 </div>
                 <div class="card-right">
-                  <div class="card-title">
-                    访问量
-                  </div>
+                  <div class="card-title">访问量</div>
                   <countTo
                     :startVal="startVal"
-                    :endVal="endVal"
+                    :endVal="ev4"
                     :duration="3000"
                   ></countTo>
                 </div>
@@ -80,7 +78,7 @@
       </el-col>
       <el-col :span="12">
         <div class="hot-sale">
-          <hot-sale></hot-sale>
+          <hot-sale :hot="chart.hot"></hot-sale>
         </div>
       </el-col>
     </el-row>
@@ -105,32 +103,43 @@ export default {
     return {
       startVal: 0,
       endVal: 23,
-      chart:{
-        occupancy:0, // 住房率
-        charge:0, // 日充值
-        comment:0, // 好评率
-        visitor:0, // 访问量
-        hot:[], // 畅销产品
-        sale:[] // 月销售额
-      }
+      ev1: 0,
+      ev2: 0,
+      ev3: 0,
+      ev4: 0,
+      chart: {
+        // occupancy: 0, // 住房率
+        // charge: 0, // 日充值
+        // comment: 0, // 好评率
+        // visitor: 0, // 访问量
+        // hot: [], // 畅销产品
+        // sale: [], // 月销售额
+      },
+      // hot: [1,2,3,4,5,6], // 畅销产品
+      // sale: [], // 月销售额
     };
   },
   computed: {
     ...mapGetters(["name"]),
   },
-  mounted() {
-    // this.getChartData()
+  beforeMount() {
+    this.getChartData();
   },
   methods: {
     // 获取数据面板数据
     getChartData() {
       this.$http({
-        url: "/chart"
-      }).then(res=>{
-        this.chart = res || {};
-      })
-    }
-  }
+        url: "/dashboard",
+      }).then((res) => {
+        this.chart = res.data;
+        this.ev1 = this.chart.occupancy * 100;
+        this.ev2 = this.chart.charge;
+        this.ev3 = this.chart.comment * 100;
+        this.ev4 = this.chart.visitor;
+        // this.hot=this.chart.hot;
+      });
+    },
+  },
 };
 </script>
 

@@ -15,7 +15,7 @@
                     <view class="cell-content">
                         <checkbox checked="{{ item.checked }}" bindtap="handleCheck" data-item="{{item}}"></checkbox>
                         <!-- 左滑删除图片不能用widthFix -->
-                        <image src="{{item.room.imgUrl}}" mode="widthFix" style="width: 120rpx;height: 120rpx;padding: 20rpx;border-radius: 20rpx;"></image>
+                        <image src="{{item.room.poster}}" mode="widthFix" style="width: 120rpx;height: 120rpx;padding: 20rpx;border-radius: 20rpx;"></image>
                         <view style="font-size: 26rpx;">
                             <view class="text-ellipsis">{{item.room.title}}</view>
                             <view class="cell-price">￥{{item.room.price}}</view>

@@ -196,7 +196,7 @@ Page({
     btnEvent(o) {
         CheckAuth(() => {
             o.detail.btn === "评价" ? wx.navigateTo({
-                url: `/pages/comment/comment?orderId=${o.detail.item._id}&roomId=${o.detail.item.roomId}`
+                url: `/pages/comment/comment?cart=${ JSON.stringify(o.detail.item)}`
             }) : request({
                 url: 'carts',
                 method: 'put',

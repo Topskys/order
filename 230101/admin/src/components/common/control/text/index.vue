@@ -1,5 +1,5 @@
 <template>
-  <div>{{ data[prop] }}</div>
+  <div>{{ config.cb ? config.cb(data) : data[prop] }}</div>
 </template>
 
 <script>

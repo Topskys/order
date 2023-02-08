@@ -12,7 +12,8 @@
         "pages/discount/discount",
         "pages/paid/paid",
         "pages/about/about",
-        "pages/info/info"
+        "pages/info/info",
+        "pages/map/map"
     ],
     "window": {
         "backgroundTextStyle": "light",

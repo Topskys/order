@@ -1,0 +1,2 @@
+<!--pages/map/map.wxml-->
+<web-view src="{{where}}" ></web-view>

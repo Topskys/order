@@ -28,6 +28,11 @@ router.put('/',user.update)
 
 
 
+// 删除用户
+router.delete('/',user.del)
+
+
+
 
 
 module.exports = router

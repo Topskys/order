@@ -1,29 +1,26 @@
 const router = require('koa-router')();
 const room=require('../controller/room')
 
-
 // 路由前缀
 router.prefix('/rooms')
 
 
-// 前台路由
 
-// 分页查询所有房间
-router.get('/', room.findAll)
-
-// 查询房间详情
-router.get('/:id',room.detail)
+// 查询所有房间（前台）
+router.get('/', room.queryAll)
 
 
+// 分页查询所有房间（后台）
+router.get('/all', room.findAll)
 
 
-// 后台路由
 
 // 新增房间
 router.post('/add',room.add)
 
 
-
+// 删除房间
+router.delete('/del/:id',room.del)
 
 
 

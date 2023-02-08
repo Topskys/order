@@ -4,7 +4,7 @@
     <!-- 房间信息 -->
     <scroll-view scroll-y style="max-height: 450rpx;background-color: white;">
         <view class="room">
-            <image src="{{order.room.imgUrl}}" mode="heightFix" style="width: 140rpx;height: 140rpx;"></image>
+            <image src="{{order.room.poster}}" mode="heightFix" style="width: 140rpx;height: 140rpx;"></image>
             <view class="info-box">
                 <view class="title">{{order.room.title}}</view>
                 <view class="date">{{order.rent}}</view>

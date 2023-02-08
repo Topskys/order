@@ -7,7 +7,6 @@
         ref="form"
         :inline="true"
         @keyup.enter.native="getPageList()"
-        style="margin-top: 20px"
       >
         <el-form-item label="选择:">
           <el-select v-model="form.keyword" placeholder="请选择">
@@ -28,6 +27,14 @@
             >新增</el-button
           >
         </el-form-item>
+        <el-form-item>
+          <el-button
+            type="primary"
+            icon="el-icon-document"
+            @click="dialog = !dialog"
+            >导入</el-button
+          >
+        </el-form-item>
       </el-form>
 
       <!-- 表格 -->
@@ -40,28 +47,63 @@
           <el-button
             @click="edit(slot_data.data)"
             type="text"
-            style="color:#409eff;"
-          >编辑</el-button>
-          <!-- <el-button type="text"  style="color:#909399;">详情</el-button> -->
-          <el-button type="text" style="color:#f56c6c;">删除</el-button>
+            style="color: #409eff"
+            >编辑</el-button
+          >
+          <el-button
+            @click="detail(slot_data.data)"
+            type="text"
+            style="color: #909399"
+            >详情</el-button
+          >
+          <el-button
+            @click="del(slot_data.data)"
+            type="text"
+            style="color: #f56c6c"
+            >删除</el-button
+          >
         </template>
       </e-table>
     </el-card>
+    <!-- dialog表单 -->
+    <el-dialog
+      :title="`房间详情-${f_field.title}`"
+      :visible.sync="dialogVisible"
+      append-to-body
+      width="50%"
+    >
+      <e-form
+        :items="f_items"
+        :field="f_field"
+        :buttons="f_buttons"
+        :before-submit="submitForm"
+      >
+      </e-form>
+      <e-form
+        :items="f_items"
+        :field="f_field"
+        :buttons="f_buttons"
+        :before-submit="submitForm"
+      >
+      </e-form>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import { getToken } from "@/utils/auth";
 export default {
   name: "room",
   components: {
     "e-table": () => import("@/components/common/table/index.vue"),
+    "e-form": () => import("@/components/common/form/index.vue"),
   },
   data() {
     return {
       form: {
         keyword: "",
         page: 1,
-        pageSize: 5,
+        pageSize: 10,
       },
       dialog: false,
       selections: [
@@ -153,7 +195,7 @@ export default {
             prop: "status",
             label: "状态",
             cb: (data) => {
-              let tag_type = "defualt";
+              let tag_type = "default";
               switch (data.status) {
                 case "normal":
                   tag_type = "success";
@@ -191,115 +233,94 @@ export default {
         },
       },
 
-      // 列
-      column: {
-        loading: false,
-        columns: [
-          {
-            text: true,
-            prop: "id",
-            label: "可以排序",
-            width: "",
-            align: "center",
-            editRow: undefined,
-            sortable: true, //开启排序
-          },
-          {
-            text: true,
-            prop: "date",
-            label: "时间",
-            width: "",
-            align: "center",
-            sortable: false,
-          },
-          {
-            // text: true,
-            editRow: true,
-            prop: "name",
-            label: "点击可编辑",
-            width: "",
-            align: "center",
-            sortable: false,
-          },
-          {
-            img: true,
-            prop: "img",
-            label: "图片",
-            width: "300",
-            align: "center",
-            sortable: false,
-          },
-          {
-            ownDefined: true,
-            prop: "address",
-            label: "自定义返回内容",
-            width: "",
-            align: "center",
-            sortable: false,
-            ownDefinedReturn: (row, $index) => {
-              return row.address;
+      // dialog 表单
+      dialogVisible: false,
+      f_items: [
+        {
+          type: "input",
+          prop: "feature",
+          label: "特色",
+          placeholder: "请输入",
+          required: true,
+        },
+        {
+          type: "upload",
+          prop: "slides",
+          label: "详情轮播",
+          model: "card",
+          required: true,
+          url: "http://localhost:3000/upload",
+          method: "post",
+          show_files: false,
+          accept: ".jpg,.zip,.rar,.png",
+          multiple: true,
+          limit: 3,
+          max_size: 10,
+          round: false,
+          request_data: {
+            url: "http://localhost:3000/upload",
+            method: "post",
+            data: "",
+            headers: {
+              "Content-Type": "multiple/form-data",
+              Authorization: "Bearer " + getToken(),
             },
           },
-
-          {
-            operation: true,
-            label: "操作",
-            width: "180",
-            align: "center",
-            sortable: false,
-            operations: [
-              {
-                type: "text",
-                size: "",
-                label: "编辑",
-                icon: "",
-                color: "red",
-                isShow: (row, $index) => {
-                  return true;
-                },
-              },
-              {
-                type: "text",
-                label: "删除",
-                icon: "",
-                size: "",
-                color: "blue",
-                isShow: (row, $index) => {
-                  return true;
-                },
-              },
-              {
-                type: "text",
-                label: "查看",
-                icon: "",
-                size: "",
-                color: "",
-                isShow: (row, $index) => {
-                  return true;
-                },
-              },
-            ],
+        },
+        {
+          type: "upload",
+          prop: "description",
+          label: "图片描述",
+          model: "card",
+          required: true,
+          url: "http://localhost:3000/upload",
+          method: "post",
+          show_files: false,
+          accept: ".jpg,.zip,.rar,.png",
+          multiple: true,
+          limit: 3,
+          max_size: 10,
+          round: false,
+          request_data: {
+            url: "http://localhost:3000/upload",
+            method: "post",
+            data: "",
+            headers: {
+              "Content-Type": "multiple/form-data",
+              Authorization: "Bearer " + getToken(),
+            },
           },
-        ],
+        },
+      ],
+      f_field: {
+        slides: [
+          // "https://img1.baidu.com/it/u=3668096463,799852184&fm=253&fmt=auto&app=138&f=PNG?w=499&h=232",
+          // "https://img0.baidu.com/it/u=2422979282,750047281&fm=253&fmt=auto&app=138&f=JPEG?w=1014&h=500"
+        ], // 房间详情轮播图数据
+        feature: "", // 特色，文字描述
+        description: [], // 图片形式详细描述
       },
-      // 分页
-      pagination: {
-        show: true,
-        align: "center",
-        page: 1,
-        pageSize: 10,
-        total: 0,
-      },
+      f_buttons: [
+        {
+          label: "取消",
+          key: "cancel",
+          type: "danger",
+          cb: (data) => {
+            this.dialogVisible = false;
+          },
+        },
+        { label: "确定", key: "confirm", type: "primary" },
+      ],
     };
   },
   mounted() {
-    this.getDataList();
+    this.getPageList();
   },
   methods: {
     // 获取数据列表
-    getDataList() {
+    getPageList() {
       this.$http({
-        url: "/rooms",
+        url: "/rooms/all",
         params: {
           ...this.form,
           keyword: this.form.keyword.includes("全部")
@@ -314,20 +335,76 @@ export default {
     // 页码变化
     currentChange(data) {
       this.form.page = data;
-      // this.getDataList();
+      // this.getPageList();
     },
     // 单页显示大小变化
     sizeChange(data) {
       this.form.pageSize = data;
-      // this.getDataList();
+      // this.getPageList();
     },
     // 表格编辑按钮时间回调
     edit(data) {},
+    /**
+     * 表格详情按钮
+     */
+    detail(data) {
+      const { title } = data;
+      this.$http({
+        url: `detail/${data._id}`,
+        method: "GET",
+      }).then(({ code, msg, data }) => {
+        this.f_field = { ...data, title };
+        code === 200 && (this.dialogVisible = true);
+      });
+    },
+    /**
+     * 表格删除按钮
+     */
+    del(data) {
+      this.$confirm(`你确定删除项数据?`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.$http({
+            url: `/rooms/del/${data._id}`,
+            method: "DELETE",
+          }).then(({ code, msg }) => {
+            this.$message({
+              type: code == 200 ? "success" : "error",
+              message: msg,
+            });
+            this.getPageList();
+          });
+        })
+        .catch((e) => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+    },
+    // 表单提交
+    submitForm() {
+      return this.$http({
+        url: "/detail/addOrUpdate",
+        method: "POST",
+        data: {
+          ...this.f_field,
+        },
+      }).then(({ code, msg}) => {
+        this.$message({
+          type: code === 200 ? "success" : "error",
+          message: msg,
+        });
+      });
+    },
   },
   watch: {
     form: {
       handler(newVal, oldVal) {
-        this.getDataList();
+        this.getPageList();
       },
       deep: true, // 深度监听，监听属性
     },

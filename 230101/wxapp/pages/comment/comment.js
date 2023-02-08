@@ -8,33 +8,42 @@ Page({
      * 页面的初始数据
      */
     data: {
-        // 订单id
-        orderId: null,
-        // 暂存roomId
-        roomId: null,
+        // 订单
+        order: {},
+        // 好评
+        satisfaction: true,
     },
 
     /**
      * 生命周期函数--监听页面加载
+     * 酒店卫生很干净，住着也很舒服，服务非常周到。
      */
     onLoad(options) {
         this.setData({
-            orderId: options.orderId,
-            roomId: options.roomId
+            order: JSON.parse(options.cart)
+        })
+    },
+    // 监听好评按钮
+    onChange(e) {
+        this.setData({
+            satisfaction: e.detail
         })
     },
     // 提交评价按钮的回调
     submitComment(e) {
         CheckAuth(() => {
             request({
-                url: 'room/comment/add',
+                url: 'comments',
                 method: 'post',
                 data: {
-                    orderId: this.data.orderId,
-                    roomId: this.data.roomId,
+                    ...this.data.order,
                     content: e.detail.value.textarea,
+                    satisfaction: this.data.satisfaction,
                     userId: wx.getStorageSync('userInfo')._id,
-                    nickName: wx.getStorageSync('userInfo').nickName
+                    nickName: wx.getStorageSync('userInfo').nickName,
+                    status: undefined,
+                    createTime: undefined,
+                    updateTime: undefined,
                 }
             }).then(({
                 code,

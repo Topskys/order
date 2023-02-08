@@ -1,29 +1,31 @@
 const router = require('koa-router')();
-const rd=require('../controller/detail')
+const detail=require('../controller/detail')
 
 
 // 路由前缀
-router.prefix('/room')
+router.prefix('/detail')
 
 
-// 前台路由
 
-// 分页查询所有房间
-// router.get('/findAll', rd.findAll)
+
 
 // 查询房间详情
-router.get('/detail/:id',rd.findById)
+router.get('/:id',detail.findById)
 
 
 // 新增房间评论
-router.post('/comment/add',rd.addComment)
+router.post('/comment/add',detail.addComment)
 
 
 
 // 后台路由
 
 // 新增房间详情
-router.post('/detail/add',rd.add)
+router.post('/detail/add',detail.add)
+
+
+// 新增或更新房间详情（by _id）
+router.post('/addOrUpdate',detail.addOrUpdate)
 
 
 
