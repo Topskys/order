@@ -85,9 +85,11 @@ Page({
     onShow() {
         // this.getBanner();
         this.setData({
-            rooms: []
+            room: [],
+            page: 1, // 当前页
+            pageSize: 10, // 当前页面数据大小
         })
-        this.getDataList();
+        this.getDataList(2);
         wx.setStorageSync('rentTime', this.data.rentTime)
     },
 

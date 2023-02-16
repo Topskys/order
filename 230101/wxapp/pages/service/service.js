@@ -31,8 +31,10 @@ Page({
         ],
         // 显示弹窗
         showDialog: false,
-        // 需要清洁房间号
-        roomNumber: wx.getStorageSync('roomNumber') || '',
+        // 用户信息
+        userInfo: wx.getStorageSync('userInfo'),
+        // 预约清洁时间
+        order: '中午',
         // wifi popup
         popup: false,
     },
@@ -46,13 +48,14 @@ Page({
     // 清洁窗台确认按钮的回调
     confirm(e) {
         request({
-            url: 'carts/clear',
-            method: 'put',
+            url: 'service',
+            method: 'post',
             data: {
-                roomNumber: this.data.roomNumber,
+                ...this.data.userInfo,
+                order: this.data.order,
             }
         }).then(res => {
-            res.code===200 && this.onClose()
+            res.code === 200 && this.onClose()
             wx.showToast({
                 title: res.msg || '请稍后',
                 icon: res.code === 200 ? 'success' : 'error',
@@ -84,10 +87,15 @@ Page({
                 break
             case "/pages/shopCart/shopCart":
                 // 退房跳转订单的入住中
-                // 把参数保存至全局变量
-                getApp().globalData.tabActive = 2
-                wx.switchTab({
+                this.data.userInfo.room_number ? wx.switchTab({
                     url: x.url,
+                    success: () => {
+                        // 把参数保存至全局变量
+                        getApp().globalData.tabActive = 2
+                    }
+                }) : wx.showToast({
+                    title: '请先办理入住',
+                    icon: 'error',
                 })
                 break
         }

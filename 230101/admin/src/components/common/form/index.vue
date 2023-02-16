@@ -8,26 +8,26 @@
         :required="item.required"
         :rules="item.rules"
       >
-            <!-- 插槽 -->
-            <slot
-              v-if="item.type === 'slot'"
-              :name="item.slot_name"
-              :data="item"
-            ></slot>
-            <!-- 动态组件-->
-            <!--  :value.sync="field[item.prop]" .sync：可以将子组件的数据同步到父组件 -->
-            <component
-              v-else
-              :value.sync="field[item.prop]" 
-              :config="item"
-              :is="
-                !item.type
-                  ? 'e-text'
-                  : item.type === 'text'
-                  ? 'e-text'
-                  : `e-${item.type}`
-              "
-            />
+        <!-- 插槽 -->
+        <slot
+          v-if="item.type === 'slot'"
+          :name="item.slot_name"
+          :data="item"
+        ></slot>
+        <!-- 动态组件-->
+        <!--  :value.sync="field[item.prop]" .sync：可以将子组件的数据同步到父组件 -->
+        <component
+          v-else
+          :value.sync="field[item.prop]"
+          :config="item"
+          :is="
+            !item.type
+              ? 'e-text'
+              : item.type === 'text'
+              ? 'e-text'
+              : `e-${item.type}`
+          "
+        />
       </el-form-item>
 
       <!-- <el-form-item
@@ -63,7 +63,7 @@
       </el-form-item>:style="[cssStyle]"-->
     </template>
 
-    <el-form-item style="text-align:right;margin-top:50px">
+    <el-form-item style="text-align: right; margin-top: 50px">
       <el-button
         v-for="(button, i) in buttons"
         :key="button.key"
@@ -85,11 +85,18 @@ import createRules from "./createRules";
  * @param {String} extension 读取的文件，可选正则表达
  * @param {String} alias 读取文件别名
  */
-const files = require.context("@/components/common/control", true, /\index.vue$/);
+const files = require.context(
+  "@/components/common/control",
+  true,
+  /\index.vue$/
+);
 const [path, modules, alias] = [require("path"), {}, "e-"];
 // component/index.vue
-files.keys().forEach((key) => (modules[`${alias}${key.split("/")[1]}`] = files(key).default));
-
+files
+  .keys()
+  .forEach(
+    (key) => (modules[`${alias}${key.split("/")[1]}`] = files(key).default)
+  );
 
 export default {
   name: "e-form",
@@ -118,11 +125,11 @@ export default {
   },
   computed: {
     cssStyle() {
-      const []=[]
+      const [] = [];
       return {
-// al
-      }
-    }
+        // al
+      };
+    },
   },
   beforeMount() {
     // this.f_items = createRules(this.items); // 官方不建议直接在html中使用props接收的属性
@@ -145,11 +152,13 @@ export default {
         if (valid) {
           if (typeof this.beforeSubmit === "function") {
             this.$set(data, "loading", true);
-            this.beforeSubmit()
-              .then((res) => {
+            this.beforeSubmit().then(({ code, msg }) => {
                 this.$set(data, "loading", false);
-              })
-              .catch((err) => {
+                this.$message({
+                  type: code === 200 ? "success" : "error",
+                  message: msg,
+                })
+              }).catch((err) => {
                 this.$set(data, "loading", false);
               });
           }

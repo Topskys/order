@@ -2,7 +2,7 @@
 <!-- 房间详情页面 -->
 <swiper class="swiper">
     <swiper-item wx:for="{{detail.slides}}" wx:key="index">
-        <image src="{{item}}" mode="widthFix" class="image" bindtap="handlePreviewImage" data-image="{{item}}"></image>
+        <image src="{{item}}" mode="aspectFill" class="image" bindtap="handlePreviewImage" data-image="{{item}}"></image>
     </swiper-item>
 </swiper>
 
@@ -14,17 +14,23 @@
 </mp-sticky>
 
 <view wx:if="{{current===0}}" style="padding-bottom: 100rpx;">
-    <view class="feature">{{detail.feature}}</view>
-    <image src="{{item}}" mode="widthFix" wx:for="{{detail.description}}" wx:key="index" style="width: 100%;margin-bottom: -10rpx;"></image>
+    <block wx:if="{{detail}}">
+        <view class="feature">{{detail.feature}}</view>
+    <image src="{{item}}" mode="widthFix" wx:for="{{detail.explain}}" wx:key="index" style="width: 100%;margin-bottom: -10rpx;"></image>
+    </block>
+    <view wx:else style="text-align: center;padding: 20rpx 0;"><text>暂无数据</text></view>
 </view>
 <view wx:else style="padding-bottom: 100rpx;">
-    <view wx:for="{{comments}}" wx:key="index" class="comment">
-        <view class="user">{{item.nickName}}</view>
-        <view style="background-color: #f5f5f5;">
-            <view class="content">{{item.content}}</view>
-            <view class="createTime">{{item.createTime}}</view>
+    <block wx:if="{{comments.length}}">
+        <view wx:for="{{comments}}" wx:key="index" class="comment">
+            <view class="user">{{item.nickName}}</view>
+            <view style="background-color: #f5f5f5;">
+                <view class="content">{{item.content}}</view>
+                <view class="createTime">{{item.createTime}}</view>
+            </view>
         </view>
-    </view>
+    </block>
+    <view wx:else style="text-align: center;padding: 20rpx 0;"><text>暂无数据</text></view>
 </view>
 
 <view class="good-nav">
@@ -32,8 +38,8 @@
     <view bindtap="handleAdd" style="background-color: #f76260;">加入订单</view>
     <view bindtap="handlePurchase" style="background-color: #6c44ac;">立即预定</view> -->
     <van-goods-action>
-        <van-goods-action-icon icon="cart-o" text="订单" bindtap="handleShopCart"/>
-        <van-goods-action-button color="#be99ff" text="加入订单" type="warning" bindtap="handleAdd"/>
-        <van-goods-action-button color="#7232dd" text="立即预定" bindtap="handlePurchase"/>
+        <van-goods-action-icon icon="cart-o" text="订单" bindtap="handleShopCart" />
+        <van-goods-action-button color="#be99ff" text="加入订单" type="warning" bindtap="handleAdd" />
+        <van-goods-action-button color="#7232dd" text="立即预定" bindtap="handlePurchase" />
     </van-goods-action>
 </view>

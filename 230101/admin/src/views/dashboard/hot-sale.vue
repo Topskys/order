@@ -26,7 +26,12 @@
 <script>
 // import { transactionList } from '@/api/remote-search'
 export default {
-  props: ['hot'],
+  props: {
+    hot:{
+      type: Array,
+      default:()=>([])
+    }
+  },
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -70,15 +75,17 @@ export default {
       ],
     };
   },
-  mounted() {
-    this.fetchData();
+  created () {
+    !this.hot.length && this.fetchData();
   },
   methods: {
     fetchData() {
-      // this.list = this.list.sort((a, b) => (a > b ? a : b));
-      // this.list = this.hot.sort((a, b) => (a.sale > b.sale ? a : b));
-      console.log(this.hot);
-      this.list = this.hot.slice(0,4)
+      this.$http({
+        url: "/dashboard",
+      }).then((res) => {
+        const data = res.data;
+        this.list = data.hot.slice(0,4).sort((a, b) => (a.sale > b.sale ? a : b))
+      });
     },
   },
 };

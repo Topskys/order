@@ -10,7 +10,8 @@ Page({
     data: {
         detail: {},
         current: 0,
-        comments:[],
+        comments: [],
+        temp: null,
     },
 
     /**
@@ -82,21 +83,37 @@ Page({
             let userInfo = wx.getStorageSync('userInfo')
             request({
                 url: "carts",
-                method:'post',
+                method: 'post',
                 data: {
                     phone,
                     roomId,
-                    userId:userInfo._id,
-                    nickName:userInfo.nickName,
-                    rentTime:wx.getStorageSync('rentTime') 
-                } 
-            }).then(res => {
+                    userId: userInfo._id,
+                    nickName: userInfo.nickName,
+                    rentTime: wx.getStorageSync('rentTime')
+                }
+            }).then(({
+                code,
+                msg,
+                data
+            }) => {
+                
                 wx.showToast({
-                    title: res.msg || '加入购物车成功',
+                    title: msg || '加入购物车成功',
+                })
+                this.setData({
+                    temp: code === 200 && data
                 })
             })
         })
     },
     // 立即购买的回调
-    handlePurchase() {},
+    handlePurchase() {
+        this.handleAdd()
+        console.log('iii',this.data.temp)
+        temp ? wx.navigateTo({
+            url: `/pages/pay?ids=${JSON.stringify([this.data.temp._id])}`,
+        }) : wx.showToast({
+            title: '请稍后重试',
+        })
+    },
 })

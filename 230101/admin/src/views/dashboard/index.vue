@@ -122,7 +122,7 @@ export default {
   computed: {
     ...mapGetters(["name"]),
   },
-  beforeMount() {
+  created() {
     this.getChartData();
   },
   methods: {

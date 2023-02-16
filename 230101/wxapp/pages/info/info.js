@@ -31,10 +31,11 @@ Page({
      */
     onShow() {
         CheckAuth(() => {})
+        let {gender}=wx.getStorageSync('userInfo')
         this.setData({
             userInfo: {
                 ...wx.getStorageSync('userInfo'),
-                gender: wx.getStorageSync('userInfo').gender === '1' ? '女' : '男'
+                gender: ['0','1'].includes(gender)?gender==='1'?'女':'男':gender,
             }
         })
     },
@@ -66,7 +67,7 @@ Page({
                     url: 'users',
                     method: 'put',
                     data: {
-                        ...this.data.userInfo
+                        ...this.data.userInfo,
                     }
                 }).then(({
                     code,

@@ -15,7 +15,7 @@ const update = async ctx => {
     let params = ctx.request.body;
     params = {
         ...params,
-        // gender: params.gender.includes('女') ? '1' : '0',
+        gender: ['0','1'].includes(params.gender)?params.gender==='1'?'女':'男':params.gender,
         updateTime: dtf(Date.now(), "YYYY-MM-DD hh:mm:ss")
     }
     await crud.update(ctx, Users, {_id: params._id}, params)
@@ -23,48 +23,11 @@ const update = async ctx => {
 
 
 /**
- * 查询所有用户，支持带条件查询
+ * 后台查询所有用户，支持带条件查询
  * @param ctx
  * @returns {Promise<void>}
  */
-const findAll = async ctx => {
-    let {page = 1, pageSize = 10, keyword = ''} = ctx.query;
-    let query = {phone: new RegExp(keyword)}
-
-    // 判断页码
-    !page || isNaN(Number(page)) ? (page = 1) : (page = Number(page))
-
-
-    // 计算总页数
-    let count = 0;
-    let totalPage = 0;
-    await Users.find(query).count().then(rel => (count = rel))
-    count > 0 && (totalPage = Math.ceil(count / pageSize))
-
-
-    // 判断当前页码的范围
-    if (totalPage > 0 && page > totalPage) {
-        page = totalPage
-    } else if (page < 1) {
-        page = 1
-    }
-
-    // 计算起始位置
-    let start = (page - 1) * pageSize
-
-    await Users.find(query).skip(start).limit(pageSize).then(rel => {
-        rel ? responseSelf(ctx, {
-            code: 200,
-            msg: 'success',
-            data: rel,
-            page,
-            pageSize,
-            total: count
-        }) : fail(ctx, rel)
-    }).catch(err => {
-        exception(ctx, err)
-    })
-}
+const findAll = async ctx => crud.findByPagination(ctx,Users,ctx.query,{phone: new RegExp(ctx.query.keyword)})
 
 
 /**
@@ -161,7 +124,7 @@ const verify = async ctx => {
  * @returns {Promise<void>}
  */
 const charge = async ctx => {
-    let [{_id, chargeValue}, q, price] = [ctx.request.body, null, ctx.request.body.chargeValue];
+    let [{_id, chargeValue}, q, price,dashboard] = [ctx.request.body, null, ctx.request.body.chargeValue,null];
     if (!_id || !chargeValue) return fail(ctx, null, 400, '未登录或充值金额为空');
     !isNaN(chargeValue) && (chargeValue = Number(chargeValue));
 
@@ -173,6 +136,12 @@ const charge = async ctx => {
     } else if (chargeValue >= 600) {
         chargeValue += 50
     }
+
+
+    // 更新数据面板日充值数据
+    await crud.findOne(ctx, Dashboard, undefined, rel => (dashboard = rel))
+
+    dashboard?crud.update():crud.add()
 
     // 查找用户并更新余额
     await crud.findOne(ctx, Users, {_id}, rel => (q = rel))

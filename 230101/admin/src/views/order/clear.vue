@@ -180,7 +180,7 @@ export default {
           show: true,
           align: "center",
           page: 1,
-          pageSize: 5,
+          pageSize: 10,
           total: 0,
         },
       },

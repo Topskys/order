@@ -94,18 +94,18 @@ export default {
               color:"#44e2f0"
             },
             // 设置面积区域为渐变效果
-            // areaStyle:{
-            //   color:echarts.graphic.LinearGradient(0,1,0,0,[
-            //     {
-            //       offset:0.4,
-            //       color:"#010c17"
-            //     },
-            //     {
-            //       offset:1,
-            //       color:"#44e2f0"
-            //     }
-            //   ])
-            // },
+            areaStyle:{
+              color:echarts.graphic.LinearGradient(0,1,0,0,[
+                {
+                  offset:0.4,
+                  color:"#010c17"
+                },
+                {
+                  offset:1,
+                  color:"#44e2f0"
+                }
+              ])
+            },
             data: valueList,
             // color: "#67c23a"
           },

@@ -16,7 +16,9 @@
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" @click="getPageList()">查询</el-button>
+          <el-button type="primary" icon="el-icon-search" @click="getPageList()"
+            >查询</el-button
+          >
         </el-form-item>
       </el-form>
 
@@ -27,10 +29,7 @@
         @sizeChange="sizeChange"
       >
         <template v-slot:operation="slot_data">
-          <el-button
-            @click="del(slot_data.data)"
-            type="danger"
-            size="mini"
+          <el-button @click="del(slot_data.data)" type="danger" size="mini"
             >删除</el-button
           >
         </template>
@@ -52,7 +51,6 @@ export default {
         page: 1,
         pageSize: 10,
       },
-
       // 列表配置
       t_config: {
         // 边框
@@ -60,12 +58,12 @@ export default {
         // 序号
         index: true,
         // 选择
-        checkbox:true,
+        checkbox: true,
         // 列表数据
         tableData: [],
         // 列
         columns: [
-            {
+          {
             type: "text",
             prop: "room_number",
             label: "房间号",

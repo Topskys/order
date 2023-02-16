@@ -1,6 +1,6 @@
 <template>
   <div class="room-add">
-    <el-card shadow="never" v-if="add">
+    <el-card shadow="never">
       <div slot="header">新增房间</div>
       <!-- xlsx导入数据 -->
       <e-table v-if="showTable" :config="t_config"></e-table>
@@ -12,38 +12,27 @@
         :buttons="f_buttons"
         :before-submit="submitForm"
       >
-      <template v-slot:upload>
-        <el-upload
+        <template v-slot:upload>
+          <el-upload
             action="http"
             list-type="picture-card"
             :on-remove="handleRemove"
             :file-list="imgList"
             :on-success="handleSuccess"
             :http-request="handlerUpload"
-            :multiple='false'
+            :multiple="false"
             :limit="1"
           >
             <i class="el-icon-plus"></i>
           </el-upload>
-      </template>
-      </e-form>
-    </el-card>
-    <el-card shadow="never" v-else>
-      <div slot="header">新增详情</div>
-      <e-form
-        :items="d_items"
-        :field="d_field"
-        :buttons="d_buttons"
-        :before-submit="submitForm"
-      >
+        </template>
       </e-form>
     </el-card>
   </div>
 </template>
 
 <script>
-import { getToken } from '@/utils/auth';
-
+import { getToken } from "@/utils/auth";
 
 export default {
   name: "room-add",
@@ -52,12 +41,10 @@ export default {
     "e-form": () => import("@/components/common/form/index.vue"),
   },
   data() {
-
     return {
-      add:true,
       showTable: false,
-      // 
-      imgList:[],
+      //
+      imgList: [],
       // table
       t_config: {
         // 边框
@@ -129,6 +116,17 @@ export default {
         ],
       },
       // form
+      f_field: {
+        title: "",
+        room_number: "",
+        price: "",
+        origin_price: "",
+        description: "",
+        poster: "",
+        feature: "",
+        slides: [],
+        explain: [],
+      },
       f_items: [
         {
           type: "input",
@@ -136,9 +134,15 @@ export default {
           label: "标题",
           placeholder: "请输入",
           required: true,
-          rules: [
-            { required: true,message: "必填", trigger: "blur" }
-          ],
+          rules: [{ required: true, message: "必填", trigger: "blur" }],
+        },
+        {
+          type: "input",
+          prop: "room_number",
+          label: "房间号",
+          placeholder: "请输入",
+          required: true,
+          rules: [{ required: true, message: "必填", trigger: "blur" }],
         },
         {
           type: "input",
@@ -146,9 +150,7 @@ export default {
           label: "价格",
           placeholder: "请输入",
           required: true,
-          rules: [
-            { required: true,message: "必填", trigger: "blur" }
-          ],
+          rules: [{ required: true, message: "必填", trigger: "blur" }],
         },
         {
           type: "input",
@@ -162,9 +164,7 @@ export default {
           label: "描述",
           placeholder: "请输入",
           required: true,
-          rules: [
-            { required: true,message: "必填", trigger: "blur" }
-          ],
+          rules: [{ required: true, message: "必填", trigger: "blur" }],
         },
         {
           type: "slot",
@@ -173,19 +173,6 @@ export default {
           label: "图片",
           required: true,
         },
-      ],
-      f_field: {
-        // title: "",
-        // price: "",
-        // origin_price: "",
-        // description: "",
-        // poster:"",
-      },
-      f_buttons: [
-        { label: "取消", key: "cancel", type: "danger" },
-        { label: "下一步", key: "next", type: "primary",cb:(data)=>(this.add=false) },
-      ],
-      d_items: [
         {
           type: "input",
           prop: "feature",
@@ -219,7 +206,7 @@ export default {
         },
         {
           type: "upload",
-          prop: "description1",
+          prop: "explain",
           label: "图片描述",
           model: "card",
           required: true,
@@ -242,19 +229,10 @@ export default {
           },
         },
       ],
-      d_field: {
-        slides: [], // 房间详情轮播图数据
-        feature: "", // 特色，文字描述
-        description: [], // 图片形式详细描述
-      },
-      d_buttons: [
-        {
-          label: "上一步",
-          key: "cancel",
-          type: "danger",
-          cb: (data) => (this.add=true),
-        },
-        { label: "确定", key: "confirm", type: "primary" },
+
+      f_buttons: [
+        { label: "取消", key: "cancel", type: "danger" },
+        { label: "提交", key: "confirm", type: "primary" },
       ],
     };
   },
@@ -262,17 +240,12 @@ export default {
     // 表单提交
     submitForm() {
       return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          // reject()
-          console.log("OK",this.f_field);
-        }, 200);
+        return this.$http({
+          url: "/rooms/add",
+          method: "POST",
+          data: this.f_field,
+        })
       });
-    },
-
-    handleClose() {
-      this.dialogVisible = false;
-      this.imgList = [];
-      this.f_field = {};
     },
     handleRemove(file, fileList) {
       // file删除的那张图，剩下的照片墙fileList
@@ -295,10 +268,9 @@ export default {
         method: "post",
         data: form,
       }).then(({ data }) => {
-        this.f_field.poster= data.url;
+        this.f_field.poster = data.url;
       });
     },
-
   },
 };
 </script>

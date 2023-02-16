@@ -28,11 +28,12 @@ const add = async ctx => {
     //     }
     // }
     // flag && console.log("YY")
+    console.log("YY",params)
 
     if (!params.content) return fail(ctx, undefined, 400, '评论内容不能为空');
     if (!params.roomId) return fail(ctx, undefined, 400, '稍后再试');
     if (!params.userId) return fail(ctx, undefined, 400, '稍后再试');
-    if (!params.room_number) return fail(ctx, undefined, 400, '稍后再试');
+    if (!params.room.room_number) return fail(ctx, undefined, 400, '稍后再试');
 
     let _id=params._id;
     params={
@@ -41,7 +42,7 @@ const add = async ctx => {
         userId:params.userId,
         nickName:params.nickName,
         roomId:params.roomId,
-        room_number:params.room_number,
+        room_number:params.room.room_number,
     }
 
     await crud.add(ctx, Comments, params,rel=>(flag=true))

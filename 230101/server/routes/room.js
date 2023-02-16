@@ -23,6 +23,10 @@ router.post('/add',room.add)
 router.delete('/del/:id',room.del)
 
 
+// 删除房间
+router.put('/:id',room.update)
+
+
 
 
 

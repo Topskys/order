@@ -2,7 +2,7 @@
 * 房间详情模型
 */
 const mongoose = require('mongoose');
-
+const dtf = require('../util/dateTimeFormat');
 
 
 const schema =new mongoose.Schema({
@@ -18,11 +18,7 @@ const schema =new mongoose.Schema({
         type:String,
         default: ''
     },
-    description: {
-        type: Array,
-        default: []
-    },
-    comments:{
+    explain: {
         type: Array,
         default: []
     },
@@ -32,17 +28,17 @@ const schema =new mongoose.Schema({
     },
     createTime: {
         type: String,
-        default: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
+        default:  dtf(Date.now(),"YYYY-MM-DD hh:mm:ss")
     },
     updateTime: {
         type: String,
-        default: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
+        default: dtf(Date.now(),"YYYY-MM-DD hh:mm:ss")
     },
 })
 
 
 
-const Detail = mongoose.model('rooms_details', schema)
+const Detail = mongoose.model('detail', schema)
 
 
 

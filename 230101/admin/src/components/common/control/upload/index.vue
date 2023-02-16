@@ -115,7 +115,7 @@ export default {
      * 上传之前
      */
     beforeUpload(file) {
-      console.log("beforeUpload", file);
+      // console.log("beforeUpload", file);
       // const isJPG = file.type === 'image/jpeg';
       const isLt2M = file.size / 1024 / 1024 < this.config.max_size;
 

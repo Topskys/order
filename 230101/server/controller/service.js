@@ -10,7 +10,7 @@ const dtf = require('../util/dateTimeFormat');
 const clear=async ctx =>{
     let [params,update]=[ctx.request.body,null];
 
-    if(!params.room_number||!params.userId) return fail(ctx,null,400,'请联系客服或先入住登记')
+    if(!params.room_number||!params.userId) return fail(ctx,null,400,'请联系客服')
 
     await crud.findOne(ctx,Services,{userId:params.userId},rel=>(update=rel))
 

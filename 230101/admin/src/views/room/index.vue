@@ -20,23 +20,14 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button
-            type="primary"
-            icon="el-icon-plus"
-            @click="dialog = !dialog"
-            >新增</el-button
-          >
+          <router-link :to="{ path: '/room/add' }">
+            <el-button type="primary" icon="el-icon-plus">新增</el-button>
+          </router-link>
         </el-form-item>
-        <el-form-item>
-          <el-button
-            type="primary"
-            icon="el-icon-document"
-            @click="dialog = !dialog"
-            >导入</el-button
-          >
-        </el-form-item>
+        <!-- <el-form-item>
+          <el-button type="primary" icon="el-icon-document">导入</el-button>
+        </el-form-item> -->
       </el-form>
-
       <!-- 表格 -->
       <e-table
         :config="t_config"
@@ -65,6 +56,8 @@
         </template>
       </e-table>
     </el-card>
+    <!-- 编辑表单 -->
+    <edit :config="config" @submit="getPageList"></edit>
     <!-- dialog表单 -->
     <el-dialog
       :title="`房间详情-${f_field.title}`"
@@ -72,13 +65,6 @@
       append-to-body
       width="50%"
     >
-      <e-form
-        :items="f_items"
-        :field="f_field"
-        :buttons="f_buttons"
-        :before-submit="submitForm"
-      >
-      </e-form>
       <e-form
         :items="f_items"
         :field="f_field"
@@ -97,6 +83,7 @@ export default {
   components: {
     "e-table": () => import("@/components/common/table/index.vue"),
     "e-form": () => import("@/components/common/form/index.vue"),
+    "edit": () => import("./edit.vue"),
   },
   data() {
     return {
@@ -105,7 +92,6 @@ export default {
         page: 1,
         pageSize: 10,
       },
-      dialog: false,
       selections: [
         {
           label: "全部",
@@ -228,7 +214,7 @@ export default {
           show: true,
           align: "center",
           page: 1,
-          pageSize: 5,
+          pageSize: 10,
           total: 0,
         },
       },
@@ -269,7 +255,7 @@ export default {
         },
         {
           type: "upload",
-          prop: "description",
+          prop: "explain",
           label: "图片描述",
           model: "card",
           required: true,
@@ -298,7 +284,7 @@ export default {
           // "https://img0.baidu.com/it/u=2422979282,750047281&fm=253&fmt=auto&app=138&f=JPEG?w=1014&h=500"
         ], // 房间详情轮播图数据
         feature: "", // 特色，文字描述
-        description: [], // 图片形式详细描述
+        explain: [], // 图片形式详细描述
       },
       f_buttons: [
         {
@@ -311,6 +297,11 @@ export default {
         },
         { label: "确定", key: "confirm", type: "primary" },
       ],
+      // 编辑表单配置
+      config: {
+        dialogVisible: false,
+        room: {},
+      },
     };
   },
   mounted() {
@@ -343,7 +334,12 @@ export default {
       // this.getPageList();
     },
     // 表格编辑按钮时间回调
-    edit(data) {},
+    edit(data) {
+      this.config = {
+        dialogVisible: true,
+        room:{...data},
+      };
+    },
     /**
      * 表格详情按钮
      */
@@ -393,12 +389,13 @@ export default {
         data: {
           ...this.f_field,
         },
-      }).then(({ code, msg}) => {
-        this.$message({
-          type: code === 200 ? "success" : "error",
-          message: msg,
-        });
       });
+      // .then(({ code, msg}) => {
+      //   this.$message({
+      //     type: code === 200 ? "success" : "error",
+      //     message: msg,
+      //   });
+      // });
     },
   },
   watch: {

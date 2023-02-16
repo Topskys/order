@@ -16,13 +16,12 @@
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="getPageList()">查询</el-button>
+          <el-button icon="el-icon-search" type="primary" @click="getPageList()">查询</el-button>
         </el-form-item>
-        <el-form-item>
+        <!-- <el-form-item>
           <el-button
             type="primary"
             icon="el-icon-plus"
-            @click="dialog = !dialog"
             >新增</el-button
           >
         </el-form-item>
@@ -30,10 +29,9 @@
           <el-button
             type="primary"
             icon="el-icon-printer"
-            @click="dialog = !dialog"
             >打印</el-button
           >
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
 
       <!-- 表格 -->
@@ -47,14 +45,14 @@
             @click="operation(slot_data.data, '2')"
             type="text"
             style="color: #409eff"
-            :disabled="Number(slot_data.data.status) < 2"
+            :disabled="Number(slot_data.data.status) !== 1"
             >入住</el-button
           >
           <el-button
             @click="operation(slot_data.data, '3')"
             type="text"
             style="color: #e6a23c"
-            :disabled="Number(slot_data.data.status) < 2"
+            :disabled="Number(slot_data.data.status) !==2"
             >退房</el-button
           >
           <el-button
@@ -81,7 +79,7 @@ export default {
       form: {
         keyword: "",
         page: 1,
-        pageSize: 5,
+        pageSize: 10,
       },
 
       // 列表配置
@@ -140,9 +138,9 @@ export default {
           },
           {
             type: "function",
-            prop: "origin_price",
+            prop: "room.price",
             label: "价格",
-            cb: (data) => `￥${Number(data.room.origin_price).toFixed(2)}`,
+            cb: (data) => `￥${Number(data.room.price).toFixed(2)}`,
           },
           {
             type: "function",
@@ -214,7 +212,7 @@ export default {
           show: true,
           align: "center",
           page: 1,
-          pageSize: 5,
+          pageSize:10,
           total: 0,
         },
       },
