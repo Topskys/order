@@ -98,7 +98,10 @@ export default {
         theme: "Light",
         key: {
           use: true,
-          keys: Array(10).fill("Alt + F"),
+          keys: [
+            "Alt + F",
+            "Alt + T"
+          ]
         },
       },
     };

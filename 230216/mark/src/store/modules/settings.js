@@ -1,11 +1,18 @@
+/*
+ * @Author: Topskys
+ * @Date: 2023-02-24 00:23:36
+ * @LastEditTime: 2023-03-01 19:56:48
+ */
 // import defaultSettings from '@/settings'
 
-const { showSettings, fixedHeader, sidebarLogo } = null//defaultSettings
+// const { showSettings, fixedHeader, sidebarLogo } = null//defaultSettings
 
 const state = {
-  showSettings: showSettings,
-  fixedHeader: fixedHeader,
-  sidebarLogo: sidebarLogo
+  // showSettings: showSettings,
+  // fixedHeader: fixedHeader,
+  // sidebarLogo: sidebarLogo,
+  
+  asideFold:true,
 }
 
 const mutations = {

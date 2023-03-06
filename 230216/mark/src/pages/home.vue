@@ -1,9 +1,7 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-16 22:28:45
- * @LastEditTime: 2023-02-27 12:38:13
- * @LastEditors: Please set LastEditors
- * @Description: 
+ * @LastEditTime: 2023-03-02 11:26:05
 -->
 <template>
   <div class="container">
@@ -96,10 +94,12 @@ export default {
 <style lang="scss" scoped>
 .container {
   display: flex;
+  overflow: hidden;
   .v-note-wrapper {
     flex: 1;
     box-shadow: none !important;
-    min-height: 100vh;
+    height: 100vh;
+    // overflow: hidden;
     // &.shadow {
     //   border: 1px solid #f2f6fc ;
     // }

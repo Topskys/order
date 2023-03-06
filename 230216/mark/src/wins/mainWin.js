@@ -1,15 +1,7 @@
 /*
  * @Author: Topskys
  * @Date: 2023-02-17 21:47:41
- * @LastEditTime: 2023-02-25 12:36:50
- * @LastEditors: Topskys
- * @Description: 
- */
-/*
- * @Author: Topskys
- * @Date: 2023-02-17 21:47:41
- * @LastEditTime: 2023-02-24 00:02:14
- * @LastEditors: Topskys
+ * @LastEditTime: 2023-03-01 19:29:43
  * @Description: 主窗口
  */
 import { BrowserWindow, app, ipcMain, dialog, Notification } from 'electron';
@@ -71,6 +63,7 @@ class MainWin extends events {
         this.windowInstance.once('show', () => {
             this.emit('show')
         })
+
 
         // 当frame为false时，需监听最大、最小、关闭按钮
         this.listenIpc()

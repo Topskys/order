@@ -1,11 +1,10 @@
 const { app, Menu, dialog,shell } = require('electron');
-// import {keyEvent} from '../utils'
-const ke={
-    type:'keyUp',
-    keyCode:'13'
-}
+const { openFile, openFileFolder } = require("./file");
+
+
 
 const isMac = process.platform === 'darwin'
+
 
 
 const menu = (win) => {
@@ -17,21 +16,17 @@ const menu = (win) => {
                 {
                     label: '新建',
                     accelerator: 'Ctrl+N',
-                    click: () => win.webContents.sendInputEvent(ke)
+                    // click: () => win.webContents.sendInputEvent(ke)
                 },
                 {
-                    label: '打开',
+                    label: '打开文件',
                     accelerator: 'Ctrl+Shift+O',
-                    click: () => {
-                        dialog.showOpenDialog(win, {
-                            properties: ['openFile',],
-                            filters: [{ name: 'All Files', extensions: ['*'] }]
-                        }).then(result => {
-                            win.webContents.send("open",result)
-                        }).catch(err => {
-                            dialog.showErrorBox('Error', err)
-                        })
-                    }
+                    click: async () => win.webContents.send("open", await openFile(win))
+                },
+                {
+                    label: '打开文件夹',
+                    accelerator: 'Ctrl+K+O',
+                    click: async () => win.webContents.send("open", await openFileFolder(win))
                 },
                 {
                     label: '保存',

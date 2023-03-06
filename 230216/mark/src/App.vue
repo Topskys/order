@@ -1,7 +1,7 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-16 22:28:45
- * @LastEditTime: 2023-02-25 23:19:09
+ * @LastEditTime: 2023-03-01 20:28:46
  * @LastEditors: Please set LastEditors
  * @Description: 
 -->
@@ -71,12 +71,7 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
+  overflow: hidden;
 }
 
 .v-enter-active,
@@ -87,91 +82,5 @@ body {
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-  background-color: rgba(0, 0, 0, 0);
-}
-
-::-webkit-scrollbar-track {
-  border-radius: 8px;
-  background-color: rgba(0, 0, 0, 0);
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: 8px;
-  background-color: #ddd;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  // background-color: #c7c7c7;
-  background-color: #aaa;
-}
-
-a,
-article,
-aside,
-audio,
-blockquote,
-body,
-canvas,
-caption,
-cite,
-dd,
-details,
-div,
-dl,
-dt,
-embed,
-fieldset,
-figcaption,
-figure,
-footer,
-form,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-header,
-hgroup,
-html,
-iframe,
-img,
-label,
-legend,
-li,
-mark,
-menu,
-nav,
-object,
-ol,
-output,
-p,
-ruby,
-section,
-span,
-sub,
-summary,
-sup,
-table,
-tbody,
-td,
-tfoot,
-th,
-thead,
-time,
-tr,
-ul,
-video {
-  border: 0;
-  font: inherit;
-//   margin: 0;
-//   padding: 0;
-//   font-weight: 400;
-//   vertical-align: baseline;
 }
 </style>
