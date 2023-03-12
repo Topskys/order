@@ -1,8 +1,8 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-23 18:23:32
- * @LastEditTime: 2023-02-24 23:33:46
- * @LastEditors: Topskys
+ * @LastEditTime: 2023-03-12 21:10:18
+ * @LastEditors: Please set LastEditors
  * @Description: 
 -->
 <template>
@@ -73,12 +73,13 @@
               showPassword
             ></el-input>
           </el-form-item>
-          <el-form-item label="Repeat password" prop="rePassword">
-            <el-input
-              v-model="register.rePassword"
-              type="Password"
-              showPassword
-            ></el-input>
+          <el-form-item label="Verification" prop="code">
+            <div class="form-code">
+              <el-input v-model="register.code"></el-input>
+              <el-button type="primary" class="verify-btn" @click="getCode"
+                >Code</el-button
+              >
+            </div>
           </el-form-item>
           <el-button type="primary" class="submit" @click="create"
             >Create account</el-button
@@ -95,46 +96,13 @@
           >
         </div>
       </div>
-      <!-- verify email -->
-      <div
-        class="verify"
-        v-show="tab === 3"
-        :class="tab === 3 ? 'slide-left' : ''"
-      >
-        <h1>Verify your email</h1>
-        <p class="description">
-          Please enter the verification code, which has been sent to your email.
-        </p>
-        <el-form
-          ref="verification"
-          :model="verification"
-          :rules="rules3"
-          :hide-required-asterisk="true"
-          label-width="80px"
-          label-position="top"
-        >
-          <el-form-item label="Verification Code" prop="code">
-            <el-input
-              v-model="verification.code"
-              placeholder="enter the code"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button style="width: 100%" @click="getCode"
-              >Repeat Request Code</el-button
-            >
-          </el-form-item>
-          <el-button type="primary" class="submit" @click="verify"
-            >Send Code</el-button
-          >
-        </el-form>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
 const { ipcRenderer } = window.require("electron");
+import { debounce } from "../utils";
 
 export default {
   name: "Sign",
@@ -150,11 +118,8 @@ export default {
         password: "",
       },
       register: {
-        email: "",
-        password: "",
-        rePassword: "",
-      },
-      verification: {
+        email: "3122562904@qq.com",
+        password: "12345678",
         code: "",
       },
       tab: 1, // 控制登录、注册、验证的显隐
@@ -171,11 +136,6 @@ export default {
         password: [
           { required: true, trigger: "blur", validator: validatePassword },
         ],
-        rePassword: [
-          { required: true, trigger: "blur", validator: validatePassword },
-        ],
-      },
-      rules3: {
         code: [{ required: true, trigger: "blur" }],
       },
     };
@@ -204,67 +164,45 @@ export default {
     },
     // 注册
     create() {
-      this.$notice({
-        body: "Hello World",
+      this.$refs.register.validate((v) => {
+        if (v) {
+          this.$http({
+            url: "/users/register",
+            method: "post",
+            data: {
+              ...this.register,
+            },
+          })
+            .then(({ code, msg }) => {
+              this.$message({
+                type: code === 200 ? "success" : "error",
+                message: msg,
+              });
+            })
+            .catch((err) => {
+              this.$message({
+                type: code === 200 ? "success" : "error",
+                message: err || '注册时出现异常',
+              });
+            });
+        }
       });
-    },
-    // 验证
-    verify() {
-      this.$http({
-        method: "post",
-        data: {
-          ...this.register,
-          ...this.verification,
-        },
-      })
-        .then(({ code, msg }) => {
-          ipcRenderer.send("notice", {
-            title: code === 200 ? "Success" : "Error",
-            body: msg,
-          });
-        })
-        .catch((err) => {
-          ipcRenderer.send("notice", {
-            title: "Exception",
-            body: "获取验证号码异常",
-          });
-        });
     },
     // 获取验证码
     getCode() {
       this.$http({
+        url: "/users/code",
         method: "post",
         data: {
-          ...this.register,
+          email: this.register.email,
         },
-      })
-        .then(({ code, msg }) => {
-          ipcRenderer.send("notice", {
-            title: code === 200 ? undefined : "Error",
-            body: msg,
+      }).then(({ code, msg }) => {
+          this.$message({
+            type: code === 200 ? "success" : "error",
+            message: msg,
           });
         })
-        .catch((err) => {
-          ipcRenderer.send("notice", {
-            title: "Exception",
-            body: "获取验证码异常",
-          });
-        });
     },
-
-    // 控制盒子切换与隐藏
-    // changeHandler(ele) {
-    //   let doms = ["sign-up", "sign-in", "verify"];
-    //   doms.forEach((o) => {
-    //     let dom = document.querySelector(`.${ele}`);
-    //     dom.style.block = "none";
-    //     dom.classList.remove("slide-left");
-    //     if (ele === o) {
-    //       dom.style.display = "block";
-    //       dom.classList.add("slide-left");
-    //     }
-    //   });
-    // },
   },
   watch: {
     // 监听路由重定向
@@ -303,6 +241,21 @@ export default {
       // left: 50%;
       // transform: translate(-50%, -50%);
     }
+
+    .sign-up {
+      .form-code {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .verify-btn {
+          padding: 12px 20px;
+          height: 100%;
+          margin-left: 20px;
+          background: $bg-3;
+        }
+      }
+    }
+
     .tips {
       color: #606266;
       font-size: 14px;
@@ -338,18 +291,30 @@ export default {
   .description {
     color: #706d6b;
     font-size: 14px;
+    padding: 10px 0;
   }
   .submit {
     width: 100%;
     background-color: #335eea;
-    color: white;
-    font-size: 16px;
-    margin-top: 20px;
+    font-size: 1rem;
+    padding: 12px 20px;
+    margin-top: 50px;
+    overflow: hidden;
   }
 }
 
 ::v-deep .el-input__inner:focus {
   border-color: #335eea;
+}
+
+::v-deep .el-button {
+  span {
+    color: white !important;
+  }
+}
+
+::v-deep .el-form--label-top .el-form-item__label {
+  padding: 0;
 }
 
 // 样式方式隐藏必填小星星
@@ -360,6 +325,4 @@ export default {
 //   width: 0px;
 //   margin-right: 0px;
 // }
-
-
 </style>

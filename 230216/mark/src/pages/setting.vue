@@ -1,12 +1,10 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-17 17:44:34
- * @LastEditTime: 2023-02-27 12:25:21
- * @LastEditors: Please set LastEditors
- * @Description: 
+ * @LastEditTime: 2023-03-12 20:19:30
 -->
 <template>
-  <div class="container">
+  <div class="setting">
     <div class="setting slide-left">
       <div class="setting-item">
         <div class="title">自动保存</div>
@@ -15,52 +13,78 @@
           active-color="#335eea"
         ></el-switch>
       </div>
-
+      <div class="setting-item">
+        <div class="title">编辑区语言</div>
+        <div class="right">
+          <el-select v-model="setting.lang" size="small">
+            <el-option :value="lan" v-for="(lan, i) in langs" :key="i">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
       <div class="setting-item">
         <div class="title">上传至云端</div>
         <div class="right">
           <el-select v-model="setting.upload" size="small">
-            <el-option label="是" value="是"> </el-option>
-            <el-option label="否" value="否"> </el-option>
-            <!-- <el-option label="是" :value="`是:${true}`"> </el-option>
-            <el-option label="否"  :value="`否:${false}`"> </el-option> -->
+            <el-option :value="true"> </el-option>
+            <el-option :value="false"> </el-option>
           </el-select>
         </div>
       </div>
-
       <div class="setting-item">
-        <div class="title">自动保存</div>
+        <div class="title">自动上传</div>
         <el-switch
-          v-model="setting.autoSave"
+          v-model="setting.autoUpload"
           active-color="#335eea"
         ></el-switch>
       </div>
-
-      <div class="setting-item">
-        <div class="title">主题</div>
-        <div class="right">
-          <el-select v-model="setting.theme" size="small">
-            <el-option value="Light"> </el-option>
-            <el-option value="Dark"> </el-option>
-          </el-select>
+      <div class="keys">
+        <p>个性化</p>
+        <div class="setting-item">
+          <div class="title">字体大小</div>
+          <div>
+            <el-input
+              type="number"
+              v-model="setting.fs"
+              placeholder="请输入"
+              size="small"
+              maxlength="3"
+            ></el-input>
+          </div>
+        </div>
+        <div class="setting-item">
+          <div class="title">代码高亮</div>
+          <div class="right">
+            <el-select v-model="setting.ishljs" size="small">
+              <el-option :value="true"> </el-option>
+              <el-option :value="false"> </el-option>
+            </el-select>
+          </div>
+        </div>
+        <div class="setting-item">
+          <div class="title">主题</div>
+          <div class="right">
+            <el-select v-model="setting.theme" size="small">
+              <el-option value="Light"> </el-option>
+              <el-option value="Dark"> </el-option>
+            </el-select>
+          </div>
         </div>
       </div>
-
       <div class="keys">
         <p>快捷键</p>
-        <div class="setting-item" style="padding-bottom: 30px">
+        <div class="setting-item">
           <div class="title">启用全局快捷键</div>
           <el-switch
-            v-model="setting.key.use"
+            v-model="setting.globKey"
             active-color="#335eea"
           ></el-switch>
         </div>
-        <!-- <div class="key-title"><span>功能</span><span>快捷键</span></div> -->
         <div class="setting-item">
           <div class="title">展开编辑工具栏</div>
           <div>
             <el-input
-              v-model="setting.key.keys[0]"
+              v-model="setting.toolBarKey"
               placeholder="请输入"
               size="small"
               maxlength="8"
@@ -71,12 +95,19 @@
           <div class="title">展开侧边栏</div>
           <div>
             <el-input
-              v-model="setting.key.keys[1]"
+              v-model="setting.collapsedKey"
               placeholder="请输入"
               size="small"
               maxlength="8"
             ></el-input>
           </div>
+        </div>
+      </div>
+      <div class="keys">
+        <p>安全模式</p>
+        <div class="setting-item">
+          <div class="title">过滤html</div>
+          <el-switch v-model="setting.html" active-color="#335eea"></el-switch>
         </div>
       </div>
       <center style="margin: 50px">
@@ -88,6 +119,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "Setting",
   data() {
@@ -95,25 +128,113 @@ export default {
       setting: {
         autoSave: true,
         upload: "是",
+        autoUpload: true,
         theme: "Light",
-        key: {
-          use: true,
-          keys: [
-            "Alt + F",
-            "Alt + T"
-          ]
-        },
+        globKey: true,
+        collapsedKey: "Ctrl + F",
+        toolBarKey: "Ctrl + T",
+        ishljs: false,
+        lang: "zh-CN",
+        html: false,
+        fs: 14,
       },
+      langs: ["zh-CN", "zh-TW", "en", "fr", "pt-BR", "ru", "de", "ja"],
     };
   },
-  mounted() {
-    // 使用RSA对数据进行加密
+  computed: {
+    ...mapState("app", [
+      "autoSave",
+      "upload",
+      "autoUpload",
+      "theme",
+      "globKey",
+      "collapsedKey",
+      "toolBarKey",
+      "ishljs",
+      "lang",
+      "html",
+      "fs",
+    ]),
+  },
+  watch: {
+    setting: {
+      handler(nv) {
+        nv && this.$store.dispatch("app/toggleSetting", this.setting);
+      },
+      deep: true,
+    },
+    autoSave: {
+      handler(nv) {
+        this.setting.autoSave = nv;
+      },
+      immediate: true,
+    },
+    upload: {
+      handler(nv) {
+        this.setting.upload = nv;
+      },
+      immediate: true,
+    },
+    autoUpload: {
+      handler(nv) {
+        this.setting.autoUpload = nv;
+      },
+      immediate: true,
+    },
+    theme: {
+      handler(nv) {
+        this.setting.theme = nv;
+      },
+      immediate: true,
+    },
+    globKey: {
+      handler(nv) {
+        this.setting.globKey = nv;
+      },
+      immediate: true,
+    },
+    collapsedKey: {
+      handler(nv) {
+        this.setting.collapsedKey = nv;
+      },
+      immediate: true,
+    },
+    toolBarKey: {
+      handler(nv) {
+        this.setting.toolBarKey = nv;
+      },
+      immediate: true,
+    },
+    lang: {
+      handler(nv) {
+        this.setting.lang = nv;
+      },
+      immediate: true,
+    },
+    fs: {
+      handler(nv) {
+        this.setting.fs = nv;
+      },
+      immediate: true,
+    },
+    ishljs: {
+      handler(nv) {
+        this.setting.ishljs = nv;
+      },
+      immediate: true,
+    },
+    html: {
+      handler(nv) {
+        this.setting.html = nv;
+      },
+      immediate: true,
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.container {
+.setting {
   max-width: 700px;
   margin: 0 auto;
 

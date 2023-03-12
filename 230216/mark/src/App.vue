@@ -1,13 +1,10 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-16 22:28:45
- * @LastEditTime: 2023-03-01 20:28:46
- * @LastEditors: Please set LastEditors
- * @Description: 
+ * @LastEditTime: 2023-03-10 19:03:24
 -->
 <template>
   <div id="app">
-    <!-- name="fade-transform"  -->
     <transition mode="out-in">
       <router-view :key="key" />
     </transition>
@@ -16,6 +13,8 @@
 
 <script>
 const { ipcRenderer } = window.require("electron");
+import { createFile } from "./renderer/createFile.js";
+import File from "./renderer/file.js";
 
 export default {
   name: "App",
@@ -34,6 +33,8 @@ export default {
         this.$route.path.split("/")[1] !== data &&
         (data === "back" ? this.$router.back() : this.$router.push(`/${data}`))
     );
+
+    ipcRenderer.on("new",(e, data) => data.filePath && new File().createFile(data.filePath));
   },
   methods: {
     // 检查应用更新

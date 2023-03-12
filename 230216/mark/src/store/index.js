@@ -1,26 +1,30 @@
 /*
  * @Author: Topskys
  * @Date: 2023-02-16 22:28:45
- * @LastEditTime: 2023-03-01 19:56:27
- * @LastEditors: Please set LastEditors
- * @Description: 
+ * @LastEditTime: 2023-03-10 23:03:10
  */
 import Vue from 'vue'
 import Vuex from 'vuex'
+
 import getters from './getters'
-// import app from './modules/app'
-import settings from './modules/settings'
+import app from './modules/app'
 import user from './modules/user'
+import file from './modules/file'
+
+
 
 Vue.use(Vuex)
+
+
 
 const store = new Vuex.Store({
   modules: {
     app,
-    settings,
-    user
+    user,
+    file,
   },
   getters
 })
+
 
 export default store

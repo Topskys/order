@@ -1,48 +1,76 @@
-import Cookies from 'js-cookie'
+/*
+ * @Author: Topskys
+ * @Date: 2023-02-24 00:23:36
+ * @LastEditTime: 2023-03-12 20:59:00
+ */
+import { setStorage, getStorage, delStorage } from '../../utils'
 
-const state = {
-  sidebar: {
-    opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
-    withoutAnimation: false
-  },
-  device: 'desktop'
-}
-
-const mutations = {
-  TOGGLE_SIDEBAR: state => {
-    state.sidebar.opened = !state.sidebar.opened
-    state.sidebar.withoutAnimation = false
-    if (state.sidebar.opened) {
-      Cookies.set('sidebarStatus', 1)
-    } else {
-      Cookies.set('sidebarStatus', 0)
-    }
-  },
-  CLOSE_SIDEBAR: (state, withoutAnimation) => {
-    Cookies.set('sidebarStatus', 0)
-    state.sidebar.opened = false
-    state.sidebar.withoutAnimation = withoutAnimation
-  },
-  TOGGLE_DEVICE: (state, device) => {
-    state.device = device
-  }
-}
-
-const actions = {
-  toggleSideBar({ commit }) {
-    commit('TOGGLE_SIDEBAR')
-  },
-  closeSideBar({ commit }, { withoutAnimation }) {
-    commit('CLOSE_SIDEBAR', withoutAnimation)
-  },
-  toggleDevice({ commit }, device) {
-    commit('TOGGLE_DEVICE', device)
-  }
-}
 
 export default {
-  namespaced: true,
-  state,
-  mutations,
-  actions
+    namespaced: true,
+
+    state: {
+        theme: "Light", // 主题
+        isCollapsed: false, // 侧边栏
+        toolbar: false, // 主要编辑区顶部工具栏
+        autoSave: true, // 自动保存
+        autoUpload: false, // 自动上传
+        upload: false, // 上传
+        globKey: true, // 全局快捷键
+        collapsedKey: "Ctrl + P", // 侧边栏快捷键
+        toolBarKey: "Ctrl + T", // 顶部工具栏快捷键
+
+        subfield: false, // 单双列
+        ishljs: true, // 代码高亮
+        lang: "zh-CN", // 编辑区语言
+        html: true, // 启用html模式
+        fs: 14, // 编辑区字体大小
+    },
+    mutations: {
+
+        TOGGLE_COLLAPSED: state => {
+            state.isCollapsed = !state.isCollapsed;
+            setStorage("app", state)
+        },
+        TOGGLE_TOOLBAR: state => {
+            state.toolbar = !state.toolbar;
+            setStorage("app", state)
+        },
+        TOGGLE_SUBFIELD: state => {
+            state.subfield = !state.subfield;
+            setStorage("app", state)
+        },
+        TOGGLE_SETTING: (state, payload) => {
+            // state.autoSave = payload.autoSave
+            // state.upload = payload.upload
+            // state.autoUpload = payload.autoUpload
+            // state.globKey = payload.globKey
+            // state.collapsedKey = payload.collapsedKey
+            // state.toolBarKey = payload.toolBarKey
+            // state.theme = payload.theme
+            state = { ...state, ...payload }
+            setStorage("app", state)
+        },
+
+    },
+    actions: {
+        toggleCollapsed({ commit }) {
+            commit('TOGGLE_COLLAPSED')
+        },
+        toggleToolbar({ commit }) {
+            commit('TOGGLE_TOOLBAR')
+        },
+        toggleSetting({ commit }, payload) {
+            commit('TOGGLE_SETTING', payload)
+        }, 
+        toggleSubfield({ commit }) {
+            commit('TOGGLE_SUBFIELD' )
+        }, 
+        // 获取本地设置
+        getApp({ commit }) {
+            const payload = getStorage('app')
+            if (JSON.stringify(payload) === "{}") return
+            commit("TOGGLE_SETTING", payload)
+        },
+    }
 }

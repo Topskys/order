@@ -1,17 +1,22 @@
 const router = require('koa-router')()
-const user  =require("../controller/user")
+const User  =require("../controller/user")
+
+
+const {login,register,getCode,getAll}= new User()
 
 router.prefix('/users')
 
 
 
-router.post('/login', user.login)
 
 
-router.post('/register', user.register)
+router.post('/login', login)
 
 
-router.get('/', user.getAll)
+router.post('/register', register)
+
+
+router.post('/code', getCode)
 
 
 

@@ -1,7 +1,7 @@
 /*
  * @Author: Topskys
  * @Date: 2023-02-17 21:47:41
- * @LastEditTime: 2023-03-01 19:29:43
+ * @LastEditTime: 2023-03-10 16:13:16
  * @Description: 主窗口
  */
 import { BrowserWindow, app, ipcMain, dialog, Notification } from 'electron';
@@ -79,11 +79,30 @@ class MainWin extends events {
 
     listenIpc() {
 
+
+        // 新建文件
+        ipcMain.on("new", async (e, data) => {
+            const win = this.windowInstance
+            try {
+                const { canceled, filePath } = await dialog.showSaveDialog(win, { title: '新建' });
+                !canceled && filePath && win.webContents.send('new', { canceled, filePath });
+            } catch (error) {
+                notice({ title: 'Error', body: error })
+            }
+        });
+
+
+
         // 保存文件
         ipcMain.on("save", (event, data) => dialog.showMessageBox({ title: data.title || "提示", message: data.content }));
 
+
+
         // 错误提示框
         ipcMain.on("error", (e, data) => dialog.showErrorBox({ title: data.title || 'Error', content: data.content }));
+
+
+
 
         ipcMain.on("dialog-message", function (e, data) {
             dialog.showMessageBox(data).then(result => {
@@ -98,6 +117,9 @@ class MainWin extends events {
 
         // 通知
         ipcMain.on("notice", (e, data) => notice(data));
+
+
+
 
 
 

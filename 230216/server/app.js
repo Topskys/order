@@ -6,23 +6,52 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
+
+const MongoConnect =require("./db")
+const cors = require('koa-cors')
+const jwt = require('koa-jwt')
+
+
 const index = require('./routes/index')
 const user = require('./routes/user')
 
+
+
+
+// 启动数据库连接
+MongoConnect()
+
+
+
+
 // error handler
 onerror(app)
+
+
+
 
 // middlewares
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
 }))
+
 app.use(json())
+
 app.use(logger())
+
+// 访问静态文件路径
 app.use(require('koa-static')(__dirname + '/public'))
 
 app.use(views(__dirname + '/views', {
   extension: 'pug'
 }))
+
+// 允许跨域请求
+app.use(cors())
+
+
+
+
 
 // logger
 app.use(async (ctx, next) => {
@@ -32,13 +61,23 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 
+
+
+
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(user.routes(), user.allowedMethods())
+
+
+
+
 
 // error-handling
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
 });
+
+
+
 
 module.exports = app

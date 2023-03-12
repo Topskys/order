@@ -1,8 +1,8 @@
 /*
  * @Author: Topskys
  * @Date: 2023-02-16 22:28:45
- * @LastEditTime: 2023-02-25 21:50:36
- * @LastEditors: Topskys
+ * @LastEditTime: 2023-03-11 14:22:30
+ * @LastEditors: Please set LastEditors
  * @Description: 
  */
 import Vue from 'vue'
@@ -22,7 +22,8 @@ import http from '@/utils/http'
 import notice from '@/renderer/notice'
 
 
-
+store.dispatch("file/getFiles")
+store.dispatch("app/getApp")
 
 
 

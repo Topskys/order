@@ -1,8 +1,8 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-16 22:28:55
- * @LastEditTime: 2023-02-25 22:22:29
- * @LastEditors: Topskys
+ * @LastEditTime: 2023-03-12 21:08:28
+ * @LastEditors: Please set LastEditors
  * @Description: 
 -->
 # 230216 Mark
@@ -89,6 +89,17 @@ css: {
     }
   },
 ```
+
+
+> 2023年3月10日15:46:34
+程序主页底部增加侧边栏和顶部工具栏显示与隐藏的控件。
+自动化引入页面文件，生成路由数组。
+实现文件内容追加。
+
+
+> 2023年3月12日21:07:33
+完善设置界面及其功能。左下角新增状态信息。
+
 
 
 

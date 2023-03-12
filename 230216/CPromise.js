@@ -40,7 +40,7 @@ class MyPromise {
      * 创建一个Promise
      * @param {Function} executor 任务执行器，立即执行
      */
-    constructor(executor) {
+    constructor(executor) {  
         this._state = PENDING; // state
         this._value = undefined; // data
         this._handlers = []; // 处理函数形成的队列

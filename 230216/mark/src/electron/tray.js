@@ -1,8 +1,8 @@
 /*
  * @Author: Topskys
  * @Date: 2023-02-17 17:45:50
- * @LastEditTime: 2023-02-18 13:53:40
- * @LastEditors: Topskys
+ * @LastEditTime: 2023-03-09 23:36:51
+ * @LastEditors: Please set LastEditors
  * @Description: 托盘
  */
 import { app, Tray, Menu } from 'electron';
@@ -31,9 +31,9 @@ const tray = (win) => {
   ])
 
   tray.setContextMenu(menu)
-  tray.on('click', () => {
-    win.isVisible()?win.hide():win.show()
-  })
+  
+  tray.on('click', () => win.isVisible() ? win.hide() : win.show())
+
 }
 
 export default tray

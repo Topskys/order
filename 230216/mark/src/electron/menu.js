@@ -1,5 +1,7 @@
-const { app, Menu, dialog,shell } = require('electron');
+const { app, Menu, dialog, shell } = require('electron');
 const { openFile, openFileFolder } = require("./file");
+const createFile = require("./createFile.js");
+const notice = require("./notice.js");
 
 
 
@@ -16,22 +18,29 @@ const menu = (win) => {
                 {
                     label: '新建',
                     accelerator: 'Ctrl+N',
-                    // click: () => win.webContents.sendInputEvent(ke)
+                    click: async () => {
+                        try {
+                            const { canceled, filePath } = await dialog.showSaveDialog(win, { title: '新建' });
+                            !canceled && filePath && win.webContents.send('new', { canceled, filePath });
+                        } catch (error) {
+                            notice({ title: 'Error', body: error })
+                        }
+                    }
                 },
                 {
                     label: '打开文件',
                     accelerator: 'Ctrl+Shift+O',
-                    click: async () => win.webContents.send("open", await openFile(win))
+                    click: async () => win.webContents.send("openFile", await openFile(win))
                 },
                 {
                     label: '打开文件夹',
                     accelerator: 'Ctrl+K+O',
-                    click: async () => win.webContents.send("open", await openFileFolder(win))
+                    click: async () => win.webContents.send("openDirectory", await openDirectory(win))
                 },
                 {
                     label: '保存',
                     accelerator: 'Ctrl+S',
-                    click: () => win.webContents.send("save-m")
+                    click: () => win.webContents.send("saveFile")
                 },
                 {
                     label: '另存为',
@@ -39,11 +48,6 @@ const menu = (win) => {
                     click: () => {
                         console.log('2')
                     }
-                },
-                {
-                    label: '展开工具栏',
-                    accelerator: 'Ctrl+Shift+N',
-                    click: () => win.webContents.send("spread")
                 },
                 {
                     label: '导入',
@@ -60,11 +64,11 @@ const menu = (win) => {
                 {
                     label: '设置',
                     accelerator: 'Ctrl+Shift+S',
-                    click: () => win.webContents.send('navigation','setting')
+                    click: () => win.webContents.send('navigation', 'setting')
                 },
                 {
-                    label: '返回',
-                    click: () => win.webContents.send('navigation', 'back')
+                    label: '主页',
+                    click: () => win.webContents.send('navigation', 'home')
                 },
                 {
                     label: '关闭',
@@ -133,7 +137,7 @@ const menu = (win) => {
             ]
         },
         {
-            label:'帮助',
+            label: '帮助',
             role: 'help',
             submenu: [
                 {
@@ -157,7 +161,7 @@ const menu = (win) => {
                 },
                 {
                     label: '登录',
-                    click: () => win.webContents.send('navigation','sign')
+                    click: () => win.webContents.send('navigation', 'sign')
                 },
                 {
                     label: '隐私',

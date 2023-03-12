@@ -1,7 +1,7 @@
 /*
  * @Author: Topskys
  * @Date: 2023-02-24 00:23:36
- * @LastEditTime: 2023-03-01 19:56:48
+ * @LastEditTime: 2023-03-07 21:52:38
  */
 // import defaultSettings from '@/settings'
 
@@ -11,8 +11,10 @@ const state = {
   // showSettings: showSettings,
   // fixedHeader: fixedHeader,
   // sidebarLogo: sidebarLogo,
-  
-  asideFold:true,
+
+  isCollapse: true,
+  showToolbar: true,
+
 }
 
 const mutations = {
