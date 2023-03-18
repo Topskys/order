@@ -71,6 +71,10 @@ const menu = (win) => {
                     click: () => win.webContents.send('navigation', 'home')
                 },
                 {
+                    label: '返回',
+                    click: () => win.webContents.send('navigation', 'back')
+                },
+                {
                     label: '关闭',
                     role: 'close'
                 }
@@ -142,26 +146,20 @@ const menu = (win) => {
             submenu: [
                 {
                     label: 'Markdown Reference',
-                    click: async () => await shell.openExternal('https://electronjs.org')
+                    click: async () => await shell.openExternal('https://commonmark.org/help/')
                 },
                 {
                     label: 'Custom Themes',
-                    click: () => {
-                        console.log('2')
-                    }
+                    click: () => win.webContents.send('navigation', 'setting')
                 },
                 {
                     label: 'Website',
-                    click: async () => await shell.openExternal('https://electronjs.org')
+                    click: async () => await shell.openExternal('http://127.0.0.1:5137/')
                 },
                 {
                     label: 'Github',
                     // 使用浏览器打开该链接
-                    click: async () => await shell.openExternal('https://electronjs.org')
-                },
-                {
-                    label: '登录',
-                    click: () => win.webContents.send('navigation', 'sign')
+                    click: async () => await shell.openExternal('https://github.com/Topskys/order/tree/main/230216')
                 },
                 {
                     label: '隐私',
@@ -169,18 +167,11 @@ const menu = (win) => {
                 },
                 {
                     label: '鸣谢',
-                    click: async () => await shell.openExternal('https://electronjs.org')
+                    click: async () => await shell.openExternal('https://github.com/hinesboy/mavonEditor')
                 },
                 {
                     label: '反馈',
-                    click: () => {
-                        console.log('2')
-                    }
-                },
-                {
-                    label: '检查更新',
-                    click: () => {
-                    }
+                    click: () => win.webContents.send('navigation', 'feedback')
                 },
                 {
                     label: '关于',

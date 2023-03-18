@@ -1,7 +1,7 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-16 22:28:45
- * @LastEditTime: 2023-03-10 19:03:24
+ * @LastEditTime: 2023-03-14 13:12:42
 -->
 <template>
   <div id="app">
@@ -12,8 +12,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 const { ipcRenderer } = window.require("electron");
-import { createFile } from "./renderer/createFile.js";
 import File from "./renderer/file.js";
 
 export default {
@@ -22,6 +22,9 @@ export default {
     key() {
       return this.$route.path;
     },
+    ...mapState({
+      userInfo: (state) => state.user.userInfo || {},
+    }),
   },
   mounted() {
     // this.checkUpdate();
@@ -34,7 +37,10 @@ export default {
         (data === "back" ? this.$router.back() : this.$router.push(`/${data}`))
     );
 
-    ipcRenderer.on("new",(e, data) => data.filePath && new File().createFile(data.filePath));
+    ipcRenderer.on(
+      "new",
+      (e, data) => data.filePath && new File().createFile(data.filePath)
+    );
   },
   methods: {
     // 检查应用更新

@@ -1,7 +1,7 @@
 /*
  * @Author: Topskys
  * @Date: 2023-02-16 22:34:06
- * @LastEditTime: 2023-03-10 16:14:57
+ * @LastEditTime: 2023-03-13 17:07:34
  * @Description: 主进程
  */
 
@@ -20,9 +20,7 @@ import {
 
 
 
-
 app.on('ready', async () => {
-
 
   const rect = screen.getPrimaryDisplay().bounds;
 

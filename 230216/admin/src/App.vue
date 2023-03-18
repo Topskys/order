@@ -1,30 +1,49 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
+<script setup lang="ts">
+import {ref,watch} from "vue";
+import {useRouter,onBeforeRouteUpdate} from 'vue-router';
+
+// 获取当前路由
+// window.location.pathname
+const router=useRouter()
+let currPath = ref("");
+
+watch(() => router.currentRoute.value.path, (nv, ov) => {
+    currPath.value = nv
+}, {immediate: true})
+
 </script>
 
+
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+    <!--    <Transition name="slide-fade" >-->
+    <!--        <router-view :key="currPath"/>-->
+    <!--    </Transition>-->
+    <router-view v-slot="{ Component }">
+        <transition name="slide-fade" >
+            <component :is="Component"/>
+        </transition>
+    </router-view>
 </template>
 
+
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+/*
+  进入和离开动画可以使用不同
+  持续时间和速度曲线。
+*/
+.slide-fade-enter-active {
+    transition: all 0.3s ease-out;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+.slide-fade-leave-active {
+    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+    transform: translateX(20px);
+    opacity: 0;
 }
+
+
 </style>

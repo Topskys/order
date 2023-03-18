@@ -1,7 +1,7 @@
 /*
  * @Author: Topskys
  * @Date: 2023-02-17 21:47:41
- * @LastEditTime: 2023-03-10 16:13:16
+ * @LastEditTime: 2023-03-14 14:30:59
  * @Description: 主窗口
  */
 import { BrowserWindow, app, ipcMain, dialog, Notification } from 'electron';
@@ -9,10 +9,13 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import tray from '../electron/tray.js';
 import menu from '../electron/menu.js';
 import notice from '../electron/notice.js';
+import rightKey from '../electron/rightKey'
 
 const path = require('path');
-
 const events = require('events');
+const updater = require('../electron/autoUpdater')
+
+
 
 
 const winConfig = {
@@ -68,6 +71,12 @@ class MainWin extends events {
         // 当frame为false时，需监听最大、最小、关闭按钮
         this.listenIpc()
 
+        // 检查应用更新
+        // updater()
+
+        // 右键菜单
+        // rightKey()
+        
     }
 
     close() {
@@ -78,7 +87,6 @@ class MainWin extends events {
     }
 
     listenIpc() {
-
 
         // 新建文件
         ipcMain.on("new", async (e, data) => {
@@ -91,36 +99,25 @@ class MainWin extends events {
             }
         });
 
-
-
         // 保存文件
         ipcMain.on("save", (event, data) => dialog.showMessageBox({ title: data.title || "提示", message: data.content }));
 
-
-
         // 错误提示框
         ipcMain.on("error", (e, data) => dialog.showErrorBox({ title: data.title || 'Error', content: data.content }));
-
-
-
-
-        ipcMain.on("dialog-message", function (e, data) {
-            dialog.showMessageBox(data).then(result => {
-                console.log("dialog----", result)
-                result.response === 0 && console.log("-0")
-                result.response === 1 && console.log("-1")
-            }).catch(err => {
-                console.log(err)
-            })
-        })
-
 
         // 通知
         ipcMain.on("notice", (e, data) => notice(data));
 
 
 
-
+        ipcMain.on("dialog-message", function (e, data) {
+            dialog.showMessageBox(data).then(result => {
+                result.response === 0 && console.log("-0")
+                result.response === 1 && console.log("-1")
+            }).catch(err => {
+                console.log(err)
+            })
+        })
 
 
         //  // 最小化窗口 
@@ -148,3 +145,4 @@ class MainWin extends events {
 
 
 export default MainWin;
+

@@ -1,7 +1,7 @@
 /*
  * @Author: Topskys
  * @Date: 2023-03-10 16:51:14
- * @LastEditTime: 2023-03-12 14:46:26
+ * @LastEditTime: 2023-03-14 13:30:26
  */
 const fs = window.require('fs');
 const path = window.require('path');
@@ -22,12 +22,10 @@ export default class File {
      */
     async createFile(filePath, fileContent = '') {
         try {
-            // let fileName = `${new Date().getTime()}.md`
+            filePath = filePath || path.resolve(__dirname, `mark@${new Date().getTime()}.md`)
             await fs.promises.writeFile(filePath, fileContent);
-
-            console.log('文件创建成功');
+            store.dispatch("file/pushFiles", { filePath, curr: true }) // 把文件插入列表并修改当前文件 
         } catch (error) {
-            console.error('文件创建失败', error);
             notification({ title: 'Error', body: error })
         }
     }
@@ -91,7 +89,7 @@ export default class File {
             // await fs.accessSync(filePath); // 使用accessSync方法检查文件是否存在
 
             // 文件内容追加
-            await fs.writeFile(filePath, content, { flag: 'a' }, err => {
+            await fs.writeFile(filePath, content, { flag: 'r+' }, err => {
                 notification({
                     title: "Error",
                     body: err

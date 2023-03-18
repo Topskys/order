@@ -1,7 +1,7 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-27 12:29:23
- * @LastEditTime: 2023-03-12 21:02:28
+ * @LastEditTime: 2023-03-14 23:27:11
 -->
 <template>
   <div
@@ -14,46 +14,47 @@
 
     <aside>
       <div class="search">
-        <el-input
+        <input
+          type="text"
           v-model="keyword"
+          placeholder="Search..."
           pattern=".*\S.*"
-          auto-focus="false"
-          required
-          suffix-icon="el-icon-search"
-          size="mini"
-          placeholder="请输入"
-        ></el-input>
+        />
+        <i class="el-icon-search"></i>
       </div>
       <ul v-if="files.length">
         <li
-          v-for="file in files"
+          v-for="file in fileList"
           :key="file.uuid"
-          @click="checkFile(file)"
           :class="{ active: file.uuid === activeId }"
+          :title="file.name"
         >
           <svg
-            t="1677678710485"
+            t="1678678807322"
             class="icon"
             viewBox="0 0 1024 1024"
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
-            p-id="4475"
-            width="20"
-            height="20"
+            p-id="4584"
+            width="18"
+            height="18"
           >
             <path
-              d="M347.221333 85.333333h329.173334C813.525333 85.333333 895.616 168.576 896 307.626667v408.746666C896 855.466667 814.250667 938.666667 676.778667 938.666667h-121.856a31.146667 31.146667 0 0 1-27.477334-31.104 31.146667 31.146667 0 0 1 27.477334-31.061334h121.472c104.789333 0 157.568-53.888 157.568-160.128V307.626667c0-106.24-52.778667-160.128-157.568-160.128H347.221333c-104.789333 0-157.909333 53.888-157.909333 160.128v408.746666c0 106.24 53.12 160.128 157.866667 160.128a31.146667 31.146667 0 0 1 27.477333 31.104 31.146667 31.146667 0 0 1-27.434667 31.061334C210.133333 938.666667 128 855.424 128 716.373333V307.626667C128 168.234667 210.133333 85.333333 347.221333 85.333333z m10.752 277.290667h117.034667a31.146667 31.146667 0 0 0 27.477333-31.104 31.146667 31.146667 0 0 0-27.434666-31.061333H357.973333a31.146667 31.146667 0 0 0-27.434666 31.061333 31.146667 31.146667 0 0 0 27.434666 31.104z m307.285334 180.48h-307.626667A31.146667 31.146667 0 0 1 330.154667 512a31.146667 31.146667 0 0 1 27.477333-31.104h307.626667a30.72 30.72 0 0 1 29.525333 14.506667 31.658667 31.658667 0 0 1 0 33.194666 30.72 30.72 0 0 1-29.525333 14.506667z m0 180.48h-307.626667a30.72 30.72 0 0 1-30.464-30.933333c0-17.066667 13.653333-30.890667 30.464-30.890667h307.626667a30.72 30.72 0 0 1 30.464 30.890667c0 17.066667-13.653333 30.890667-30.464 30.890666z"
+              d="M576 742.4H324.267c-12.8 0-21.334 8.533-21.334 21.333s8.534 21.334 21.334 21.334H576c12.8 0 21.333-8.534 21.333-21.334S584.533 742.4 576 742.4zM699.733 576H324.267c-12.8 0-21.334 8.533-21.334 21.333 0 12.8 8.534 21.334 21.334 21.334h375.466c12.8 0 21.334-8.534 21.334-21.334 0-12.8-8.534-21.333-21.334-21.333zM324.267 281.6h102.4c12.8 0 21.333-8.533 21.333-21.333 0-12.8-8.533-21.334-21.333-21.334h-102.4c-12.8 0-21.334 8.534-21.334 21.334 0 12.8 8.534 21.333 21.334 21.333zM678.4 55.467H221.867c-46.934 0-85.334 38.4-85.334 85.333v750.933c0 46.934 38.4 85.334 85.334 85.334H806.4c46.933 0 85.333-38.4 85.333-85.334V281.6L678.4 55.467z m166.4 832c0 21.333-17.067 42.666-42.667 42.666H221.867c-21.334 0-42.667-17.066-42.667-42.666V136.533c0-21.333 17.067-42.666 42.667-42.666h375.466v209.066c0 21.334 17.067 42.667 42.667 42.667h209.067v541.867zM635.733 302.933V93.867h21.334L844.8 302.933H635.733z m-332.8 123.734c0 12.8 8.534 21.333 21.334 21.333h375.466c12.8 0 21.334-8.533 21.334-21.333 0-12.8-8.534-21.334-21.334-21.334H324.267c-12.8 4.267-21.334 12.8-21.334 21.334z"
+              p-id="4585"
               fill="#4b4b4b"
-              p-id="4476"
             ></path>
           </svg>
-          <span>{{ file.name }}</span>
+          <span @click="setCurrFile(file)">{{ file.name }}</span>
+          <i
+            class="el-icon-close"
+            @click="removeFiles(file)"
+            title="移除文件"
+          ></i>
         </li>
       </ul>
       <footer>
-        <!-- <e-tooltip content="新建文件"> -->
-        <i class="el-icon-plus" @click="newFile"></i>
-        <!-- </e-tooltip> -->
+        <i class="el-icon-plus" @click="newFile" data-title="新建文件"></i>
       </footer>
     </aside>
   </div>
@@ -62,6 +63,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import ETooltip from "../components/tooltip/index.vue";
+import file from "../store/modules/file";
 const { ipcRenderer } = window.require("electron");
 
 export default {
@@ -72,34 +74,30 @@ export default {
   data() {
     return {
       keyword: "",
-      activeId: "",
+      fileList: [],
     };
   },
   computed: {
     ...mapState({
       isCollapsed: (state) => state.app.isCollapsed,
       files: function (state) {
-        const files = state.file.files;
-        !this.activeId && files.length && (this.activeId = files[0]?.uuid);
-        return files;
+        this.fileList = state.file.files;
+        return state.file.files;
       },
+      activeId: (state) => state.file.activeId,
     }),
   },
   watch: {
-    files: {
+    keyword: {
       handler(nv) {
-        console.log("asideBar--", nv);
+        this.fileList = nv.trim()
+          ? this.files.filter((file) => file.name.indexOf(nv) > -1 && file)
+          : this.files;
       },
     },
   },
   methods: {
-    ...mapActions("file", ["setCurrFile"]),
-
-    // 点击文件进行查阅
-    checkFile(file) {
-      this.activeId = file.uuid;
-      this.setCurrFile(file);
-    },
+    ...mapActions("file", ["setCurrFile", "removeFiles"]),
 
     // 新建文件的加号
     newFile: () => ipcRenderer.send("new"),
@@ -134,11 +132,10 @@ export default {
       width: 200px;
       height: 100vh;
     }
-
     &:hover + .line,
     &:active + .line {
       opacity: 1;
-      border-right: 3px dashed skyblue;
+      // border-right: 3px dashed skyblue;
     }
   }
 
@@ -151,7 +148,7 @@ export default {
     pointer-events: none;
     border-right: 1px solid $border-clr-1;
     background-color: $bg-1;
-    transition: border-right .3s .3s;
+    transition: border-right 0.3s 0.3s;
   }
 
   // 内容
@@ -169,6 +166,44 @@ export default {
 
     .search {
       padding: 5px 6px 5px 10px;
+      position: relative;
+      input {
+        width: 100%;
+        padding: 2px 10px;
+        height: 25px;
+        border-color: $border-clr-1;
+        border-radius: 4px;
+        // 去掉input默认样式
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        font-size: 1em;
+        border: 1px solid #c8cccf;
+        color: #6a6f77;
+        // 去掉input轮廓
+        outline: 0;
+        transition: 0.3s;
+      }
+      input::-moz-placeholder {
+        /* Mozilla Firefox 4 to 18 */
+        font-size: $fs14;
+      }
+      input::-moz-placeholder {
+        /* Mozilla Firefox 19+ */
+        font-size: $fs14;
+      }
+      input::-webkit-input-placeholder {
+        font-size: $fs14;
+      }
+      input[type="text"]:focus {
+        border-color: #bbb;
+      }
+      .el-icon-search {
+        position: absolute;
+        top: 50%;
+        right: 16px;
+        transform: translateY(-50%);
+        color: $text-clr-2;
+      }
     }
 
     ul {
@@ -182,9 +217,13 @@ export default {
         display: flex;
         align-items: center;
         padding: 5px 10px;
-        border-bottom: 1px solid $border-clr-1;
+        margin: 5px 0;
+        // border-bottom: 1px solid $border-clr-1;
         border-radius: 4px;
         transition: 0.3s;
+        position: relative;
+        font-size: $fs14;
+
         span {
           flex: 1;
           padding-left: 5px;
@@ -192,10 +231,21 @@ export default {
           white-space: nowrap;
           text-overflow: ellipsis;
         }
+        .el-icon-close {
+          position: absolute;
+          top: 50%;
+          right: 5px;
+          transform: translateY(-50%);
+          opacity: 0;
+          transition: 0.3s;
+        }
 
         &:hover,
         &:focus {
           background-color: $bg-1;
+          .el-icon-close {
+            opacity: 1;
+          }
         }
       }
     }
@@ -212,9 +262,25 @@ export default {
         border-radius: 3px;
         transition: 0.3s;
         cursor: pointer;
+        position: relative;
         &:hover {
           background-color: $bg-1;
         }
+      }
+      i:hover:after {
+        position: absolute;
+        top: -35px;
+        left: 0;
+        // z-index: 1000;
+        content: attr(data-title);
+        //在这里设内置好title出现的位容置就好了
+        color: $text-clr-8;
+        font-size: $fs12;
+        border: 1px solid $border-clr-3;
+        border-radius: 2px;
+        background-color: white;
+        white-space: nowrap;
+        padding: 5px 10px;
       }
     }
   }
@@ -236,5 +302,9 @@ ul::-webkit-scrollbar {
 //     height: 5px;
 //     opacity: 1;
 //   }
+// }
+
+// ::v-deep .el-input__inner:focus {
+//   border-color: none !important;
 // }
 </style>

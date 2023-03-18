@@ -1,4 +1,9 @@
-const { app, Menu, MenuItem } =require('electron')
+/*
+ * @Author: Topskys
+ * @Date: 2023-02-24 21:04:24
+ * @LastEditTime: 2023-03-14 14:26:38
+ */
+const { app, Menu, MenuItem,remote } = require('electron')
 
 // 创建菜单模板
 const menuTemplate = [
@@ -9,12 +14,13 @@ const menuTemplate = [
 ]
 
 // 创建菜单实例
-const contextMenu = Menu.buildFromTemplate(menuTemplate)
+const menu = Menu.buildFromTemplate(menuTemplate)
 
-export default function rightKey(){
+
+export default function rightKey() {
     // 绑定右键菜单事件
-    window.addEventListener('contextmenu', (e) => {
+   window.addEventListener('contextmenu', function (e) {
         e.preventDefault()
-        contextMenu.popup()
-    })
+        menu.popup({ window: remote.getCurrentWindow() })
+    }, false)
 }

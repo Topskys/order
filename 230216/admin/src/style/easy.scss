@@ -1,0 +1,88 @@
+@import "./var.scss";
+
+// input
+.e-input {
+  padding: 0 10px;
+  height: 33px;
+  line-height: 32px;
+  box-sizing: border-box;
+  // 去掉input默认样式
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  font-size: 1em;
+  border: 1px solid #dcdfe6;
+  border-radius: 2px;
+  color: #6a6f77;
+  // 去掉input轮廓
+  outline: 0;
+  transition: 0.3s;
+
+  &::-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    font-size: 14px;
+  }
+
+  &::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    font-size: 14px;
+  }
+
+  &::-webkit-input-placeholder {
+    font-size: 14px;
+  }
+
+  &[type="text"]:focus {
+    border-color: #206bc4;
+  }
+
+  &:hover, &:active {
+    border-color: #c0c4cc;
+  }
+}
+
+// button
+.e-button {
+  color: #606266;
+  font-size: 14px;
+  padding: 8px 15px;
+  white-space: nowrap;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+  -webkit-appearance: none;
+  border: 1px solid #dcdfe6;
+  border-radius: 2px;
+  background-color: #ffffff;
+  transition: background-color .3s;
+  position: relative;
+
+  &:hover, &:focus, &:active {
+    border-color: white;
+  }
+}
+
+// class-color
+.default {
+  color: $txt-clr-4;
+  font: inherit;
+}
+
+.primary {
+  color: $txt-clr-7;
+  background-color: $bg-12;
+}
+
+.warning {
+  color: $txt-clr-7;
+  background-color: $bg-9;
+}
+
+.danger {
+  color: $txt-clr-7;
+  background-color: $bg-10;
+}
+
+.info {
+  color: $txt-clr-7;
+  background-color: $bg-11;
+}

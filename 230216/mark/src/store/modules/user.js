@@ -1,13 +1,11 @@
 /*
  * @Author: Topskys
  * @Date: 2023-02-24 00:23:37
- * @LastEditTime: 2023-02-24 23:21:07
- * @LastEditors: Topskys
- * @Description: 
+ * @LastEditTime: 2023-03-14 13:04:53
  */
 import { login, logout, getInfo } from '@/api/user'
+import { getStorage, setStorage, delStorage } from '@/utils'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { resetRouter } from '@/router'
 
 
 
@@ -15,9 +13,9 @@ import { resetRouter } from '@/router'
 const getDefaultState = () => {
   return {
     token: getToken(),
+    userInfo: getStorage("userInfo"),
   }
 }
-
 
 const state = getDefaultState()
 
@@ -30,63 +28,51 @@ const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
   },
-  SET_NAME: (state, username) => {
-    state.name = username
-  },
-  SET_AVATAR: (state, avatarUrl) => {
-    state.avatar = avatarUrl
+  SET_USERINFO: (state, userInfo) => {
+    state.userInfo = userInfo
   }
 }
 
 
 const actions = {
-  // user login
-  login({ commit }, userInfo) {
+  login({ commit, dispatch }, userInfo) {
     const { email, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ email: email.trim(), password: password }).then(res => {
-        commit('SET_TOKEN', res.token)
-        setToken(res.token)
+      login({ email: email.trim(), password: password }).then(({ token }) => {
+        commit('SET_TOKEN', token)
+        setToken(token)
+        dispatch('getInfo')
         resolve()
       }).catch(error => {
         reject(error)
       })
     })
   },
-
-  // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(({ data }) => {
-
-        if (!data) return reject('Verification failed, please Login again.');
-
-        commit('SET_NAME', data.username)
-        commit('SET_AVATAR', data.avatarUrl)
-        resolve(data)
+      getInfo().then(({ userInfo }) => {
+        if (!userInfo) return reject('Verification failed, please Login again.');
+        commit('SET_USERINFO', userInfo)
+        setStorage("userInfo", userInfo)
+        resolve(userInfo)
       }).catch(error => {
         reject(error)
       })
     })
   },
-
-
-  // user logout
   logout({ commit, state }) {
+    const email = state.userInfo.email
     return new Promise((resolve, reject) => {
-      //   logout(state.token).then(() => {
-      removeToken() // must remove  token  first
-      resetRouter()
-      commit('RESET_STATE')
-      resolve()
-      // }).catch(error => {
-      //   reject(error)
-      // })
+      logout(email).then(() => {
+        removeToken() // must remove  token  first
+        delStorage("userInfo")
+        commit('RESET_STATE')
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
     })
   },
-
-
-  // remove token
   resetToken({ commit }) {
     return new Promise(resolve => {
       removeToken() // must remove  token  first

@@ -1,7 +1,7 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-16 22:28:55
- * @LastEditTime: 2023-03-12 21:08:28
+ * @LastEditTime: 2023-03-14 20:02:33
  * @LastEditors: Please set LastEditors
  * @Description: 
 -->
@@ -100,6 +100,10 @@ css: {
 > 2023年3月12日21:07:33
 完善设置界面及其功能。左下角新增状态信息。
 
+
+> 2023年3月14日19:17:32
+侧边栏文件模糊搜索。注意：a标签，img标签，div标签、span标签、li标签、p标签、b标签等等html标签都可以在标签内加title完成鼠标悬停，若是悬停必要鼠标指针变成手指状对其配置css （cursor:pointer）
+用户反馈界面。
 
 
 

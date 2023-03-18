@@ -1,13 +1,14 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-16 22:28:45
- * @LastEditTime: 2023-03-12 20:53:23
+ * @LastEditTime: 2023-03-14 23:23:41
 -->
 <template>
   <div class="container" @keyup="onKeyUp">
     <Aside></Aside>
     <main>
       <mavon-editor
+        ref="mdr"
         v-model="value"
         :toolbars="toolbars"
         :boxShadow="false"
@@ -19,31 +20,25 @@
         :language="lang"
         :fontSize="`${fs}px`"
         @save="save"
+        @imgAdd="imgAdd"
+        @imgDel="imgDel"
         @subfieldToggle="subfieldToggle"
       />
       <footer>
         <div class="toggle">
           <div class="collapse" @click="toggleAside">
-            <e-tooltip content="关闭侧边栏" v-if="isCollapsed">
-              <i class="el-icon-arrow-left"></i>
-            </e-tooltip>
-            <e-tooltip content="展开侧边栏" v-else>
-              <i class="el-icon-arrow-right"></i>
-            </e-tooltip>
+              <i class="el-icon-arrow-left" title="关闭侧边栏" v-if="isCollapsed"></i>
+              <i class="el-icon-arrow-right" title="展开侧边栏" v-else></i>
           </div>
           <div class="toolbar" @click="toggleToolbar">
-            <e-tooltip content="关闭工具栏" v-if="toolbar">
-              <i class="el-icon-arrow-up"></i>
-            </e-tooltip>
-            <e-tooltip content="展开工具栏" v-else>
-              <i class="el-icon-arrow-down"></i>
-            </e-tooltip>
+              <i class="el-icon-arrow-up" title="关闭工具栏" v-if="toolbar"></i>
+            <i class="el-icon-arrow-down" title="展开工具栏" v-else></i>
           </div>
         </div>
         <div class="status">
           <div class="isSave status-item">
-            <i class="el-icon-success" v-if="isSave" style="color: #67c23a"></i>
-            <i class="el-icon-error" v-else style="color: #f56c6c"></i>
+            <i class="el-icon-success" v-if="isSave" title="已保存" style="color: #67c23a"></i>
+            <i class="el-icon-error" v-else title='未保存' style="color: #f56c6c"></i>
           </div>
           <div class="character status-item">
             <span>{{ value.length }}</span>
@@ -51,6 +46,7 @@
           </div>
         </div>
       </footer>
+      <!-- <right-key /> -->
     </main>
   </div>
 </template>
@@ -60,23 +56,22 @@
 const { ipcRenderer } = window.require("electron");
 const fs = window.require("fs");
 const path = window.require("path");
-// @imgAdd="imgAdd"
-//         @imgDel="imgDel"
+
 import { mapActions, mapGetters, mapState } from "vuex";
 import Aside from "./AsideBar.vue";
-import ETooltip from "../components/tooltip/index.vue";
 import { debounce } from "../utils";
 import File from "../renderer/file";
 import notification from "../renderer/notice";
+import {copy,paste} from "../renderer/clipboard";
+// import rightKey from "../components/rightKey/index.vue";
 
 const { readFile, writeFile, autoSaveFile } = new File();
-
 
 export default {
   name: "Home",
   components: {
     Aside,
-    ETooltip,
+    // rightKey,
   },
   data() {
     return {
@@ -122,12 +117,10 @@ export default {
     ...mapState("app", [
       "isCollapsed",
       "toolbar",
-      "currFile",
       "autoSave",
       "collapsedKey",
       "toolBarKey",
       "html",
-      "ishljs",
       "lang",
       "fs",
       "subfield",
@@ -136,20 +129,26 @@ export default {
       currFile: (state) => state.file?.currFile,
       isSave: (state) => state.file?.isSave,
       globKey: (state) => state.app.globKey,
+      upload: (state) => (state.app.upload === "true" ? true : false),
+      ishljs: (state) => (state.app.ishljs === "true" ? true : false),
     }),
     ...mapGetters("file", ["getCurrFile"]),
   },
   mounted() {
-    // 打开文件
+    // 打开文件并修改当前文件
     ipcRenderer.on(
       "openFile",
-      (e, filePath) => filePath && this.setFiles(filePath)
+      (e, filePath) => filePath && this.pushFiles({ filePath, curr: true })
     );
 
     ipcRenderer.on("saveFile", () => this.save());
+
+    // this.rightKey();
+
+    // 
   },
   methods: {
-    ...mapActions("file", ["setFiles"]),
+    ...mapActions("file", ["pushFiles"]),
 
     // 监听键盘事件
     onKeyUp(e) {
@@ -228,18 +227,58 @@ export default {
 
     // 删除图片
     imgDel() {},
+
+    // 右键菜单
+    rightKey() {
+      document.addEventListener("contextmenu", function (event) {
+        event.preventDefault();
+        var menu = document.createElement("ul");
+        menu.style.position = "absolute";
+        menu.style.background = "#eee";
+        menu.style.boxShadow = "1px 1px 3px rgba(0,0,0,0.3)";
+        menu.style.padding = "5px";
+        menu.style.display = "none";
+        document.body.appendChild(menu);
+
+        var menuItem1 = document.createElement("li");
+        menuItem1.innerText = "复制";
+        menu.appendChild(menuItem1);
+
+        var menuItem2 = document.createElement("li");
+        menuItem2.innerText = "剪切";
+        menu.appendChild(menuItem2);
+
+        var menuItem3 = document.createElement("li");
+        menuItem3.innerText = "粘贴";
+        menu.appendChild(menuItem3);
+
+        menu.addEventListener("click", function (event) {
+          console.log(event.target.innerText);
+        });
+
+        menu.style.top = event.clientY + "px";
+        menu.style.left = event.clientX + "px";
+        menu.style.display = "block";
+        menu.style.zIndex = "999";
+      });
+    },
+
   },
   watch: {
     value: {
       handler(nv) {
-        this.$store.dispatch("file/setIsSave", false);
-        let timer = null;
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-          !this.autoSave &&
-            this.currFile?.filePath &&
-            writeFile(this.currFile?.filePath, nv);
-        }, 5000);
+        if (nv === this.value) {
+          this.$store.dispatch("file/setIsSave", true);
+        } else {
+          this.$store.dispatch("file/setIsSave", false);
+          let timer = null;
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            this.autoSave &&
+              this.currFile?.filePath &&
+              autoSaveFile(this.currFile?.filePath, nv); // writeFile
+          }, 5000);
+        }
       },
     },
     currFile: {
@@ -247,11 +286,6 @@ export default {
         this.readFileContent(nv?.filePath);
       },
       immediate: true,
-    },
-    getCurrFile: {
-      handler(nv) {
-        console.log("getCurrFile--", nv);
-      },
     },
   },
 };
@@ -264,7 +298,9 @@ export default {
   main {
     flex: 1;
     overflow: hidden;
+    // position: relative;
     .v-note-wrapper {
+      position: relative;
       box-shadow: none !important;
       width: inherit;
       max-width: 100vw;

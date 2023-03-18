@@ -8,18 +8,20 @@ class JWT {
 
     /**
      * 生成token
-     * @param options (email,_id,expiresIn)
-     * @returns {String}
+     * @param email
+     * @param _id
+     * @param expires
+     * @returns {*|{hash: Binary, keyId: Long}|MSFIDOSignature|ArrayBuffer|string}
      */
-    createToken(options) {
+    createToken(email, _id, expires) {
         const token = jwt.sign(
             {
-                email: options?.email,
-                _id: options?._id
+                email: email,
+                _id: _id
             },
             KEY,
             {
-                expiresIn: options?.expiresIn || 5 * 60 * 1000 // 5minutes
+                expiresIn: expires || 5 * 60 * 1000 // 5 minutes （second）
             }
         )
         return token
@@ -40,12 +42,12 @@ class JWT {
             !auth && ctx.throw(401, 'no token detected in http headerAuthorization')
 
             try {
-                await jwt.verify(auth.split(' ')[1], KEY)
+                await jwt.verify(auth.replace("Bearer ", ""), KEY)
             } catch (err) {
                 ctx.throw(401, 'invalid token')
             }
         }
-        await next()
+        next()
     }
 
 

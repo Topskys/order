@@ -1,3 +1,8 @@
+/*
+ * @Author: Topskys
+ * @Date: 2023-02-23 23:32:44
+ * @LastEditTime: 2023-03-13 17:13:49
+ */
 import axios from 'axios';
 import store from '@/store';
 import { getToken } from '@/utils/auth';
@@ -16,7 +21,7 @@ const service = axios.create({
 // 请求拦截  设置统一header
 service.interceptors.request.use(
     config => {
-        // store.getters.token && config.headers['Authorization'] = getToken()
+        store.getters.token && (config.headers['Authorization'] = 'Bearer ' + getToken())
         return config;
     },
     error => {

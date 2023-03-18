@@ -1,7 +1,7 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-17 17:44:34
- * @LastEditTime: 2023-03-12 20:19:30
+ * @LastEditTime: 2023-03-14 12:59:18
 -->
 <template>
   <div class="setting">
@@ -26,8 +26,8 @@
         <div class="title">上传至云端</div>
         <div class="right">
           <el-select v-model="setting.upload" size="small">
-            <el-option :value="true"> </el-option>
-            <el-option :value="false"> </el-option>
+            <el-option value="true"> </el-option>
+            <el-option value="false"> </el-option>
           </el-select>
         </div>
       </div>
@@ -44,7 +44,6 @@
           <div class="title">字体大小</div>
           <div>
             <el-input
-              type="number"
               v-model="setting.fs"
               placeholder="请输入"
               size="small"
@@ -56,8 +55,8 @@
           <div class="title">代码高亮</div>
           <div class="right">
             <el-select v-model="setting.ishljs" size="small">
-              <el-option :value="true"> </el-option>
-              <el-option :value="false"> </el-option>
+              <el-option value="true"> </el-option>
+              <el-option value="false"> </el-option>
             </el-select>
           </div>
         </div>
@@ -127,7 +126,7 @@ export default {
     return {
       setting: {
         autoSave: true,
-        upload: "是",
+        upload: true,
         autoUpload: true,
         theme: "Light",
         globKey: true,

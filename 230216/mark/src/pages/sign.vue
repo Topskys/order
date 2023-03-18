@@ -1,7 +1,7 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-23 18:23:32
- * @LastEditTime: 2023-03-12 21:10:18
+ * @LastEditTime: 2023-03-13 14:17:08
  * @LastEditors: Please set LastEditors
  * @Description: 
 -->
@@ -114,8 +114,8 @@ export default {
 
     return {
       login: {
-        email: "",
-        password: "",
+        email: "3122562904@qq.com",
+        password: "12345678",
       },
       register: {
         email: "3122562904@qq.com",
@@ -182,7 +182,7 @@ export default {
             .catch((err) => {
               this.$message({
                 type: code === 200 ? "success" : "error",
-                message: err || '注册时出现异常',
+                message: err || "注册时出现异常",
               });
             });
         }
@@ -197,11 +197,11 @@ export default {
           email: this.register.email,
         },
       }).then(({ code, msg }) => {
-          this.$message({
-            type: code === 200 ? "success" : "error",
-            message: msg,
-          });
-        })
+        this.$message({
+          type: code === 200 ? "success" : "error",
+          message: msg,
+        });
+      });
     },
   },
   watch: {
