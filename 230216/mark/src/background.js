@@ -1,7 +1,7 @@
 /*
  * @Author: Topskys
  * @Date: 2023-02-16 22:34:06
- * @LastEditTime: 2023-03-13 17:07:34
+ * @LastEditTime: 2023-03-23 15:02:13
  * @Description: 主进程
  */
 
@@ -9,6 +9,7 @@
 import { app, screen } from 'electron';
 import Launch from './wins/launch.js';
 import MainWin from './wins/mainWin.js';
+import ChildWin from './wins/child.js';
 import {
   BASE_WIN_WIDTH,
   BASE_WIN_HEIGHT,
@@ -35,18 +36,28 @@ app.on('ready', async () => {
     height: launch_h,
   })
 
+  let mainWin = null
+  // 启动窗口
   launch.on('show', function () {
     setTimeout(() => {
-
-      const mainWin = new MainWin({
+      mainWin = new MainWin({
         width: main_w,
-        height: main_h
+        height: main_h,
       });
 
-      mainWin.on('show', () => launch.close()); // MainWindow显示后，关闭launchWindow 
+      mainWin.on('show', () => launch.close());
 
     }, 1000)
   });
+
+  const child = new ChildWin({
+    width: 900,
+    height: 550,
+    parent: mainWin,
+    modal: true,
+  })
+  child.on("show", () => { });
+  child.on("hide", () => { });
 
   app.setAppUserModelId("Mark Editor");
 

@@ -5,15 +5,12 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
-
-
 const MongoConnect =require("./db")
 const cors = require('koa-cors')
 const jwt = require('koa-jwt')
 
-
-const index = require('./routes/index')
-const user = require('./routes/user')
+// 引入路由
+const routes = require('./routes')
 
 
 
@@ -65,8 +62,8 @@ app.use(async (ctx, next) => {
 
 
 // routes
-app.use(index.routes(), index.allowedMethods())
-app.use(user.routes(), user.allowedMethods())
+app.use(routes.routes(), routes.allowedMethods())
+
 
 
 

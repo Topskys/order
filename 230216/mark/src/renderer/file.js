@@ -1,7 +1,7 @@
 /*
  * @Author: Topskys
  * @Date: 2023-03-10 16:51:14
- * @LastEditTime: 2023-03-14 13:30:26
+ * @LastEditTime: 2023-03-23 15:51:04
  */
 const fs = window.require('fs');
 const path = window.require('path');
@@ -11,9 +11,7 @@ import store from '../store'
 
 
 
-export default class File {
-
-
+class File {
 
     /**
      * 新建文件
@@ -22,11 +20,20 @@ export default class File {
      */
     async createFile(filePath, fileContent = '') {
         try {
-            filePath = filePath || path.resolve(__dirname, `mark@${new Date().getTime()}.md`)
+            if (filePath) {
+                const res = /\.(.{1,})$/.test(filePath)
+                res || (filePath = `${filePath}.md`)
+            } else {
+                filePath = path.resolve(__dirname, `mark@${new Date().getTime()}.md`)
+            }
             await fs.promises.writeFile(filePath, fileContent);
             store.dispatch("file/pushFiles", { filePath, curr: true }) // 把文件插入列表并修改当前文件 
         } catch (error) {
-            notification({ title: 'Error', body: error })
+            // notification({ title: 'Error', body: error })
+            this.$message({
+                type: "info",
+                message: error
+            })
         }
     }
 
@@ -90,19 +97,16 @@ export default class File {
 
             // 文件内容追加
             await fs.writeFile(filePath, content, { flag: 'r+' }, err => {
-                notification({
-                    title: "Error",
-                    body: err
+                this.$message({
+                    type: "info",
+                    message: err
                 })
             })
         } catch (err) {
             notification({ title: "保存文件异常", body: err })
         }
     }
-
-
 }
 
 
-
-
+export default File

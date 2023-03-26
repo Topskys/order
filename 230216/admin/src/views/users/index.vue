@@ -1,234 +1,177 @@
-<script setup>
-import {ref, onMounted, reactive} from 'vue'
-import eInput from '../../components/easy-ui/input/index.vue'
-import eButton from '../../components/easy-ui/button/index.vue'
-import {getUsers, edit, del} from '../../api/user'
-import {InfoFilled} from '@element-plus/icons-vue'
+<script lang="ts" setup>
+import { ref, reactive, toRefs, defineProps, onMounted } from "vue";
+import { getFeedbackList } from "../../api/feedback";
+import { Search, Edit,Delete } from "@element-plus/icons-vue";
+
+const params = reactive({
+  page: 1,
+  pageSize: 10,
+  keyword: "",
+  total: 0,
+});
+let { page, pageSize, keyword, total } = toRefs(params); //
+const data = reactive<{ list: {}[] }>({
+  // 可在此定义多个响应式数据属性变量
+  list: [],
+});
+let { list } = toRefs(data); // 解构防止属性响应式丢失
+
+// 获取数据
+const getDataList = (
+  params = {
+    page: page.value,
+    pageSize: pageSize.value,
+    keyword: keyword.value,
+  }
+) =>
+  getFeedbackList(params).then(
+    (res) => ((list.value = res.data), (total.value = res.total))
+  );
+
+onMounted(() => getDataList());
 
 
-const columns = reactive([
-    {prop: "_id", label: "ID"},
-    {prop: "email", label: "账户"},
-    {prop: "password", label: "密码"},
-    {prop: "phone", label: "手机号"},
-    {prop: "status", label: "状态"},
-    {prop: "createdAt", label: "创建时间"},
-    {prop: "updatedAt", label: "更新时间"},
-    {prop: "Opera", label: "操作"},
-])
 
+// 分页组件左右箭头事件
+const arrowClick = (page) => {
+  console.log(page);
+  page.value = page;
+  getDataList();
+};
 
-let list = reactive([{}])
-let currIndex = ref(null)
-let page = reactive({
-    page: 1,
-    pageSize: 10,
-    keyword: ""
-})
-
-// 获取用户列表数据
-onMounted(() => getUsers(page).then(({data}) => {
-    const formatTime = (time) => new Date(time).toGMTString()
-    data.forEach((x, i) => {
-        data[i].createdAt = formatTime(data[i].createdAt)
-        data[i].updatedAt = formatTime(data[i].updatedAt)
-    })
-    list = data
-}))
-
-
-const confirm = (item, i) => {
-    currIndex.value = null
-}
-
-const cancel = (item, i) => {
-    currIndex.value = null
-}
-
-const editItem = (item, i) => {
-    currIndex.value = i
-}
-
-const deleteItem = (item, i) => {
-}
-
-const confirmEvent = () => {
-    console.log('confirm!')
-}
-const cancelEvent = () => {
-    console.log('cancel!')
-}
-
+const reset = () => (keyword.value = ""); // 重置
+const query = () => getDataList(); // 查询搜索
+const edit=()=>{} // 修改
+const del=()=>{} // 删除
 </script>
 
 
 <template>
-    <div class='search-form'>
-        <e-input v-model:value="page.keyword" type="search" placeholder="Search..."/>
-        <button class="e-button primary">Search</button>
+  <div class="feedback">
+    <div class="search-form">
+      <div class="search-title">
+        <el-icon :size="16" color="#1d273b"><Search /></el-icon>
+        <span>筛选搜索</span>
+      </div>
+      <div class="search-input-button">
+        <div class="search-input">
+          <span>账户：</span>
+          <el-input v-model="keyword"></el-input>
+        </div>
+        <span class="search-buttons">
+          <el-button @click="reset">重置</el-button>
+          <el-button type="primary" @click="query">查询搜索</el-button>
+        </span>
+      </div>
     </div>
-    <table>
-        <thead>
-        <tr>
-            <th v-for="item in columns" :key='item.label'>
-                {{ item.label }}
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="(item,i) in list" :key='item._id'>
-            <td width="80" align="center"><span :title="item._id">{{ item._id }}</span></td>
-            <td>
-                <div v-if="i===currIndex">
-                    <e-input v-model:value='item.email' className="inputClass" disabled/>
-                </div>
-                <span v-else :title="item.email">{{ item.email }}</span>
-            </td>
-            <td>
-                <div v-if="i===currIndex">
-                    <e-input v-model:value='item.password' className="inputClass"/>
-                </div>
-                <span v-else :title="item.password">{{ item.password }}</span>
-            </td>
-            <td>
-                <div v-if="i===currIndex">
-                    <e-input v-model:value='item.phone' className="inputClass"/>
-                </div>
-                <span v-else :title="item.phone">{{ item.phone }}</span>
-            </td>
-            <td>
-                <div v-if="i===currIndex">
-                    <e-input v-model:value='item.status' className="inputClass"/>
-                </div>
-                <span v-else :title="item.status">{{ item.status }}</span>
-            </td>
-            <td>
-                <span :title="item.createdAt">{{ item.createdAt }}</span>
-            </td>
-            <td>
-                <span :title="item.updatedAt">{{ item.updatedAt }}</span>
-            </td>
-            <td>
-                <div v-if="i===currIndex">
-                    <e-button @click='confirm(item,i)' class='e-button primary confirm' className="buttonClass">确定
-                    </e-button>
-                    <e-button @click='cancel(item,i)' className="buttonClass">取消</e-button>
-                </div>
-                <span v-else>
-                    <span @click='editItem(item,i)' class="edit">编辑</span>
-                    <el-popconfirm
-                            width="240"
-                            confirm-button-text="OK"
-                            cancel-button-text="No, Thanks"
-                            :icon="InfoFilled"
-                            icon-color="#626AEF"
-                            title="Are you sure to delete this?"
-                            @confirm="confirmEvent"
-                            @cancel="cancelEvent"
-                    >
-    <template #reference>
-      <span @click='deleteItem(item,i)' class="delete">删除</span>
-    </template>
-  </el-popconfirm
-  >
 
-                </span>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <el-table
+      :data="list"
+      stripe
+      style="width: 100%; border-top: 1px solid #ebeef5"
+    >
+      <el-table-column
+        prop="_id"
+        label="编号"
+        width="180"
+        show-overflow-tooltip
+        align="center"
+      />
+      <el-table-column
+        prop="email"
+        label="账户"
+        show-overflow-tooltip
+        align="center"
+      />
+      <el-table-column
+        prop="password"
+        label="密码"
+        show-overflow-tooltip
+        align="center"
+      />
+      <el-table-column
+        prop="status"
+        label="状态"
+        show-overflow-tooltip
+        align="center"
+      />
+      <el-table-column
+        prop="createdAt"
+        label="创建日期"
+        show-overflow-tooltip
+        sortable
+        align="center"
+      />
+      <el-table-column
+        prop="updatedAt"
+        label="更新日期"
+        show-overflow-tooltip
+        sortable
+        align="center"
+      />
+      <el-table-column label="操作" show-overflow-tooltip align="center">
+        <el-button type="primary" size="small" @click="edit">修改</el-button>
+        <el-button type="danger" size="small" @click="del">删除</el-button>
+      </el-table-column>
+    </el-table>
+    <el-pagination
+      v-show="list.length"
+      small
+      background
+      layout="prev, pager, next"
+      :total="total"
+      @prev-click="arrowClick"
+      @next-click="arrowClick"
+      @current-change="arrowClick"
+      style="justify-content: center; padding: 20px 0"
+    />
+  </div>
 </template>
 
 
 <style lang="scss" scoped>
-
-
-.search-form {
-  padding: 15px;
-  background-color: #ffffff;
-  display: flex;
-  align-items: center;
-}
-
-table {
-  width: 100%;
-  height: 30px;
-  color: #1d273b;
+.feedback {
   background-color: white;
-  border-collapse: collapse; // 合并边框
-  border-spacing: 0; // 单元格间隙
-  tr, th, td {
-    border: 1px solid #ebeef5;
-  }
 
-  tr {
-    height: 40px;
-    line-height: 14px;
-    font-size: 14px;
-    color: #666666;
-    font-weight: 400;
-
-    &:nth-child(2n) {
-      background-color: #FAFAFA;
-    }
-
-    &>td>span{
-    padding: 0 10px;
-    }
-  }
-
-  td {
-    text-align: center;
-  }
-
-
-  thead {
-    font-size: 14px;
-    color: #666;
-    line-height: 14px;
-    font-weight: 600;
-
-    tr {
-      &:nth-child(2n+1) {
-        background-color: #FAFAFA;
+  .search-form {
+    padding: 30px;
+    margin-bottom: 20px;
+    .search-title {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      span {
+        margin-left: 10px;
+        color: #1d273b;
+        font-size: 14px;
       }
-
-      th {
-        //        font-weight: bold;
+    }
+    .search-input-button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .search-input {
+        display: inherit;
+        align-items: center;
+        span {
+          margin-left: 20px;
+          color: #1d273b;
+          font-size: 14px;
+          white-space: nowrap;
+        }
       }
     }
   }
-
-  tbody {
-    tr:nth-child(2n) {
-      background-color: #FAFAFA;
-    }
-
-    tr:nth-child(2n+1) {
-      background-color: #FFFFFF;
-    }
-  }
 }
 
-.inputClass {
-  height: 28px;
-  line-height: 28px;
-  border: none;
-}
 
-.buttonClass {
-  font-size: 12px;
-  padding: 5px 11px;
+::v-deep th .cell {
+  color: #1d273b;
+  font-size: 14px;
+  font-weight: 400;
 }
-
-.edit {
-  color: #206bc4;
-  margin: 0px 11px;
-  cursor: pointer;
-}
-
-.delete {
-  color: #F56C6C;
-  cursor: pointer;
+::v-deep td .cell {
+  color: #606266;
+  font-size: 14px;
 }
 </style>

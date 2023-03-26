@@ -1,7 +1,7 @@
 /*
  * @Author: Topskys
  * @Date: 2023-02-24 11:16:16
- * @LastEditTime: 2023-03-13 15:24:30
+ * @LastEditTime: 2023-03-23 11:57:51
  * @LastEditors: Please set LastEditors
  * @Description: 
  */
@@ -21,18 +21,8 @@ export function login(data) {
 
 
 // 验证登录
-export function getInfo(email) {
-  return http({
-    url: '/users/verify',
-    method: 'post',
-    data:{
-      email
-    }
-  })
-}
-
-
+export const getInfo = () => http({ url:"/users/verify"})
 
 
 // 退出登录
-export const logout = (email) => http({ url: '/users/logout',method: 'post',data:{email: email} })
+export const logout = () => http({ url: '/users/logout'})

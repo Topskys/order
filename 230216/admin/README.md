@@ -258,3 +258,31 @@ export default defineConfig({
 ```ts
 import 'virtual:svg-icons-register'
 ```
+
+
+### 新建用户代码片段（vue3）
+> 2023年3月18日21:26:03
+文件 --> 首选项 --> 配置用户代码片段 --> 新建代码片段 --> 配置以下JSON字符串 
+```json
+{
+	"Print to console": {
+		"prefix": "v3", // 代码片段快捷指令
+		"body": [
+			"<template>",
+			"<div class=''></div>",
+			"</template>",
+			"",
+			"<script lang='ts' setup>",
+			"import {ref,reactive,toRefs,defineProps} from 'vue'",
+			"",
+			"</script>",
+			"",
+			"<style lang='scss' scoped>",
+			"",
+			"</style>",
+		],
+		"description": "Log output to console"
+	}
+}
+```
+使用：在*.vue文件里面输入v3即可生成以上代码片段。

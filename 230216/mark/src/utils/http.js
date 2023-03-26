@@ -21,7 +21,7 @@ const service = axios.create({
 // 请求拦截  设置统一header
 service.interceptors.request.use(
     config => {
-        store.getters.token && (config.headers['Authorization'] = 'Bearer ' + getToken())
+        store.getters.token && (config.headers['Authorization'] =  getToken())
         return config;
     },
     error => {

@@ -50,4 +50,4 @@ class Response{
 
 }
 
-module.exports=Response
+module.exports=new Response()

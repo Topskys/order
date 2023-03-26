@@ -1,9 +1,8 @@
 /*
  * @Author: Topskys
  * @Date: 2023-03-10 12:06:16
- * @LastEditTime: 2023-03-14 13:25:34
+ * @LastEditTime: 2023-03-23 16:02:02
  */
-import notification from '../../renderer/notice'
 import { setStorage, getStorage, delStorage } from '../../utils'
 
 
@@ -34,6 +33,7 @@ export default {
                 uuid: crypto.randomUUID(),
                 name: filePath.split('\\').at(-1).replace("/\.(.{1,})$/", ""),
                 filePath,
+                save:true,
             }
             state.files.push(file)
             setStorage('files', state.files)
@@ -43,7 +43,11 @@ export default {
         REMOVE_FILE(state, payload) {
             state.files = state.files.filter(file => file.uuid !== payload.uuid && file)
             setStorage('files', state.files)
-            state.files.length && this.commit("file/SET_CURR_FILE", state.files[0])
+            state.files.length && this.commit("file/SET_CURR_FILE", state.files.length > 1 ? state.files[state.files.length - 1] : state.files[0])
+            // if (state.files.length) {
+            //     const file = state.files.length > 1 ? state.files[state.files.length - 1] : state.files[0]
+            //     this.commit("file/SET_CURR_FILE", file)
+            // }
         },
         // 设置当前文件列表高亮行
         SET_ACTIVE_ID(state, payload) {

@@ -4,7 +4,7 @@ const {HOST, EMAIL, PASSWORD} = require('../controller/config/email')
 /**
  * 邮件类
  */
-module.exports = class Mailer {
+class Mailer {
 
     constructor() {
         this.config ={
@@ -46,3 +46,4 @@ module.exports = class Mailer {
     }
 }
 
+module.exports = new Mailer()

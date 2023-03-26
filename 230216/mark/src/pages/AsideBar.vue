@@ -1,7 +1,7 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-27 12:29:23
- * @LastEditTime: 2023-03-14 23:27:11
+ * @LastEditTime: 2023-03-23 12:22:34
 -->
 <template>
   <div
@@ -14,13 +14,17 @@
 
     <aside>
       <div class="search">
+        <span v-show="!showInput">文件</span>
         <input
           type="text"
           v-model="keyword"
           placeholder="Search..."
           pattern=".*\S.*"
+          ref="searchInput"
+          :class="{ showInput: showInput }"
+          @blur="showInput = false"
         />
-        <i class="el-icon-search"></i>
+        <i class="el-icon-search" @click="searchClick"></i>
       </div>
       <ul v-if="files.length">
         <li
@@ -55,6 +59,14 @@
       </ul>
       <footer>
         <i class="el-icon-plus" @click="newFile" data-title="新建文件"></i>
+        <span
+          class="el-icon-user-solid"
+          @click="logout"
+          :title="email"
+          v-if="token && email"
+          style="color: #67c23a"
+        ></span>
+        <i class="el-icon-user" @click="sign" data-title="登录" v-else></i>
       </footer>
     </aside>
   </div>
@@ -74,6 +86,7 @@ export default {
   data() {
     return {
       keyword: "",
+      showInput: false,
       fileList: [],
     };
   },
@@ -85,9 +98,12 @@ export default {
         return state.file.files;
       },
       activeId: (state) => state.file.activeId,
+      email: (state) => state.user.userInfo?.email||"",
+      token: (state) => state.user.token || "",
     }),
   },
   watch: {
+    // 监听关键词的变化，进行模糊搜索
     keyword: {
       handler(nv) {
         this.fileList = nv.trim()
@@ -98,9 +114,27 @@ export default {
   },
   methods: {
     ...mapActions("file", ["setCurrFile", "removeFiles"]),
+    ...mapActions("user", ["logout"]),
+
+    // 修改当前文件
+    updateCurrFile(){},
 
     // 新建文件的加号
     newFile: () => ipcRenderer.send("new"),
+
+    // 登录注册窗口
+    sign() {
+      // if (!this.token || this.userInfo == {}) {
+      //   ipcRenderer.send("sign", true);
+      // }
+      this.$router.push("/sign")
+    },
+    searchClick() {
+      this.showInput = !this.showInput;
+        if (this.showInput) {
+          this.$refs.searchInput && this.$refs.searchInput.focus();
+        }
+    },
   },
 };
 </script>
@@ -148,7 +182,7 @@ export default {
     pointer-events: none;
     border-right: 1px solid $border-clr-1;
     background-color: $bg-1;
-    transition: border-right 0.3s 0.3s;
+    transition: border-right 0.3s 0.2s;
   }
 
   // 内容
@@ -167,21 +201,36 @@ export default {
     .search {
       padding: 5px 6px 5px 10px;
       position: relative;
+      height: 35px;
+      line-height: 35px;
+      border-bottom: 1px solid #eee;
+      span {
+        position: absolute;
+        top: 50%;
+        left: 12px;
+        transform: translate(0, -50%);
+        font-size: 14px;
+      }
       input {
-        width: 100%;
-        padding: 2px 10px;
-        height: 25px;
-        border-color: $border-clr-1;
-        border-radius: 4px;
-        // 去掉input默认样式
+        width: 0;
+        height: 0;
+        border: none;
+        margin: none;
+        padding: 0;
+        overflow: hidden;
+        /*去掉input默认样式*/
         -webkit-appearance: none;
         -moz-appearance: none;
         font-size: 1em;
-        border: 1px solid #c8cccf;
         color: #6a6f77;
-        // 去掉input轮廓
+        /*去掉input轮廓*/
         outline: 0;
-        transition: 0.3s;
+        transition: 0.2s;
+        background: transparent;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
       }
       input::-moz-placeholder {
         /* Mozilla Firefox 4 to 18 */
@@ -197,12 +246,22 @@ export default {
       input[type="text"]:focus {
         border-color: #bbb;
       }
+
       .el-icon-search {
         position: absolute;
         top: 50%;
-        right: 16px;
+        right: 6px;
         transform: translateY(-50%);
         color: $text-clr-2;
+      }
+      .showInput {
+        display: inline-block;
+        width: calc(100% - 6px);
+        height: 25px;
+        padding: 2px 10px;
+        border: 1px solid #c8cccf;
+        border-color: $border-clr-1;
+        border-radius: 4px;
       }
     }
 
@@ -257,6 +316,9 @@ export default {
       line-height: 30px;
       padding-left: 5px;
       border-top: 1px solid $border-clr-1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       i {
         padding: 5px 8px;
         border-radius: 3px;
@@ -296,15 +358,4 @@ ul::-webkit-scrollbar {
   // background-color: rgba(0, 0, 0, 0);
   // opacity: 0;
 }
-// ul:hover {
-//   ul::-webkit-scrollbar {
-//     width: 5px;
-//     height: 5px;
-//     opacity: 1;
-//   }
-// }
-
-// ::v-deep .el-input__inner:focus {
-//   border-color: none !important;
-// }
 </style>

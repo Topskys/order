@@ -1,7 +1,7 @@
 /*
  * @Author: Topskys
  * @Date: 2023-02-17 21:47:41
- * @LastEditTime: 2023-03-14 14:30:59
+ * @LastEditTime: 2023-03-23 13:53:56
  * @Description: 主窗口
  */
 import { BrowserWindow, app, ipcMain, dialog, Notification } from 'electron';
@@ -76,13 +76,14 @@ class MainWin extends events {
 
         // 右键菜单
         // rightKey()
-        
+
     }
 
     close() {
         if (this.windowInstance && this.windowInstance.isVisible()) {
             this.windowInstance.close()
             this.windowInstance = null
+            app.quit()
         }
     }
 
@@ -118,28 +119,6 @@ class MainWin extends events {
                 console.log(err)
             })
         })
-
-
-        //  // 最小化窗口 
-        // // 在.vue使用ipcRenderer.send('mainwin-minize')发送给主进程，主进程在此监听mainwin-minize事件。
-        // ipcMain.on('mainwin-minize',()=>{
-        //     this.windowInstance.minimize()
-        // })
-
-        // // 最大化窗口
-        // ipcMain.on('mainwin-maximize',()=>{
-        //     this.windowInstance.maximize()
-        // })
-
-        // // 最大化还原
-        // ipcMain.on('mainwin-restore',()=>{
-        //     this.windowInstance.restore()
-        // })
-
-        // // 关闭窗口
-        // ipcMain.on('mainwin-close',()=>{
-        //     app.quit()
-        // })
     }
 }
 

@@ -1,7 +1,7 @@
 /*
  * @Author: Topskys
  * @Date: 2023-02-24 00:23:37
- * @LastEditTime: 2023-03-14 13:04:53
+ * @LastEditTime: 2023-03-23 14:45:11
  */
 import { login, logout, getInfo } from '@/api/user'
 import { getStorage, setStorage, delStorage } from '@/utils'
@@ -41,7 +41,7 @@ const actions = {
       login({ email: email.trim(), password: password }).then(({ token }) => {
         commit('SET_TOKEN', token)
         setToken(token)
-        dispatch('getInfo')
+        // dispatch('getInfo')
         resolve()
       }).catch(error => {
         reject(error)
@@ -61,9 +61,8 @@ const actions = {
     })
   },
   logout({ commit, state }) {
-    const email = state.userInfo.email
     return new Promise((resolve, reject) => {
-      logout(email).then(() => {
+      logout().then(() => {
         removeToken() // must remove  token  first
         delStorage("userInfo")
         commit('RESET_STATE')
@@ -73,6 +72,7 @@ const actions = {
       })
     })
   },
+  // 移除token令牌
   resetToken({ commit }) {
     return new Promise(resolve => {
       removeToken() // must remove  token  first

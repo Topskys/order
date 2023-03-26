@@ -1,16 +1,10 @@
-const CRUD = require('../controller/crud')
+const crud = require('../controller/crud')
 const UserModel = require('../models/user')
-const JWT = require('../utils/jwt')
-const Redis = require('../utils/redis')
-const Mailer = require('../utils/nodemailer')
-const Response = require('../utils/response')
-const jwt = require('jsonwebtoken')
-
-
-const crud = new CRUD()
-const redis = new Redis()
-const mailer = new Mailer()
-const {self, fail, exception} = new Response()
+const {isExpired,createToken} = require('../utils/jwt')
+const cache = require('../utils/redis')
+const mailer = require('../utils/nodemailer')
+const jwt= require('../utils/jwt')
+const {success,self, fail, exception} = require('../utils/response')
 
 
 /**
@@ -24,30 +18,22 @@ class User {
         const {email, password} = ctx.request.body;
 
         if (!email || !password) return fail(ctx, undefined, 400, "邮箱或密码未填写！")
+        await crud.findOne(ctx, UserModel, {email,password}, rel => rel ? (temp = rel) : fail(ctx, rel, 400, "该邮箱未注册！"))
 
-        await crud.findOne(ctx, UserModel, {email}, rel => rel ? (temp = rel) : fail(ctx, rel, 400, "该邮箱未注册！"))
-
-
-        if (email === temp.email && password === temp.password) {
-
-            // const lastToken = await redis.get(temp.email)
-            // if (lastToken) return self(ctx, {
-            //     code: 200,
-            //     token: lastToken,
-            //     msg: "登录成功"
-            // })
-
-            const token = new JWT().createToken(temp.email, temp._id, 7 * 24 * 60 * 60) // 3600 * 24 * 1 one day
-
-            if (!token) return fail(ctx, undefined, 500, "登录失败")
+        if (temp && email === temp.email && password === temp.password) {
+            const expires=await isExpired(ctx)
+            const hasToken = await cache.get(temp._id.toString())
+            if(expires && hasToken) return self(ctx,{code:200,token:hasToken,msg:"已登录"})
 
             try {
-                const res = await redis.set(temp.email, token, 7 * 24 * 60 * 60) // 7days
-                res ? self(ctx, {
+                const token = createToken({email:temp.email, _id:temp._id}, 7 * 24 * 60 * 60) // 3600 * 24 * 1 one day
+                const result=await cache.set(temp._id.toString(), token, 7 * 24 * 60 * 60) // 7days
+
+                token && result && self(ctx, {
                     code: 200,
                     token,
                     msg: "登录成功"
-                }) : fail(ctx, undefined, 500, "登录失败")
+                })
             } catch (err) {
                 exception(ctx, err, 500, "登录时出现异常")
             }
@@ -66,7 +52,7 @@ class User {
 
         // 判断该账户是否已经注册
         await crud.find(ctx, UserModel, {email}, rel => {
-            if (rel.isArray && rel.length) {
+            if (rel && rel.length) {
                 temp = rel
                 self(ctx, {
                     code: 200,
@@ -77,8 +63,8 @@ class User {
         })
 
         // 验证码对比
-        redis.get("code").then(res => {
-            code.includes(res) ? (temp = null) : fail(ctx, undefined, 400, "验证码错误！")
+        cache.get("code").then(res => {
+            code.includes(res) ? (temp = null) : fail(ctx, undefined, 401, "验证码错误！")
         }).catch(err => {
             exception(ctx, err, 500, "注册时出现异常")
         })
@@ -119,7 +105,7 @@ class User {
 
         try {
             // 设置验证码Redis缓存
-            await redis.set("code", code, 5 * 60) // 5 minutes
+            await cache.set("code", code, 5 * 60) // 5 minutes
 
             // 发送验证邮箱验证码
             const res = await mailer.sendMail(mailOptions)
@@ -138,13 +124,10 @@ class User {
     // 验证信息
     async verify(ctx) {
         let auth = ctx.header.authorization
-
-        auth = auth.replace('Bearer ', '')
-
         !auth && ctx.throw(401, 'no token detected in http headerAuthorization')
 
         try {
-            const res = await jwt.verify(auth, 'jwt-key')
+            const res = await jwt.isExpired(ctx)
 
             await crud.findOne(ctx, UserModel, {_id: res._id}, rel => {
                 rel ? self(ctx, {
@@ -154,7 +137,7 @@ class User {
                 }) : fail(ctx, rel, 401, "用户认证失败")
             })
         } catch (err) {
-            ctx.throw(401, 'invalid token')
+            ctx.throw(500, 'System Exception')
         }
     }
 
@@ -163,7 +146,24 @@ class User {
     async getAll(ctx) {
         await crud.findByPagination(ctx, UserModel, ctx.query, {email: new RegExp(ctx.query.keyword)})
     }
+
+
+
+    // 退出登录
+    async logout(ctx){
+        try{
+            const user= await isExpired(ctx)
+            const result=await cache.get(user._id.toString())
+            result && await cache.del(user._id.toString())
+            user && result && (ctx.body={
+                code:200,
+                msg:"退出成功"
+            })
+        }catch(err){
+            exception(ctx,err,500,"系统出现异常")
+        }
+    }
 }
 
 
-module.exports = User
+module.exports =new User()

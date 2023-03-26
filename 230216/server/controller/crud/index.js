@@ -1,8 +1,6 @@
 
-const Response=require('../../utils/response')
+const {success,self,fail,exception}=require('../../utils/response')
 
-
-const {success,self,fail,exception}=new Response()
 
 
 
@@ -156,4 +154,4 @@ class CRUD{
 
 
 
-module.exports = CRUD
+module.exports = new CRUD()

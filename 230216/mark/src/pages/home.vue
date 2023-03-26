@@ -1,7 +1,7 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-16 22:28:45
- * @LastEditTime: 2023-03-14 23:23:41
+ * @LastEditTime: 2023-03-23 17:10:01
 -->
 <template>
   <div class="container" @keyup="onKeyUp">
@@ -27,18 +27,32 @@
       <footer>
         <div class="toggle">
           <div class="collapse" @click="toggleAside">
-              <i class="el-icon-arrow-left" title="关闭侧边栏" v-if="isCollapsed"></i>
-              <i class="el-icon-arrow-right" title="展开侧边栏" v-else></i>
+            <i
+              class="el-icon-arrow-left"
+              title="关闭侧边栏"
+              v-if="isCollapsed"
+            ></i>
+            <i class="el-icon-arrow-right" title="展开侧边栏" v-else></i>
           </div>
           <div class="toolbar" @click="toggleToolbar">
-              <i class="el-icon-arrow-up" title="关闭工具栏" v-if="toolbar"></i>
+            <i class="el-icon-arrow-up" title="关闭工具栏" v-if="toolbar"></i>
             <i class="el-icon-arrow-down" title="展开工具栏" v-else></i>
           </div>
         </div>
         <div class="status">
           <div class="isSave status-item">
-            <i class="el-icon-success" v-if="isSave" title="已保存" style="color: #67c23a"></i>
-            <i class="el-icon-error" v-else title='未保存' style="color: #f56c6c"></i>
+            <i
+              class="el-icon-success"
+              v-if="isSave"
+              title="已保存"
+              style="color: #67c23a"
+            ></i>
+            <i
+              class="el-icon-error"
+              v-else
+              title="未保存"
+              style="color: #f56c6c"
+            ></i>
           </div>
           <div class="character status-item">
             <span>{{ value.length }}</span>
@@ -56,16 +70,17 @@
 const { ipcRenderer } = window.require("electron");
 const fs = window.require("fs");
 const path = window.require("path");
+const Store = window.require("electron-store");
 
 import { mapActions, mapGetters, mapState } from "vuex";
 import Aside from "./AsideBar.vue";
 import { debounce } from "../utils";
 import File from "../renderer/file";
 import notification from "../renderer/notice";
-import {copy,paste} from "../renderer/clipboard";
+import { copy, paste } from "../renderer/clipboard";
 // import rightKey from "../components/rightKey/index.vue";
-
 const { readFile, writeFile, autoSaveFile } = new File();
+const store = new Store();
 
 export default {
   name: "Home",
@@ -145,7 +160,7 @@ export default {
 
     // this.rightKey();
 
-    // 
+    //
   },
   methods: {
     ...mapActions("file", ["pushFiles"]),
@@ -207,6 +222,10 @@ export default {
         })
         .catch((err) => {
           notification({ title: "文件读取失败", body: err });
+          this.$message({
+            type: "info",
+            message: "文件读取失败",
+          });
         });
     },
 
@@ -262,7 +281,6 @@ export default {
         menu.style.zIndex = "999";
       });
     },
-
   },
   watch: {
     value: {
@@ -271,14 +289,18 @@ export default {
           this.$store.dispatch("file/setIsSave", true);
         } else {
           this.$store.dispatch("file/setIsSave", false);
-          let timer = null;
-          clearTimeout(timer);
-          timer = setTimeout(() => {
-            this.autoSave &&
-              this.currFile?.filePath &&
-              autoSaveFile(this.currFile?.filePath, nv); // writeFile
-          }, 5000);
+          // let timer = null;
+          // clearTimeout(timer);
+          // timer = setTimeout(() => {
+          //   this.autoSave &&
+          //     this.currFile?.filePath &&
+          //     autoSaveFile(this.currFile?.filePath, nv); // writeFile
+          // }, 5000);
         }
+
+        // 之久化存储
+        // store.set(this.currFile.uuid, nv);
+        // console.log(store.get(this.currFile.uuid))
       },
     },
     currFile: {

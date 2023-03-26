@@ -1,12 +1,13 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-23 18:23:32
- * @LastEditTime: 2023-03-13 14:17:08
+ * @LastEditTime: 2023-03-23 15:17:03
  * @LastEditors: Please set LastEditors
  * @Description: 
 -->
 <template>
   <div class="sign">
+    <!-- <i class="el-icon-close" @click="close"></i> -->
     <div class="sign-box">
       <!-- sign in -->
       <div
@@ -38,7 +39,11 @@
               showPassword
             ></el-input>
           </el-form-item>
-          <el-button type="primary" class="submit" @click="submit"
+          <el-button
+            type="primary"
+            class="submit"
+            @click="submit"
+            :class="{ shake: shake && tab === 1 }"
             >Sign in</el-button
           >
           <div class="tips">
@@ -81,7 +86,11 @@
               >
             </div>
           </el-form-item>
-          <el-button type="primary" class="submit" @click="create"
+          <el-button
+            type="primary"
+            class="submit"
+            @click="create"
+            :class="{ shake: shake && tab === 2 }"
             >Create account</el-button
           >
           <div class="tips">
@@ -124,6 +133,7 @@ export default {
       },
       tab: 1, // 控制登录、注册、验证的显隐
       redirect: undefined, // 路由重定向
+      shake: false,
       // 表单验证
       rules1: {
         email: [{ required: true, trigger: "blur" }],
@@ -143,21 +153,27 @@ export default {
   methods: {
     // 登录
     submit() {
-      this.$refs.login.validate((valid) => {
+      this.$refs.login.validate(async (valid) => {
         if (valid) {
-          this.$store
-            .dispatch("user/login", this.login)
-            .then(() => {
-              this.$router.push({ path: this.redirect || "/home" });
-            })
-            .catch((err) => {
-              console.error(err);
-              this.$notice({
-                title: "Error",
-                body: "登录时出现异常",
-              });
+          try {
+            await this.$store.dispatch("user/login", this.login);
+            await this.$store.dispatch("user/getInfo");
+            this.$router.push({ path: this.redirect || "/home" });
+          } catch (e) {
+            this.$message({
+              type: "info",
+              message: "登录时出现异常",
             });
+            this.shake = true;
+            setTimeout(() => {
+              this.shake = false;
+            }, 800);
+          }
         } else {
+          this.shake = true;
+          setTimeout(() => {
+            this.shake = false;
+          }, 800);
           return false;
         }
       });
@@ -172,19 +188,22 @@ export default {
             data: {
               ...this.register,
             },
-          })
-            .then(({ code, msg }) => {
-              this.$message({
-                type: code === 200 ? "success" : "error",
-                message: msg,
-              });
-            })
-            .catch((err) => {
-              this.$message({
-                type: code === 200 ? "success" : "error",
-                message: err || "注册时出现异常",
-              });
+          }).then(({ code, msg }) => {
+            this.$message({
+              type: code === 200 ? "success" : "error",
+              message: msg,
             });
+            this.shake = true;
+            setTimeout(() => {
+              this.shake = false;
+            }, 800);
+          });
+        } else {
+          this.shake = true;
+          setTimeout(() => {
+            this.shake = false;
+          }, 800);
+          return false;
         }
       });
     },
@@ -203,6 +222,8 @@ export default {
         });
       });
     },
+    // 关闭窗口
+    close: () => ipcRenderer.send("sign", false),
   },
   watch: {
     // 监听路由重定向
@@ -223,6 +244,19 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
+  .el-icon-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #606266;
+    padding: 8px 18px;
+    transition: 0.3s;
+    &:hover {
+      color: white;
+      background-color: #cf2f2f;
+    }
+  }
   .sign-box {
     width: 400px;
     margin: 0 auto;
@@ -251,7 +285,11 @@ export default {
           padding: 12px 20px;
           height: 100%;
           margin-left: 20px;
-          background: $bg-3;
+          background: #0071e3; //$bg-3;
+          transition: background 0.3s;
+          &:hover {
+            background: #0077ed;
+          }
         }
       }
     }
@@ -265,6 +303,7 @@ export default {
         color: #335eea;
         padding-left: 8px;
         text-decoration: underline;
+        transition: 0.3s;
         &:hover {
           text-decoration: none;
           cursor: pointer;
@@ -278,6 +317,10 @@ export default {
       text-align: center;
       p {
         margin: 2px 0;
+      }
+      a {
+        color: #335eea;
+        transition: 0.3s;
       }
       a:hover {
         text-decoration: none;
@@ -300,6 +343,11 @@ export default {
     padding: 12px 20px;
     margin-top: 50px;
     overflow: hidden;
+    transition: 0.3s;
+    &:hover,
+    &:focus {
+      background-color: #335eea;
+    }
   }
 }
 

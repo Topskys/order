@@ -4,7 +4,7 @@ const {createClient} = require('redis')
 /**
  * Redis 缓存
  */
-module.exports = class Cache {
+class Cache {
 
     constructor() {
         this.client = createClient({
@@ -53,9 +53,7 @@ module.exports = class Cache {
     get(key) {
         return new Promise((resolve, reject) => {
             this.client.get(key, function (err, result) {
-
                 if (err) reject(err)
-
                 resolve(result)
             })
         })
@@ -70,9 +68,7 @@ module.exports = class Cache {
     del(key) {
         return new Promise((resolve, reject) => {
             this.client.del(key, function (err, result) {
-
                 if (err) reject(err)
-
                 resolve(result)
             })
         })
@@ -81,3 +77,6 @@ module.exports = class Cache {
 
 }
 
+
+
+module.exports = new Cache()
