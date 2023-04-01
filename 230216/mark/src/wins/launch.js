@@ -1,8 +1,7 @@
 /*
  * @Author: Topskys
  * @Date: 2023-02-17 17:46:10
- * @LastEditTime: 2023-03-14 12:24:12
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-03-27 21:17:41
  * @Description: 启动窗口
  */
 import { BrowserWindow } from 'electron';

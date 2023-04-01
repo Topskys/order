@@ -9,6 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "ali-oss": "^6.17.1",
     "debug": "^4.1.1",
     "fs": "*",
     "jsonwebtoken": "^9.0.0",
@@ -19,6 +20,7 @@
     "koa-json": "^2.0.2",
     "koa-jwt": "^4.0.4",
     "koa-logger": "^3.2.0",
+    "koa-multer": "^1.0.2",
     "koa-onerror": "^4.1.0",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",

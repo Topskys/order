@@ -1,10 +1,10 @@
 /*
  * @Author: Topskys
  * @Date: 2023-02-17 21:47:41
- * @LastEditTime: 2023-03-23 13:53:56
+ * @LastEditTime: 2023-03-27 22:10:51
  * @Description: 主窗口
  */
-import { BrowserWindow, app, ipcMain, dialog, Notification } from 'electron';
+import { BrowserWindow, app, ipcMain, dialog, Notification, shell } from 'electron';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import tray from '../electron/tray.js';
 import menu from '../electron/menu.js';
@@ -67,7 +67,6 @@ class MainWin extends events {
             this.emit('show')
         })
 
-
         // 当frame为false时，需监听最大、最小、关闭按钮
         this.listenIpc()
 
@@ -76,7 +75,6 @@ class MainWin extends events {
 
         // 右键菜单
         // rightKey()
-
     }
 
     close() {
@@ -88,7 +86,6 @@ class MainWin extends events {
     }
 
     listenIpc() {
-
         // 新建文件
         ipcMain.on("new", async (e, data) => {
             const win = this.windowInstance
@@ -108,6 +105,16 @@ class MainWin extends events {
 
         // 通知
         ipcMain.on("notice", (e, data) => notice(data));
+
+        // register
+        ipcMain.on("register", async (e, data) => {
+            try {
+                e.preventDefault();
+                await shell.openExternal(data)
+            } catch (err) {
+                notice({ body: "操作异常" })
+            }
+        })
 
 
 

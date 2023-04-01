@@ -1,7 +1,7 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-16 22:28:45
- * @LastEditTime: 2023-03-23 17:10:01
+ * @LastEditTime: 2023-04-01 09:56:24
 -->
 <template>
   <div class="container" @keyup="onKeyUp">
@@ -23,7 +23,9 @@
         @imgAdd="imgAdd"
         @imgDel="imgDel"
         @subfieldToggle="subfieldToggle"
-      />
+      >
+        <!-- <rightMenu ref="rightMenu"/> @contextmenu.prevent.native="openMenu($event)"-->
+      </mavon-editor>
       <footer>
         <div class="toggle">
           <div class="collapse" @click="toggleAside">
@@ -54,13 +56,15 @@
               style="color: #f56c6c"
             ></i>
           </div>
+          <div class="status-item">
+            
+          </div>
           <div class="character status-item">
             <span>{{ value.length }}</span>
-            <span>字符</span>
+            <span>字</span>
           </div>
         </div>
       </footer>
-      <!-- <right-key /> -->
     </main>
   </div>
 </template>
@@ -70,62 +74,34 @@
 const { ipcRenderer } = window.require("electron");
 const fs = window.require("fs");
 const path = window.require("path");
-const Store = window.require("electron-store");
+// const Store = window.require("electron-store");
 
 import { mapActions, mapGetters, mapState } from "vuex";
 import Aside from "./AsideBar.vue";
-import { debounce } from "../utils";
+import rightMenu from "../components/RightMenu/index.vue";
 import File from "../renderer/file";
 import notification from "../renderer/notice";
-import { copy, paste } from "../renderer/clipboard";
+import mavonEditor from "../config/mavonEditor";
+// import { copy, paste } from "../renderer/clipboard";
 // import rightKey from "../components/rightKey/index.vue";
-const { readFile, writeFile, autoSaveFile } = new File();
-const store = new Store();
+
+const { readStream, writeStream, createFile } = new File();
+// const store = new Store();
 
 export default {
   name: "Home",
   components: {
     Aside,
-    // rightKey,
+    rightMenu,
   },
   data() {
     return {
-      value: "", // 编辑的文本数据
-      toolbars: {
-        bold: true, // 粗体
-        italic: true, // 斜体
-        header: true, // 标题
-        underline: true, // 下划线
-        strikethrough: true, // 中划线
-        mark: true, // 标记
-        superscript: true, // 上角标
-        subscript: true, // 下角标
-        quote: true, // 引用
-        ol: true, // 有序列表
-        ul: true, // 无序列表
-        link: true, // 链接
-        imagelink: true, // 图片链接
-        code: true, // code
-        table: true, // 表格
-        fullscreen: true, // 全屏编辑
-        readmodel: true, // 沉浸式阅读
-        htmlcode: true, // 展示html源码
-        help: true, // 帮助
-        /* 1.3.5 */
-        undo: true, // 上一步
-        redo: true, // 下一步
-        trash: true, // 清空
-        save: true, // 保存（触发events中的save事件）
-        /* 1.4.2 */
-        navigation: true, // 导航目录
-        /* 2.1.8 */
-        alignleft: true, // 左对齐
-        aligncenter: true, // 居中
-        alignright: true, // 右对齐
-        /* 2.2.1 */
-        subfield: true, // 单双栏模式
-        preview: true, // 预览
-      },
+      /* 编辑的文本数据 */
+      value: "",
+      /* 选中文本 */
+      selection: "",
+      /* 编辑区配置 */
+      toolbars: { ...mavonEditor },
     };
   },
   computed: {
@@ -151,137 +127,21 @@ export default {
   },
   mounted() {
     // 打开文件并修改当前文件
-    ipcRenderer.on(
-      "openFile",
-      (e, filePath) => filePath && this.pushFiles({ filePath, curr: true })
-    );
-
+    ipcRenderer.on("openFile", (e, filePath) => {
+      filePath &&
+        this.pushFiles({
+          filePath,
+          curr: true,
+        });
+    });
+    // 文件保存按钮
     ipcRenderer.on("saveFile", () => this.save());
-
-    // this.rightKey();
-
-    //
+    // 主菜单栏另存为
+    ipcRenderer.on("saveAs", (e, data) =>
+      createFile(data.filePath, this.value)
+    );
   },
-  methods: {
-    ...mapActions("file", ["pushFiles"]),
-
-    // 监听键盘事件
-    onKeyUp(e) {
-      const collKey = this.collapsedKey.split("+").at(-1).trim().charCodeAt();
-      const toolKey = this.toolBarKey.split("+").at(-1).trim().charCodeAt();
-
-      // Ctrl + F 70
-      if ((e.ctrlKey || e.metaKey) && e.keyCode === collKey) {
-        e.preventDefault();
-        this.globKey
-          ? this.toggleAside()
-          : notification({
-              title: "Warning",
-              body: "全局快捷键已关闭",
-            });
-      }
-
-      // Ctrl + T 84
-      if ((e.ctrlKey || e.metaKey) && e.keyCode === toolKey) {
-        e.preventDefault();
-        this.globKey
-          ? this.toggleToolbar()
-          : notification({
-              title: "Warning",
-              body: "全局快捷键已关闭",
-            });
-      }
-    },
-
-    // 保存，写入文件
-    save() {
-      writeFile(this.currFile?.filePath, this.value);
-    },
-
-    // 展开或关闭侧边栏
-    toggleAside() {
-      this.$store.dispatch("app/toggleCollapsed");
-    },
-
-    // 展开或关闭编辑区顶部工具栏
-    toggleToolbar() {
-      this.$store.dispatch("app/toggleToolbar");
-    },
-
-    // 单双栏
-    subfieldToggle() {
-      this.$store.dispatch("app/toggleSubfield");
-    },
-
-    // 读取文件内容
-    readFileContent(filePath) {
-      if (!filePath) return;
-      readFile(filePath)
-        .then((res) => {
-          this.value = res.toString();
-        })
-        .catch((err) => {
-          notification({ title: "文件读取失败", body: err });
-          this.$message({
-            type: "info",
-            message: "文件读取失败",
-          });
-        });
-    },
-
-    // 上传图片
-    imgAdd(e, $file) {
-      let formData = new FormData();
-      formData.append("file", $file);
-
-      this.$http({
-        url: "/upload",
-        method: "POST",
-        data: formData,
-        headers: { "Content-Type": "multipart/form-data" },
-      }).then(({ data }) => {
-        $vm.$img2Url(data.url);
-      });
-    },
-
-    // 删除图片
-    imgDel() {},
-
-    // 右键菜单
-    rightKey() {
-      document.addEventListener("contextmenu", function (event) {
-        event.preventDefault();
-        var menu = document.createElement("ul");
-        menu.style.position = "absolute";
-        menu.style.background = "#eee";
-        menu.style.boxShadow = "1px 1px 3px rgba(0,0,0,0.3)";
-        menu.style.padding = "5px";
-        menu.style.display = "none";
-        document.body.appendChild(menu);
-
-        var menuItem1 = document.createElement("li");
-        menuItem1.innerText = "复制";
-        menu.appendChild(menuItem1);
-
-        var menuItem2 = document.createElement("li");
-        menuItem2.innerText = "剪切";
-        menu.appendChild(menuItem2);
-
-        var menuItem3 = document.createElement("li");
-        menuItem3.innerText = "粘贴";
-        menu.appendChild(menuItem3);
-
-        menu.addEventListener("click", function (event) {
-          console.log(event.target.innerText);
-        });
-
-        menu.style.top = event.clientY + "px";
-        menu.style.left = event.clientX + "px";
-        menu.style.display = "block";
-        menu.style.zIndex = "999";
-      });
-    },
-  },
+  unmounted() {},
   watch: {
     value: {
       handler(nv) {
@@ -305,9 +165,87 @@ export default {
     },
     currFile: {
       handler(nv) {
-        this.readFileContent(nv?.filePath);
+        this.readFileContent(nv);
       },
       immediate: true,
+    },
+  },
+  methods: {
+    ...mapActions("file", ["pushFiles", "removeFiles"]),
+    // 监听键盘事件
+    onKeyUp(e) {
+      const collCode = this.collapsedKey.split("+").at(-1).trim().charCodeAt();
+      const toolCode = this.toolBarKey.split("+").at(-1).trim().charCodeAt();
+      // Ctrl + F 70
+      if ((e.ctrlKey || e.metaKey) && e.keyCode === collCode) {
+        e.preventDefault();
+        this.globKey
+          ? this.toggleAside()
+          : notification({
+              title: "Warning",
+              body: "全局快捷键已关闭",
+            });
+      }
+      // Ctrl + T 84
+      if ((e.ctrlKey || e.metaKey) && e.keyCode === toolCode) {
+        e.preventDefault();
+        this.globKey
+          ? this.toggleToolbar()
+          : notification({
+              title: "Warning",
+              body: "全局快捷键已关闭",
+            });
+      }
+    },
+    // 保存，写入文件
+    save() {
+      writeStream(this.currFile?.filePath, this.value);
+    },
+    // 展开或关闭侧边栏
+    toggleAside() {
+      this.$store.dispatch("app/toggleCollapsed");
+    },
+    // 展开或关闭编辑区顶部工具栏
+    toggleToolbar() {
+      this.$store.dispatch("app/toggleToolbar");
+    },
+    // 单双栏
+    subfieldToggle() {
+      this.$store.dispatch("app/toggleSubfield");
+    },
+    // 读取文件内容
+    readFileContent(file) {
+      readStream(file.filePath)
+        .then((res) => {
+          this.value = res.toString(); // Buffer 》》 string
+        })
+        .catch((err) => {
+          this.removeFiles(file);
+          this.$message({
+            type: "info",
+            message: "文件读取失败",
+          });
+        });
+    },
+    // 上传图片
+    imgAdd(e, $file) {
+      let formData = new FormData();
+      formData.append("file", $file);
+
+      this.$http({
+        url: "/upload",
+        method: "POST",
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
+      }).then(({ data }) => {
+        $vm.$img2Url(data.url);
+      });
+    },
+    // 删除图片
+    imgDel() {},
+    openMenu(e) {
+      console.log("--", e);
+      this.$refs.rightMenu.openMenu(e);
     },
   },
 };
@@ -320,7 +258,6 @@ export default {
   main {
     flex: 1;
     overflow: hidden;
-    // position: relative;
     .v-note-wrapper {
       position: relative;
       box-shadow: none !important;
@@ -333,6 +270,7 @@ export default {
       // }
     }
 
+    // }
     footer {
       height: 30px;
       width: inherit;

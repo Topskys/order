@@ -45,20 +45,19 @@ const menu = (win) => {
                 {
                     label: '另存为',
                     accelerator: 'Ctrl+Shift+P',
-                    click: () => {
-                        console.log('2')
+                    click: async () => {
+                        try {
+                            const { canceled, filePath } = await dialog.showSaveDialog(win, { title: '另存为' });
+                            !canceled && filePath && win.webContents.send('saveAs', { canceled, filePath });
+                        } catch (error) {
+                            notice({ title: 'Error', body: error })
+                        }
                     }
                 },
                 {
-                    label: '导入',
+                    label: '导出HTML',
                     click: () => {
                         console.log('3')
-                    }
-                },
-                {
-                    label: '导出',
-                    click: () => {
-                        console.log('2')
                     }
                 },
                 {

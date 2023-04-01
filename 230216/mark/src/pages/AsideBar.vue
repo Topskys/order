@@ -1,7 +1,7 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-27 12:29:23
- * @LastEditTime: 2023-03-23 12:22:34
+ * @LastEditTime: 2023-03-27 23:34:59
 -->
 <template>
   <div
@@ -62,19 +62,23 @@
         <span
           class="el-icon-user-solid"
           @click="logout"
-          :title="email"
-          v-if="token && email"
+          :title="username"
+          v-if="token && username"
           style="color: #67c23a"
         ></span>
         <i class="el-icon-user" @click="sign" data-title="登录" v-else></i>
       </footer>
+      <Sign :dialogVisible.sync="dialogVisible" />
     </aside>
+    <!-- <rightMenu ref="rightMenu"/>  @contextmenu.prevent.native="openMenu($event)"-->
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
 import ETooltip from "../components/tooltip/index.vue";
+import Sign from "../components/sign/index.vue";
+import rightMenu from "../components/RightMenu/index.vue";
 import file from "../store/modules/file";
 const { ipcRenderer } = window.require("electron");
 
@@ -82,12 +86,15 @@ export default {
   name: "AsideBar",
   components: {
     ETooltip,
+    Sign,
+    rightMenu,
   },
   data() {
     return {
       keyword: "",
       showInput: false,
       fileList: [],
+      dialogVisible: false,
     };
   },
   computed: {
@@ -98,7 +105,7 @@ export default {
         return state.file.files;
       },
       activeId: (state) => state.file.activeId,
-      email: (state) => state.user.userInfo?.email||"",
+      username: (state) => state.user.userInfo?.username || "",
       token: (state) => state.user.token || "",
     }),
   },
@@ -114,26 +121,27 @@ export default {
   },
   methods: {
     ...mapActions("file", ["setCurrFile", "removeFiles"]),
-    ...mapActions("user", ["logout"]),
-
+    ...mapActions("user", ["setVisiable", "logout"]),
     // 修改当前文件
-    updateCurrFile(){},
-
+    updateCurrFile() {},
     // 新建文件的加号
     newFile: () => ipcRenderer.send("new"),
-
     // 登录注册窗口
     sign() {
       // if (!this.token || this.userInfo == {}) {
       //   ipcRenderer.send("sign", true);
       // }
-      this.$router.push("/sign")
+      this.dialogVisible = !this.dialogVisible;
     },
     searchClick() {
       this.showInput = !this.showInput;
-        if (this.showInput) {
-          this.$refs.searchInput && this.$refs.searchInput.focus();
-        }
+      if (this.showInput) {
+        this.$refs.searchInput && this.$refs.searchInput.focus();
+      }
+    },
+    openMenu(e) {
+      console.log("--", e);
+      this.$refs.rightMenu.openMenu(e);
     },
   },
 };
@@ -204,12 +212,13 @@ export default {
       height: 35px;
       line-height: 35px;
       border-bottom: 1px solid #eee;
+      font-size: 14px;
       span {
         position: absolute;
         top: 50%;
         left: 12px;
         transform: translate(0, -50%);
-        font-size: 14px;
+        font-size: 12px;
       }
       input {
         width: 0;
@@ -289,6 +298,7 @@ export default {
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
+          color:#1d273b;
         }
         .el-icon-close {
           position: absolute;
@@ -297,6 +307,11 @@ export default {
           transform: translateY(-50%);
           opacity: 0;
           transition: 0.3s;
+          padding: 2px;
+          border-radius: 100%;
+          &:hover {
+            background-color: #ccc;
+          }
         }
 
         &:hover,
@@ -308,7 +323,6 @@ export default {
         }
       }
     }
-
     footer {
       color: $text-clr-6;
       font-size: $fs14;
@@ -350,6 +364,19 @@ export default {
 
 .active {
   background-color: $bg-1;
+  position: relative;
+  transition: 0.3s;
+  &::before {
+    content: "";
+    width: 3px;
+    height: 28px;
+    background-color: #1d273b; // #6a6f77;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
 }
 
 ul::-webkit-scrollbar {
