@@ -1,29 +1,30 @@
-<script setup lang="ts">
-import {ref, toRefs, reactive} from 'vue'
-
-
-// 自动化导入控件
-const files = import.meta.glob("../../components/control/**/*.vue")
-const modules = {}
-for (const file in files) {
-    modules[`ep-${file.split("/").at(-2)}`] = files[file]()
-}
-
-
-
-
-
-
-</script>
-
-
 <template>
-
-
-
+  <div class="dashboard-container">
+    <div class="dashboard-text">name: {{ name }}</div>
+  </div>
 </template>
 
+<script>
+import { mapGetters } from 'vuex'
+
+export default {
+  name: 'Dashboard',
+  computed: {
+    ...mapGetters([
+      'name'
+    ])
+  }
+}
+</script>
 
 <style lang="scss" scoped>
-
+.dashboard {
+  &-container {
+    margin: 30px;
+  }
+  &-text {
+    font-size: 30px;
+    line-height: 46px;
+  }
+}
 </style>

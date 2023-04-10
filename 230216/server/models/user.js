@@ -4,13 +4,13 @@ const mongoose = require('mongoose');
 
 
 const schema = new mongoose.Schema({
-        email: {
+        username: {
             type: String,
-            // required: true
+             required: true
         },
         password: {
             type: String,
-            // required: true
+             required: true
         },
         nickname: {
             type: String,
@@ -33,9 +33,9 @@ const schema = new mongoose.Schema({
             default: '',
         },
         status: {
-            type: String,
-            default: 'normal' // normal: 正常(success) ; delete : 删除(danger)  ; info (info) exception
-        },// 状态
+            type: Boolean,
+            default: true
+        },
     },
     {
         timestamps: true

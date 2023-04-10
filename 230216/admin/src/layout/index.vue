@@ -1,77 +1,93 @@
-<script lang="ts" setup>
-import {watch} from 'vue'
-import {useRouter, onBeforeRouteUpdate} from 'vue-router';
-import Header from "./Header.vue";
-import AsideBar from './AsideBar.vue'
-
-const router = useRouter()
-let currPath = ref("");
-
-watch(() => router.currentRoute.value.path, (nv, ov) => (currPath.value = nv), {immediate: true})
-
-</script>
-
-
 <template>
-    <div class="layout">
-        <AsideBar></AsideBar>
-        <div class="container">
-            <Header></Header>
-            <main>
-                <!--                <Transition name="slide-fade">-->
-                <!--                    <router-view :key="currPath"/>-->
-                <!--                </Transition>-->
-                <router-view v-slot="{ Component }">
-                    <transition name="slide-fade">
-                        <component :is="Component"/>
-                    </transition>
-                </router-view>
-            </main>
-        </div>
+  <div :class="classObj" class="app-wrapper">
+    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
+    <sidebar class="sidebar-container" />
+    <div class="main-container">
+      <div :class="{'fixed-header':fixedHeader}">
+        <navbar />
+      </div>
+      <app-main />
     </div>
+  </div>
 </template>
 
-<style lang="scss" scoped>
-.layout {
-  display: flex;
-  height: 100vh;
+<script>
+import { Navbar, Sidebar, AppMain } from './components'
+import ResizeMixin from './mixin/ResizeHandler'
 
-  AsideBar {
-    width: 200px;
-    max-width: 200px;
-  }
-
-  .container {
-    flex: 1;
-    height: 100vh;
-    overflow: hidden;
-    background-color: $bg-7;
-
-    main {
-      padding: 15px;
-      height: calc(100vh - 56px);
-      z-index: -1;
-      //      background-color: green;
+export default {
+  name: 'Layout',
+  components: {
+    Navbar,
+    Sidebar,
+    AppMain
+  },
+  mixins: [ResizeMixin],
+  computed: {
+    sidebar() {
+      return this.$store.state.app.sidebar
+    },
+    device() {
+      return this.$store.state.app.device
+    },
+    fixedHeader() {
+      return this.$store.state.settings.fixedHeader
+    },
+    classObj() {
+      return {
+        hideSidebar: !this.sidebar.opened,
+        openSidebar: this.sidebar.opened,
+        withoutAnimation: this.sidebar.withoutAnimation,
+        mobile: this.device === 'mobile'
+      }
+    }
+  },
+  methods: {
+    handleClickOutside() {
+      this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
     }
   }
 }
+</script>
 
+<style lang="scss" scoped>
+  @import "~@/styles/mixin.scss";
+  @import "~@/styles/variables.scss";
 
-/*
-  进入和离开动画可以使用不同
-  持续时间和速度曲线。
-*/
-.slide-fade-enter-active {
-  transition: all 0.3s ease-out;
-}
+  .app-wrapper {
+    @include clearfix;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    &.mobile.openSidebar{
+      position: fixed;
+      top: 0;
+    }
+  }
+  .drawer-bg {
+    background: #000;
+    opacity: 0.3;
+    width: 100%;
+    top: 0;
+    height: 100%;
+    position: absolute;
+    z-index: 999;
+  }
 
-.slide-fade-leave-active {
-  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
-}
+  .fixed-header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 9;
+    width: calc(100% - #{$sideBarWidth});
+    transition: width 0.28s;
+  }
 
-.slide-fade-enter-from,
-.slide-fade-leave-to {
-  transform: translateX(20px);
-  opacity: 0;
-}
+  .hideSidebar .fixed-header {
+    width: calc(100% - 54px)
+  }
+
+  .mobile .fixed-header {
+    width: 100%;
+  }
 </style>

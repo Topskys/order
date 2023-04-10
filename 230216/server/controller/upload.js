@@ -7,8 +7,9 @@ const fs = require('fs');
 let storage = multer.diskStorage({
     // 文件存储位置
     destination: (req, file, cb) => {
-        const folder = new Date().toLocaleDateString().split('/').join('')
-        const dir = `./public/uploads/${folder}`
+        //   const folder = new Date().toLocaleDateString().split('/').join('')
+        //   const dir = `./public/uploads/${folder}`
+        const dir = `./public/uploads`
         !fs.existsSync(dir) && fs.mkdirSync(dir, {recursive: true}) // 判断目录是否存在，否则创建目录
         cb(null, dir)
     },

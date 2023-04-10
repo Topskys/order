@@ -1,10 +1,13 @@
-// 用户反馈模型
-
+// 反馈信息模型
 const mongoose = require('mongoose');
 
 
 const schema = new mongoose.Schema({
-        userId: {
+        subject: {
+            type: String,
+            required: true
+        },
+        content: {
             type: String,
             required: true
         },
@@ -14,15 +17,13 @@ const schema = new mongoose.Schema({
         },
         status: {
             type: String,
-            default: 'normal' // normal: 正常(success) ; delete : 删除(danger)  ; info (info) exception
+            default: 'normal'
         },
     },
     {
         timestamps: true
     }
 )
-
-
 
 
 module.exports = mongoose.model('feedback', schema)

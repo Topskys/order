@@ -1,0 +1,121 @@
+@import "~@/assets/styles/variables.scss";
+
+
+
+* {
+  box-sizing: border-box;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+html {
+  font-size: 16px;
+  font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+
+
+.r-flex {
+  display: flex;
+}
+
+
+.d-flex {
+  display: column;
+}
+
+
+
+
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  // background-color: #ddd;
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  // background-color: #c7c7c7;
+  background-color: #ccc;
+}
+
+
+
+a,
+article,
+aside,
+audio,
+blockquote,
+body,
+canvas,
+caption,
+cite,
+dd,
+details,
+div,
+dl,
+dt,
+embed,
+fieldset,
+figcaption,
+figure,
+footer,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+header,
+hgroup,
+html,
+iframe,
+img,
+label,
+legend,
+li,
+mark,
+menu,
+nav,
+object,
+ol,
+output,
+p,
+ruby,
+section,
+span,
+sub,
+summary,
+sup,
+table,
+tbody,
+td,
+tfoot,
+th,
+thead,
+time,
+tr,
+ul,
+video {
+  border: 0;
+  // font: inherit;
+  // color: $text-clr-4;
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+  vertical-align: baseline;
+}
