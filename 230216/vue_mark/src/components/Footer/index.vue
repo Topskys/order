@@ -112,10 +112,12 @@ export default {
       this.showSignDialog = !this.showSignDialog;
     },
     // 启动终端
-    startTerminal: () => ipcRenderer.send("start-terminal"),
+    startTerminal(){
+      ipcRenderer.send("start-terminal")
+    } ,
     // 上传
     upload(){
-      openDirPicker()
+      // openDirPicker()
     }
   },
 };

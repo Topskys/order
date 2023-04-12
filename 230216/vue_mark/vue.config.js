@@ -1,3 +1,8 @@
+/*
+ * @Author: Topskys
+ * @Date: 2023-04-10 23:18:16
+ * @LastEditTime: 2023-04-12 20:43:50
+ */
 const { defineConfig } = require('@vue/cli-service')
 const path = require('path')
 
@@ -14,7 +19,7 @@ module.exports = defineConfig({
   pluginOptions: {
     electronBuilder: {
       electronBuilder: {
-        nodeIntegration: true, // 在渲染进程使用NodeJS API 或 在new BrowserWindow({})新建窗口时配置
+        // nodeIntegration: true, // 在渲染进程使用NodeJS API 或 在new BrowserWindow({})新建窗口时配置
       },
       builderOptions: {
         productName: "Mark", //项目名 这也是生成的exe文件的前缀名

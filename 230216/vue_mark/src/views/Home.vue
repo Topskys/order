@@ -1,10 +1,10 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-16 22:28:45
- * @LastEditTime: 2023-04-10 22:02:48
+ * @LastEditTime: 2023-04-12 22:11:24
 -->
 <template>
-  <div class="container" @keyup="onKeyUp">
+  <div class="container">
     <AsideBar></AsideBar>
     <main>
       <VueMavonEditor
@@ -19,10 +19,12 @@
         :ishljs="ishljs"
         :language="lang"
         :fontSize="`${fs}px`"
+        :code_style="code_style"
         @save="save"
         @imgAdd="imgAdd"
         @imgDel="imgDel"
         @subfieldToggle="subfieldToggle"
+        :external-link="externalLink"
       >
       </VueMavonEditor>
       <FooterStatus :length="value.length"></FooterStatus>
@@ -46,7 +48,7 @@ import { mapActions, mapGetters, mapState } from "vuex";
 import { mavonEditor } from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
 import FooterStatus from "@/components/Footer/index.vue";
-import AsideBar from "./AsideBar.vue";
+import AsideBar from "./AsideBar1.vue";
 // import Terminal from "../components/Terminal/index.vue";
 // config
 import homeState from "@/config/homeMapState.js";
@@ -75,6 +77,15 @@ export default {
       direction: "btt",
       cmd: "",
       ps: "",
+      code_style: "",
+      externalLink: {
+        markdown_css: () => "/md/markdown/github-markdown.min.css",
+        hljs_js: () => "/md/highlightjs/highlight.min.js",
+        hljs_css: (css) => "/md/highlightjs/styles/" + css + ".min.css",
+        hljs_lang: (lang) => "/md/highlightjs/languages/" + lang + ".min.js",
+        katex_css: () => "/md/katex/katex.min.css",
+        katex_js: () => "/md/katex/katex.min.js",
+      },
     };
   },
   computed: {
@@ -83,6 +94,7 @@ export default {
     ...mapGetters("file", ["getCurrFile"]),
   },
   mounted() {
+    this.code_style = "solarized-dark";
     // 打开文件并修改当前文件
     ipcRenderer.on("openFile", (e, filePath) => {
       filePath &&

@@ -1,7 +1,7 @@
 /*
  * @Author: Topskys
  * @Date: 2023-02-17 21:47:41
- * @LastEditTime: 2023-04-10 21:24:56
+ * @LastEditTime: 2023-04-12 22:19:38
  */
 import { BrowserWindow, app, ipcMain, dialog, Notification, shell } from 'electron';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
@@ -40,24 +40,27 @@ class MainWin extends events {
             this.win.loadURL(`${process.env.WEBPACK_DEV_SERVER_URL}#/home`)
         } else {
             createProtocol('app')
-            this.win.loadURL('app://./index.html#/home')
+            this.win.loadURL('app://./index.html/#/home')
         }
         this.init();
     }
 
     init() {
         this.win.once('ready-to-show', () => {
-            this.win.show()
             menu(this.win) // 顶部菜单栏
+            this.win.show()
         })
-        this.win.once('show', () => this.emit('show'))
+        this.win.on('show', () => this.emit('show'))
         // 托盘
-        tray(this.win); 
+        tray(this.win);
         // 当frame为false时，需监听最大、最小、关闭按钮
-        this.listenIpc()
+        this.listen()
         // 检查应用更新
         // updater()
     }
+
+
+
 
     close() {
         if (this.win && this.win.isVisible()) {
@@ -67,7 +70,7 @@ class MainWin extends events {
         }
     }
 
-    listenIpc() {
+    listen() {
         // 新建文件
         ipcMain.on("new", async (e, data) => {
             try {
@@ -108,7 +111,7 @@ class MainWin extends events {
         })
 
         // open Terminal
-        ipcMain.on('start-terminal', async () => startTerminal())
+        ipcMain.on('start-terminal', () => startTerminal())
 
         // ipcMain.on("dialog-message", function (e, data) {
         //     dialog.showMessageBox(data).then(result => {
