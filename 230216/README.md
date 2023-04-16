@@ -1,7 +1,7 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-16 22:28:55
- * @LastEditTime: 2023-04-12 21:32:04
+ * @LastEditTime: 2023-04-12 22:46:52
 -->
 # 230216 Mark
 Mark is a desktop application for editing markdown.
@@ -172,10 +172,28 @@ taskkill -PID -F pid
 
 解决打包后，启动应用，了饿了么图标不显示的问题，以及markdown编辑区样式资源的加载问题。所有资源不用CDN，均使用本地载入。
 
+### 重构页面设计
+> 2023年4月14日21:10:14
+
+侧边栏文件目录、文件、图片上传
+
 
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+
+```json
+                                ----------
+                                |        |
+微信小程序 ------- request ------ | Server |
+                                |        |
+                                ----------
+                                    |
+                                    |
+                                  MongoDB
+```
 
 
 

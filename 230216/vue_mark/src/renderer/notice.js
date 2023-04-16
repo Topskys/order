@@ -5,7 +5,7 @@
  */
 const notification = (option) => {
     option = {
-        title: option.title || "Notice",
+        title: option.title || 'Notice',
         body: option.body,
         icon: "./mark@128.ico", // public/mark@128.ico
     };

@@ -1,5 +1,5 @@
 const { app, Menu, dialog, shell } = require('electron');
-const { openFile, openFileFolder } = require("./file");
+const { openFile, openDir } = require("./file");
 const createFile = require("./createFile.js");
 const notice = require("./notice.js");
 
@@ -31,7 +31,7 @@ const menu = (win) => {
                 {
                     label: '打开文件夹',
                     accelerator: 'Ctrl+K+O',
-                    click: async () => win.webContents.send("openDirectory", await openDirectory(win))
+                    click: async () => win.webContents.send("openDir", await openDir(win))
                 },
                 {
                     label: '保存',

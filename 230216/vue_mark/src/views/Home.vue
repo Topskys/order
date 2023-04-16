@@ -1,15 +1,20 @@
 <!--
  * @Author: Topskys
+ * @Date: 2023-04-10 23:18:17
+ * @LastEditTime: 2023-04-16 22:07:13
+-->
+<!--
+ * @Author: Topskys
  * @Date: 2023-02-16 22:28:45
- * @LastEditTime: 2023-04-12 22:11:24
+ * @LastEditTime: 2023-04-16 21:22:42
 -->
 <template>
-  <div class="container">
-    <AsideBar></AsideBar>
+  <div class="container" @keyup="onKeyUp">
+    <AsideBar @fileData="fileData"></AsideBar>
     <main>
       <VueMavonEditor
         ref="mdr"
-        v-model="value"
+        v-model="content"
         :toolbars="toolbars"
         :boxShadow="false"
         :toolbarsFlag="toolbar"
@@ -27,11 +32,10 @@
         :external-link="externalLink"
       >
       </VueMavonEditor>
-      <FooterStatus :length="value.length"></FooterStatus>
+      <FooterStatus :length="content.length"></FooterStatus>
     </main>
   </div>
 </template>
-
 
 
 <script>
@@ -40,7 +44,8 @@ const { ipcRenderer } = window.require("electron");
 const fs = window.require("fs");
 const path = window.require("path");
 import File from "../renderer/file";
-// import notification from "../renderer/notice";
+import notification from "../renderer/notice";
+import axios from "axios";
 
 // Vuex
 import { mapActions, mapGetters, mapState } from "vuex";
@@ -53,6 +58,7 @@ import AsideBar from "./AsideBar1.vue";
 // config
 import homeState from "@/config/homeMapState.js";
 import mavonEditorConfig from "@/config/mavonEditor";
+
 // 实例化
 const { readStream, writeStream, createFile, openDirectoryPicker } = new File();
 
@@ -67,7 +73,7 @@ export default {
   data() {
     return {
       /* 编辑的文本数据 */
-      value: "",
+      content: "",
       /* 选中文本 */
       selection: "",
       /* 编辑区配置 */
@@ -86,6 +92,7 @@ export default {
         katex_css: () => "/md/katex/katex.min.css",
         katex_js: () => "/md/katex/katex.min.js",
       },
+      currFilename: "",
     };
   },
   computed: {
@@ -107,42 +114,65 @@ export default {
     ipcRenderer.on("saveFile", () => this.save());
     // 主菜单栏另存为
     ipcRenderer.on("saveAs", (e, data) => {
-      return createFile(data.filePath, this.value);
+      return createFile(data.filePath, this.content);
     });
   },
   methods: {
     ...mapActions("file", ["pushFiles", "removeFiles"]),
     ...mapActions("app", ["toggleCollapsed", "toggleToolbar"]),
-
+    fileData(file) {
+      this.readFileContent(file);
+      this.filename = file.filePath;
+    },
     // 监听键盘事件
     onKeyUp(e) {
-      const tip = () => {
+      // ctrl + e
+      if ((e.ctrlKey || e.metaKey) && e.keyCode == 69) {
+        e.preventDefault();
+        navigator.clipboard.readText().then((text) => {
+          const reqUrl = `http://fanyi.youdao.com/translate?&doctype=json&type=AUTO&i=${text}`;
+          axios
+            .get(reqUrl)
+            .then((res) => res.data)
+            .then((data) => {
+              const res = data.translateResult[0][0];
+              notification({
+                title: "翻译",
+                body: `${res.src}：${res.tgt}`,
+              });
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        });
+      }
+
+      if (!this.globKey) {
         notification({
           title: "Warning",
           body: "全局快捷键已关闭",
         });
-      };
-      console.log(
-        this.collapsedKey.split("+").at(-1).trim(),
-        this.toolBarKey.split("+")
-      );
+        return;
+      }
+
       const colCode = this.collapsedKey.split("+").at(-1).trim().charCodeAt();
       const tolCode = this.toolBarKey.split("+").at(-1).trim().charCodeAt();
 
       // Ctrl + F 70
       if ((e.ctrlKey || e.metaKey) && e.keyCode === colCode) {
         e.preventDefault();
-        this.globKey ? this.toggleCollapsed() : tip();
+        this.toggleCollapsed();
       }
       // Ctrl + T 84
       if ((e.ctrlKey || e.metaKey) && e.keyCode === tolCode) {
         e.preventDefault();
-        this.globKey ? this.toggleToolbar() : tip();
+        this.toggleToolbar();
       }
     },
     // 保存，写入文件
-    save() {
-      writeStream(this.currFile?.filePath, this.value);
+    save(filePath) {
+      const filename = filePath || this.filename || this.currFile?.filePath;
+      writeStream(filename, this.content);
     },
     // 单双栏
     subfieldToggle() {
@@ -152,7 +182,7 @@ export default {
     readFileContent(file) {
       readStream(file.filePath)
         .then((res) => {
-          this.value = res.toString(); // Buffer 》》 string
+          this.content = res.toString(); // Buffer 》》 string
         })
         .catch((err) => {
           this.removeFiles(file);
@@ -186,21 +216,22 @@ export default {
     openDirectory() {},
   },
   watch: {
-    value: {
+    content: {
       handler(nv) {
-        if (nv === this.value) {
+        if (nv === this.content) {
           this.$store.dispatch("file/setIsSave", true);
         } else {
           this.$store.dispatch("file/setIsSave", false);
         }
       },
     },
-    // currFile: {
-    //   handler(nv) {
-    //     this.readFileContent(nv);
-    //   },
-    //   immediate: true,
-    // },
+    currFile: {
+      handler(nv) {
+        this.readFileContent(nv);
+        this.currFilename = nv.filePath;
+      },
+      immediate: true,
+    },
   },
 };
 </script>
@@ -209,9 +240,11 @@ export default {
 .container {
   display: flex;
   overflow: hidden;
+
   main {
     flex: 1;
     overflow: hidden;
+
     .v-note-wrapper {
       position: relative;
       box-shadow: none !important;
@@ -220,57 +253,6 @@ export default {
       height: calc(100vh - 30px);
       overflow: hidden;
       border: none;
-    }
-
-    footer {
-      height: 30px;
-      width: inherit;
-      // overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-top: 1px solid $border-clr-1;
-      color: $text-clr-6;
-      font-size: $fs12;
-      padding-left: 4px;
-      user-select: none;
-
-      .toggle {
-        display: flex;
-        align-items: center;
-
-        .collapse,
-        .toolbar {
-          font-size: $fs14;
-          i {
-            padding: 5px 8px;
-            border-radius: 3px;
-            transition: 0.3s;
-            &:hover {
-              background-color: $bg-1;
-            }
-          }
-        }
-      }
-
-      .status {
-        display: flex;
-        align-items: center;
-        .status-item {
-          padding: 0 10px;
-          &:first-child {
-            padding: 0px;
-          }
-        }
-        .character {
-          padding-right: 25px;
-          span {
-            &:first-child {
-              padding-right: 5px;
-            }
-          }
-        }
-      }
     }
   }
 }

@@ -1,7 +1,7 @@
 /*
  * @Author: Topskys
  * @Date: 2023-02-17 17:46:10
- * @LastEditTime: 2023-04-12 11:18:44
+ * @LastEditTime: 2023-04-16 21:41:21
  */
 import { BrowserWindow } from 'electron';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
@@ -30,8 +30,9 @@ class Launch extends events {
         if (process.env.WEBPACK_DEV_SERVER_URL) {
             this.win.loadURL(`${process.env.WEBPACK_DEV_SERVER_URL}#/launch`)
         } else {
-        createProtocol('app')
-        this.win.loadURL('app://./index.html/#/launch')
+            createProtocol('app')
+            this.win.loadURL('app://./index.html/#/launch')
+            // this.win.loadURL('app://./launch.html')
         }
         this.init();
     }

@@ -1,7 +1,12 @@
+/*
+ * @Author: Topskys
+ * @Date: 2023-04-10 23:15:34
+ * @LastEditTime: 2023-04-12 22:42:37
+ */
 const router = require('koa-router')()
-const {login, register, getCode, verify, getAll, logout, create, edit, remove} = require("../controller/user")
+const { login, register, getCode, verify, getAll, logout, create, edit, remove } = require("../controller/user")
 
-router.prefix('/user')
+router.prefix('/users')
 
 
 router.post('/login', login)

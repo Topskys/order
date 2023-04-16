@@ -1,7 +1,7 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-04-03 22:16:19
- * @LastEditTime: 2023-04-03 22:24:25
+ * @LastEditTime: 2023-04-15 22:00:22
 -->
 <template>
   <ul
@@ -63,7 +63,7 @@ export default {
       this.$emit("update:contextMenuShow", false);
     },
     handleClick(item) {
-      item.emitType && this.$emit(item.emitType);
+      item.emitType && this.$emit(item.emitType,item);
     },
   },
 };
@@ -76,27 +76,33 @@ export default {
   box-shadow: 0 0.5em 1em 0 rgba(0, 0, 0, 0.1);
   border-radius: 1px;
   background: #fff;
-  z-index: 9999;
+  z-index: 1999;
   font-size: 14px;
   display: block;
-  width: 150px;
+  min-width: 100px;
+  max-width: 150px;
   li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2px 10px 2px 30px;
+    padding: 2px 10px;
     cursor: pointer;
+    white-space: nowrap;
     &:hover {
-      background: #42b983;
+      // background: #42b983;
+      background: #f0f7ff;
       color: #fff;
     }
   }
   a {
+    padding-right: 10px;
     height: 25px;
     line-height: 25px;
     display: block;
-    color: #1a1a1a;
+    // color: #1a1a1a;
+    color: #333;
     text-decoration: none;
+    white-space: nowrap;
   }
   span {
     font-size: 12px;

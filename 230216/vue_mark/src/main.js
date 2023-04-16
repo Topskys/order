@@ -9,9 +9,9 @@ import router from './router'
 import store from './store'
 import '@/icons'
 
-import { Button, Select, Message, Dialog, Input, Form, FormItem, Switch, Option } from 'element-ui';
+import { Button, Select, Message, Dialog, Input, Form, FormItem, Switch, Option,Tree } from 'element-ui';
 
-const components = [Button, Select, Dialog, Input, Form, FormItem, Switch, Option]
+const components = [Button, Select, Dialog, Input, Form, FormItem, Switch, Option,Tree]
 components.forEach(item => { Vue.use(item) })
 
 

@@ -44,7 +44,7 @@ app.on('ready', async () => {
     }, 1000)
   });
 
-  app.setAppUserModelId("Mark Editor");
+
 
 });
 

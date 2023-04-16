@@ -20,13 +20,12 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 
 
 
-
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   {
     scheme: 'app',
     privileges: {
-      secure: true, 
+      secure: true,
       standard: true
     }
   }
@@ -48,8 +47,6 @@ app.on('activate', () => {
 
 
 
-
-
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -66,7 +63,7 @@ app.on('ready', async () => {
       height: main_h,
     });
 
-    // mainWin.on('show', () => launchWin.close())
+    mainWin.on('show', () => launchWin.close())
   }
 
   function createLaunchWin() {
@@ -81,11 +78,12 @@ app.on('ready', async () => {
     launchWin.on('show', function () {
       setTimeout(() => {
         createMainWin(launchWin)
-      }, 1000)
+      }, 2000)
     })
   }
 
-  createMainWin()
+  createLaunchWin()
+  app.setAppUserModelId("Mark Editor");
 })
 
 

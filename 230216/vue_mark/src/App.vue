@@ -1,10 +1,10 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-16 22:28:45
- * @LastEditTime: 2023-04-12 13:30:36
+ * @LastEditTime: 2023-04-16 21:04:26
 -->
 <template>
-  <div id="app">
+  <div id="app" >
     <transition mode="out-in">
       <router-view :key="key" />
     </transition>

@@ -1,15 +1,19 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-27 12:29:23
- * @LastEditTime: 2023-04-06 22:35:02
+ * @LastEditTime: 2023-04-16 22:04:23
 -->
 <template>
-  <aside class="asideBar" :class="{ 'slide-right': isCollapsed }">
-    <div class="resizable" v-show="isCollapsed"></div>
+  <aside
+    v-show="isCollapsed"
+    class="asideBar"
+    :class="{ 'slide-right': isCollapsed }"
+  >
+    <div class="resizable"></div>
     <div class="line"></div>
     <div class="aside-content">
       <div class="search">
-        <span v-show="!showInput" >文件</span>
+        <span v-show="!showInput">本地</span>
         <input
           type="text"
           v-model="keyword"
@@ -17,21 +21,23 @@
           pattern=".*\S.*"
           ref="searchInput"
           :class="{ showInput: showInput }"
-          @blur="showInput = false"
+          @blur="onBlur"
         />
         <i class="el-icon-search" @click="searchClick"></i>
       </div>
-      <div
-        id="jsTree"
-        style="
-          padding-right: 10px;
-          width: 100%;
-          height: 100%;
-          font-size: 14px;
-          color: #1d273b;
-        "
-      ></div>
-      <!-- <ul v-if="files.length">
+      <el-tree
+        ref="tree"
+        :data="fileTree"
+        :props="defaultProps"
+        :highlight-current="true"
+        icon-class="el-icon-arrow-right"
+        @node-click="handleNodeClick"
+        :filter-node-method="filterNode"
+        @node-contextmenu="handleContextMenu"
+        class="fileTree"
+        v-if="fileTree.length>0"
+      ></el-tree>
+      <ul v-else>
         <li
           v-for="file in fileList"
           :key="file.uuid"
@@ -47,11 +53,14 @@
             title="移除文件"
           ></i>
         </li>
-      </ul> -->
+      </ul>
       <context-menu
         :context-menu-show.sync="contextShow"
         :config="contextConfig"
-        @edit="onEdit"
+        @newFile="onNewFile"
+        @newFolder="onNewFolder"
+        @rename="onRename"
+        @delete="onDelete"
       >
       </context-menu>
     </div>
@@ -59,18 +68,14 @@
 </template>
 
 <script>
-import $ from "jquery";
-import "../components/JsTree/jstree.min.js";
-import "../components/JsTree/themes/default/style.min.css";
-
 import { mapActions, mapState } from "vuex";
 import ETooltip from "@/components/tooltip/index.vue";
 import Sign from "@/components/Sign/index.vue";
 import contextMenu from "@/components/ContextMenu/index.vue";
 import file from "../store/modules/file";
+import { createFileTree } from "@/renderer/createFileTree.js";
+
 const { ipcRenderer } = window.require("electron");
-
-
 
 export default {
   name: "AsideBar",
@@ -91,71 +96,24 @@ export default {
         offsetLeft: 0,
         // 右键点击距上位置
         offsetTop: 0,
-        menuList: [
-          // 无需按键监听可以不传keyCode
-          { label: "编辑", id: 1, des: "E", keyCode: 69, emitType: "edit" },
-          { label: "删除", id: 2, des: "D", keyCode: 68, emitType: "del" },
-          { label: "撤回", id: 3, des: "R", keyCode: 82, emitType: "return" },
-        ],
+        // menuList: [
+        //   // 无需按键监听可以不传keyCode
+        // ],
+      },
+
+      fileTree: [],
+      defaultProps: {
+        children: "children",
+        label: "label",
+        id: "id",
+        type: "type",
+        filePath: "filePath",
       },
     };
   },
   mounted() {
-    this.$nextTick(() => {
-      $("#jsTree")
-        .jstree({
-          plugins: ["search", "themes", "types", "state", "line"], //包含样式，选择框，图片等
-          types: {
-            // default: {
-            //   icon: true, // 默认图标,可以写路径名，但是必须将themes的icons打开，否则没有地方展示图标
-            // },
-            root: {
-              icon: require("../assets/images/folder.png"),
-            },
-            file: {
-              icon: require("../assets/images/file.png"),
-            },
-          },
-          checkbox: {
-            // 去除checkbox插件的默认效果
-            tie_selection: true,
-            keep_selected_style: true,
-            whole_node: true,
-          },
-
-          core: {
-            //core主要功能是控制树的形状，单选多选等等
-            data: [
-              //填充数据,data需要识别格式,关键字为id, text,children,展示时显示的是text,传递的可以是id也可以是text
-              {
-                id: "ajson1",
-                parent: "#",
-                text: "Simple root node",
-                type: "root",
-              },
-              { id: "ajson2", parent: "#", text: "Root node 2", type: "root" },
-              { id: "ajson3", parent: "ajson2", text: "Child 1", type: "file" },
-              { id: "ajson4", parent: "ajson2", text: "Child 2", type: "file" },
-            ],
-            themes: {
-              icons: true, //默认图标
-              theme: "classic",
-              dots: false, // 连线
-              // stripes: true, //增加条纹
-            }, //关闭文件夹样式
-            dblclick_toggle: true, //允许tree的双击展开,默认是true
-            multiple: false, // 单选
-            check_callback: true,
-          },
-        })
-        .on("changed.jstree", function (e, data) {
-          const selectedNodeId = data.selected[0];
-          const selectedNode = data.instance.get_node(selectedNodeId);
-          if (selectedNode.type === "file") {
-            readFileContent(directoryHandle.getFileHandle(selectedNode.id));
-          }
-        });
-    });
+    // 打开文件夹
+    ipcRenderer.on("openDir", (e, dir) => dir && this.getFileTree(dir));
   },
   computed: {
     ...mapState({
@@ -173,24 +131,38 @@ export default {
     // 监听关键词的变化，进行模糊搜索
     keyword: {
       handler(nv) {
-        this.fileList = nv.trim()
-          ? this.files.filter((file) => file.name.indexOf(nv) > -1 && file)
-          : this.files;
+        //                this.fileList = nv.trim()
+        //                    ? this.files.filter((file) => file.name.indexOf(nv) > -1 && file)
+        //                    : this.files;
+
+        this.$refs.tree.filter(nv);
       },
     },
   },
   methods: {
     ...mapActions("file", ["setCurrFile", "removeFiles"]),
     ...mapActions("user", ["setVisiable", "logout"]),
+    onBlur() {
+      this.showInput = false;
+      this.keyword = "";
+    },
+    getFileTree(dir) {
+      dir && createFileTree(dir).then((res) => (this.fileTree = res || []));
+    },
+    filterNode(value, data) {
+      if (!value) return true;
+      return data.label.indexOf(value) !== -1;
+    },
+    handleNodeClick(data) {
+      // console.log(data);
+      data.filePath && data.type === "file" && this.$emit("fileData", data);
+    },
     // 修改当前文件
     updateCurrFile() {},
     // 新建文件的加号
     newFile: () => ipcRenderer.send("new"),
     // 登录注册窗口
     sign() {
-      // if (!this.token || this.userInfo == {}) {
-      //   ipcRenderer.send("sign", true);
-      // }
       this.dialogVisible = !this.dialogVisible;
     },
     searchClick() {
@@ -198,10 +170,6 @@ export default {
       if (this.showInput) {
         this.$refs.searchInput && this.$refs.searchInput.focus();
       }
-    },
-    openMenu(e) {
-      console.log("--", e);
-      this.$refs.rightMenu.openMenu(e);
     },
     onContextMenu({ clientX, clientY }) {
       Object.assign(this, {
@@ -212,8 +180,39 @@ export default {
         contextShow: true,
       });
     },
-    onEdit() {},
-    
+    // 右键菜单项处理事件
+    onNewFile(item) {},
+    onNewFolder(item) {},
+    onRename(item) {},
+    onDelete(item) {},
+    handleContextMenu(e, data, node, el) {
+      let menuList = [
+        {
+          label: "New File",
+          id: 1,
+          des: "N",
+          keyCode: 77,
+          emitType: "newFile",
+        },
+        {
+          label: "New Folder",
+          id: 2,
+          des: "F",
+          keyCode: 70,
+          emitType: "newFolder",
+        },
+        { label: "Rename", id: 3, des: "R", keyCode: 82, emitType: "rename" },
+        { label: "Delete", id: 4, des: "D", keyCode: 68, emitType: "delete" },
+      ];
+      if (node.data.type.indexOf("file") !== -1) {
+        this.contextConfig.menuList = menuList.slice(2);
+      } else {
+        this.contextConfig.menuList = menuList;
+      }
+      console.log(this.contextConfig.menuList);
+
+      this.onContextMenu(e);
+    },
   },
 };
 </script>
@@ -221,9 +220,9 @@ export default {
 <style lang="scss" scoped>
 .asideBar {
   height: 100vh;
-  overflow: hidden;
+  //   overflow: hidden;
   position: relative;
-  z-index: 1999;
+  z-index: 1699;
   /* 拖拽盒子 */
   .resizable {
     min-width: 170px;
@@ -277,10 +276,13 @@ export default {
     .search {
       padding: 5px 6px 5px 10px;
       position: relative;
+      width: 100%;
       height: 35px;
       line-height: 35px;
       border-bottom: 1px solid #eee;
       font-size: 14px;
+      overflow: hidden;
+
       span {
         position: absolute;
         top: 50%;
@@ -288,11 +290,12 @@ export default {
         transform: translate(0, -50%);
         font-size: 12px;
       }
+
       input {
         width: 0;
         height: 0;
         border: none;
-        margin: none;
+        margin: 0;
         padding: 0;
         overflow: hidden;
         /*去掉input默认样式*/
@@ -309,17 +312,21 @@ export default {
         right: 0;
         transform: translateY(-50%);
       }
+
       input::-moz-placeholder {
         /* Mozilla Firefox 4 to 18 */
         font-size: $fs14;
       }
+
       input::-moz-placeholder {
         /* Mozilla Firefox 19+ */
         font-size: $fs14;
       }
+
       input::-webkit-input-placeholder {
         font-size: $fs14;
       }
+
       input[type="text"]:focus {
         border-color: #bbb;
       }
@@ -331,6 +338,7 @@ export default {
         transform: translateY(-50%);
         color: $text-clr-2;
       }
+
       .showInput {
         display: inline-block;
         width: calc(100% - 6px);
@@ -406,16 +414,19 @@ export default {
       position: absolute;
       left: 0;
       bottom: 0;
+
       i {
         padding: 5px 8px;
         border-radius: 3px;
         transition: 0.3s;
         cursor: pointer;
         position: relative;
+
         &:hover {
           background-color: $bg-1;
         }
       }
+
       i:hover:after {
         position: absolute;
         top: -35px;
@@ -439,6 +450,7 @@ export default {
   background-color: $bg-1;
   position: relative;
   transition: 0.3s;
+
   &::before {
     content: "";
     width: 3px;
@@ -458,4 +470,39 @@ export default {
 //   // background-color: rgba(0, 0, 0, 0);
 //   // opacity: 0;
 // }
+
+.fileTree {
+  width: 100%;
+  height: 100%;
+  color: #333; //$text-clr-6;
+  overflow: auto;
+  ::v-deep .el-icon-arrow-right {
+    color: #333;
+    font-size: 14px;
+  }
+  ::v-deep .el-tree-node__expand-icon.is-leaf {
+    color: transparent !important;
+  }
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 6px;
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    // background-color: #ddd;
+    background-color: #f5f5f7;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    // background-color: #c7c7c7;
+    background-color: #eee;
+  }
+}
 </style>

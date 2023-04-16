@@ -1,7 +1,7 @@
 /*
  * @Author: Topskys
  * @Date: 2023-02-24 00:23:36
- * @LastEditTime: 2023-04-07 19:19:52
+ * @LastEditTime: 2023-04-16 22:12:31
  */
 import { setStorage, getStorage, delStorage } from '../../utils'
 
@@ -11,7 +11,7 @@ export default {
 
     state: {
         theme: "Light", // 主题
-        isCollapsed: true, // 侧边栏
+        isCollapsed: false, // 侧边栏
         toolbar: false, // 主要编辑区顶部工具栏
         autoSave: true, // 自动保存
         autoUpload: false, // 自动上传
