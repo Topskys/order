@@ -1,7 +1,7 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-16 22:28:55
- * @LastEditTime: 2023-04-12 22:46:52
+ * @LastEditTime: 2023-04-22 14:28:41
 -->
 # 230216 Mark
 Mark is a desktop application for editing markdown.
@@ -177,7 +177,15 @@ taskkill -PID -F pid
 
 侧边栏文件目录、文件、图片上传
 
+### 修复
+> 2023年4月20日21:49:53
 
+修复打包后无法进入主页的问题，package.json的main应该为index.js即可。新增前台上传api，编写文件上传逻辑。
+
+### 新增云文件浏览
+> 2023年4月22日13:53:36
+
+新增客户端浏览云文件界面和服务api
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

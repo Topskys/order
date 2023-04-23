@@ -39,7 +39,6 @@
           size="small"
           icon="el-icon-delete"
           @click="del()"
-          style="float: right"
           >批量删除
         </el-button>
       </div>

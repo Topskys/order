@@ -5,7 +5,7 @@
  */
 import request from '@/utils/request'
 
-const prefix = '/document'
+const prefix = '/docs'
 
 
 export const getAll= (params) => request({ url: `${prefix}`, params })

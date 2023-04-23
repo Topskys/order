@@ -1,12 +1,12 @@
 /*
  * @Author: Topskys
  * @Date: 2023-02-23 23:32:44
- * @LastEditTime: 2023-03-13 17:13:49
+ * @LastEditTime: 2023-04-10 00:16:24
  */
 import axios from 'axios';
 import store from '@/store';
 import { getToken } from '@/utils/auth';
-const { ipcRenderer } = window.require("electron");
+//const { ipcRenderer } = require("electron");
 
 
 // service.defaults.baseURL = process.env.VUE_APP_BASE_URL;
@@ -34,7 +34,7 @@ service.interceptors.response.use(
     response => {
         const data = response.data
         if (data.code !== 200) {
-            ipcRenderer.send('notice', { title: 'Error', body: data.msg })
+            // ipcRenderer.send('notice', { title: 'Error', body: data.msg })
         }
         return data;
     },

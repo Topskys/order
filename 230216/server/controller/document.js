@@ -5,30 +5,20 @@ const {self, fail, exception} = require('../utils/response')
 
 class Document {
 
+//  后台分页获取文档  
     async getAll(ctx) {
         const {keyword = '', startAt = '', endAt = ''} = ctx.query
         const regex = new RegExp(keyword, 'i')
-//        const where = {
-//            $or: [
-//                {filename: regex},
-//                {
-//                    dateTime: {
-//                        $gt: new Date(startAt).getTime(),
-//                        $lt: new Date(endAt).getTime()
-//                    }
-//                },
-//            ]
-//        }
-        let where={}
-        if(startAt && endAt){
-           where= {
+        let where = {}
+        if (startAt && endAt) {
+            where = {
                 dateTime: {
                     $gt: new Date(startAt).getTime(),
                     $lt: new Date(endAt).getTime()
                 }
             }
-        }else{
-            where={
+        } else {
+            where = {
                 $or: [
                     {filename: regex}
                 ]
@@ -38,16 +28,18 @@ class Document {
     }
 
 
+    // 用户新增云端文档
     async create(ctx) {
-        let temp = []
-        const {username} = ctx.request.body
-        await crud.find(ctx, DocumentModel, {username}, rel => {
-            (rel && rel.length > 0) ? (temp = rel) : fail(ctx, undefined, 400, "该邮箱已注册")
+        let flag = false
+        const {filename} = ctx.request.body
+        await crud.findOne(ctx, DocumentModel, {filename}, rel => {
+            rel?.filename ? ctx.throw(400, '相同的文件名已存在') : (flag = true)
         })
-        temp.length && await crud.add(ctx, DocumentModel, ctx.request.body)
+        flag && await crud.add(ctx, DocumentModel, ctx.request.body)
     }
 
 
+    // 删除云端文档
     async remove(ctx) {
         let temp
         const {_id} = ctx.params
@@ -57,6 +49,7 @@ class Document {
         temp && await crud.del(ctx, DocumentModel, {_id})
     }
 
+    // 用户修改更新云端文档
     async edit(ctx) {
         let temp
         const {_id} = ctx.params
@@ -64,6 +57,13 @@ class Document {
             rel ? (temp = rel) : fail(ctx, undefined, 400, "该文档尚未存在")
         })
         temp && await crud.update(ctx, DocumentModel, {_id}, ctx.request.body)
+    }
+
+
+    // 用户获取云端文件
+    async getDocsById(ctx) {
+        const res = await isExpired(ctx)
+        await crud.find(ctx, DocumentModel, {userId: res._id})
     }
 
 }

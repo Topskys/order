@@ -1,12 +1,14 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-16 22:28:45
- * @LastEditTime: 2023-03-14 13:12:42
+ * @LastEditTime: 2023-04-23 09:16:59
 -->
 <template>
   <div id="app">
     <transition mode="out-in">
-      <router-view :key="key" />
+      <keep-alive include="Home">
+        <router-view :key="key" />
+      </keep-alive>
     </transition>
   </div>
 </template>
@@ -89,5 +91,10 @@ export default {
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 </style>

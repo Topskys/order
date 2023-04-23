@@ -1,7 +1,7 @@
 /*
  * @Author: Topskys
  * @Date: 2023-02-24 00:23:36
- * @LastEditTime: 2023-03-14 13:03:38
+ * @LastEditTime: 2023-04-16 22:12:31
  */
 import { setStorage, getStorage, delStorage } from '../../utils'
 
@@ -11,7 +11,7 @@ export default {
 
     state: {
         theme: "Light", // 主题
-        isCollapsed: true, // 侧边栏
+        isCollapsed: false, // 侧边栏
         toolbar: false, // 主要编辑区顶部工具栏
         autoSave: true, // 自动保存
         autoUpload: false, // 自动上传
@@ -20,7 +20,7 @@ export default {
         collapsedKey: "Ctrl + P", // 侧边栏快捷键
         toolBarKey: "Ctrl + T", // 顶部工具栏快捷键
 
-        subfield: true, // 单双列
+        subfield: false, // 单双列
         ishljs: 'true', // 代码高亮
         lang: "zh-CN", // 编辑区语言
         html: true, // 启用html模式

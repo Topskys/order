@@ -1,6 +1,7 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
+    <div class='cards'></div>
+    <div class='bar'></div>
   </div>
 </template>
 

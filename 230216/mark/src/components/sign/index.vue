@@ -1,7 +1,7 @@
 <!--
  * @Author: Topskys
  * @Date: 2023-02-23 18:23:32
- * @LastEditTime: 2023-03-26 22:11:54
+ * @LastEditTime: 2023-04-20 21:12:23
 -->
 <template>
   <div class="sign">
@@ -49,7 +49,8 @@
           >
         </el-form>
         <footer>
-          <span>New to Mark?&nbsp;</span><span @click="create">Create account</span>
+          <span>New to Mark?&nbsp;</span
+          ><span @click="create">Create account</span>
         </footer>
       </div>
     </el-dialog>
@@ -77,7 +78,7 @@ export default {
         username: "3122562904@qq.com",
         password: "12345678",
       },
-      redirect: undefined, // 路由重定向
+      redirect: "", // 路由重定向
       shake: false,
       // 表单验证
       rules: {
@@ -91,37 +92,37 @@ export default {
   methods: {
     // 登录
     submit() {
+      const shake = () => {
+        this.shake = true;
+        setTimeout(() => {
+          this.shake = false;
+        }, 800);
+      };
       this.$refs.login.validate(async (valid) => {
         if (valid) {
           try {
             await this.$store.dispatch("user/login", this.login);
             await this.$store.dispatch("user/getInfo");
-            this.$router.push({ path: this.redirect || "/home" });
+            const currRoute = this.$route.fullPath;
+            if (!currRoute.indexOf("/home") != -1 && this.redirect != "/home") {
+              this.redirect && this.$router.push({ path: this.redirect });
+            }
+            this.$emit("update:dialogVisible", false);
           } catch (e) {
             this.$message({
               type: "info",
               message: "登录时出现异常",
             });
-            this.shake = true;
-            setTimeout(() => {
-              this.shake = false;
-            }, 800);
+            shake();
           }
         } else {
-          this.shake = true;
-          setTimeout(() => {
-            this.shake = false;
-          }, 800);
-          return false;
+          shake();
         }
       });
     },
     // 使用浏览器打开网站注册账号
     create() {
-      ipcRenderer.send(
-        "register",
-        "https://www.apple.com/shop/buy-mac/macbook-pro/14-inch"
-      );
+      ipcRenderer.send("register", "http://localhost:9000/#/login?tab=2");
     },
     beforeClose() {
       // this.dialogVisible=false
@@ -165,7 +166,7 @@ export default {
     }
   }
   .login-body {
-    margin: 10px 0;
+    // margin: 10px 0;
     overflow: hidden;
     .submit {
       width: 100%;

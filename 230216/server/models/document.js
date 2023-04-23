@@ -1,5 +1,9 @@
-// 文档管理数据模型
-
+/*
+ * @Author: Topskys
+ * @Date: 2023-04-10 23:17:23
+ * @LastEditTime: 2023-04-22 14:33:44
+ * 文档管理数据模型
+ */
 const mongoose = require('mongoose');
 
 
@@ -8,29 +12,32 @@ const schema = new mongoose.Schema({
             type: String,
             required: true
         },
+        content: {
+            type: String,
+            default: '',
+        },
+        size: {
+            type: String,
+        },
         url: {
             type: String,
             required: true
         },
-        nickname: {
+        userId: {
             type: String,
-            default: ''
+            require: true
         },
         username: {
             type: String,
-            require:true
+            require: true
         },
         phone: {
             type: String,
             default: ''
         },
-        gender: {
-            type: String,
-            default: '0'
-        },
         status: {
-            type: Boolean,
-            default: true
+            type: String,
+            default: 'normal'
         },
     },
     {

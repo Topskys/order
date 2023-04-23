@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <el-form
-      v-show="tab === 1"
+      v-if="tab == 1"
       ref="login"
       :model="login"
       class="form-warp slide-left"
@@ -52,7 +52,7 @@
           class="form-btn"
           :class="{ shake }"
           :loading="loading"
-          >Sign in
+        >Sign in
         </el-button>
       </el-form-item>
       <footer>
@@ -61,7 +61,7 @@
       </footer>
     </el-form>
     <el-form
-      v-show="tab === 2"
+      v-else="tab == 2"
       ref="register"
       :model="register"
       class="form-warp slide-left"
@@ -131,7 +131,8 @@
             style="width: 255.87px"
           />
           <el-button type="primary" style="margin-left: 20px" @click="onCode"
-            >Code</el-button
+          >Code
+          </el-button
           >
         </div>
       </el-form-item>
@@ -142,7 +143,7 @@
           @click="onCreate"
           class="form-btn"
           :class="{ shake }"
-          >Sign up
+        >Sign up
         </el-button>
       </el-form-item>
       <footer>
@@ -155,97 +156,98 @@
 
 <script>
 export default {
-  name: "Login",
+  name: 'Login',
   data() {
     return {
       tab: 1,
       shake: false,
       login: {
-        username: "mr.llb@proton.me",
-        password: "123456",
+        username: 'mr.llb@proton.me',
+        password: '123456'
       },
       register: {
-        username: "mr.llb@proton.me",
-        password: "123456",
-        code: "",
+        username: 'mr.llb@proton.me',
+        password: '123456',
+        code: ''
       },
       loading: false,
-      redirect: undefined,
-    };
+      redirect: undefined
+    }
   },
   watch: {
     $route: {
-      handler: function (route) {
-        this.redirect = route.query && route.query.redirect;
+      handler: function(route) {
+        this.redirect = route.query && route.query.redirect || ''
+        this.tab = route.query.tab || 1
       },
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   methods: {
     validUsername: (rule, value, callback) => {
       const reg =
-        /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
+        /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/
       callback(
         !reg.test(value)
-          ? new Error("Please enter the correct Username")
+          ? new Error('Please enter the correct Username')
           : undefined
-      );
+      )
     },
     onSubmit() {
-      this.$refs.login.validate(async (valid) => {
+      this.$refs.login.validate(async(valid) => {
         if (valid) {
-          this.loading = true;
+          this.loading = true
           try {
-            const { code, msg } = await this.$store.dispatch("user/login",this.login);
-            this.$router.push({ path: this.redirect || "/dashboard" });
-            this.loading = false;
+            const { code, msg } = await this.$store.dispatch('user/login', this.login)
+            this.$router.push({ path: this.redirect || '/dashboard' })
+            this.loading = false
             this.$message({
-              type: code == 200 ? "success" : "error",
-              message: msg,
-            });
+              type: code == 200 ? 'success' : 'error',
+              message: msg
+            })
           } catch (error) {
-            this.loading = false;
+            this.loading = false
           }
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
     onCode() {
-      const username = this.register.username.trim();
+      const username = this.register.username.trim()
       if (username) {
         this.$user.getCode({ username }).then(({ code, msg }) => {
           this.$message({
-            type: code == 200 ? "success" : "error",
-            message: msg,
-          });
-        });
+            type: code == 200 ? 'success' : 'error',
+            message: msg
+          })
+        })
       } else {
         this.$message({
-          type: "warning",
-          message: 请填写邮箱账号,
-        });
+          type: 'warning',
+          message: 请填写邮箱账号
+        })
       }
     },
     onCreate() {
       this.$refs.register.validate((valid) => {
         if (valid) {
           this.$user.register(this.register).then(({ code, msg }) => {
-            this.tab = 1;
+            this.tab = 1
             this.$message({
-              type: code == 200 ? "success" : "error",
-              message: msg,
-            });
-          });
+              type: code == 200 ? 'success' : 'error',
+              message: msg
+            })
+          })
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -323,9 +325,11 @@ export default {
 ::v-deep .el-form-item {
   margin-bottom: 12px;
 }
+
 ::v-deep .el-input__inner:focus {
   border-color: #335eea !important;
 }
+
 ::v-deep .el-form--label-top .el-form-item__label {
   padding-bottom: 0;
 }

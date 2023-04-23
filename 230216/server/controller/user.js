@@ -109,15 +109,12 @@ class User {
         try {
             // 设置验证码Redis缓存
             await cache.set("code", code, 5 * 60) // 5 minutes
-
             // 发送验证邮箱验证码
             const res = await mailer.sendMail(mailOptions)
-
             res ? self(ctx, {
                 code: 200,
                 msg: 'Please enter the verification code, which has been sent to your email.'
             }) : fail(ctx, res, 500)
-
         } catch (e) {
             exception(ctx, e, 500)
         }
@@ -128,10 +125,8 @@ class User {
     async verify(ctx) {
         let auth = ctx.header.authorization
         !auth && ctx.throw(401, 'no token detected in http headerAuthorization')
-
         try {
             const res = await jwt.isExpired(ctx)
-
             await crud.findOne(ctx, UserModel, {_id: res._id}, rel => {
                 rel ? self(ctx, {
                     code: 200,

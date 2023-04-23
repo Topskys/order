@@ -1,13 +1,9 @@
 const { app, Menu, dialog, shell } = require('electron');
-const { openFile, openFileFolder } = require("./file");
-const createFile = require("./createFile.js");
+const { openFile, openDir } = require("./file");
 const notice = require("./notice.js");
-
-
+const {website} =require('../setting.js');
 
 const isMac = process.platform === 'darwin'
-
-
 
 const menu = (win) => {
     var menus = [
@@ -35,7 +31,7 @@ const menu = (win) => {
                 {
                     label: '打开文件夹',
                     accelerator: 'Ctrl+K+O',
-                    click: async () => win.webContents.send("openDirectory", await openDirectory(win))
+                    click: async () => win.webContents.send("openDir", await openDir(win))
                 },
                 {
                     label: '保存',
@@ -55,10 +51,21 @@ const menu = (win) => {
                     }
                 },
                 {
-                    label: '导出HTML',
-                    click: () => {
-                        console.log('3')
-                    }
+                    label: '导出',
+                    submenu:[
+                        {
+                            label: 'PDF',
+                            click: () => win.webContents.send('navigation', 'home')
+                        },
+                        {
+                            label: 'PNG',
+                            click: () => win.webContents.send('navigation', 'home')
+                        },
+                        {
+                            label: 'TXT',
+                            click: () => win.webContents.send('navigation', 'home')
+                        },
+                    ],
                 },
                 {
                     label: '设置',
@@ -86,9 +93,9 @@ const menu = (win) => {
                 { role: 'undo' },
                 { role: 'redo' },
                 { type: 'separator' },
-                { role: 'cut' },
-                { role: 'copy' },
-                { role: 'paste' },
+                { label:'剪切',role: 'cut' },
+                { label:'复制',role: 'copy' },
+                { label:'粘贴',role: 'paste' },
                 ...(isMac ? [
                     { role: 'pasteAndMatchStyle' },
                     { role: 'delete' },
@@ -102,9 +109,9 @@ const menu = (win) => {
                         ]
                     }
                 ] : [
-                    { role: 'delete' },
+                    {label:'删除', role: 'delete' },
                     { type: 'separator' },
-                    { role: 'selectAll' }
+                    { label:'全选',role: 'selectAll' }
                 ])
             ]
         },
@@ -112,15 +119,15 @@ const menu = (win) => {
         {
             label: '视图',
             submenu: [
-                { role: 'reload' },
-                { role: 'forceReload' },
+                { label:'重载',role: 'reload' },
+                { label:'强制重载',role: 'forceReload' },
                 { role: 'toggleDevTools' },
                 { type: 'separator' },
                 { role: 'resetZoom' },
                 { role: 'zoomIn' },
                 { role: 'zoomOut' },
                 { type: 'separator' },
-                { role: 'togglefullscreen' }
+                { label:'全屏',role: 'togglefullscreen' }
             ]
         },
         // { role: 'windowMenu' }
@@ -151,14 +158,24 @@ const menu = (win) => {
                     label: 'Custom Themes',
                     click: () => win.webContents.send('navigation', 'setting')
                 },
+                { type: 'separator' },
                 {
                     label: 'Website',
-                    click: async () => await shell.openExternal('http://127.0.0.1:5137/')
+                    click: async () => await shell.openExternal(website)
                 },
                 {
                     label: 'Github',
                     // 使用浏览器打开该链接
                     click: async () => await shell.openExternal('https://github.com/Topskys/order/tree/main/230216')
+                },
+                {
+                    label: 'Cloud File',
+                    click: () => win.webContents.send('navigation', 'cloud')
+                },
+                { type: 'separator' },
+                {
+                    label: '反馈',
+                    click: async () => await shell.openExternal(`${website}feedback/send`)
                 },
                 {
                     label: '隐私',
@@ -167,10 +184,6 @@ const menu = (win) => {
                 {
                     label: '鸣谢',
                     click: async () => await shell.openExternal('https://github.com/hinesboy/mavonEditor')
-                },
-                {
-                    label: '反馈',
-                    click: () => win.webContents.send('navigation', 'feedback')
                 },
                 {
                     label: '关于',

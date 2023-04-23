@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-const prefix = '/user'
+const prefix = '/users'
 
 export const getCode = (data) => request({ url: `${prefix}/code`, method: 'post', data })
 

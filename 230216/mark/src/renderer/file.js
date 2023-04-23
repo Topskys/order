@@ -1,7 +1,7 @@
 /*
  * @Author: Topskys
  * @Date: 2023-03-10 16:51:14
- * @LastEditTime: 2023-04-01 00:02:36
+ * @LastEditTime: 2023-04-13 09:47:25
  */
 const fs = window.require('fs');
 const path = window.require('path');
@@ -19,15 +19,15 @@ class File {
     async createFile(filePath, fileContent = `${Date.now()}`) {
         try {
             if (filePath) {
-                const res = /\.(.{1,})$/.test(filePath)
+                const res = /\.(.{1,})$/g.test(filePath)
                 !res && (filePath = `${filePath}.md`)
             } else {
                 filePath = path.resolve(__dirname, `mark@${new Date().getTime()}.md`)
             }
             await fs.promises.writeFile(filePath, fileContent);
-            store.dispatch("file/pushFiles", { filePath, curr: true }) // 把文件插入列表并修改当前文件 
+            store.dispatch("file/pushFiles", {filePath, curr: true}) // 把文件插入列表并修改当前文件
         } catch (error) {
-            notification({ title: 'Error', body: error })
+            notification({title: 'Error', body: error})
         }
     }
 
@@ -35,10 +35,10 @@ class File {
     /**
      * 可读流，读取文件，使用流读取文件内容
      * @param {String} filePath 文件路径
-     * @returns 
+     * @returns
      */
     readStream(filePath) {
-        if (!filePath) return notification({ title: 'Error', body: "文件出现异常" })
+        if (!filePath) return notification({title: 'Error', body: "文件出现异常"})
         const rs = fs.createReadStream(filePath);
         rs.setEncoding("utf8");
         return new Promise((resolve, reject) => {
@@ -58,7 +58,8 @@ class File {
      * @param {String} content 写入文件内容
      */
     writeStream(filePath = `mark@${new Date().getTime()}.md`, content) {
-        filePath = /\.(.{1,})$/.test(filePath) ? filePath : `${filePath}.md`;
+        // console.log('ws--', filePath)
+        !(/\.(.{1,})$/g.test(filePath)) && (filePath = `${filePath}.md`);
         const ws = fs.createWriteStream(filePath);
         ws.write(content, "utf8");
         ws.on("finish", () => store.dispatch("file/setIsSave", true));
@@ -71,6 +72,7 @@ class File {
         });
         ws.end();
     }
+
 }
 
 

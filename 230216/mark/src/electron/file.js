@@ -1,7 +1,7 @@
 /*
  * @Author: Topskys
  * @Date: 2023-03-01 19:31:30
- * @LastEditTime: 2023-03-10 23:00:20
+ * @LastEditTime: 2023-04-15 21:12:59
  */
 
 const { dialog } = require('electron');
@@ -35,7 +35,7 @@ function openFile(win) {
  * @param {*} win 
  * @returns 
  */
-function openDirectory(win) {
+function openDir(win) {
     return new Promise((resolve, reject) => {
         dialog.showOpenDialog(win, {
             properties: ['openDirectory'],
@@ -51,6 +51,6 @@ function openDirectory(win) {
 
 export {
     openFile,
-    openDirectory
+    openDir
 }
 
