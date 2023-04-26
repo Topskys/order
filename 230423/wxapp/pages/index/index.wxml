@@ -1,0 +1,77 @@
+<!--index.wxml-->
+<!-- <view class="container">
+  <view class="userinfo">
+    <block wx:if="{{canIUseOpenData}}">
+      <view class="userinfo-avatar" bindtap="bindViewTap">
+        <open-data type="userAvatarUrl"></open-data>
+      </view>
+      <open-data type="userNickName"></open-data>
+    </block>
+    <block wx:elif="{{!hasUserInfo}}">
+      <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
+      <button wx:elif="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+      <view wx:else> 请使用1.4.4及以上版本基础库 </view>
+    </block>
+    <block wx:else>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+  <view class="usermotto">
+    <text class="user-motto">{{motto}}</text>
+  </view>
+</view> -->
+
+<!-- 首页 -->
+<scroll-view scroll-y class="index-warp">
+    <!-- 定位 -->
+    <!-- <van-search value="" placeholder="请输入搜索关键词" /> -->
+    <!-- <view class="location-warp">
+        <van-dropdown-menu>
+            <van-dropdown-item value="{{ locations[0]}}" options="{{ locations }}" />
+        </van-dropdown-menu>
+    </view> -->
+    <!-- 轮播图 -->
+    <swiper autoplay indicator-dots>
+        <swiper-item wx:for="{{banners}}" wx:key="index">
+            <image src="{{item.imgUrl||item}}" mode="aspectFill" style="width: 100%;height:100%；"></image>
+        </swiper-item>
+    </swiper>
+    <!-- 定位 -->
+    <view class="location-warp">定位信息</view>
+    <!-- 分类 -->
+    <view class="categories">
+        <view class="cgy-item " wx:for="{{categories}}" wx:key="index">
+            <image src="{{item.poster}}" class="cgy-img" />
+            <view class="cgy-title">{{item.label}}</view>
+        </view>
+    </view>
+    <!-- 活动专区 -->
+    <view class="activity-warp">
+        <p class="activity-title">活动专区</p>
+        <view class="activity-item r-flex-1">
+            <view class="left">
+                <view class="title"> 新人专享</view>
+                <text>品质生活尝鲜体验</text>
+            </view>
+            <image src="/images/category-1.png" class="activity-img"></image>
+        </view>
+    </view>
+    <!-- 热销推荐 -->
+    <view class="recommend-warp">
+        <p class="rmd-title"> 热销推荐</p>
+        <view class="product-item r-flex" wx:for="{{recommendList}}" wx:key="index">
+            <image src="{{item.poster}}" class="rmd-img"></image>
+            <view class="description c-flex-2">
+                <view class="">
+                    <view class="title">{{item.title}}</view>
+                    <view class="detail">{{item.detail}}</view>
+                </view>
+                <view class="price">
+                    <text class="price-str">￥</text>
+                    <text class="price-number">499</text>
+                </view>
+            </view>
+        </view>
+    </view>
+</scroll-view>

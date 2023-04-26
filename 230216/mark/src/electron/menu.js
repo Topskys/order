@@ -55,15 +55,11 @@ const menu = (win) => {
                     submenu:[
                         {
                             label: 'PDF',
-                            click: () => win.webContents.send('navigation', 'home')
-                        },
-                        {
-                            label: 'PNG',
-                            click: () => win.webContents.send('navigation', 'home')
+                            click: () => win.webContents.send('export', 'pdf')
                         },
                         {
                             label: 'TXT',
-                            click: () => win.webContents.send('navigation', 'home')
+                            click: () => win.webContents.send('export', 'txt')
                         },
                     ],
                 },

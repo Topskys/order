@@ -1,0 +1,35 @@
+<!--pages/query.wxml-->
+<!-- 分类帅选 -->
+<view class="query-warp">
+    <!-- <van-tree-select 
+    items="{{ trees }}" 
+    height="100vh" 
+    main-active-index="{{ mainActiveIndex }}" 
+    active-id="{{ activeId }}" 
+    bind:click-nav="onClickNav" 
+    bind:click-item="onClickItem">
+        <image src="https://img.yzcdn.cn/vant/apple-1.jpg" slot="content" />
+    </van-tree-select> -->
+
+
+    <!-- <view class="query-keys">
+        <text wx:for="{{keyList}}" wx:key="index" class="key-item">{{item.label}}</text>
+    </view> -->
+    <van-tabs active="{{ active }}" bind:change="onChange"  animated>
+        <van-tab title="{{item.label}}" wx:for="{{keyList}}" wx:key="index">
+        <scroll-view scroll-y style="height: calc(100vh - 88rpx);">
+            <view class="products">
+                <view class="product-item" wx:for="{{staffs}}" wx:key="index" bindtap="onItemHandler" data-item="{{item}}">
+                    <image src="{{item.poster}}" class="product-poster" mode="widthFix"></image>
+                    <view class="product-desc">{{item.description}}</view>
+                    <view class="product-price r-flex-3">
+                    <view class="price-left"><text class="price-str">￥</text>{{item.price}}</view>
+                    <view class="price-right" wx:if="{{item.sale_count}}"><text>{{'已售'+item.sale_count+'件'}}</text></view>
+                    </view>
+                </view>
+            </view>
+        </scroll-view>
+        </van-tab>
+    </van-tabs>
+
+</view>

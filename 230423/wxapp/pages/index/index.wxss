@@ -1,0 +1,118 @@
+/**index.wxss**/
+
+.userinfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #aaa;
+}
+
+.userinfo-avatar {
+    overflow: hidden;
+    width: 128rpx;
+    height: 128rpx;
+    margin: 20rpx;
+    border-radius: 50%;
+}
+
+.usermotto {
+    margin-top: 200px;
+}
+
+.index-warp {
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--theme-bg);
+}
+
+swiper {
+    width: 750rpx;
+    height: 400rpx;
+}
+
+.categories {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20rpx;
+    place-items: center;
+    color: var(--black-light);
+    font-size: 28rpx;
+    padding: 40rpx 30rpx;
+    background-color: var(--white);
+}
+
+.categories .cgy-item {
+    text-align: center;
+}
+
+.categories .cgy-item .cgy-img {
+    display: block;
+    width: 100rpx;
+    height: 100rpx;
+}
+
+.activity-warp {
+
+    margin: 30rpx;
+}
+
+.activity-warp .activity-title {
+    font-size: 44rpx;
+    font-weight: 500;
+}
+
+.activity-item {
+    padding: 20rpx;
+    margin-top: 30rpx;
+    background-color: khaki;
+    border-radius: 20rpx;
+    font-size: 32rpx;
+}
+
+.activity-item .title {
+    font-size: 48rpx;
+    font-weight: 520;
+}
+
+.activity-item .activity-img {
+    display: block;
+    width: 200rpx;
+    height: 200rpx;
+}
+
+
+.recommend-warp {
+    padding: 30rpx;
+}
+
+.recommend-warp .rmd-title {
+    font-size: 44rpx;
+    font-weight: 500;
+}
+
+.product-item {
+    padding: 20rpx;
+    margin: 30rpx 0;
+    background-color: var(--white);
+    border-radius: 20rpx;
+}
+
+.recommend-warp .rmd-img {
+    display: block;
+    width: 220rpx;
+    height: 220rpx;
+}
+
+.recommend-warp .description .price {
+    color: var(--red);
+    font-size: 28rpx;
+}
+
+.recommend-warp .description .price .price-number {
+    font-size: 36rpx;
+}
+
+.recommend-warp .description .detail {
+    color: #aaa;
+    font-size: 28rpx;
+}

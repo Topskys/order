@@ -1,0 +1,73 @@
+/* pages/query.wxss */
+.van-tree {
+    height: 100vh;
+}
+
+.query-warp {
+    border-top: 1px solid #ddd;
+    background-color: var(--theme-bg);
+    height: 100vh;
+    overflow: hidden;
+}
+
+.query-keys {
+    height: 70rpx;
+    line-height: 70rpx;
+    color: var(--black-light);
+    font-size: var(--fs14);
+    /* background-color: green; */
+    white-space: nowrap;
+    overflow-x: scroll;
+}
+
+.query-keys .key-item {
+    padding: 10rpx 20rpx;
+    margin: 0 20rpx;
+    background-color: rgb(235, 240, 235);
+    border-radius: 8rpx;
+}
+
+
+.products {
+    overflow-y: scroll;
+    padding: 20rpx 30rpx;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30rpx;
+}
+.products .product-item{
+    width: 334rpx;
+    max-width: 100%;
+    overflow: hidden;
+    border-radius: 8rpx;
+    background-color: var(--white);
+}
+.products .product-item .product-poster {
+    display: block;
+    width: 100%;
+}
+
+.products .product-item .product-desc {
+    box-sizing: border-box;
+    padding: 20rpx;
+    font-size: var(--fs14);
+    width: 100%;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.products .product-item .product-price {
+    color: var(--grey);
+    font-size: var(--fs12);
+    padding: 0 20rpx 20rpx 20rpx;
+}
+.products .product-item .product-price .price-left{
+    color: var(--red);
+    font-size: var(--fs16);
+    margin-right: 20rpx;
+}
+.products .product-item .product-price .price-left .price-str{
+    font-size: var(--fs12);
+}

@@ -1,0 +1,60 @@
+/* pages/query.wxss */
+.mine-warp{
+    width: 750rpx;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--mine-bg);
+}
+
+.mine-warp .user{
+    margin-bottom: 30rpx;
+}
+
+.mine-warp .user .userInfo{
+    padding: 30rpx 20rpx;
+    font-size: 32rpx;
+    color: var(--white);
+    background-color: #643056;
+}
+
+
+.mine-warp .user .userInfo .avatar{
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 8rpx;
+    margin-right: 20rpx;
+}
+.user-avatar{
+    font-size: 32rpx;
+    /* color: var(--white); */
+    color: black;
+    font-weight: 500;
+    padding: 80rpx 0;
+    /* background-color: #643056; */
+    background-color: #fff;
+    border-top: 2rpx solid #eee;
+}
+.user-avatar .avatar{
+    width: 180rpx;
+    height: 180rpx;
+    border-radius: 100%;
+    margin-bottom: 20rpx;
+}
+.user-links{
+    margin-top: 20rpx;
+    background-color: var(--white);
+}
+
+.user-links .link-item{
+    text-align: center;
+    margin: 20rpx;
+    font-size: 28rpx;
+    color: #333;
+}
+
+.copyright{
+    color: #aaa;
+    font-size: 24rpx;
+    text-align: center;
+    padding-top: 50rpx ;
+}

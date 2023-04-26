@@ -1,0 +1,57 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/query/query",
+        "pages/order/order",
+        "pages/mine/mine",
+        "pages/info/info",
+        "pages/follow/follow",
+        "pages/favorite/favorite",
+        "pages/login/login",
+        "pages/register/register",
+        "pages/detail/detail"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "景春高级家政",
+        "navigationBarTextStyle": "black"
+    },
+    "sitemapLocation": "sitemap.json",
+    "tabBar": {
+        "custom": false,
+        "color": "#666666",
+        "selectedColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderStyle": "black",
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "text": "首页",
+                "iconPath": "images/home.png",
+                "selectedIconPath": "images/home-active.png"
+            },
+            {
+                "pagePath": "pages/query/query",
+                "text": "筛选",
+                "iconPath": "images/search.png",
+                "selectedIconPath": "images/search-active.png"
+            },
+            {
+                "pagePath": "pages/order/order",
+                "text": "订单",
+                "iconPath": "images/cart.png",
+                "selectedIconPath": "images/cart-active.png"
+            },
+            {
+                "pagePath": "pages/mine/mine",
+                "text": "我的",
+                "iconPath": "images/mine.png",
+                "selectedIconPath": "images/mine-active.png"
+            }
+        ]
+    },
+    "useExtendedLib": {
+        "weui": true
+    }
+}

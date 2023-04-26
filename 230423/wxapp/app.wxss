@@ -1,0 +1,85 @@
+/**app.wxss**/
+/* .container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200rpx 0;
+  box-sizing: border-box;
+}  */
+
+/* 全局样式 */
+page {
+    /* colors */
+    --mine-bg: #f4f5f5;
+    --theme-bg: #f4f5f5;
+    --white: #fff;
+    --black-light: #333;
+    --red: #ee0a24;
+    --grey: rgb(201, 208, 211);
+    --blue-light: rgb(58, 182, 246);
+    /* 订制主题 */
+    /* --text-color: #323233; */
+    /* --border-color: #ebedf0; */
+    --active-color: rgb(58, 182, 246);
+    --background-color: rgb(58, 182, 246);
+    --background-color-light: #fafafa;
+    --tab-active-text-color:rgb(55, 154, 204);
+    --tabs-bottom-bar-color:rgb(58, 182, 246);
+    /* font-size */
+    --fs12: 24rpx;
+    --fs14: 28rpx;
+    --fs16: 32rpx;
+    --fs18: 36rpx;
+    --fs20: 40rpx;
+
+}
+
+.r-flex {
+    display: flex;
+}
+
+.r-flex-1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.r-flex-2 {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.r-flex-3 {
+    display: flex;
+    align-items: center;
+}
+
+.r-flex-4 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.c-flex-1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.c-flex-2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.c-flex-3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

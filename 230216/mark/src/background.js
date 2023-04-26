@@ -1,7 +1,7 @@
 /*
  * @Author: Topskys
  * @Date: 2023-04-10 23:18:17
- * @LastEditTime: 2023-04-23 09:52:13
+ * @LastEditTime: 2023-04-24 17:29:34
  */
 'use strict'
 
@@ -76,6 +76,7 @@ app.on('window-all-closed', () => {
     }
 })
 
+
 app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
         createMainWin()
@@ -97,3 +98,4 @@ if (isDevelopment) {
         })
     }
 }
+
