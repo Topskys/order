@@ -18,15 +18,19 @@ page {
     --black-light: #333;
     --red: #ee0a24;
     --grey: rgb(201, 208, 211);
-    --blue-light: rgb(58, 182, 246);
-    /* 订制主题 */
+    --blue-light: #3ab6f6;
+    /* VantUI订制主题 */
     /* --text-color: #323233; */
     /* --border-color: #ebedf0; */
-    --active-color: rgb(58, 182, 246);
-    --background-color: rgb(58, 182, 246);
+    --active-color: #3ab6f6;
+    --background-color: #3ab6f6;
     --background-color-light: #fafafa;
-    --tab-active-text-color:rgb(55, 154, 204);
-    --tabs-bottom-bar-color:rgb(58, 182, 246);
+    --tab-active-text-color: #3ab6f6;
+    --tabs-bottom-bar-color: #3ab6f6;
+    /* --dropdown-menu-title-text-color:#fff; */
+    --dropdown-menu-title-text-color: #fff;
+    --dropdown-menu-title-active-text-color: #3ab6f6;
+    --dropdown-menu-option-active-color: #3ab6f6;
     /* font-size */
     --fs12: 24rpx;
     --fs14: 28rpx;
@@ -82,4 +86,17 @@ page {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.no-data {
+    text-align: center;
+    padding: 40rpx 0;
+    color: var(--grey);
+    font-size: var(--fs14);
+}
+
+.scroll-y {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
 }

@@ -35,8 +35,8 @@
     border-top: 2rpx solid #eee;
 }
 .user-avatar .avatar{
-    width: 180rpx;
-    height: 180rpx;
+    width: 150rpx;
+    height: 150rpx;
     border-radius: 100%;
     margin-bottom: 20rpx;
 }

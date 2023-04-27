@@ -12,7 +12,7 @@
         <view class="user-avatar c-flex-1">
             <image src="{{userInfo.avatarUrl||'/images/logout.png'}}" class="avatar"></image>
             <text class="nickName" wx:if="{{userInfo.nickName}}">{{userInfo.nickName}}</text>
-            <text class="nickName" wx:else bindtap="logout">登录/注册</text>
+            <text class="nickName" wx:else bindtap="toLogin">登录/注册</text>
         </view>
         <!-- 钱包 劵 -->
         <view class="user-links r-flex-2">

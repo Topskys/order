@@ -1,8 +1,7 @@
 {
-  "usingComponents": {
-    "van-dropdown-menu": "@vant/weapp/dropdown-menu/index",
-    "van-dropdown-item": "@vant/weapp/dropdown-item/index",
-        "van-search": "@vant/weapp/search/index"
-  },
-  "navigationBarTitleText": "景春高级家政"
+    "usingComponents": {
+        "van-dropdown-menu": "@vant/weapp/dropdown-menu/index",
+        "van-dropdown-item": "@vant/weapp/dropdown-item/index",
+        "van-icon": "@vant/weapp/icon/index"
+    }
 }

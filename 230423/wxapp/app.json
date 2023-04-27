@@ -9,7 +9,11 @@
         "pages/favorite/favorite",
         "pages/login/login",
         "pages/register/register",
-        "pages/detail/detail"
+        "pages/detail/detail",
+        "pages/evaluate/evaluate",
+        "pages/service/service",
+        "pages/discount/discount",
+        "pages/collection/collection"
     ],
     "window": {
         "backgroundTextStyle": "light",

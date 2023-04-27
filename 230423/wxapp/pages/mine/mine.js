@@ -14,7 +14,7 @@ Page({
             {
                 title: '收藏',
                 icon: 'star-o',
-                url: "/pages/favorite/favorite"
+                url: "/pages/collection/collection"
             },
             {
                 title: '优惠劵',
@@ -68,6 +68,11 @@ Page({
     handleLinkClick(e) {
         wx.navigateTo({
             url: e.currentTarget.dataset.item.url
+        })
+    },
+    toLogin(){
+        wx.navigateTo({
+            url: '/pages/login/login?back=mine'
         })
     },
     // 客户端退出，删除验证信息

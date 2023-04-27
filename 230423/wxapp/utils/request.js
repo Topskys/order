@@ -17,11 +17,27 @@ function request(options) {
                 authorization: "Bearer " + (wx.getStorageSync('token') || ''),
             },
             timeout: options.timeout || 5000,
-            success: res => resolve(res.data),
+            success: ({
+                data
+            }) => {
+                console.log('request--',data)
+                if (!data.code === 200) {
+                    wx.showToast({
+                        title: data.msg,
+                        icon: 'error',
+                        complete: () => {
+                            data.code == 401 && wx.navigateTo({
+                                url: '/pages/login/login'
+                            })
+                        }
+                    })
+                }
+                resolve(data)
+            },
             fail: err => {
                 wx.showToast({
-                  title: err,
-                  icon: 'error',
+                    title: err,
+                    icon: 'error',
                 })
                 reject(err)
             },
