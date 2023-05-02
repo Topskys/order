@@ -1,0 +1,58 @@
+/* pages/ready/ready.wxss */
+
+.notice-warp{
+    margin: 10rpx 0;
+    color: var(--theme);
+    background-color: var(--theme-light);
+}
+
+.order-card{
+    /* padding: 30rpx;
+    margin: 30rpx;
+    border-radius: 10rpx;
+    box-shadow: -1px -1px 10px var(--border); */
+}
+.user-warp,.middle-warp,.meal-warp,.footer-warp{
+    padding: 30rpx ;
+    margin: 30rpx;
+    border-radius: 10rpx;
+    box-shadow: -1px -1px 5px var(--border);
+}
+
+.user-info{
+    flex: 1;
+}
+.user-info .address{
+    font-weight: 550;
+}
+.cell-input{
+    padding: 10rpx 30rpx 24rpx;
+}
+
+
+
+
+
+.pay-nav{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 99;
+    width: 100vw;
+    padding: 12rpx 30rpx 50rpx;
+    box-sizing: border-box;
+    border-top: 1px solid var(--border);
+}
+.price-warp,.actual-price{
+    align-items: flex-end;
+}
+.origin-price{
+    text-decoration: line-through;
+}
+.pay-btn{
+    color: var(--white);
+    padding: 12rpx 60rpx;
+    border: 1px solid var(--theme-light);
+    border-radius: 8rpx;
+    background-color: var(--theme);
+}

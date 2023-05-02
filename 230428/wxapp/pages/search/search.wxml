@@ -1,0 +1,36 @@
+<!--pages/search/search.wxml-->
+<view class="search-warp bg">
+    <van-search value="{{ inputVal }}" placeholder="Search..." show-action bind:search="onSearch" bind:cancel="onCancel" bind:change="onChange" />
+    <scroll-view scroll-y class="search-scroll">
+        <wxs module="obj" src='../../utils/format.wxs'></wxs>
+        <view class="search-content r-flex">
+            <view class="result res-left">
+                <view class="product-item left" wx:for="{{leftList}}" wx:key="index" bindtap="toDetail" data-item="{{item}}">
+                    <image src="{{item.poster}}" mode="widthFix" class="image product-image"></image>
+                    <view class="desc">
+                        <view class="title fs14 content">{{item.title}}</view>
+                        <view class="price r-flex-aic red">
+                            <text class="fs12">￥</text>
+                            <text class="fs16">{{item.price}}</text>
+                            <text class="fs12 grey ml10">已维修{{obj.formatNum(item.sale_num)}}件</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="result res-right">
+                <view class="product-item right" wx:for="{{rightList}}" wx:key="index" bindtap="toDetail" data-item="{{item}}">
+                    <image src="{{item.poster}}" mode="widthFix" class="image product-image"></image>
+                    <view class="desc">
+                        <view class="title fs14 content">{{item.title}}</view>
+                        <view class="price r-flex-aic red">
+                            <text class="fs12">￥</text>
+                            <text class="fs16">{{item.price}}</text>
+                            <text class="fs12 grey ml10">已维修{{obj.formatNum(item.sale_num)}}件</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </scroll-view>
+
+</view>

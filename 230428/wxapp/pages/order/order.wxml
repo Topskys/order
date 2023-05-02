@@ -1,0 +1,28 @@
+<!--pages/order/order.wxml-->
+<!-- 订单 -->
+<view class="order-warp">
+    <van-sticky>
+        <van-tabs animated active="{{ active }}" bind:change="onChange">
+            <van-tab title="全部">全部</van-tab>
+            <van-tab title="待付款">
+                <scroll-view scroll-y class="tab-scroll bg">
+                    <van-swipe-cell right-width="{{ 65 }}">
+                        <van-card num="1" tag="" price="39.99" desc="电饭煲液晶电视维修" custom-class="product-card" title-class="card-title" title="中式收纳" thumb="{{poster}}" thumb-link="{{'/pages/detail/detail?productId='+item._id}}">
+                            <view slot="footer" class="card-footer r-flex-aic">
+                                <button size="mini" class="card-btn" bindtap="onCancel">取消</button>
+                                <button size="mini" class="card-btn pay" bindtap="toPay">支付</button>
+                            </view>
+                        </van-card>
+                        <view slot="right" class="swipe-right">
+                            删除
+                        </view>
+                    </van-swipe-cell>
+                </scroll-view>
+            </van-tab>
+            <van-tab title="待上门">内容 2</van-tab>
+            <van-tab title="服务中">内容 2</van-tab>
+            <van-tab title="待评价">内容 3</van-tab>
+        </van-tabs>
+    </van-sticky>
+
+</view>

@@ -22,7 +22,7 @@ Page({
     // },
     /* 登录回调事件 */
     onSubmit(e) {
-        const form = e.detail.valkue
+        const form = e.detail.value
         const valid = (data, cb) => {
             const showError = (msg) => {
                 wx.showToast({

@@ -31,10 +31,6 @@ Page({
                 url: '/pages/info/info'
             },
             {
-                title: '我的评价',
-                url: '#'
-            },
-            {
                 title: '领优惠劵',
                 url: '#'
             },

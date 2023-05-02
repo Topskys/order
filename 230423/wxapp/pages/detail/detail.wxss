@@ -3,18 +3,14 @@
     height: 30vh;
     overflow: hidden;
 }
-
-.product-card {
-    font-size: var(--fs12);
-}
-
-.card-top {
-    padding: 30rpx;
-}
+.product-card{
+    background-color: var(--white);
+    padding-bottom: 30rpx ;}
 
 .card-scroll-x {
     width: 100%;
     overflow: hidden;
+    background-color: var(--white);
 }
 
 .selections .select-item {
@@ -22,54 +18,49 @@
     margin: 20rpx;
     border: 1px solid var(--grey);
     border-radius: 20rpx;
-    color: var(--black-light);
-    font-size: var(--fs16);
+    background-color: var(--white);
 }
 
 .selections .select-item .select-title {
+    max-width: 350rpx;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
-.selections .select-item .select-price {
-    display: flex;
-    align-items: center;
-    font-size: var(--fs12);
+.cardActive {
+    border: 1px solid var(--theme) !important;
+    background-color: var(--theme-light) !important;
 }
 
-.selections .select-item .select-price .price-str {
-    color: var(--red);
-    font-size: var(--fs12);
-}
-
-.selections .select-item .select-price .price-number {
-    color: var(--red);
-    font-size: var(--fs18);
+.notice-warp{
+    margin: 10rpx 0;
+    color: var(--theme);
+    background-color: var(--theme-light);
 }
 
 .detail-tabs {
     padding: 20rpx 30rpx;
 }
 
+/* 服务内容 */
 .service-warp {
+    width: 100%;
     box-sizing: border-box;
-    height: calc(100vh - 88rpx);
+    height: calc(100vh - 88rpx - 168rpx);
+    padding-bottom: 168rpx;
+    background-color: var(--white);
 }
 
-.service-warp .service .service-desc {
-    padding: 30rpx;
-    font-size: var(--fs14);
-}
 
+/* 用户评价 */
 .evaluate-warp {
+    width: 100%;
     box-sizing: border-box;
-    height: calc(100vh - 88rpx);
-    padding: 20rpx 30rpx;
-}
-
-.evaluations .evaluate-item {
-    margin: 30rpx 0;
+    height: calc(100vh - 88rpx - 168rpx);
+    padding: 20rpx 0;
+    padding-bottom: 168rpx;
+    background-color: var(--white);
 }
 
 .evaluations .evaluate-item .user-warp .user-avatar {
@@ -80,28 +71,27 @@
     border-radius: 50%;
 }
 
-.evaluations .evaluate-item .user-warp .user-info {
-    color: var(--black-light);
-    font-size: var(--fs14);
-}
-
-.evaluations .evaluate-item .user-warp .user-info .gender {
-    color: var(--grey);
-    font-size: var(--fs12);
-}
-
 .evaluations .evaluate-item .evaluate-content {
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 5;
+    -webkit-line-clamp: 4;
     overflow: hidden;
     text-overflow: ellipsis;
     margin: 30rpx 0;
-    font-size: var(--fs16);
 }
 
 .evaluations .evaluate-item .evaluate-created {
     text-align: right;
     color: var(--grey);
     font-size: var(--fs12);
+}
+
+/* 购物导航 */
+.good-nav-warp {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--white);
+    z-index: 99;
 }

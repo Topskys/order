@@ -1,0 +1,22 @@
+<!--pages/login/login.wxml-->
+<view class="login-warp">
+    <view class="form-warp">
+        <view class="form-header">
+            <view>Sign up</view>
+            <view class="greet">欢迎注册</view>
+        </view>
+        <form bindsubmit="onSubmit">
+            <input type="text" name="username" placeholder="Username" class="form-input content fs14 username" bindinput="onInput"/>
+            <view class="r-flex-aic fs14 content code-warp">
+                <input type="text" name="code" placeholder="Verification Code" class="form-input" maxlength="4"/>
+                <view class="code-btn" bindtap="onCode">Code</view>
+            </view>
+            <input type="password" name="password" placeholder="Password" class="form-input content fs14" />
+            <button formType="submit" class="form-btn">SIGN UP</button>
+        </form>
+        <view class="form-footer r-flex-jcc-aic fs14 grey tac pg10">
+            <text>Have an account?</text>
+            <navigator url="/pages/login/login?redirect=index&rediType=tab" hover-class="none"><text class="theme ml5"> Sign in</text></navigator>.
+        </view>
+    </view>
+</view>

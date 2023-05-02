@@ -2,7 +2,11 @@
     "usingComponents": {
         "van-sticky": "@vant/weapp/sticky/index",
         "van-tab": "@vant/weapp/tab/index",
-        "van-tabs": "@vant/weapp/tabs/index"
+        "van-tabs": "@vant/weapp/tabs/index",
+        "van-icon": "@vant/weapp/icon/index",
+        "van-goods-action": "@vant/weapp/goods-action/index",
+        "van-goods-action-icon": "@vant/weapp/goods-action-icon/index",
+        "van-goods-action-button": "@vant/weapp/goods-action-button/index"
     }
 
 }

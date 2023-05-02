@@ -1,0 +1,56 @@
+/* pages/search/search.wxss */
+.search-warp{
+    height: 100vh;
+    overflow: hidden;
+}
+
+.search-warp .search-scroll{
+    height: calc(100vh - 108rpx);
+    overflow: hidden;
+}
+.search-content{
+    position: relative;
+}
+
+.search-content .result{
+    /* flex: 1; 375-34 =341*/
+    /* width: 345rpx; */
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    width: 50%;
+}
+.search-content .res-left{
+    left: 0;
+}
+.search-content .res-right{
+    right: 0;
+}
+.search-content .result .product-item{
+    overflow: hidden;
+    border-radius: 10rpx;
+    background-color: var(--white);
+}
+.search-content .result .left{
+    margin: 24rpx;
+}
+.search-content .result .right{
+    margin: 24rpx 24rpx 24rpx 0;
+}
+.search-content .result .product-item .desc{
+    padding: 10rpx 20rpx;
+}
+.search-content .result .product-item .title{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.search-content .result .product-item .price{
+    margin-top: 10rpx;
+}
+.search-content .result .product-item .product-image{
+    border-top-left-radius: 10rpx;
+    border-top-right-radius: 10rpx;
+}

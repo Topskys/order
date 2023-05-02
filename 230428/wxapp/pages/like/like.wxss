@@ -1,0 +1,52 @@
+/* pages/like/like.wxss */
+.like-warp{
+    height: 100vh;
+    overflow: hidden;
+}
+
+.scroll-body{
+    position: relative;
+}
+
+.scroll-body .result{
+    /* flex: 1; 375-34 =341*/
+    /* width: 345rpx; */
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    width: 50%;
+}
+.scroll-body .res-left{
+    left: 0;
+}
+.scroll-body .res-right{
+    right: 0;
+}
+.scroll-body .result .product-item{
+    overflow: hidden;
+    border-radius: 10rpx;
+    background-color: var(--white);
+}
+.scroll-body .result .left{
+    margin: 24rpx;
+}
+.scroll-body .result .right{
+    margin: 24rpx 24rpx 24rpx 0;
+}
+.scroll-body .result .product-item .desc{
+    padding: 10rpx 20rpx;
+}
+.scroll-body .result .product-item .title{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.scroll-body .result .product-item .price{
+    margin-top: 10rpx;
+}
+.scroll-body .result .product-item .product-image{
+    border-top-left-radius: 10rpx;
+    border-top-right-radius: 10rpx;
+}

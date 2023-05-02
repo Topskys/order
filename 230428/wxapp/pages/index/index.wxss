@@ -1,0 +1,48 @@
+/**index.wxss**/
+.van-dropdown-menu{
+    box-shadow: none !important;
+    height: 80rpx !important;
+    background: transparent !important;
+}
+/* swiper */
+.swiper-warp {
+    width: 100%;
+    height: 400rpx;
+    overflow: hidden;
+}
+
+.swiper-warp .wx-swiper-dot {
+    width: 10rpx;
+    height: 10rpx;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .5)
+}
+
+.swiper-warp .wx-swiper-dot-active {
+    width: 35rpx;
+    height: 10rpx;
+    border-radius: 10rpx;
+    background: rgba(255, 255, 255, .8)
+}
+
+.swiper-image {
+    display: block;
+    width: 100%;
+}
+
+/* 分区导航 */
+.nav-warp {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20rpx;
+    place-items: center;
+    text-align: center;
+    padding: 40rpx 30rpx;
+    background-color: var(--white);
+}
+
+.nav-warp .nav-image {
+    width: 80rpx;
+    height: 80rpx;
+    margin: 0 auto;
+}

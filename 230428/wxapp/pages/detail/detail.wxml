@@ -1,0 +1,103 @@
+<!--pages/detail/detail.wxml-->
+<scroll-view scroll-y class="detail-warp scroll-y bg">
+    <wxs module="obj" src="../../utils/format.wxs"></wxs>
+    <view class="detail-content bg">
+        <!-- 海报 -->
+        <view class="poster-warp">
+            <image src="/images/01.jpg" class="image product-image"></image>
+        </view>
+        <!-- 商品简单描述 -->
+        <view class="desc-warp pg15">
+            <view class="fs16 desc-title">{{product.title}}</view>
+            <view class="r-flex-jcsb-aic mt10">
+                <view class="price red" wx:if="{{product.startPrice}}">
+                    <text class="fs12">￥</text>
+                    <text class="fs16">{{product.startPrice}}</text>
+                    <text class="fs12 ml5">元起</text>
+                </view>
+                <text class="sale_num fs12 grey" wx:if="{{product.sale_num}}">已预约{{obj.formatNum(product.sale_num)}}次</text>
+            </view>
+        </view>
+        <!-- 活动与保障 -->
+        <view class="activities-warp fs14 mn10-0">
+            <view class="activity-item r-flex-jcsb-aic" bindtap="onShowPopup">
+                <view class="r-flex-aic activity-desc">
+                    <text class="title mr10">选择</text>
+                    <text class="content">{{selProduct.title}}</text>
+                </view>
+                <van-icon name="arrow" color="#aaa" size="32rpx" />
+            </view>
+            <view class="activity-item r-flex-jcsb-aic">
+                <view class="r-flex-aic activity-desc">
+                    <text class="title mr10">活动</text>
+                    <text class="content">好评分享领劵</text>
+                </view>
+                <van-icon name="arrow" color="#aaa" size="32rpx" />
+            </view>
+            <!-- <view class="activity-item r-flex-jcsb-aic">
+                <view class="r-flex-aic activity-desc">
+                    <text class="title mr10">保障</text>
+                    <text class="content">价格保障 · 质量保障 · 纠纷无忧 · 意外保险</text>
+                </view>
+                <van-icon name="arrow" color="#aaa" size="32rpx" />
+            </view> -->
+        </view>
+        <view class="notice-warp r-flex-jcsb-aic pg15 fs12">
+            <view class="notice-item r-flex-aic" wx:for="{{noticeList}}" wx:key="index">
+                <van-icon name="passed" color="#2d8cf0" size="24rpx" />
+                <text class="ml5">{{item}}</text>
+            </view>
+        </view>
+        <!-- 服务评价 -->
+        <view class="comment-warp" wx:if="{{product.comments.length}}">
+            <view class="comment-title title fs16">服务评价</view>
+            <!-- next-margin="30rpx" snap-to-edge  -->
+            <swiper circular>
+                <swiper-item class="comment-item bg" wx:for="{{product.comments}}" wx:key="index">
+                    <view class="user-head r-flex-jcsb-aic">
+                        <view class="user-avatar r-flex-aic">
+                            <image wx:if="{{item.avatarUrl}}" src="{{item.avatarUrl}}" class="image avatar-image"></image>
+                            <text class="nickname fs12 content">{{item.nickName}}</text>
+                        </view>
+                        <view class="stars fs12 grey r-flex-aic">
+                            <van-icon name='star' size="24rpx" color="#daa520" wx:for="{{item.star}}" wx:key="index" />
+                        </view>
+                    </view>
+                    <view class="comment-content fs14 content">{{item.content}}</view>
+                </swiper-item>
+            </swiper>
+        </view>
+        <!-- 服务详细内容 -->
+        <view class="service-warp fs14">
+            <view class="service-title title fs16 pg15">服务内容</view>
+            <view class="service content">
+                <view class="service-desc pg15">{{product.description}}</view>
+                <view class="service-images" wx:for="{{product.imgs}}" wx:key="index">
+                    <image src="{{item}}" class="image" mode="widthFix" />
+                </view>
+            </view>
+        </view>
+        <!-- 弹窗选择 -->
+        <van-popup show="{{ showPopup }}" closeable position="bottom" z-index="1000" custom-style="height: 60%" bind:close="onShowPopup">
+            <scroll-view scroll-y class="popup-scroll ">
+                <view class="selections content fs14" wx:if="{{product.selections.length}}">
+                    <view class="select-option bg {{selActive===index?'option-active':''}}" wx:for="{{product.selections}}" wx:key="index" bindtap="onSelect" data-item="{{item}}" data-index="{{index}}">
+                        <view class="option-label">{{item.title}}</view>
+                        <view class="fs12 red mt10" wx:if="{{item.price}}">
+                            <text>￥</text>
+                            <text class="fs16">{{item.price}}</text>
+                        </view>
+                    </view>
+                </view>
+            </scroll-view>
+        </van-popup>
+        <!-- 购物导航栏 -->
+        <view class="good-nav-warp fs14 r-flex-jcsb-aic">
+            <view class="r-flex-aic">
+                <van-icon name="{{like}}" size="18" color="{{like=='like'?'#ee0a24':'#495060'}}" bindtap="onLike" />
+                <text class="ml10 content">关注</text>
+            </view>
+            <view class="order-btn" bindtap="onOrder">立即预约</view>
+        </view>
+    </view>
+</scroll-view>

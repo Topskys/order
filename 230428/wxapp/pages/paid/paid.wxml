@@ -1,0 +1,8 @@
+<!--pages/paid/paid.wxml-->
+<view class="paid-warp">
+    <view class="paid-result">
+        <text>{{result}}</text>
+    </view>
+    <navigator url="/pages/index/index" hover-class="none"  class="fs16 content back-btn">
+    返回首页</navigator>
+</view>

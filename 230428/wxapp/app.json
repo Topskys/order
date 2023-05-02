@@ -1,0 +1,65 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/logs/logs",
+        "pages/class/class",
+        "pages/mine/mine",
+        "pages/order/order",
+        "pages/login/login",
+        "pages/register/register",
+        "pages/server/server",
+        "pages/detail/detail",
+        "pages/info/info",
+        "pages/search/search",
+        "pages/about/about",
+        "pages/discount/discount",
+        "pages/comment/comment",
+        "pages/like/like",
+        "pages/pay/pay",
+        "pages/paid/paid"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "家电维修预约",
+        "navigationBarTextStyle": "black"
+    },
+    "style": "v2",
+    "sitemapLocation": "sitemap.json",
+    "tabBar": {
+        "custom": false,
+        "color": "#666666",
+        "selectedColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "borderStyle": "black",
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "text": "维修",
+                "iconPath": "images/home.png",
+                "selectedIconPath": "images/home-active.png"
+            },
+            {
+                "pagePath": "pages/class/class",
+                "text": "分类",
+                "iconPath": "images/class.png",
+                "selectedIconPath": "images/class-active.png"
+            },
+            {
+                "pagePath": "pages/order/order",
+                "text": "订单",
+                "iconPath": "images/cart.png",
+                "selectedIconPath": "images/cart-active.png"
+            },
+            {
+                "pagePath": "pages/mine/mine",
+                "text": "我的",
+                "iconPath": "images/mine.png",
+                "selectedIconPath": "images/mine-active.png"
+            }
+        ]
+    },
+    "useExtendedLib": {
+        "weui": true
+    }
+}

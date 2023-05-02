@@ -1,0 +1,24 @@
+/* pages/paid/paid.wxss */
+.paid-warp {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.paid-result {
+    height: 30vh;
+    background-color: var(--theme-light);
+    display: grid;
+    place-items: center;
+    color: var(--white);
+    font-size: 60rpx;
+    letter-spacing: 1px;
+}
+
+.back-btn {
+    color: var(--white);
+    padding: 20rpx 50rpx;
+    margin: 100rpx;
+    text-align: center;
+    border-radius: 200rpx;
+    background-color: var(--success);
+}

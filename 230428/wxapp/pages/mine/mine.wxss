@@ -1,0 +1,44 @@
+/* pages/mine/mine.wxss */
+.mine-warp {
+    height: 100vh;
+    overflow: hidden;
+    /* background-image:; */
+}
+.number-warp{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 40rpx;
+    place-items: center;
+    margin-top: 60rpx;
+}
+.user-warp .user-avatar {
+    display: block;
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 8rpx;
+}
+.integration-warp{
+    padding: 10rpx 20rpx;
+    background-color: var(--white);
+    border-radius: 100rpx;
+}
+.integration-warp .star-icon{
+    padding: 5rpx;
+    background-color: goldenrod;
+    border-radius: 50%;
+}
+.order-warp,.service-tool-warp {
+    border-radius: 20rpx;
+    background-color: var(--white);
+}
+.menus{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 40rpx;
+    place-items: center;
+}
+.menu-item .menu-image {
+    width: 60rpx;
+    height: 60rpx;
+    margin: 0 auto;
+}

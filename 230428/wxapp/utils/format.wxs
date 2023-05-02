@@ -1,0 +1,27 @@
+/**
+ * 格式化数量
+ * @param n number
+ */
+function formatNum(n) {
+    typeof n !== 'number' && (n = Number(n))
+    return n > 9999 ? parseInt(n / 10000) + '万+' : n
+}
+
+
+function getMax(arr = []) {
+    return arr.sort(function (a, b) {
+        return a - b
+    })[arr.length - 1]
+}
+
+function computedPrice(price) {
+    typeof price != 'number' && (price = Number(price))
+    var userInfo = wx.getStorageSync('userInfo')
+    var arr = userInfo.discount
+    return arr.length ? (price - getMax(arr)).toFixed(2) : price
+}
+
+module.exports = {
+    formatNum: formatNum,
+    computedPrice:computedPrice
+}

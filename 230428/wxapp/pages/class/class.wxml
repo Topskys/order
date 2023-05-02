@@ -1,0 +1,35 @@
+<!--pages/class/class.wxml-->
+<!-- 分类 -->
+<view scroll-y class="class-warp scroll-y">
+    <!-- tabs -->
+    <van-tabs active="{{ tabActive }}" bind:change="onTabChange">
+        <van-tab title="全部服务">
+            <view class="r-flex">
+                <!-- <scroll-view scroll-y class="sidebar-warp">
+                    <view class="sidebar-body">
+                        <view class="menu-item black-light" wx:for="{{sideMenus}}" wx:key="index" bindtap="onSideChange" data-item="{{item}}" data-index="{{index}}">
+                            <view class="label-warp {{sideActive==index?'active':''}}">
+                                <text class="menu-label fs14">{{item.label}}</text>
+                            </view>
+                        </view>
+                    </view>
+                </scroll-view> -->
+                <scroll-view scroll-y class="van-side-scroll">
+                    <van-sidebar active-key="{{ sideActive }}" bind:change="onSideChange" custom-class="van-side">
+                        <van-sidebar-item title="{{item.label}}" wx:for="{{sideMenus}}" wx:key="index" />
+                    </van-sidebar>
+                </scroll-view>
+                <scroll-view scroll-y class="body-warp">
+                    <view class="content-warp" wx:if="{{products.length}}">
+                        <view class="product-item" wx:for="{{products}}" wx:key="index" bindtap="toDetail" data-item="{{item}}">
+                            <image src="{{item.poster}}" mode="aspectFit" class="product-image image bg" />
+                            <view class="fs14 content">{{item.label}}</view>
+                        </view>
+                    </view>
+                    <view class="no-data-warp" wx:else><text class="grey fs14 pg10">暂无数据</text></view>
+                </scroll-view>
+            </view>
+        </van-tab>
+        <van-tab title="福利来袭">福利来袭</van-tab>
+    </van-tabs>
+</view>

@@ -1,0 +1,11 @@
+/* pages/info/info.wxss */
+.info-warp{
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+.info-warp .logout-btn {
+    margin-top: 100rpx;
+    font-weight: 400 !important;
+}

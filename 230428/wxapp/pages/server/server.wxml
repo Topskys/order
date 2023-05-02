@@ -1,0 +1,16 @@
+<!--pages/server/server.wxml-->
+<view class="server-warp bg">
+    <scroll-view scroll-y class="chat-warp">
+        <view class="chat-content fs14">
+            <view class="chat-createdAt" wx:if="{{createdAt}}">{{createdAt}}</view>
+            <view class="message-item {{item.id==1?'ar tar':'al tal'}}" wx:for="{{chatContent}}" wx:key="index">
+                <view class="msg-author">{{item.author}}</view>
+                <view class="msg-content {{item.id==1?'blue-bg':''}}">{{item.content}}</view>
+            </view>
+        </view>
+    </scroll-view>
+    <view class="input-warp r-flex-aic">
+        <input type="text" value="{{inputVal}}" bindinput="onInput" placeholder="请输入..." class="input fs14 content" />
+        <view class="send fs14" bindtap="onSend">发送</view>
+    </view>
+</view>

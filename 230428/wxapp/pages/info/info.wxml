@@ -1,0 +1,7 @@
+<!--pages/info/info.wxml-->
+<view class="info-warp bg">
+    <view class="edit-warp">
+        
+    </view>
+    <button type="warn" class="logout-btn" bindtap="logout">退 出</button>
+</view>

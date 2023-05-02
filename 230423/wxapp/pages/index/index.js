@@ -41,7 +41,7 @@ Page({
         }],
         // 分类数据
         categories: [{
-                label: "保姆",
+                label: "保姆月嫂",
                 poster: "/images/nanny.png"
             },
             {

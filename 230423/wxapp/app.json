@@ -13,7 +13,8 @@
         "pages/evaluate/evaluate",
         "pages/service/service",
         "pages/discount/discount",
-        "pages/collection/collection"
+        "pages/collection/collection",
+        "pages/ready/ready"
     ],
     "window": {
         "backgroundTextStyle": "light",

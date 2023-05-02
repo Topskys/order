@@ -1,0 +1,54 @@
+/* pages/login/login.wxss */
+
+
+
+.login-warp .form-warp {
+    padding: 30rpx;
+}
+
+.login-warp .form-warp .form-header {
+    padding: 100rpx 30rpx;
+    font-size: 40rpx;
+}
+
+.login-warp .form-warp .form-header .greet {
+    font-size: 48rpx;
+    letter-spacing: 1px;
+}
+
+.login-warp .form-warp .form-input {
+    display: block;
+    width: 80%;
+    margin: 30rpx auto;
+    padding: 20rpx 30rpx;
+    border: 1px solid var(--border);
+    border-radius: 8rpx;
+}
+
+.login-warp .form-warp .code-warp {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.login-warp .form-warp .code-warp .form-input {
+    flex: 1;
+}
+
+.login-warp .form-warp .code-warp .code-btn {
+    padding: 20rpx 50rpx;
+    margin-left: 20rpx;
+    color: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8rpx;
+    background-color: var(--theme-light);
+}
+
+.login-warp .form-warp .form-btn {
+    width: 80%;
+    padding: 20rpx 0;
+    margin-top: 100rpx;
+    color: var(--white);
+    font-size: 28rpx;
+    font-weight: 400 !important;
+    background-color: var(--theme-dark);
+}

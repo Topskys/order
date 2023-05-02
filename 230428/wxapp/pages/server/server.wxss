@@ -1,0 +1,102 @@
+/* pages/server/server.wxss */
+.server-warp {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-warp {
+    height: calc(100vh - 168.8rpx);
+    overflow: hidden;
+}
+
+.chat-content {
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin: 20rpx 0;
+}
+
+.chat-content .chat-createdAt {
+    color: var(--grey);
+    font-size: var(--fs12);
+    text-align: center;
+    padding: 10rpx 0;
+}
+
+.chat-content .message-item {
+    margin: 20rpx;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.chat-content .message-item .msg-author {
+    padding: 5rpx 10rpx;
+    color: var(--grey);
+    font-size: var(--fs12);
+}
+
+.chat-content .message-item .msg-content {
+    display: inline-block;
+    max-width: 475rpx;
+    padding: 10rpx 20rpx;
+    margin-top: 10rpx;
+    border-radius: 8rpx;
+    background-color: var(--white);
+}
+.blue-bg{
+    color: var(--white);
+    background-color: var(--theme) !important;
+}
+
+.tal {
+    text-align: left;
+}
+
+.tar {
+    text-align: right;
+}
+
+.al {
+    top: 0;
+    left: 30rpx;
+}
+
+.ar {
+    top: 0;
+    right: 30rpx;
+}
+
+.input-warp {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 30rpx;
+    padding-bottom: 60rpx;
+    /* background-color: var(--bg); */
+    border-top: 1px solid var(--border);
+}
+
+.input-warp .input {
+    flex: 1;
+    padding: 15rpx 30rpx;
+    /* border: 1px solid var(--theme); 
+    border-right: none; */
+    border-top-left-radius: 8rpx;
+    border-bottom-left-radius: 8rpx;
+    background-color: var(--white);
+}
+
+
+.input-warp .send {
+    color: var(--white);
+    padding: 15rpx 50rpx;
+    background-color: var(--theme);
+    border: 1px solid var(--border);
+    border-top-right-radius: 8rpx;
+    border-bottom-right-radius: 8rpx;
+}
+

@@ -1,0 +1,14 @@
+/**
+ * 格式化价格
+ * @param num 数字
+ */
+function formatPrice(num) {
+    if (typeof num !== 'number') {
+        num = Number(num)
+    }
+    return num > 9999 ? parseInt(num / 10000) + '万+' : num
+}
+
+module.exports = {
+    formatPrice: formatPrice
+}

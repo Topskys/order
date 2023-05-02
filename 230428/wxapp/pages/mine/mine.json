@@ -1,0 +1,8 @@
+{
+    "usingComponents": {
+        "van-icon": "@vant/weapp/icon/index",
+        "van-grid": "@vant/weapp/grid/index",
+        "van-grid-item": "@vant/weapp/grid-item/index"
+    },
+    "navigationBarTitleText": "会员中心"
+}

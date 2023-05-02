@@ -1,38 +1,60 @@
 <!--pages/detail/detail.wxml-->
 <!-- product详情 -->
 <scroll-view scroll-y class="detail-warp scroll-y">
-    <view class="scroll-content">
-        <view class="product-poster" wx:if="{{product.poster}}">
-            <image src="{{product.poster}}" mode="aspectFill" style="width: 100%;display: block;" />
+    <view class="scroll-content theme-bg">
+        <!-- 海报 -->
+        <view class="product-poster" wx:if="{{detail.poster}}">
+            <image src="{{detail.poster}}" mode="aspectFill" style="width: 100%;display: block;" />
         </view>
-        <view class="product-card">
-            <view class="card-top r-flex-1">
+        <!-- 选择服务 -->
+        <wxs module="wxs" src="../../utils/format.wxs"></wxs>
+        <view class="product-card fs12">
+            <view class="card-top r-flex-1 pg15 content">
                 <view class="left">随叫随到<text>最快2小时上门</text></view>
-                <view class="right">成交{{product.sale_count}}单</view>
+                <view class="right" wx:if="{{detail.sale_count}}">成交{{wxs.formatPrice(detail.sale_count)}}单</view>
             </view>
             <scroll-view scroll-x class="card-scroll-x">
                 <view class="selections r-flex">
-                    <block wx:if="{{product.services.length}}">
-                        <view class="select-item" wx:for="{{product.services}}">
-                            <view class="select-title">{{item.title}}</view>
-                            <view class="select-price r-flex">
+                    <block wx:if="{{detail.services.length}}">
+                        <view class="select-item fs14 title {{cardActive==index?'cardActive':''}}" wx:for="{{detail.services}}" wx:key="index" bindtap="onSelect" data-item="{{item}}" data-index="{{index}}">
+                            <view class="select-title title">{{item.title}}</view>
+                            <view class="select-price fs12" wx:if="{{item.price}}">
                                 <text class="price-str">￥</text>
-                                <text class="price-number">{{item.price}}</text>
-                                <text style="font-size:24rpx;">元</text>
+                                <text class="price-number fs16 mr5">{{item.price}}</text>
+                                <text>元</text>
                             </view>
                         </view>
                     </block>
                 </view>
             </scroll-view>
         </view>
+        <view class="notice-warp r-flex-jcsb-aic pg15 fs12">
+            <view class="notice-item r-flex-aic">
+                <van-icon name="passed" color="#35bb99" size="24rpx" />
+                <text class="ml5">全程上险</text>
+            </view>
+            <view class="notice-item r-flex-aic">
+                <van-icon name="passed" color="#35bb99" size="24rpx" />
+                <text class="ml5">爽约必赔</text>
+            </view>
+            <view class="notice-item r-flex-aic">
+                <van-icon name="passed" color="#35bb99" size="24rpx" />
+                <text class="ml5">损坏包赔</text>
+            </view>
+            <view class="notice-item r-flex-aic">
+                <van-icon name="passed" color="#35bb99" size="24rpx" />
+                <text class="ml5">满意为止</text>
+            </view>
+        </view>
+        <!-- 服务与评价 -->
         <van-sticky>
             <van-tabs active="{{ tabActive }}" bind:change="onChange">
                 <van-tab title="服务内容">
                     <scroll-view scroll-y class="service-warp">
                         <view class="service">
-                            <view class="service-desc">{{product.notice}}</view>
-                            <view class="service-images" wx:for="{{product.imgs}}">
-                                <image src="{{item}}" class="image-item" mode="aspectFill" style="width: 100%;display: block;" />
+                            <view class="service-desc pg15 fs14 content">{{detail.description}}</view>
+                            <view class="service-images" wx:for="{{detail.imgs}}" wx:key="index">
+                                <image src="{{item}}" class="image-item image" mode="aspectFill" />
                             </view>
                         </view>
                     </scroll-view>
@@ -40,15 +62,17 @@
                 <van-tab title="用户评价">
                     <scroll-view scroll-y class="evaluate-warp">
                         <view class="evaluations">
-                            <view class="evaluate-item" wx:for="{{evaluations}}" wx:key="index">
+                            <view class="evaluate-item mn15" wx:for="{{detail.evaluations}}" wx:key="index">
                                 <view class="user-warp r-flex-3">
                                     <image wx:if="{{item.avatarUrl}}" src="{{item.avatarUrl}}" class="user-avatar" />
                                     <view class="user-info">
-                                        <view class="nickname">{{item.nickName}}</view>
-                                        <view class="gender">{{item.gender}}</view>
+                                        <view class="nickname fs14">{{item.nickName}}</view>
+                                        <view class="gender fs13">
+                                            <van-icon name="{{item.gender==1?'/images/woman.png':'/images/man.png'}}" size="24rpx" />
+                                        </view>
                                     </view>
                                 </view>
-                                <view class="evaluate-content">
+                                <view class="evaluate-content fs14 content">
                                     {{item.content}}
                                 </view>
                                 <view class="evaluate-created">{{item.createdAt}}</view>
@@ -58,5 +82,13 @@
                 </van-tab>
             </van-tabs>
         </van-sticky>
+        <!-- 购物导航 -->
+        <view class="good-nav-warp">
+            <van-goods-action>
+                <van-goods-action-icon icon="chat-o" text="客服" class="mr10" bind:click="onService" />
+                <van-goods-action-button plain color="#35bb99" text="加入收藏" type="warning" bind:click="onCollect" />
+                <van-goods-action-button color="#35bb99" text="立即预约" bind:click="onOrder" class="mr5" />
+            </van-goods-action>
+        </view>
     </view>
 </scroll-view>

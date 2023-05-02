@@ -1,0 +1,100 @@
+/* pages/pay/pay.wxss */
+.pay-warp {
+    height: 100vh;
+    overflow: hidden;
+}
+.notice-warp{
+    margin: 10rpx 0;
+    color: var(--theme);
+    background-color: #eaf0f7;
+}
+
+.shadow{
+    padding: 30rpx ;
+    margin: 30rpx;
+    border-radius: 10rpx;
+    box-shadow: -1px -1px 5px var(--border);
+}
+.user-info{
+    flex: 1;
+}
+.user-info .address{
+    font-weight: 550;
+}
+.address-warp {
+    margin: 24rpx;
+    border-radius: 8rpx;
+    background-color: var(--white)
+}
+
+.address-warp .user-info {
+    flex: 1;
+}
+
+
+/* 目标订单 */
+.product-warp {
+    padding: 24rpx;
+    margin: 24rpx;
+    box-sizing: border-box;
+    border-radius: 8rpx;
+    background-color: var(--white);
+}
+
+.product-warp .product-image {
+    width: 150rpx;
+    height: 150rpx;
+    margin-right: 20rpx;
+    border-radius: 4rpx;
+}
+
+.product-warp .product-desc {
+    flex: 1;
+}
+
+.product-warp .product-desc .title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.product-warp .product-desc .price {
+    margin-top: 10rpx;
+}
+
+/* 计算金额 */
+.computed-warp {
+    background-color: var(--white);
+}
+.van-cell__value{
+    color: var(--theme) !important;
+}
+
+.computed-warp .cell-input {
+    padding: 0rpx 24rpx 24rpx 30rpx;
+}
+
+/* 支付导航栏 */
+.pay-nav-wap {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    box-sizing: border-box;
+    padding: 16rpx 30rpx 60rpx;
+    z-index: 99;
+    background-color: var(--white);
+    border: 1px solid var(--border);
+}
+
+.submit-btn {
+    width: 200rpx;
+    padding: 16rpx;
+    color: var(--white);
+    text-align: center;
+    border-radius: 10rpx;
+    border: 1px solid var(--border);
+    background-color: var(--theme-dark);
+}

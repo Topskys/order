@@ -17,7 +17,7 @@ App({
         // })
     },
     globalData: {
-        userInfo: wx.getStorageSync('userInfo') || {},
+        userInfo: wx.getStorageSync('userInfo') ,
         logoTitle: "景春高级家政",
         location:"福州",
     }

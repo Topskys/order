@@ -1,0 +1,67 @@
+<!--pages/mine/mine.wxml-->
+<view class="mine-warp bg">
+    <!-- 用户信息 -->
+    <view class="user-warp pg15">
+        <view class="r-flex-jcsb-aic">
+            <view class="r-flex-aic">
+                <block wx:if="{{userInfo.username}}">
+                    <image src="{{userInfo.avatarUrl}}" mode="aspectFill" class="user-avatar mr10" />
+                    <view class="uesr-info">
+                        <view class="nickname fs16">{{userInfo.nickName}}</view>
+                        <view class="phone fs13 content">{{userInfo.phone}}</view>
+                    </view>
+                </block>
+                <block wx:else>
+                    <image src="/images/logout.png" mode="aspectFill" class="user-avatar mr10" />
+                    <navigator url="/pages/login/login?redirect=mine&rediType=tab" hover-class="none" class="fs16">登录 / 注册</navigator>
+                </block>
+            </view>
+            <!-- <van-icon name="arrow" size="20" color="#333" /> -->
+            <view class="integration-warp r-flex-aic">
+                <van-icon name="star" size="14" color="#fff" class="star-icon" />
+                <text class="fs14 ml5 content">签到得积分</text>
+            </view>
+        </view>
+        <view class="number-warp content fs14">
+            <view class="number-item c-flex-jcc">
+                <view class="tac">{{userInfo.discount?userInfo.discount:'-'}}</view>
+                <view class="tac">优惠劵</view>
+            </view>
+            <view class="number-item c-flex-jcc">
+                <view class="tac">{{userInfo.score?userInfo.score:'-'}}</view>
+                <view class="tac">积分</view>
+            </view>
+            <view class="number-item c-flex-jcc">
+                <view class="tac">{{userInfo.like?userInfo.like:'-'}}</view>
+                <navigator url="/pages/like/like" hover-class="none" class="tac">关注</navigator>
+            </view>
+        </view>
+    </view>
+    <!-- 我的订单 -->
+    <view class="order-warp pg15 mn15">
+        <view class="r-flex-jcsb-aic title">
+            <view class="fs18 title">我的订单</view>
+            <view class="fs12 r-flex-reg" bindtap="toOrder"><text>全部订单</text>
+                <van-icon name="arrow" />
+            </view>
+        </view>
+        <view class="menus mt15">
+            <view class="menu-item" wx:for="{{orderMenus}}" wx:key="index" bindtap="toOrder" data-index="{{index}}">
+                <image src="{{item.icon}}" class="image menu-image"></image>
+                <view><text class="content fs14">{{item.label}}</text></view>
+            </view>
+        </view>
+    </view>
+    <!-- 服务与工具 -->
+    <view class="service-tool-warp pg15 mn15">
+        <view class="title fs18">服务与工具</view>
+        <view class="menus mt15">
+            <view class="menu-item" wx:for="{{services}}" wx:key="index" >
+                <navigator url="{{item.url}}" hover-class="none">
+                    <image src="{{item.icon}}" class="image menu-image"></image>
+                    <view><text class="content fs14">{{item.label}}</text></view>
+                </navigator>
+            </view>
+        </view>
+    </view>
+</view>

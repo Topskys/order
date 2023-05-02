@@ -1,0 +1,18 @@
+<!--pages/login/login.wxml-->
+<view class="login-warp">
+    <view class="form-warp">
+        <view class="form-header">
+            <view>Sign in</view>
+            <view class="greet">欢迎回来</view>
+        </view>
+        <form bindsubmit="onSubmit">
+            <input type="text" name="username" placeholder="Username" class="form-input content fs14" />
+            <input type="password" name="password" placeholder="Password" class="form-input content fs14" />
+            <button formType="submit" class="form-btn">SIGN IN</button>
+        </form>
+        <view class="form-footer r-flex-jcc-aic fs14 grey tac pg10">
+            <text>Don't have an account?</text>
+            <navigator url="/pages/register/register?redirect=login" hover-class="none"><text class="theme ml5"> Sign up</text></navigator>.
+        </view>
+    </view>
+</view>

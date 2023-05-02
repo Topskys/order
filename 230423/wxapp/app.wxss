@@ -15,22 +15,31 @@ page {
     --mine-bg: #f4f5f5;
     --theme-bg: #f4f5f5;
     --white: #fff;
-    --black-light: #333;
     --red: #ee0a24;
     --grey: rgb(201, 208, 211);
     --blue-light: #3ab6f6;
+
+    --theme:#35bb99;
+    --theme-1:#2cb992;
+    --theme-light:#e9fffb;
+    --black-light:#303332;
+    --title:#2c2c2b;
+    --gray: #7a7979;
+    --border:#d2d2d2;
+    --button-white:#efffff;
+    --gold:#ecc15c;
     /* VantUI订制主题 */
     /* --text-color: #323233; */
     /* --border-color: #ebedf0; */
-    --active-color: #3ab6f6;
-    --background-color: #3ab6f6;
+    /* --active-color: #3ab6f6; */
+    --background-color: var(--theme);
     --background-color-light: #fafafa;
-    --tab-active-text-color: #3ab6f6;
-    --tabs-bottom-bar-color: #3ab6f6;
+    --tab-active-text-color: var(--title);
+    --tabs-bottom-bar-color: var(--theme);
     /* --dropdown-menu-title-text-color:#fff; */
-    --dropdown-menu-title-text-color: #fff;
-    --dropdown-menu-title-active-text-color: #3ab6f6;
-    --dropdown-menu-option-active-color: #3ab6f6;
+    --dropdown-menu-title-text-color: var(--white);
+    --dropdown-menu-title-active-text-color: var(--theme);
+    --dropdown-menu-option-active-color: var(--theme);
     /* font-size */
     --fs12: 24rpx;
     --fs14: 28rpx;
@@ -95,8 +104,178 @@ page {
     font-size: var(--fs14);
 }
 
-.scroll-y {
+/* flex */
+.r-flex {
+    display: flex;
+}
+
+.r-flex-jcsb {
+    display: flex;
+    justify-content: space-between;
+}
+
+.r-flex-aic {
+    display: flex;
+    align-items: center;
+}
+.r-flex-jcsb-aic {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.r-flex-jcc-aic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.c-flex {
+    display: flex;
+    flex-direction: column;
+}
+
+.c-flex-jcsb {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.c-flex-aic {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.c-flex-jcc{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+/* image */
+.image{
+    display: block;
     width: 100%;
+}
+/* scroll */
+.scroll-y{
     height: 100vh;
     overflow: hidden;
+}
+/* text-align */
+.tal{
+    text-align: left;
+}
+.tar{
+    text-align: right;
+}
+.tac{
+    text-align: center;
+}
+
+
+/* font-size */
+.fs12{
+    font-size: var(--fs12);
+}
+.fs13{
+    font-size: 26rpx;
+}
+.fs14{
+    font-size: var(--fs14);
+}
+.fs15{
+    font-size: 30rpx;
+}
+.fs16{
+    font-size: var(--fs16);
+}
+.fs18{
+    font-size: var(--fs18);
+}
+.fs20{
+    font-size: var(--fs20);
+}
+/* color class */
+.black-light{
+    color: var(--black-light);
+}
+.white{
+    color: var(--white);
+}
+.grey{
+    color: var(--grey);
+}
+.gray{
+    color: var(--gray);
+}
+.red{
+    color: var(--red);
+}
+.theme{
+    color: var(--theme);
+}
+.theme-1{
+    color: var(--theme-1);
+}
+
+.title{
+    color: var(--title);
+}
+.content{
+    color: var(--black-light);
+}
+
+
+.border{
+    color: var(--border);
+}
+
+.theme-bg{
+    background-color: var(--theme-bg);
+}
+
+/* padding */
+.pg15{
+    padding: 30rpx;
+}
+.pg10{
+    padding: 20rpx;
+}
+.pg0-15{
+    padding: 0 30rpx;
+}
+/* margin */
+.mn15{
+    margin: 30rpx;
+}
+.mn10-0{
+    margin: 20rpx 0;
+}
+.mt15{
+    margin-top: 30rpx;
+}
+.mr5{
+    margin-right: 10rpx;
+}
+.mr10{
+    margin-right: 20rpx;
+}
+.mb10{
+    margin-bottom: 20rpx;
+}
+.ml10{
+    margin-left: 20rpx;
+}
+.ml5{
+    margin-left: 10rpx;
+}
+
+.mt10{
+    margin-top: 20rpx;
+}
+.mr10{
+    margin-right: 20rpx;
+}
+.mb10{
+    margin-bottom: 20rpx;
 }

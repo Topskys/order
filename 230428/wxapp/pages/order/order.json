@@ -1,0 +1,14 @@
+{
+    "usingComponents": {
+        "van-card": "@vant/weapp/card/index",
+        "van-button": "@vant/weapp/button/index",
+        "van-tab": "@vant/weapp/tab/index",
+        "van-tabs": "@vant/weapp/tabs/index",
+        "van-sticky": "@vant/weapp/sticky/index",
+        "van-swipe-cell": "@vant/weapp/swipe-cell/index",
+        "mp-cells": "weui-miniprogram/cells/cells",
+        "mp-cell": "weui-miniprogram/cell/cell",
+        "mp-slideview": "weui-miniprogram/slideview/slideview"
+    },
+    "navigationBarTitleText": "维修订单"
+}

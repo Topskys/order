@@ -1,0 +1,29 @@
+<!--index.wxml-->
+<!-- 首页 -->
+<view class="index-warp">
+    <!-- 定位 -->
+    <view class="search-warp r-flex-aic pg0-15">
+        <view class="location-warp  r-flex-aic" >
+            <van-icon name="location-o" color="#333"/>
+            <van-dropdown-menu>
+                <van-dropdown-item value="{{location}}" options="{{ locations }}" />
+            </van-dropdown-menu>
+        </view>
+        <van-search value="{{ keyword }}" placeholder="Search..." shape="round" style="flex:1;" bindtap="navTo" data-url="search"/>
+        <van-icon name="service-o" size="46rpx" color="#333" bind:click="navTo" data-url="server"/>
+    </view>
+    <!-- 走马灯 -->
+    <swiper autoplay indicator-dots circular class="swiper-warp">
+        <swiper-item wx:for="{{banners}}" wx:key="index">
+            <image src="{{item}}" mode="aspectFill" class="swiper-image" />
+        </swiper-item>
+    </swiper>
+    <!-- 分区导航 -->
+    <view class="nav-warp fs14 black-light">
+        <view class="nav-item c-flex-jcc" wx:for="{{navList}}" wx:key="index">
+            <image src="{{item.poster}}" class="nav-image image"/>
+            <text class="fs14">{{item.label}}</text>
+        </view>
+    </view>
+
+</view>
