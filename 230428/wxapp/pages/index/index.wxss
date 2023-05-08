@@ -1,9 +1,15 @@
 /**index.wxss**/
-.van-dropdown-menu{
+
+.search-warp {
+    background-color: var(--white);
+}
+
+.van-dropdown-menu {
     box-shadow: none !important;
     height: 80rpx !important;
     background: transparent !important;
 }
+
 /* swiper */
 .swiper-warp {
     width: 100%;
@@ -38,6 +44,7 @@
     place-items: center;
     text-align: center;
     padding: 40rpx 30rpx;
+    border-radius: 20rpx;
     background-color: var(--white);
 }
 
@@ -45,4 +52,80 @@
     width: 80rpx;
     height: 80rpx;
     margin: 0 auto;
+}
+
+
+/* analysis-class-warp */
+.analysis-class-warp {
+    position: relative;
+    padding-top: 80rpx;
+}
+
+.analysis-class-warp .analysis-warp {
+    position: absolute;
+    top: -60rpx;
+    left: 0;
+    width: calc(100vw - 60rpx);
+    margin: 0 30rpx;
+    overflow: hidden;
+    color: var(--theme-dark);
+    box-sizing: border-box;
+    border-radius: 20rpx;
+    border: 1px solid var(--border);
+    background-color: var(--white);
+    background-color: rgba(255, 255, 255, .95);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.06), 0 0 10px 0 rgba(0, 0, 0, 0.04);
+}
+
+
+
+/* 一键报修 */
+.scroll-body{
+    position: relative;
+}
+
+.scroll-body .result{
+    /* flex: 1; 375-34 =341*/
+    /* width: 345rpx; */
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    width: 50%;
+}
+.scroll-body .res-left{
+    left: 0;
+}
+.scroll-body .res-right{
+    right: 0;
+}
+.scroll-body .result .product-item{
+    overflow: hidden;
+    border: 1px solid #eee;
+    box-sizing: border-box;
+    border-radius: 10rpx;
+    background-color: var(--white);
+    /* box-shadow: 0px 0px 24px var(--border); */
+}
+.scroll-body .result .left{
+    margin: 24rpx;
+}
+.scroll-body .result .right{
+    margin: 24rpx 24rpx 24rpx 0;
+}
+.scroll-body .result .product-item .desc{
+    padding: 10rpx 20rpx;
+}
+.scroll-body .result .product-item .title{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.scroll-body .result .product-item .price{
+    margin-top: 10rpx;
+}
+.scroll-body .result .product-item .product-image{
+    border-top-left-radius: 10rpx;
+    border-top-right-radius: 10rpx;
 }

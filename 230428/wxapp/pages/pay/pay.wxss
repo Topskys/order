@@ -73,7 +73,7 @@
 }
 
 .computed-warp .cell-input {
-    padding: 0rpx 24rpx 24rpx 30rpx;
+    padding: 12rpx 24rpx 24rpx 30rpx;
 }
 
 /* 支付导航栏 */

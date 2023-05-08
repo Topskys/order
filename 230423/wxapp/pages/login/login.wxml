@@ -16,9 +16,6 @@
                 <input name="password" type="password" placeholder="请输入密码" password class="form-input" />
                 <button formType="submit" class="form-btn">SIGN IN</button>
             </form>
-            <!-- <view class="form-input-item"><input type="text" value="{{login.username}}" placeholder="Username" class='form-input' bindinput="onInput" data-where='1' /></view>
-            <view class="form-input-item"><input type="safe-password" value="{{login.password}}" password placeholder="Password" class='form-input' bindinput="onInput" data-where='2' /></view>
-            <button bindtap="login" data-where="1" class="login-btn">SIGN IN</button> -->
         </view>
         <view class="form-footer">
             Don't have an account?

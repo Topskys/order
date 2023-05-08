@@ -15,7 +15,11 @@ App({
     },
     globalData: {
         logo: '家电维修预约',
-        userInfo: wx.getStorageSync('userInfo')
+        location: wx.getStorageSync('location') || "福州",
+        curr_class_tab: 0,
+        curr_class_side: 0,
+        curr_order_tab: 0,
+        userInfo: wx.getStorageSync('userInfo'),
         // ||{
         //     phone:18200001234,
         //     nickName:'Topsky',

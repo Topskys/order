@@ -1,24 +1,26 @@
 // pages/class/class.js
 import request from '../../utils/request'
+const app = getApp()
+
 Page({
 
     data: {
-        tabActive: 0,
-        sideActive: 0,
+        tabActive: app.globalData.curr_class_tab || 0,
+        sideActive: app.globalData.curr_class_side || 0,
         sideMenus: [{
-            _id:1,
+                _id: 1,
                 label: "笔记本",
             },
             {
-                _id:2,
+                _id: 2,
                 label: "电饭煲",
             },
             {
-                _id:3,
+                _id: 3,
                 label: "手机",
             },
             {
-                _id:4,
+                _id: 4,
                 label: "冰箱",
             },
             {
@@ -32,17 +34,17 @@ Page({
             }
         ],
         products: [{
-            classId:1,
+                classId: 1,
                 poster: '/images/girl.jpg',
                 label: '空调',
             },
             {
-                classId:2,
+                classId: 2,
                 poster: '/images/detail-01.jpg',
                 label: '冰箱',
             },
             {
-                classId:3,
+                classId: 3,
                 poster: '/images/01.jpg',
                 label: '空调',
             },
@@ -54,7 +56,49 @@ Page({
                 poster: '/images/01.jpg',
                 label: '空调',
             }
-        ]
+        ],
+        disList: [{
+            title: '新人专享红包',
+            discount_size: 2,
+        }, {
+            title: '新人专享红包',
+            discount_size: 6,
+        }, {
+            title: '新人专享红包',
+            discount_size: 5,
+        }, {
+            title: '新人专享红包',
+            discount_size: 8,
+        }, {
+            title: '新人专享红包',
+            discount_size: 9,
+        }, {
+            title: '新人专享红包',
+            discount_size: 16,
+        }, {
+            title: '新人专享红包',
+            discount_size: 10,
+        }, {
+            title: '新人专享红包',
+            discount_size: 0.5,
+        }, {
+            title: '新人专享红包',
+            discount_size: 12,
+        }, {
+            title: '新人专享红包',
+            discount_size: 6,
+        }, {
+            title: '新人专享红包',
+            discount_size: 3,
+        }]
+    },
+    onShow() {
+        // !this.data.sideMenus.length && this.getSideMenus()
+        // this.data.sideMenus.length && this.getSideMenus()
+        this.setData({
+            tabActive: app.globalData.curr_class_tab || 0,
+            sideActive: app.globalData.curr_class_side || 0,
+        })
     },
     // 侧边栏菜单项点击事件
     onSideChange(e) {
@@ -100,8 +144,30 @@ Page({
             })
         })
     },
-    onShow(){
-        // !this.data.sideMenus.length && this.getSideMenus()
-        this.data.sideMenus.length && this.getSideMenus()
+    // 获取优惠劵列表
+    async getDiscList() {
+        const res = await request({
+            url: 'discount'
+        })
+        this.setData({
+            disList: res.data || []
+        })
+    },
+    // 领取优惠劵
+    getDisc(e) {
+        const item = e.currentTarget.dataset.item
+        checkAuth(async () => {
+            const res = await request({
+                url: `discount/${item._id}`,
+                method: 'post',
+                data: {
+                    ...item
+                }
+            })
+            wx.showToast({
+                title: res.msg,
+                icon: res.code == 200 ? 'success' : 'error',
+            })
+        }, 'discount', 'nav')
     }
 })

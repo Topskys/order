@@ -1,10 +1,10 @@
 import checkAuth from "../../utils/auth"
 import request from "../../utils/request"
-
+const app = getApp()
 // pages/order/order.js
 Page({
     data: {
-        active: 1,
+        active: app.globalData.curr_order_tab || 0,
         poster: 'https://img01.yzcdn.cn/vant/ipad.jpeg',
         arr0: [],
         arr1: [],
@@ -13,6 +13,9 @@ Page({
         arr4: [],
     },
     onShow() {
+        this.setData({
+            active: app.globalData.curr_order_tab
+        })
         // this.getDataList()
     },
     // 切换tab

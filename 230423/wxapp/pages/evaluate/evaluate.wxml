@@ -1,2 +1,10 @@
 <!--pages/evaluate/evaluate.wxml-->
-<text>pages/evaluate/evaluate.wxml</text>
+<!-- 发布评价 -->
+<view class="evaluate-warp">
+    <view class="form-warp">
+        <form bindsubmit="pushEvaluation">
+            <textarea name="content" type="textarea" placeholder="服务质量满足您的期待吗？说说您的使用心得，分享给需要的他们吧" class="form-textarea content fs16" />
+            <button formType="submit" class="form-btn fs16">发 布</button>
+        </form>
+    </view>
+</view>

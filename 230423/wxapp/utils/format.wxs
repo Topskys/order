@@ -9,6 +9,29 @@ function formatPrice(num) {
     return num > 9999 ? parseInt(num / 10000) + '万+' : num
 }
 
+
+/**
+ * 生成随机数
+ * @param min 
+ * @param max 
+ */
+function randomNum(min = 1, max = 99) {
+    return Math.floor((Math.random() * max) + min)
+}
+
+
+/**
+ * 格式化日期
+ * @param time String
+ */
+function formatDate(time) {
+    var d = getDate(time)
+    return [d.getFullYear(), d.getMonth() + 1, d.getDate()].join('-')
+}
+
+
 module.exports = {
-    formatPrice: formatPrice
+    formatPrice: formatPrice,
+    randomNum: randomNum,
+    formatDate: formatDate,
 }

@@ -1,4 +1,4 @@
-// 连接数据库模块
+// Database connection module
 const mongoose = require('mongoose');
 
 

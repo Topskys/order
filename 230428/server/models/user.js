@@ -1,8 +1,8 @@
-// 用户模型
+// User模型
 const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
-        username: {
+        username: { // 账户（邮箱）
             type: String,
             required: true
         },
@@ -10,7 +10,7 @@ const schema = new mongoose.Schema({
             type: String,
             required: true
         },
-        nickName: {
+        nickName: { // 昵称
             type: String,
             default: ''
         },
@@ -38,23 +38,23 @@ const schema = new mongoose.Schema({
             type: String,
             default: '',
         },
-        address: {
+        address: { // 地址
             type: String,
             default: '福州市晋安区兴华村8号',
         },
-        code: {
+        code: { // 验证码
             type: String,
             default: '',
         },
-        discount: {
+        discount: { // 福利
             type: Array,
             default: []
         },
-        score: {
+        score: { // 积分
             type: Number | String,
             default: 0
         },
-        like: {
+        like: { // 关注
             type: Number | String,
             default: 0
         },

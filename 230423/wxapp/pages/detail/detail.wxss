@@ -45,9 +45,7 @@
 
 /* 服务内容 */
 .service-warp {
-    width: 100%;
     box-sizing: border-box;
-    height: calc(100vh - 88rpx - 168rpx);
     padding-bottom: 168rpx;
     background-color: var(--white);
 }
@@ -57,7 +55,7 @@
 .evaluate-warp {
     width: 100%;
     box-sizing: border-box;
-    height: calc(100vh - 88rpx - 168rpx);
+    height: calc(100vh - 88rpx );
     padding: 20rpx 0;
     padding-bottom: 168rpx;
     background-color: var(--white);

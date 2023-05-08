@@ -1,3 +1,6 @@
+import checkAuth from "../../utils/check"
+import request from "../../utils/request"
+
 // pages/discount/discount.js
 Page({
 
@@ -5,62 +8,68 @@ Page({
      * 页面的初始数据
      */
     data: {
-
+        disList: [{
+            title: '新人专享红包',
+            discount_size: 2,
+        },{
+            title: '新人专享红包',
+            discount_size: 6,
+        },{
+            title: '新人专享红包',
+            discount_size: 5,
+        },{
+            title: '新人专享红包',
+            discount_size: 8,
+        },{
+            title: '新人专享红包',
+            discount_size: 9,
+        },{
+            title: '新人专享红包',
+            discount_size: 16,
+        },{
+            title: '新人专享红包',
+            discount_size: 10,
+        },{
+            title: '新人专享红包',
+            discount_size: 0.5,
+        },{
+            title: '新人专享红包',
+            discount_size: 12,
+        },{
+            title: '新人专享红包',
+            discount_size: 6,
+        },{
+            title: '新人专享红包',
+            discount_size: 3,
+        }]
     },
-
-    /**
-     * 生命周期函数--监听页面加载
-     */
-    onLoad(options) {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady() {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
     onShow() {
 
     },
-
-    /**
-     * 生命周期函数--监听页面隐藏
-     */
-    onHide() {
-
+    // 获取优惠劵列表
+    async getDiscList() {
+        const res = await request({
+            url: 'discount'
+        })
+        this.setData({
+            disList: res.data || []
+        })
     },
-
-    /**
-     * 生命周期函数--监听页面卸载
-     */
-    onUnload() {
-
-    },
-
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh() {
-
-    },
-
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom() {
-
-    },
-
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage() {
-
+    // 领取优惠劵
+    getDisc(e) {
+        const item = e.currentTarget.dataset.item
+        checkAuth(async () => {
+            const res = await request({
+                url: `discount/${item._id}`,
+                method:'post',
+                data:{
+                    ...item
+                }
+            })
+            wx.showToast({
+                title: res.msg,
+                icon: res.code == 200 ? 'success' : 'error',
+            })
+        }, 'discount', 'nav')
     }
 })

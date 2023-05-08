@@ -3,11 +3,11 @@ const mongoose = require('mongoose')
 
 
 const schema = new mongoose.Schema({
-    productId: {
+    product_id: {
         type: String,
         require: true
     },
-    commentId: {
+    comment_id: {
         type: String,
         default: ''
     },
@@ -23,7 +23,7 @@ const schema = new mongoose.Schema({
         type: String,
         default: "0",
     },
-    startPrice: {
+    start_price: {
         type: String,
         require: true
     },
@@ -34,7 +34,7 @@ const schema = new mongoose.Schema({
     },
     description: {
         type: String,
-        default: ''
+        require:true
     },
     imgs: {
         type: Array,
@@ -42,8 +42,8 @@ const schema = new mongoose.Schema({
         require: true
     },
     status: {
-        type: String,
-        default: "normal",
+        type: Boolean,
+        default: true,
     }
 }, {
     timestamps: true

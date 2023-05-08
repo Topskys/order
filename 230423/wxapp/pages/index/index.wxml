@@ -26,11 +26,11 @@
 <scroll-view scroll-y class="index-warp">
     <!-- 定位 -->
     <view class="location-warp">
-    <image src="/images/01.jpg" mode="widthFix" class="loc-poster"></image>
+        <image src="/images/01.jpg" mode="widthFix" class="loc-poster"></image>
         <view class="select-warp  r-flex-3">
-            <van-icon name="location-o" color="#fff"/>
+            <van-icon name="location-o" color="#fff" />
             <van-dropdown-menu>
-                <van-dropdown-item value="{{location}}" options="{{ locations }}" />
+                <van-dropdown-item value="{{location}}" options="{{ locations }}" bind:change="onChange" />
             </van-dropdown-menu>
         </view>
     </view>
@@ -50,27 +50,29 @@
     <!-- 活动专区 -->
     <view class="activity-warp">
         <p class="activity-title">活动专区</p>
-        <view class="activity-item">
-            <view class="left">
-                <view class="title"> 新人专享</view>
-                <text>品质生活尝鲜体验</text>
+        <navigator url="/pages/discount/discount" hover-class="none">
+            <view class="activity-item">
+                <view class="left">
+                    <view class="title"> 新人专享</view>
+                    <text>品质生活尝鲜体验</text>
+                </view>
+                <text class="go">Go!</text>
             </view>
-            <text bindtap="toDiscount" class="go">Go!</text>
-        </view>
+        </navigator>
     </view>
     <!-- 热销推荐 -->
     <view class="recommend-warp">
         <p class="rmd-title"> 热销推荐</p>
-        <view class="product-item r-flex" wx:for="{{recommendList}}" wx:key="index" bindtap="toDetail" data-item="{{item}}">
+        <view class="product-item r-flex" wx:for="{{recommends}}" wx:key="index" bindtap="toDetail" data-item="{{item}}">
             <image src="{{item.poster}}" class="rmd-img"></image>
             <view class="description c-flex-2">
                 <view class="">
                     <view class="title">{{item.title}}</view>
                     <view class="detail">{{item.description}}</view>
                 </view>
-                <view class="price">
+                <view class="price" wx:if="{{item.start_price}}">
                     <text class="price-str">￥</text>
-                    <text class="price-number">499</text>
+                    <text class="price-number">{{item.start_price}}</text>
                 </view>
             </view>
         </view>

@@ -1,1 +1,14 @@
 /* pages/discount/discount.wxss */
+.scroll-body{
+    padding-bottom: 50rpx;
+}
+.dis-item{
+    margin: 24rpx;
+    border-radius: 10rpx;
+    box-shadow: -1px -1px 3px var(--border);
+    background-color: var(--white);
+}
+
+.left{
+    border-bottom:1px dashed var(--grey) ;
+}

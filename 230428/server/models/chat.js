@@ -3,9 +3,17 @@ const mongoose = require('mongoose')
 
 
 const schema = new mongoose.Schema({
-    userId: {
+    product_id: {
+        type: String,
+        default: ''
+    },
+    user_id: {
         type: String,
         require: true
+    },
+    admin_id: {
+        type: String,
+        default: ''
     },
     nickName: {
         type: String,
@@ -20,20 +28,24 @@ const schema = new mongoose.Schema({
         default: ''
     },
     content: {
-        type: Array,
-        default: []
+        type: String,
+        require: true
+    },
+    read: {
+        type: Boolean,
+        default: false
     },
     role: {
         type: String,
-        default: "customer",
+        default: 'user'
     },
     status: {
-        type: String,
-        default: "normal",
+        type: Boolean,
+        default: true
     }
 }, {
     timestamps: true
 })
 
 
-module.exports = mongoose.model('chat', schema)
+module.exports = mongoose.model('services', schema)

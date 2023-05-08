@@ -10,7 +10,7 @@
             "list": [
                 {
                     "name": "",
-                    "pathName": "pages/pay/pay",
+                    "pathName": "pages/server/server",
                     "query": "",
                     "launchMode": "default",
                     "scene": null

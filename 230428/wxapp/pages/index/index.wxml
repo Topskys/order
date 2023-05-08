@@ -1,29 +1,97 @@
 <!--index.wxml-->
 <!-- 首页 -->
-<view class="index-warp">
+<scroll-view scroll-y class="index-warp scroll-y">
     <!-- 定位 -->
-    <view class="search-warp r-flex-aic pg0-15">
-        <view class="location-warp  r-flex-aic" >
-            <van-icon name="location-o" color="#333"/>
-            <van-dropdown-menu>
-                <van-dropdown-item value="{{location}}" options="{{ locations }}" />
-            </van-dropdown-menu>
+    <van-sticky>
+        <view class="search-warp r-flex-aic pg0-15">
+            <view class="location-warp  r-flex-aic">
+                <van-icon name="location-o" color="#333" />
+                <van-dropdown-menu>
+                    <van-dropdown-item value="{{location}}" options="{{ locations }}"  bind:change="onChange"/>
+                </van-dropdown-menu>
+            </view>
+            <van-search value="{{ keyword }}" placeholder="Search..." shape="round" style="flex:1;" bindtap="navTo" data-url="search" />
+            <van-icon name="service-o" size="46rpx" color="#333" bind:click="navTo" data-url="server" />
         </view>
-        <van-search value="{{ keyword }}" placeholder="Search..." shape="round" style="flex:1;" bindtap="navTo" data-url="search"/>
-        <van-icon name="service-o" size="46rpx" color="#333" bind:click="navTo" data-url="server"/>
-    </view>
+    </van-sticky>
     <!-- 走马灯 -->
     <swiper autoplay indicator-dots circular class="swiper-warp">
         <swiper-item wx:for="{{banners}}" wx:key="index">
             <image src="{{item}}" mode="aspectFill" class="swiper-image" />
         </swiper-item>
     </swiper>
+    <view class="analysis-class-warp">
+        <!-- 统计数字 -->
+        <view class="analysis-warp pg15 fs14 r-flex-jcsb-aic title">
+            <view class="analysis-item">
+                <view class="num tac">33545</view>
+                <view class="label fs12 grey tac">用户累计预约</view>
+            </view>
+            <!-- <view class="analysis-item">
+                <view class="num tac">33545</view>
+                <view class="label fs12 grey tac">累计预约</view>
+            </view> -->
+            <view class="analysis-item">
+                <view class="num tac">45</view>
+                <view class="label fs12 grey tac">用户故障咨询</view>
+            </view>
+            <view class="analysis-item">
+                <view class="num tac">99%</view>
+                <view class="label fs12 grey tac">服务满意度</view>
+            </view>
+        </view>
+        <!-- 分区导航 -->
+        <view class="nav-warp fs14 black-light">
+            <view class="nav-item c-flex-jcc" wx:for="{{navList}}" wx:key="index" bindtap="toClass" data-item="{{item}}">
+                <image src="{{item.poster}}" class="nav-image image" />
+                <text class="fs13 content">{{item.label}}</text>
+            </view>
+        </view>
+    </view>
+    <!-- 走马灯 -->
+    <!-- <swiper autoplay indicator-dots circular class="swiper-warp">
+        <swiper-item wx:for="{{banners}}" wx:key="index">
+            <image src="{{item}}" mode="aspectFill" class="swiper-image" />
+        </swiper-item>
+    </swiper> -->
     <!-- 分区导航 -->
-    <view class="nav-warp fs14 black-light">
+    <!-- <view class="nav-warp fs14 black-light">
         <view class="nav-item c-flex-jcc" wx:for="{{navList}}" wx:key="index">
             <image src="{{item.poster}}" class="nav-image image"/>
             <text class="fs14">{{item.label}}</text>
         </view>
+    </view> -->
+    <!-- 一键报修 -->
+    <view class="product-warp ">
+        <view class="fs18 title pg15">一键报修</view>
+        <view class="scroll-body r-flex">
+            <wxs module="obj" src='../../utils/format.wxs'></wxs>
+            <view class="result res-left ">
+                <view class="product-item left" wx:for="{{leftList}}" wx:key="index" bindtap="toDetail" data-item="{{item}}">
+                    <image src="{{item.poster}}" mode="widthFix" class="image product-image"></image>
+                    <view class="desc">
+                        <view class="title fs14 content">{{item.title}}</view>
+                        <view class="price r-flex-aic red">
+                            <text class="fs12">￥</text>
+                            <text class="fs16">{{item.price}}</text>
+                            <text class="fs12 grey ml10">已维修{{obj.formatNum(item.sale_num)}}件</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="result res-right">
+                <view class="product-item right" wx:for="{{rightList}}" wx:key="index" bindtap="toDetail" data-item="{{item}}">
+                    <image src="{{item.poster}}" mode="widthFix" class="image product-image"></image>
+                    <view class="desc">
+                        <view class="title fs14 content">{{item.title}}</view>
+                        <view class="price r-flex-aic red">
+                            <text class="fs12">￥</text>
+                            <text class="fs16">{{item.price}}</text>
+                            <text class="fs12 grey ml10">已维修{{obj.formatNum(item.sale_num)}}件</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
     </view>
-
-</view>
+</scroll-view>

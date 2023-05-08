@@ -10,7 +10,7 @@
             "list": [
                 {
                     "name": "",
-                    "pathName": "pages/ready/ready",
+                    "pathName": "pages/order/order",
                     "query": "",
                     "launchMode": "default",
                     "scene": null

@@ -5,7 +5,7 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
-const MongoConnect = require("./db")
+const Mongo = require("./db")
 const cors = require('koa-cors')
 const jwt = require('koa-jwt')
 const {SECRET, UNLESS} = require('./controller/config/jwt.js')
@@ -13,7 +13,7 @@ const routes = require('./routes')
 
 
 // database connection
-MongoConnect()
+Mongo()
 
 // error handler
 onerror(app)

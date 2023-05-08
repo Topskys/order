@@ -161,6 +161,10 @@ page {
     height: 100vh;
     overflow: hidden;
 }
+.scroll-y-88{
+    height: calc(100vh - 88rpx);
+    overflow: hidden;
+}
 /* text-align */
 .tal{
     text-align: left;

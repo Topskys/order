@@ -3,11 +3,11 @@ const mongoose = require('mongoose')
 
 
 const schema = new mongoose.Schema({
-    userId: {
+    user_id: {
         type: String,
         require: true
     },
-    productId: {
+    product_id: {
         type: String,
         default: true
     },
@@ -23,35 +23,35 @@ const schema = new mongoose.Schema({
         type: String,
         require:true
     },
-    title: {
+    title: { // 商品标题
         type: String,
         default: ''
     },
-    poster: {
+    poster: { // 商品海报
         type: String,
         default: ''
     },
-    price: {
+    price: { // 价格
         type: String,
         default: "",
     },
-    discount: {
+    discount: { // 优惠金额
         type: String,
         default: ''
     },
-    actual_pay: {
+    actual_pay: { // 实付款
         type: String,
         require:true
     },
-    payType: {
+    pay_type: { // 支付方式
         type: String,
         default: '微信支付'
     },
-    work_date: {
+    work_date: { // 预约时间
         type: String,
         default: "",
     },
-    remark: {
+    remark: { // 备注
         type: String,
         default: "",
     },

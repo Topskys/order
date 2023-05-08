@@ -2,10 +2,7 @@
 Page({
 
     data: {
-        userInfo: getApp().globalData.userInfo || {
-            // avatarUrl:"https://thirdwx.qlogo.cn/mmopen/vi_32/OqbjGV9UibfRJj3d4Dia0MCk9Hx6Pr7NgDlibN8JTiaM9e8TSAx6Rynoyhpusl2RBw4kGlEMxOUEZ449bedX6Eicguw/132",
-            // nickName:'Topsky'
-        },
+        userInfo: getApp().globalData.userInfo,
         links: [{
                 title: '钱包',
                 icon: 'credit-pay',
@@ -23,6 +20,9 @@ Page({
             }
         ],
         menuList: [{
+                title: '我的发布',
+                url: '#'
+            }, {
                 title: '联系客服',
                 url: '#'
             },
@@ -44,29 +44,21 @@ Page({
             }
         ],
     },
-
-    /**
-     * 生命周期函数--监听页面加载
-     */
     onLoad(options) {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady() {
 
     },
     onShow() {
         // strorage获取用户信息
+        this.setData({
+            userInfo: getApp().globalData.userInfo
+        })
     },
     handleLinkClick(e) {
         wx.navigateTo({
             url: e.currentTarget.dataset.item.url
         })
     },
-    toLogin(){
+    toLogin() {
         wx.navigateTo({
             url: '/pages/login/login?back=mine'
         })
@@ -77,14 +69,20 @@ Page({
         // wx.removeStorageSync({
         //     key: 'token',
         //     compelet: () => {
-                wx.navigateTo({
-                    url: '/pages/login/login',
-                    success: (res) => wx.showToast({
-                        title: '退出成功',
-                        icon: 'success',
-                    }),
-                })
-    //         }
-    //     })
+        wx.navigateTo({
+            url: '/pages/login/login',
+            success: (res) => wx.showToast({
+                title: '退出成功',
+                icon: 'success',
+            }),
+        })
+        //         }
+        //     })
+    },
+    // 联系客服
+    contactServer() {
+        wx.makePhoneCall({
+            phoneNumber: "18995221189",
+        })
     }
 })

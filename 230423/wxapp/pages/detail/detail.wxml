@@ -1,13 +1,13 @@
 <!--pages/detail/detail.wxml-->
 <!-- product详情 -->
 <scroll-view scroll-y class="detail-warp scroll-y">
+    <wxs module="wxs" src="../../utils/format.wxs"></wxs>
     <view class="scroll-content theme-bg">
         <!-- 海报 -->
         <view class="product-poster" wx:if="{{detail.poster}}">
             <image src="{{detail.poster}}" mode="aspectFill" style="width: 100%;display: block;" />
         </view>
         <!-- 选择服务 -->
-        <wxs module="wxs" src="../../utils/format.wxs"></wxs>
         <view class="product-card fs12">
             <view class="card-top r-flex-1 pg15 content">
                 <view class="left">随叫随到<text>最快2小时上门</text></view>
@@ -50,34 +50,37 @@
         <van-sticky>
             <van-tabs active="{{ tabActive }}" bind:change="onChange">
                 <van-tab title="服务内容">
-                    <scroll-view scroll-y class="service-warp">
+                    <view class="service-warp">
                         <view class="service">
                             <view class="service-desc pg15 fs14 content">{{detail.description}}</view>
-                            <view class="service-images" wx:for="{{detail.imgs}}" wx:key="index">
+                            <view class="service-images" wx:for="{{detail.images}}" wx:key="index">
                                 <image src="{{item}}" class="image-item image" mode="aspectFill" />
                             </view>
                         </view>
-                    </scroll-view>
+                    </view>
                 </van-tab>
                 <van-tab title="用户评价">
                     <scroll-view scroll-y class="evaluate-warp">
-                        <view class="evaluations">
-                            <view class="evaluate-item mn15" wx:for="{{detail.evaluations}}" wx:key="index">
-                                <view class="user-warp r-flex-3">
-                                    <image wx:if="{{item.avatarUrl}}" src="{{item.avatarUrl}}" class="user-avatar" />
-                                    <view class="user-info">
-                                        <view class="nickname fs14">{{item.nickName}}</view>
-                                        <view class="gender fs13">
-                                            <van-icon name="{{item.gender==1?'/images/woman.png':'/images/man.png'}}" size="24rpx" />
+                        <block wx:if="{{evaluattions.length}}">
+                            <view class="evaluations">
+                                <view class="evaluate-item mn15" wx:for="{{evaluattions}}" wx:key="index">
+                                    <view class="user-warp r-flex-3">
+                                        <image wx:if="{{item.avatarUrl}}" src="{{item.avatarUrl}}" class="user-avatar" />
+                                        <view class="user-info">
+                                            <view class="nickname fs14">{{item.nickName}}</view>
+                                            <view class="gender fs13">
+                                                <van-icon name="{{item.gender==1?'/images/woman.png':'/images/man.png'}}" size="24rpx" />
+                                            </view>
                                         </view>
                                     </view>
+                                    <view class="evaluate-content fs14 content">
+                                        {{item.content}}
+                                    </view>
+                                    <view class="evaluate-created">{{wxs.formatDate(item.createdAt)}}</view>
                                 </view>
-                                <view class="evaluate-content fs14 content">
-                                    {{item.content}}
-                                </view>
-                                <view class="evaluate-created">{{item.createdAt}}</view>
                             </view>
-                        </view>
+                        </block>
+                        <view class="no-data-warp fs14 grey tac pg15" wx:else> 暂无数据</view>
                     </scroll-view>
                 </van-tab>
             </van-tabs>

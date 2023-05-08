@@ -1,2 +1,22 @@
 <!--pages/discount/discount.wxml-->
-<text>pages/discount/discount.wxml</text>
+<!-- 福利中心 -->
+<scroll-view scroll-y class="discount-warp scroll-y bg">
+    <view class="scroll-body">
+        <view class="dis-item fs12 pg15 red" wx:for="{{disList}}" wx:key="index" bindtap="getDisc" data-item="{{item}}">
+            <view class="left r-flex-jcsb-aic">
+                <view class="desc">
+                    <view class="title fs16">{{item.title}}</view>
+                    <view class="expire fs12" style="color:var(--theme-light);margin-bottom: 10rpx;">有效期到今日</view>
+                </view>
+                <view class="num">
+                    <view class="size fs18" wx:if="{{item.discount_size}}">
+                        <text class="fs12">￥</text>{{item.discount_size}}
+                    </view>
+                </view>
+            </view>
+            <view class="fs12 grey" style="padding-top:10rpx;">
+                仅用于商品价格
+            </view>
+        </view>
+    </view>
+</scroll-view>

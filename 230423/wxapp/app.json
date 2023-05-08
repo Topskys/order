@@ -6,7 +6,6 @@
         "pages/mine/mine",
         "pages/info/info",
         "pages/follow/follow",
-        "pages/favorite/favorite",
         "pages/login/login",
         "pages/register/register",
         "pages/detail/detail",
@@ -39,8 +38,8 @@
             {
                 "pagePath": "pages/query/query",
                 "text": "筛选",
-                "iconPath": "images/search.png",
-                "selectedIconPath": "images/search-active.png"
+                "iconPath": "images/query.png",
+                "selectedIconPath": "images/query-active.png"
             },
             {
                 "pagePath": "pages/order/order",

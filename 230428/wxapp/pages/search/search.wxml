@@ -1,8 +1,8 @@
 <!--pages/search/search.wxml-->
 <view class="search-warp bg">
     <van-search value="{{ inputVal }}" placeholder="Search..." show-action bind:search="onSearch" bind:cancel="onCancel" bind:change="onChange" />
+    <wxs module="wxs" src='../../utils/format.wxs'></wxs>
     <scroll-view scroll-y class="search-scroll">
-        <wxs module="obj" src='../../utils/format.wxs'></wxs>
         <view class="search-content r-flex">
             <view class="result res-left">
                 <view class="product-item left" wx:for="{{leftList}}" wx:key="index" bindtap="toDetail" data-item="{{item}}">
@@ -12,7 +12,7 @@
                         <view class="price r-flex-aic red">
                             <text class="fs12">￥</text>
                             <text class="fs16">{{item.price}}</text>
-                            <text class="fs12 grey ml10">已维修{{obj.formatNum(item.sale_num)}}件</text>
+                            <text class="fs12 grey ml10" wx:if="{{item.sale_num}}">已预约{{wxs.formatNum(item.sale_num)}}次</text>
                         </view>
                     </view>
                 </view>
@@ -25,7 +25,7 @@
                         <view class="price r-flex-aic red">
                             <text class="fs12">￥</text>
                             <text class="fs16">{{item.price}}</text>
-                            <text class="fs12 grey ml10">已维修{{obj.formatNum(item.sale_num)}}件</text>
+                            <text class="fs12 grey ml10" wx:if="{{item.sale_num}}">已预约{{wxs.formatNum(item.sale_num)}}次</text>
                         </view>
                     </view>
                 </view>

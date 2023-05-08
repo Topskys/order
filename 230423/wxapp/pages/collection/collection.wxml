@@ -7,11 +7,11 @@
             <view class="description c-flex-2">
                 <view class="">
                     <view class="title">{{item.title}}</view>
-                    <view class="detail">{{item.description}}</view>
+                    <view class="detail fs14">{{item.description}}</view>
                 </view>
-                <view class="price">
+                <view class="price" wx:if="{{item.start_price}}">
                     <text class="price-str">￥</text>
-                    <text class="price-number">499</text>
+                    <text class="price-number">{{item.start_price}}</text>
                 </view>
             </view>
         </view>

@@ -88,7 +88,7 @@ Page({
     toDetail(e){
         const item=e.currentTarget.dataset.item
         wx.navigateTo({
-          url: `/pages/detail/detail?_id=${item._id}`,
+          url: `/pages/detail/detail?productId=${item._id}`,
         })
     },
     onLoad(options) {

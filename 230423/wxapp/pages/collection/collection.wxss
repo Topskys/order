@@ -36,7 +36,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     color: var(--grey);
-    font-size: var(--fs12);
 }
 .product-item .description .price {
     color: var(--red);

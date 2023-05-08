@@ -1,17 +1,13 @@
-// 商品详情评论
+// 服务评论
 const mongoose = require('mongoose')
 
 
 const schema = new mongoose.Schema({
-    productId: {
+    product_id: {
         type: String,
         require: true
     },
-    detailId: {
-        type: String,
-        require: true
-    },
-    userId: {
+    user_id: {
         type: String,
         require: true
     },
@@ -32,27 +28,21 @@ const schema = new mongoose.Schema({
         default: 0,
         require: true
     },
-    star_num: {
-        type: Number,
-        default: 0,
-        require: true
-    },
-    selections: {
-        type: Array,
-        default: [],
-        require: true
-    },
     content: {
         type: String,
-        require: true
+        default: "",
+    },
+    service: {
+        type: String,
+        default: '',
     },
     status: {
-        type: String,
-        default: "normal",
+        type: Boolean,
+        default: true,
     }
 }, {
     timestamps: true
 })
 
 
-module.exports = mongoose.model('details', schema)
+module.exports = mongoose.model('comments', schema)

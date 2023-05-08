@@ -1,13 +1,19 @@
 // pages/register/register.js
 import request from '../../utils/request'
+
 Page({
-    data:{
-        logoTitle:getApp().globalData.logoTitle
+    data: {
+        logoTitle: getApp().globalData.logoTitle
+    },
+    onShow() {
+        this.setData({
+            logoTitle: getApp().globalData.logoTitle || "家政服务平台",
+        })
     },
     /**
      * 表单注册按钮事件
      * @param {object} e 
-     */ 
+     */
     onSubmit(e) {
         const form = e.detail.value
         const reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/
@@ -24,15 +30,29 @@ Page({
             if (data.password != data.rePassword) return showError('两次密码不一致')
             cb && cb()
         }
-        valid(form, () => request({
-            url: 'wx/reg',
-            data: form,
-            method: "POST",
-        }).then(({code,msg})=>{
-            code==200 && wx.showToast({
-              title: msg,
-              icon: 'success',
+        valid(form, () => {
+            wx.getUserProfile({
+                desc: '登录',
+                lang: 'zh_CN',
+                success: (result) => {
+                    request({
+                        url: 'user/register',
+                        data: {
+                            ...form,
+                            ...result.userInfo,
+                            username: form.phone
+                        },
+                        method: "POST",
+                    }).then(({
+                        code,
+                        msg
+                    }) => {
+                        wx.showToast({
+                            title: msg,
+                        })
+                    })
+                },
             })
-        }))
+        })
     }
 })

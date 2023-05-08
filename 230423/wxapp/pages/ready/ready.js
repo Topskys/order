@@ -1,5 +1,11 @@
 import checkAuth from "../../utils/check"
 import request from "../../utils/request"
+import Notify from '@vant/weapp/notify/notify';
+
+
+import {
+    computedPrice
+} from "./price.js"
 
 // pages/ready/ready.js
 const app = getApp()
@@ -7,33 +13,30 @@ Page({
 
     data: {
         userInfo: app.globalData.userInfo,
-        order: {
-            title: '深度保洁4小时',
-            work_date: '2023-05-01',
-            discount: '10',
-            pay_type: '微信支付',
-            remark: '',
-            origin_price: 299,
-            actual_price: 599.99,
-        }
+        order: null,
+        currrent_order_id: null,
     },
     onLoad(options) {
-        const id = options.orderId || wx.getStorageSync('current_orderId')
-        this.getOrderInfo(id)
+        const id = options.order_id
+        wx.setStorageSync('currrent_order_id', id)
     },
     onShow() {
-
+        this.setData({
+            currrent_order_id: wx.getStorageSync('currrent_order_id')
+        })
+        this.getOrderInfo(this.data.currrent_order_id)
     },
     // 获取订单信息
     getOrderInfo(orderId) {
         checkAuth(() => {
             request({
-                url: `order/${orderId||wx.getStorageSync('current_orderId')}`
+                url: `order/${orderId||wx.getStorageSync('current_order_id')}`
             }).then(res => {
                 this.setData({
-                    detail: {
-                        ...this.data.detail,
-                        ...res.data
+                    order: {
+                        ...res.data,
+                        actual_price: computedPrice(res.data.origin_price),
+                        work_time: new Date().toLocaleDateString()
                     }
                 })
             })
@@ -53,7 +56,7 @@ Page({
         this.setData({
             order: {
                 ...this.data.order,
-                work_date: e.detail.value || new Date().toLocaleDateString()
+                work_time: e.detail.value || new Date().toLocaleDateString()
             }
         })
     },
@@ -61,21 +64,33 @@ Page({
     onPay() {
         checkAuth(() => {
             request({
-                url: `order/${this.data.order._id||wx.getStorageSync('current_orderId')}`,
+                url: `order/${this.data.order._id||wx.getStorageSync('current_order_id')}`,
                 method: 'put',
                 data: {
-                    ...this.data.order
+                    ...this.data.order,
+                    actual_price: computedPrice(this.data.order.origin_price)
                 }
             }).then(res => {
-                setTimeout(() => {
-                    wx.switchTab({
-                        url: '/pages/index/index',
+                if (res.pay_token) {
+                    setTimeout(() => {
+                        wx.switchTab({
+                            url: '/pages/index/index',
+                        })
+                    }, 5000)
+                    Notify({
+                        type: 'success',
+                        message: res.msg
+                    });
+                    wx.showToast({
+                        title: res.msg,
+                        icon: res.code === 200 ? 'success' : 'error',
                     })
-                }, 5000)
-                wx.showToast({
-                    title: res.msg,
-                    icon: res.code === 200 ? 'success' : 'error',
-                })
+                } else {
+                    Notify({
+                        type: 'error',
+                        message: '请求失败'
+                    });
+                }
             })
         }, 'order', 'tab')
     },

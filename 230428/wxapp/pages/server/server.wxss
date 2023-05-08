@@ -45,7 +45,8 @@
     border-radius: 8rpx;
     background-color: var(--white);
 }
-.blue-bg{
+
+.blue-bg {
     color: var(--white);
     background-color: var(--theme) !important;
 }
@@ -80,9 +81,9 @@
     border-top: 1px solid var(--border);
 }
 
-.input-warp .input {
+.input-warp .form-body .input {
     flex: 1;
-    padding: 15rpx 30rpx;
+    padding: 17rpx 30rpx;
     /* border: 1px solid var(--theme); 
     border-right: none; */
     border-top-left-radius: 8rpx;
@@ -91,12 +92,12 @@
 }
 
 
-.input-warp .send {
+.input-warp .form-body .send-btn {
     color: var(--white);
-    padding: 15rpx 50rpx;
+    width: 200rpx;
+    font-weight: bold !important;
     background-color: var(--theme);
     border: 1px solid var(--border);
     border-top-right-radius: 8rpx;
     border-bottom-right-radius: 8rpx;
 }
-

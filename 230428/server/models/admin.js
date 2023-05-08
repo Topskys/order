@@ -27,16 +27,16 @@ const schema = new mongoose.Schema({
         default: ''
     },
     gender: {
-        type: String,
-        default: '0'
+        type: Number,
+        default: 0
     },
     role: {
         type: String,
         default: "admin",
     },
     status: {
-        type: String,
-        default: "normal",
+        type: Boolean,
+        default:true
     }
 }, {
     timestamps: true

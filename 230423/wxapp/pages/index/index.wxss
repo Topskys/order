@@ -83,6 +83,7 @@ swiper {
     position: relative;
 }
 .activity-item .title {
+    color: var(--white);
     font-size: 44rpx;
     font-weight: 520;
 }
@@ -140,7 +141,7 @@ swiper {
     overflow: hidden;
     text-overflow: ellipsis;
     color: var(--grey);
-    font-size: var(--fs12);
+    font-size: var(--fs14);
 }
 .recommend-warp .description .price {
     color: var(--red);

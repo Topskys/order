@@ -27,7 +27,8 @@ class Admin {
         await findOne(ctx, adminModel, {
             username,
             password
-        }, res => (res ? (admin = res) : fail(ctx, res, 400, "该账号不存在")))
+        }, res => res ? (admin = res) : fail(ctx, res, 400, "该账号不存在"))
+
 
         // 作比较，获取token，设置redis缓存
         if (admin && admin.username === username && admin.password === password) {
@@ -45,15 +46,16 @@ class Admin {
 
             try {
                 const token = createToken({_id: admin._id, username: admin.username})
-                const result = await cache.set(admin._id.toString(), token, 7 * 24 * 60 * 60) // 7 days
+                // const result = await cache.set(admin._id.toString(), token, 7 * 24 * 60 * 60) // 7 days
+                const result = await cache.set(admin._id.toString(), token,  60 * 60) // 7 days
 
                 token && result && self(ctx, {
                     code: 200,
                     token,
-                    msg: "success"
+                    msg: "登录成功"
                 })
             } catch (e) {
-                ctx.throw(`${new Date().toLocaleString()}：登录时出现异常`)
+                ctx.throw(500,`${new Date().toLocaleString()}：登录时出现异常`)
             }
         } else {
             fail(ctx, undefined, 400, "登录失败")

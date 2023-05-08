@@ -14,7 +14,6 @@
             <text class="nickName" wx:if="{{userInfo.nickName}}">{{userInfo.nickName}}</text>
             <text class="nickName" wx:else bindtap="toLogin">登录/注册</text>
         </view>
-        <!-- 钱包 劵 -->
         <view class="user-links r-flex-2">
             <view class="link-item c-flex-1" wx:for="{{links}}" wx:key="index" bindtap="handleLinkClick" data-item="{{item}}">
                 <van-icon name="{{item.icon}}" color="#aaa" size='80rpx' dot='{{false}}' />
@@ -24,6 +23,4 @@
     </view>
     <!-- 菜单选项 -->
     <van-cell title="{{item.title}}" url="{{item.url}}" wx:for="{{menuList}}" wx:key="index" is-link link-type="navigateTo" />
-    <!-- 版权信息 -->
-    <view class="copyright"> <text>景春高级家政拥有所有解释权</text> </view>
 </scroll-view>

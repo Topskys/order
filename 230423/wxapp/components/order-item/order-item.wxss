@@ -1,0 +1,18 @@
+/* components/order-item/order-item.wxss */
+.order-card{
+    box-sizing: border-box;
+    border-radius: 10rpx;
+    margin: 24rpx;
+    box-shadow: 0 0 3px var(--border);
+    background-color: var(--white) !important;
+}
+
+.title-card{
+    font-size: var(--fs16);
+    font-weight: 400 !important;
+}
+
+.desc-card{
+    margin-top: 10rpx;
+    font-size: var(--fs14);
+}

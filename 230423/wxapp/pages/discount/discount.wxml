@@ -1,2 +1,18 @@
 <!--pages/discount/discount.wxml-->
-<text>pages/discount/discount.wxml</text>
+<scroll-view scroll-y class="discount-warp scroll-y theme-bg">
+    <view class="scroll-body theme-bg">
+    <wxs module="wxs" src="../../utils/format.wxs"></wxs>
+        <view class="dis-item fs12 pg15 r-flex-jcsb-aic" wx:for="{{disList}}" wx:key="index" bindtap="getDisc" data-item="{{item}}">
+            <view class="desc">
+                <view class="title fs16">{{item.title}}</view>
+                <view class="expire fs12">今日到期</view>
+            </view>
+            <view class="num">
+                <view class="size fs18 red" wx:if="{{item.discount_size}}">
+                    <text class="fs12">￥</text>{{item.discount_size}}
+                </view>
+                <view class="which">满{{wxs.randomNum()}}可用</view>
+            </view>
+        </view>
+    </view>
+</scroll-view>

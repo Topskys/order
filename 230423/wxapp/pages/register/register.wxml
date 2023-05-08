@@ -12,7 +12,7 @@
         </form>
         <view class="agreement-warp">
             <view class='r-flex-4'>
-                Have an account？<navigator url="/pages/login/login"><text class="link">Sign in</text> </navigator>
+                Have an account？<navigator url="/pages/login/login" hover-class="none"><text class="link">Sign in</text> </navigator>
             </view>
             By registering, you agree to the<text class="link">《agreement》</text>
         </view>

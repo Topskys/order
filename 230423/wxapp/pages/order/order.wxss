@@ -1,1 +1,5 @@
 /* pages/query.wxss */
+.order-warp{
+    height: 100vh;
+    overflow: hidden;
+}

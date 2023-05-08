@@ -60,7 +60,7 @@ Page({
     },
     // 跳转订单页
     toOrder(e) {
-        app.globalData.orderTab = e.currentTarget.dataset.index || 0
+        app.globalData.curr_order_tab = e.currentTarget.dataset.index+1 || 0
         wx.switchTab({
             url: "/pages/order/order",
         })

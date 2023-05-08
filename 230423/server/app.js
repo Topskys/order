@@ -5,15 +5,14 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
-const MongoConnect = require("./db")
+require("./db")
 const cors = require('koa-cors')
 const jwt = require('koa-jwt')
 const {SECRET, UNLESS} = require('./controller/config/jwt.js')
 const routes = require('./routes')
 
 
-// database connection
-MongoConnect()
+
 
 // error handler
 onerror(app)
@@ -26,11 +25,11 @@ app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
 app.use(views(__dirname + '/views', {extension: 'pug'}))
 app.use(cors())
-app.use(jwt({
-    secret: SECRET
-}).unless({
-    path: UNLESS
-}))
+//app.use(jwt({
+//    secret: SECRET
+//}).unless({
+//    path: UNLESS
+//}))
 
 
 // logger

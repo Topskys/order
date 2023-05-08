@@ -1,1 +1,22 @@
 /* pages/evaluate/evaluate.wxss */
+.evaluate-warp{
+    height: 100vh;
+    overflow: hidden;
+}
+.form-warp{
+    background-color: var(--white) !important;
+}
+.form-textarea{
+    width: 100%;
+    padding:20rpx 30rpx;
+    border: 1px solid var(--border);
+    box-sizing: border-box;
+}
+.form-btn {
+    width: 90% !important;
+    margin: 100rpx 50rpx;
+    color: var(--white);
+    font-weight: 400;
+    border-radius: 200rpx;
+    background-color: var(--theme);
+}
