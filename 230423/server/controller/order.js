@@ -105,8 +105,23 @@ async function payOrder(ctx) {
     })
 }
 
-async function updateOrder(ctx){
-    const {id=''}=ctx.params
+// 更新订单状态信息
+async function updateOrder(ctx) {
+    const [{id = ''}, body] = [ctx.params, ctx.request.body]
+    let order
+    await findOne(ctx, OrderModel, {_id: id}, function (rel) {
+        if (rel) {
+            order = rel
+        } else {
+            return fail(ctx, undefined, 400, "请求失败")
+        }
+    })
+    
+    if(body){
+        const {status}=body
+        
+    }
+    await update(ctx, OrderModel, {_id: id}, body)
 }
 
 
