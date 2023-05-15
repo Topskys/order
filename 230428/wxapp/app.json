@@ -7,7 +7,7 @@
         "pages/order/order",
         "pages/login/login",
         "pages/register/register",
-        "pages/server/server",
+        "pages/service/service",
         "pages/detail/detail",
         "pages/info/info",
         "pages/search/search",

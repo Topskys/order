@@ -1,4 +1,5 @@
 /* pages/detail/detail.wxss */
+
 .detail-content .poster-warp {
     height: 30vh;
     overflow: hidden;
@@ -40,8 +41,6 @@
 
 .service-warp {
     box-sizing: border-box;
-    height: calc(100vh - 88rpx - 136rpx);
-    padding-bottom: 100rpx;
 }
 
 /* 服务评价 */

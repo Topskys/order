@@ -1,5 +1,5 @@
 module.exports = {
-    EXPIRES: 1 * 60 * 60 * 1000, // 1 day
+    EXPIRES: 7 * 60 * 60 * 1000, // 1 day
     SECRET: "jwt-key",
     UNLESS: [
         /^\/admin\/login/,
@@ -15,5 +15,7 @@ module.exports = {
 
         /^\/feedback/,
         /^\/favicon/,
-    ]
+        /^\/class/,
+        /^\/product/,
+        ]
 }

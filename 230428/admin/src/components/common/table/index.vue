@@ -68,7 +68,7 @@
     </el-table>
     <el-pagination
       v-if="config.pagination.show"
-      layout="prev,pager,next,sizes,total"
+      :layout="`${config.pagination.align=='right'?'prev,pager,next,sizes,total':'total,sizes,prev,pager,next'}`"
       @current-change="currentChange"
       @size-change="sizeChange"
       :current-page.sync="config.pagination.page"
@@ -77,7 +77,7 @@
       :total="config.pagination.total || 0"
       :align="config.pagination.align || 'center'"
       background
-      style="padding: 10px 0"
+      style="padding-top: 15px"
     >
     </el-pagination>
   </div>

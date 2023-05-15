@@ -7,11 +7,13 @@
             <view class="location-warp  r-flex-aic">
                 <van-icon name="location-o" color="#333" />
                 <van-dropdown-menu>
-                    <van-dropdown-item value="{{location}}" options="{{ locations }}"  bind:change="onChange"/>
+                    <van-dropdown-item value="{{location}}" options="{{ locations }}" bind:change="onChange" />
                 </van-dropdown-menu>
             </view>
             <van-search value="{{ keyword }}" placeholder="Search..." shape="round" style="flex:1;" bindtap="navTo" data-url="search" />
-            <van-icon name="service-o" size="46rpx" color="#333" bind:click="navTo" data-url="server" />
+            <navigator url="/pages/service/service" hover-class="none">
+                <van-icon name="service-o" size="46rpx" color="#333" />
+            </navigator>
         </view>
     </van-sticky>
     <!-- 走马灯 -->
@@ -44,7 +46,7 @@
         <view class="nav-warp fs14 black-light">
             <view class="nav-item c-flex-jcc" wx:for="{{navList}}" wx:key="index" bindtap="toClass" data-item="{{item}}">
                 <image src="{{item.poster}}" class="nav-image image" />
-                <text class="fs13 content">{{item.label}}</text>
+                <text class="fs13 content">{{item.name}}</text>
             </view>
         </view>
     </view>
@@ -73,8 +75,8 @@
                         <view class="title fs14 content">{{item.title}}</view>
                         <view class="price r-flex-aic red">
                             <text class="fs12">￥</text>
-                            <text class="fs16">{{item.price}}</text>
-                            <text class="fs12 grey ml10">已维修{{obj.formatNum(item.sale_num)}}件</text>
+                            <text class="fs16">{{item.start_price}}</text>
+                            <text class="fs12 grey ml10">已预约{{obj.formatNum(item.sale_num)}}次</text>
                         </view>
                     </view>
                 </view>
@@ -86,8 +88,8 @@
                         <view class="title fs14 content">{{item.title}}</view>
                         <view class="price r-flex-aic red">
                             <text class="fs12">￥</text>
-                            <text class="fs16">{{item.price}}</text>
-                            <text class="fs12 grey ml10">已维修{{obj.formatNum(item.sale_num)}}件</text>
+                            <text class="fs16">{{item.start_price}}</text>
+                            <text class="fs12 grey ml10">已预约{{obj.formatNum(item.sale_num)}}次</text>
                         </view>
                     </view>
                 </view>

@@ -88,7 +88,7 @@
         <!-- 购物导航 -->
         <view class="good-nav-warp">
             <van-goods-action>
-                <van-goods-action-icon icon="chat-o" text="客服" class="mr10" bind:click="onService" />
+                <van-goods-action-icon icon="chat-o" text="联系我们" class="mr10" bind:click="onService" />
                 <van-goods-action-button plain color="#35bb99" text="加入收藏" type="warning" bind:click="onCollect" />
                 <van-goods-action-button color="#35bb99" text="立即预约" bind:click="onOrder" class="mr5" />
             </van-goods-action>

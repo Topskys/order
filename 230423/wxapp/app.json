@@ -10,10 +10,11 @@
         "pages/register/register",
         "pages/detail/detail",
         "pages/evaluate/evaluate",
-        "pages/service/service",
-        "pages/discount/discount",
         "pages/collection/collection",
-        "pages/ready/ready"
+        "pages/ready/ready",
+        "pages/activity/activity",
+        "pages/contact/contact",
+        "pages/message/message"
     ],
     "window": {
         "backgroundTextStyle": "light",

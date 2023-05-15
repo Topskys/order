@@ -1,17 +1,13 @@
 /**
- * 统一响应类
- * 多行注释快捷键
- * ctrl+shift+/
- * 格式化快捷键
- * Ctrl+Alt+L
+ * 统一响应模块
  */
 class Response {
 
 
-    success(ctx, data, code = null, msg = null) {
+    success(ctx, data, code = null, msg = '成功') {
         ctx.body = {
             code: code || (data ? 200 : Array.isArray(data) ? 200 : 300),
-            msg: msg || data ? '成功' : '失败',
+            msg: msg, 
             data: data
         }
         return

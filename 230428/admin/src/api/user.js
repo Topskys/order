@@ -1,21 +1,48 @@
 import request from '@/utils/request'
 
-const prefix = "/admin"
+const prefix = '/user'
 
 
-export const login = (data) => request({ url: `${prefix}/login`, method: 'POST', data })
+/**
+ * 获取用户列表
+ * @param {Object} params 
+ * @returns 
+ */
+export const getUserList = (params) => request({ url: prefix, params })
 
-export const getInfo = () => request({ url: `${prefix}/verify`, })
-
-export const logout = () => request({ url: `${prefix}/logout`, })
 
 
-export const register = (data) => request({ url: `${prefix}/register`, method: 'POST', data })
+/**
+ * 新增用户
+ * @param {object} data 
+ * @returns 
+ */
+export function create(data) {
+  return request({
+    url: prefix ,
+    method: 'POST',
+    data
+  })
+}
 
-export const getUsers = (params) => request({ url: prefix, params })
 
-export const del = (_id) => request({ url: `${prefix}/${_id}`, method: "delete" })
+/**
+ * 修改用户信息
+ * @param {object} data 
+ * @returns 
+ */
+export function update(data) {
+  return request({
+    url: `${prefix}/${data._id}`,
+    method: 'PUT',
+    data
+  })
+}
 
-export const create = (data) => request({ url: prefix, method: 'post', data, })
 
-export const edit = (data) => request({ url: `${prefix}/${data._id}`, method: 'put', data, })
+/**
+ * 删除用户信息
+ * @param {String} _id 
+ * @returns 
+ */
+export const delUser = (_id) => request({ url: `${prefix}/${_id}`, method: 'DELETE' })

@@ -1,13 +1,8 @@
-
-const {success,self,fail,exception}=require('../../utils/response')
-
+const { success, self, fail, exception } = require('../../utils/response')
 
 
-
-/**
- * CRUD类
- */
-class CRUD{
+// 增删改查类
+class CRUD {
 
 
     /**
@@ -18,9 +13,9 @@ class CRUD{
      * @param cb
      * @returns {*|Promise<any>}
      */
-    add(ctx, model, params, cb = null)  {
+    add(ctx, model, params, cb = null) {
         return model.create(params).then(rel => {
-            cb ? cb(rel) : success(ctx, rel)
+            cb ? cb(rel) : success(ctx, rel, 200, "添加成功")
         }).catch(err => {
             exception(ctx, err)
         })
@@ -38,7 +33,7 @@ class CRUD{
      */
     del(ctx, model, where, cb = null) {
         return model.findOneAndDelete(where).then(rel => {
-            cb ? cb(rel) : success(ctx, rel)
+            cb ? cb(rel) : success(ctx, rel, 200, "成功移除")
         }).catch(err => {
             exception(ctx, err)
         })
@@ -55,9 +50,9 @@ class CRUD{
      * @param params
      * @returns {*|Promise<any>}
      */
-    update(ctx, model, where, params, cb = null){
+    update(ctx, model, where, params, cb = null) {
         return model.updateOne(where, params).then(rel => {
-            cb ? cb(rel) : rel.modifiedCount > 0 ? success(ctx, rel) : fail(ctx, rel)
+            cb ? cb(rel) : rel.modifiedCount > 0 ? success(ctx, rel, 200, "修改成功") : fail(ctx, rel, 400, "修改失败")
         }).catch(err => {
             exception(ctx, err)
         })
@@ -74,9 +69,9 @@ class CRUD{
      * @param where
      * @returns {*|Promise<any>}
      */
-    find(ctx, model, where, cb = null){
+    find(ctx, model, where, cb = null) {
         return model.find(where).then(rel => {
-            cb ? cb(rel) : success(ctx, rel)
+            cb ? cb(rel) : success(ctx, rel, 200, "查询成功")
         }).catch(err => {
             exception(ctx, err)
         })
@@ -94,7 +89,7 @@ class CRUD{
      */
     findOne(ctx, model, where, cb = null) {
         return model.findOne(where).then(rel => {
-            cb ? cb(rel) : success(ctx, rel)
+            cb ? cb(rel) : success(ctx, rel, 200, "查询成功")
         }).catch(err => {
             exception(ctx, err)
         })
@@ -113,7 +108,7 @@ class CRUD{
      * @returns {Promise<void>}
      */
     async findByPagination(ctx, model, request, where, cb = null) {
-        let {page = 1, pageSize = 10} = request;
+        let { page = 1, pageSize = 10 } = request;
         // 判断页码
         !page || isNaN(Number(page)) ? (page = 1) : (page = Number(page))
 
@@ -135,7 +130,7 @@ class CRUD{
 
         await model.find(where).skip(start).limit(pageSize).then(rel => {
             if (rel) {
-                cb ? cb({rel,total: count}) : (ctx.body = {
+                cb ? cb({ rel, total: count }) : (ctx.body = {
                     code: 200,
                     msg: 'success',
                     data: rel,

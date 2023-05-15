@@ -14,12 +14,14 @@
             <form bindsubmit="onSubmit">
                 <input name="phone" type="number" placeholder="请输入手机号" maxlength="11" class="form-input" />
                 <input name="password" type="password" placeholder="请输入密码" password class="form-input" />
-                <button formType="submit" class="form-btn">SIGN IN</button>
+                <button formType="submit" class="form-btn">登录</button>
             </form>
         </view>
         <view class="form-footer">
-            Don't have an account?
-            <text class="sign-up" bindtap="linkTo">Sign up</text>
+            <!-- Don't have an account?
+            <text class="sign-up" bindtap="linkTo">Sign up</text> -->
+            还没有账号?
+            <text class="sign-up" bindtap="linkTo">注册</text>
         </view>
     </view>
 </view>

@@ -29,7 +29,7 @@ module.exports = mongoose.model('products', new mongoose.Schema({
     },
     services: { // 服务选项
         type: Array,
-        default: [] // [{_id,title,price}]
+        default: [] // [{title,price}]
     },
     description: { // （详情）描述
         type: String,
@@ -45,7 +45,7 @@ module.exports = mongoose.model('products', new mongoose.Schema({
     },
     status: {
         type: Boolean,
-        default: true,
+        default: true,// true:在售 、 false:下架
     }
 }, {
     timestamps: true

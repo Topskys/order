@@ -7,32 +7,7 @@ Page({
     data: {
         tabActive: app.globalData.curr_class_tab || 0,
         sideActive: app.globalData.curr_class_side || 0,
-        sideMenus: [{
-                _id: 1,
-                label: "笔记本",
-            },
-            {
-                _id: 2,
-                label: "电饭煲",
-            },
-            {
-                _id: 3,
-                label: "手机",
-            },
-            {
-                _id: 4,
-                label: "冰箱",
-            },
-            {
-                label: "电风扇",
-            },
-            {
-                label: "扫地机",
-            },
-            {
-                label: "家电维修",
-            }
-        ],
+        sideMenus: [],
         products: [{
                 classId: 1,
                 poster: '/images/girl.jpg',
@@ -69,32 +44,11 @@ Page({
         }, {
             title: '新人专享红包',
             discount_size: 8,
-        }, {
-            title: '新人专享红包',
-            discount_size: 9,
-        }, {
-            title: '新人专享红包',
-            discount_size: 16,
-        }, {
-            title: '新人专享红包',
-            discount_size: 10,
-        }, {
-            title: '新人专享红包',
-            discount_size: 0.5,
-        }, {
-            title: '新人专享红包',
-            discount_size: 12,
-        }, {
-            title: '新人专享红包',
-            discount_size: 6,
-        }, {
-            title: '新人专享红包',
-            discount_size: 3,
         }]
     },
     onShow() {
         // !this.data.sideMenus.length && this.getSideMenus()
-        // this.data.sideMenus.length && this.getSideMenus()
+        this.getSideMenus()
         this.setData({
             tabActive: app.globalData.curr_class_tab || 0,
             sideActive: app.globalData.curr_class_side || 0,
@@ -102,11 +56,11 @@ Page({
     },
     // 侧边栏菜单项点击事件
     onSideChange(e) {
-        const item = e.currentTarget.dataset.item
+        const index = e.detail||0
         this.setData({
-            sideActive: e.detail
+            sideActive: index
         })
-        item._id && this.getDataList(item._id)
+        this.getDataList(index)
     },
     // 顶部Tabs点击事件
     onTabChange(event) {
@@ -119,13 +73,17 @@ Page({
     toDetail(e) {
         const item = e.currentTarget.dataset.item
         wx.navigateTo({
-            url: `/pages/detail/detail?item=${item}`,
+            url: `/pages/detail/detail?product_id=${item._id}`,
         })
     },
     // 请求分类数据
-    getDataList(id = this.data.sideMenus[0]._id) {
+    getDataList(idx = 0) {
+        const id = this.data.sideMenus[idx]._id
         request({
-            url: `product?classId=${id}`
+            url: `product`,
+            data: {
+                keyword: id
+            }
         }).then(res => {
             this.setData({
                 products: res.data || []
@@ -142,6 +100,7 @@ Page({
             this.setData({
                 sideMenus: data || []
             })
+            this.getDataList()
         })
     },
     // 获取优惠劵列表

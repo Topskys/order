@@ -1,1 +1,114 @@
 /* components/order-card/order-card.wxss */
+
+.order-card-warp {
+    padding: 30rpx;
+    margin: 24rpx;
+    border-radius: 20rpx;
+    background-color: white;
+    box-shadow: 0 0 5px 3px #f5f5f7;
+}
+
+.id-time-warp {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #c9d0d3;
+    font-size: 24rpx;
+    padding-bottom: 20rpx;
+    border-bottom: 1px solid #dddee1;
+    margin-bottom: 20rpx;
+}
+
+.product-warp {
+    display: flex;
+    font-size: 28rpx;
+}
+
+.product-poster {
+    padding: 20rpx;
+    margin-right: 20rpx;
+    border-radius: 8rpx;
+    background-color: #f5f5f7;
+}
+
+.product-warp .pro-image {
+    display: block;
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 4rpx;
+}
+
+.product-desc {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.product-desc .top .pro-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.product-desc .pro-service {
+    font-size: 26rpx;
+    color: grey;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.price-num-warp {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+}
+
+.price-warp {
+    color: #ee0a24;
+    font-size: 32rpx;
+}
+
+.price-str {
+    font-size: 24rpx;
+}
+
+.number-warp {
+    color: grey;
+    font-size: 28rpx;
+}
+
+.num-str {
+    font-size: 24rpx;
+    margin-right: 8rpx;
+}
+
+.buttons-warp {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    justify-content: flex-end;
+    margin-top: 30rpx;
+}
+
+.buttons-warp .btn1,
+.btn2 {
+    color: #ed3f14;
+    font-size: 28rpx;
+    border: 1px solid #e4c2ba;
+    padding: 5rpx 30rpx;
+    border-radius: 6rpx;
+    background-color: #f5f5f7;
+}
+
+.buttons-warp .btn2 {
+    color: white;
+    margin-left: 30rpx;
+    background-color: #07c160;
+    border: 1px solid #e9f7f0 !important;
+}

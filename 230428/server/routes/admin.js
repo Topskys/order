@@ -9,7 +9,7 @@ router.post("/login", login)
 
 router.post("/register", register)
 
-router.get("/verify", getInfo)
+router.get("/info", getInfo)
 
 router.get("/logout", logout)
 

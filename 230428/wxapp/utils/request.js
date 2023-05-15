@@ -20,16 +20,15 @@ function request(options) {
             success: ({
                 data
             }) => {
-                console.log('request--', data)
-                if (!data.code === 200) {
+                if (data.code !== 200) {
+                    if (data.code == 401) {
+                        wx.navigateTo({
+                            url: '/pages/login/login'
+                        })
+                    }
                     wx.showToast({
                         title: data.msg,
-                        icon: 'error',
-                        complete: () => {
-                            data.code == 401 && wx.navigateTo({
-                                url: '/pages/login/login'
-                            })
-                        }
+                        icon: 'error'
                     })
                 }
                 resolve(data)

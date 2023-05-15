@@ -35,7 +35,7 @@ Page({
                 // 数据格式化，整理数据
                 arr.forEach(item => orders.push({
                     ...item,
-                    btn1: "删除",
+                    btn1: "取消",
                     btn2: "支付"
                 }))
                 orders.forEach(item => {
@@ -68,7 +68,7 @@ Page({
             url: URL
         })
         switch (btn) {
-            case "删除":
+            case "取消":
                 request({
                     url: `order/${item._id}`,
                     method: "delete"

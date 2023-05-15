@@ -10,7 +10,7 @@
             "list": [
                 {
                     "name": "",
-                    "pathName": "pages/server/server",
+                    "pathName": "pages/mine/mine",
                     "query": "",
                     "launchMode": "default",
                     "scene": null

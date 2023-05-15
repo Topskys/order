@@ -27,8 +27,8 @@ const schema = new mongoose.Schema({
         default: ''
     },
     gender: {
-        type: Number,
-        default: 0
+        type: String,
+        default: '男'
     },
     role: {
         type: String,

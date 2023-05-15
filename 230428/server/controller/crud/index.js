@@ -20,9 +20,9 @@ class CRUD{
      */
     add(ctx, model, params, cb = null)  {
         return model.create(params).then(rel => {
-            cb ? cb(rel) : success(ctx, rel)
+            cb ? cb(rel) : success(ctx, rel,null,"添加成功")
         }).catch(err => {
-            exception(ctx, err)
+            exception(ctx, err,null,'添加异常')
         })
     }
 
@@ -38,9 +38,9 @@ class CRUD{
      */
     del(ctx, model, where, cb = null) {
         return model.findOneAndDelete(where).then(rel => {
-            cb ? cb(rel) : success(ctx, rel)
+            cb ? cb(rel) : success(ctx, rel,null,'删除成功')
         }).catch(err => {
-            exception(ctx, err)
+            exception(ctx, err, null,'删除异常')
         })
     }
 
@@ -57,9 +57,9 @@ class CRUD{
      */
     update(ctx, model, where, params, cb = null){
         return model.updateOne(where, params).then(rel => {
-            cb ? cb(rel) : rel.modifiedCount > 0 ? success(ctx, rel) : fail(ctx, rel)
+            cb ? cb(rel) : rel.modifiedCount > 0 ? success(ctx, rel,null,'修改成功') : fail(ctx, rel)
         }).catch(err => {
-            exception(ctx, err)
+            exception(ctx, err,'修改异常')
         })
     }
 
@@ -76,9 +76,9 @@ class CRUD{
      */
     find(ctx, model, where, cb = null){
         return model.find(where).then(rel => {
-            cb ? cb(rel) : success(ctx, rel)
+            cb ? cb(rel) : success(ctx, rel,null,'查询成功')
         }).catch(err => {
-            exception(ctx, err)
+            exception(ctx, err,null,'查询异常')
         })
     }
 
@@ -94,9 +94,9 @@ class CRUD{
      */
     findOne(ctx, model, where, cb = null) {
         return model.findOne(where).then(rel => {
-            cb ? cb(rel) : success(ctx, rel)
+            cb ? cb(rel) : success(ctx, rel, null, '查询成功')
         }).catch(err => {
-            exception(ctx, err)
+            exception(ctx, err, null, '查询异常')
         })
     }
 
@@ -137,7 +137,7 @@ class CRUD{
             if (rel) {
                 cb ? cb({rel,total: count}) : (ctx.body = {
                     code: 200,
-                    msg: 'success',
+                    msg: '查询成功',
                     data: rel,
                     page,
                     pageSize,
@@ -147,7 +147,7 @@ class CRUD{
                 fail(ctx, null)
             }
         }).catch(err => {
-            exception(ctx, err)
+            exception(ctx, err, null, '查询异常')
         })
     }
 }

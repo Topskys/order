@@ -1,5 +1,5 @@
 /**
- * 统一原型挂载接口
+ * api统一原型挂载
  */
 import Vue from 'vue'
 const files = require.context("@/api", true, /\.js$/)

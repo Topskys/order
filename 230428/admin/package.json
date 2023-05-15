@@ -1,7 +1,7 @@
 {
   "name": "admin",
-  "version": "0.1.0",
-  "description": "A vue admin manage",
+  "version": "4.4.0",
+  "description": "A vue admin template with Element UI & axios & iconfont & permission control & lint",
   "author": "Pan <panfree23@gmail.com>",
   "scripts": {
     "dev": "vue-cli-service serve",
@@ -22,8 +22,11 @@
     "normalize.css": "7.0.0",
     "nprogress": "0.2.0",
     "path-to-regexp": "2.4.0",
+    "pdfjs-dist": "^3.5.141",
+    "swiper": "^5.4.5",
     "vue": "2.6.10",
-    "vue-router": "3.0.6",
+    "vue-awesome-swiper": "^4.1.1",
+    "vue-router": "^3.5.1",
     "vuex": "3.1.0"
   },
   "devDependencies": {

@@ -19,14 +19,6 @@ module.exports = mongoose.model('evaluations', new mongoose.Schema({
         type: String,
         default: ''
     },
-    avatarUrl: { // 用户头像
-        type: String,
-        default: ''
-    },
-    gender: { // 用户性别
-        type: Number,
-        default: 0
-    },
     content: { // 内容
         type: String,
         require: true,

@@ -3,15 +3,15 @@ const mongoose = require('mongoose')
 
 
 const schema = new mongoose.Schema({
-    class_id: { // 类别主键
-        type: String,
-        default: true
-    },
-    detail_id: { // 详情主键
-        type: String,
-        default:''
-    },
     title: { // 商品标题
+        type: String,
+        require: true
+    },
+    description: { // 描述
+        type: String,
+        require:true
+    },
+    poster: { // 海报
         type: String,
         require: true
     },
@@ -19,13 +19,25 @@ const schema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    poster: { // 海报
-        type: String,
-        require: true
-    },
     sale_num: { // 已预约次数
+        type: Number,
+        default: 0,
+    },
+    class_id: { // 类别主键
         type: String,
-        default: "0",
+        default: true
+    },
+    comment_id: { // 评价主键
+        type: String,
+        default: ''
+    },
+    selections: { // 服务数组
+        type: Array,
+        default: [],
+    },
+    images: { // 图片描述
+        type: Array,
+        default: [],
     },
     status: {
         type: Boolean,

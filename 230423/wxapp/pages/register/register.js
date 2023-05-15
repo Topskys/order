@@ -50,6 +50,11 @@ Page({
                         wx.showToast({
                             title: msg,
                         })
+                        setTimeout(()=>{
+                            wx.navigateTo({
+                              url: '/pages/login/login',
+                            })
+                        },2000)
                     })
                 },
             })

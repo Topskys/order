@@ -1,10 +1,10 @@
 const crud = require('../controller/crud')
 const UserModel = require('../models/user')
-const {isExpired, createToken} = require('../utils/jwt')
+const { isExpired, createToken } = require('../utils/jwt')
 const cache = require('../utils/redis')
 const mailer = require('../utils/nodemailer')
 const jwt = require('../utils/jwt')
-const {success, self, fail, exception} = require('../utils/response')
+const { success, self, fail, exception } = require('../utils/response')
 
 
 /**
@@ -15,21 +15,21 @@ class User {
     // 客户端用户登录
     async login(ctx) {
         let temp = null;
-        const {username, password} = ctx.request.body;
+        const { username, password } = ctx.request.body;
 
-        if (!username || !password) return ctx.throw(400, "邮箱或密码未填写！")
+        if (!username || !password) return fail(ctx, undefined, 400, "邮箱或密码未填写！")
         await crud.findOne(ctx, UserModel, {
             username,
             password
         }, rel => rel ? (temp = rel) : fail(ctx, rel, 400, "该邮箱未注册！"))
 
         if (temp && username === temp.username && password === temp.password) {
-            const expires = await isExpired(ctx)
-            const hasToken = await cache.get(temp._id.toString())
-            if (expires && hasToken) return self(ctx, {code: 200, token: hasToken, msg: "已登录"})
+            //            const expires = await isExpired(ctx)
+            //            const hasToken = await cache.get(temp._id.toString())
+            //            if (expires && hasToken) return self(ctx, {code: 200, token: hasToken, msg: "已登录"})
 
             try {
-                const token = createToken({username: temp.username, _id: temp._id}, 7 * 24 * 60 * 60) // 3600 * 24 * 1 one day
+                const token = createToken({ username: temp.username, _id: temp._id }, 7 * 24 * 60 * 60) // 3600 * 24 * 1 one day
                 const result = await cache.set(temp._id.toString(), token, 7 * 24 * 60 * 60) // 7days
 
                 token && result && self(ctx, {
@@ -48,13 +48,13 @@ class User {
 
     // 客户端用户注册
     async register(ctx) {
-        let [{username, password, code}, temp] = [ctx.request.body, null];
+        let [{ username, password, code }, temp] = [ctx.request.body, null];
 
         if (!code) return fail(ctx, undefined, 400, "验证码未填写！")
         if (!username || !password) return fail(ctx, undefined, 400, "邮箱或密码未填写！")
 
         // 判断该账户是否已经注册
-        await crud.find(ctx, UserModel, {username}, rel => {
+        await crud.find(ctx, UserModel, { username }, rel => {
             if (rel && rel.length) {
                 temp = rel
                 self(ctx, {
@@ -85,7 +85,7 @@ class User {
 
     // 获取邮箱验证码
     async getCode(ctx) {
-        const {username} = ctx.request.body;
+        const { username } = ctx.request.body;
 
         if (!username) return fail(ctx, undefined, 400, "邮箱未填写！")
 
@@ -127,7 +127,7 @@ class User {
         !auth && ctx.throw(401, 'no token detected in http headerAuthorization')
         try {
             const res = await jwt.isExpired(ctx)
-            await crud.findOne(ctx, UserModel, {_id: res._id}, rel => {
+            await crud.findOne(ctx, UserModel, { _id: res._id }, rel => {
                 rel ? self(ctx, {
                     code: 200,
                     userInfo: rel,
@@ -158,12 +158,13 @@ class User {
 
     // 获取用户列表
     async getAll(ctx) {
-        const {keyword = ''} = ctx.query
+        const { name = '', phone = '' } = ctx.query
+        const keyword = phone || name || ''
         const regex = new RegExp(keyword, 'i')
         const where = {
             $or: [
-                {username: regex},
-                {nickname: regex},
+                { nickName: regex },
+                { phone: regex },
             ]
         }
         await crud.findByPagination(ctx, UserModel, ctx.request.query, where)
@@ -172,8 +173,8 @@ class User {
 
     async create(ctx) {
         let temp
-        const {username} = ctx.request.body
-        await crud.findOne(ctx, UserModel, {username:username}, rel => {
+        const { username } = ctx.request.body
+        await crud.findOne(ctx, UserModel, { username: username }, rel => {
             rel ? (temp = rel) : fail(ctx, undefined, 400, "该邮箱已注册")
         })
         temp && await crud.add(ctx, UserModel, ctx.request.body)
@@ -182,16 +183,16 @@ class User {
 
     async remove(ctx) {
         let temp
-        const {id} = ctx.params
-        await crud.findOne(ctx, UserModel, {_id:id}, rel => {
+        const { id } = ctx.params
+        await crud.findOne(ctx, UserModel, { _id: id }, rel => {
             rel ? (temp = rel) : fail(ctx, undefined, 400, "该账号未注册")
         })
-        temp && await crud.del(ctx, UserModel, {_id:id})
+        temp && await crud.del(ctx, UserModel, { _id: id })
     }
 
     async edit(ctx) {
         const data = ctx.request.body
-        await crud.update(ctx, UserModel, {_id: ctx.params.id}, data)
+        await crud.update(ctx, UserModel, { _id: ctx.params.id }, data)
     }
 
 }

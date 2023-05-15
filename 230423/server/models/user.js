@@ -28,12 +28,16 @@ module.exports = mongoose.model('users', new mongoose.Schema({
             default: ''
         },
         gender: { // 性别
-            type: Number,
-            default: 0
+            type: String,
+            default: '男'
         },
         discount_count: { // 优惠劵数量
             type: Number,
             default: 0
+        },
+        discounts:{ // 存储优惠劵数组
+            type:Array,
+            default: [],
         },
         address: { // 地址
             type: String,

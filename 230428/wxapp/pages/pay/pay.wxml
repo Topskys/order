@@ -11,8 +11,8 @@
         <van-icon name="location-o" color="#2d8cf0" size="40rpx" />
         <view class="user-info r-flex-jcsb-aic">
             <view class=" fs14 title ml10">
-                <view class="address">福州市长乐区仓仙街道33号</view>
-                <view class="fs12">{{userInfo.phone}}182000012343</view>
+                <view class="address">{{userInfo.address||order.address}}</view>
+                <view class="fs12">{{userInfo.phone||order.phone}}</view>
             </view>
             <navigator url="/pages/info/info" hover-class="none">
                 <van-icon name="arrow" color="#7a7979" size="24rpx" />
@@ -38,10 +38,18 @@
     <view class="product-warp r-flex fs14 shadow">
         <image wx:if="{{order.poster}}" src="{{order.poster}}" class="image product-image"></image>
         <view class="product-desc">
-            <view class="title">{{order.title}}</view>
-            <view class="price red fs12" wx:if="{{order.price}}">
-                <text>￥</text>
-                <text class="fs16">{{order.price}}</text>
+            <view class="txt-warp">
+                <view class="title fs16">{{order.title}}</view>
+                <view class="black-light service">{{order.service}}</view>
+            </view>
+            <view class="price-num-warp r-flex-jcsb-aic">
+                <view class="price red fs12" wx:if="{{order.price}}">
+                    <text>￥</text>
+                    <text class="fs16">{{order.price}}</text>
+                </view>
+                <view class="num-warp grey fa14"><text class="fs12">x</text>
+                    <text>1</text>
+                </view>
             </view>
         </view>
     </view>
@@ -50,8 +58,8 @@
         <van-cell-group>
             <view class="shadow" style="padding: 30rpx 0;">
                 <van-cell title="商品金额" value="{{order.price}}" />
-                <van-cell title="优惠金额" value="{{order.discount}}" />
-                <van-cell title="支付方式" value="{{order.payType}}" />
+                <van-cell title="优惠金额" value="{{order.discount||0}}" />
+                <van-cell title="支付方式" value="{{order.pay_type}}" />
                 <picker mode="date" value="{{work_date}}" start="2023-05-01" end="2023-09-01" bindchange="bindDateChange">
                     <view class="picker">
                         <van-cell title="预约时间" value="{{order.work_date}}" />
@@ -65,9 +73,9 @@
     <!-- 总计导航栏 -->
     <wxs module="obj" src="../../utils/format.wxs"></wxs>
     <view class="pay-nav-wap r-flex-jcsb-aic">
-        <view class="r-flex-aic  fs12">
+        <view class="r-flex-aic  fs12" wx:if="{{order.actual_pay}}">
             <view>实付款</view>
-            <view class="price red ml5" wx:if="{{order.actual_pay}}">
+            <view class="price red ml5">
                 <text>￥</text>
                 <text class="fs16">{{order.actual_pay}}</text>
             </view>

@@ -35,19 +35,18 @@ class Admin {
             // 检查是否有token、token过期时间、缓存token等。
             // 如果已经登录且token有效，不再生成新的token，
             // 直接返回登录成功，否则重新登录获取新的token并设置缓存。
-            const expires = await isExpired(ctx)
-            const hasToken = await cache.get(admin._id.toString())
+            // const expires = await isExpired(ctx)
+            // const hasToken = await cache.get(admin._id.toString())
 
-            if (expires && hasToken) return self(ctx, {
-                code: 200,
-                token: ctx.get("Authorization"),
-                msg: "已登录"
-            })
+            // if (expires && hasToken) return self(ctx, {
+            //     code: 200,
+            //     token: ctx.get("Authorization"),
+            //     msg: "已登录"
+            // })
 
             try {
                 const token = createToken({_id: admin._id, username: admin.username})
-                // const result = await cache.set(admin._id.toString(), token, 7 * 24 * 60 * 60) // 7 days
-                const result = await cache.set(admin._id.toString(), token,  60 * 60) // 7 days
+                const result = await cache.set(admin._id.toString(), token, 7 * 24 * 60 * 60) // 7 days
 
                 token && result && self(ctx, {
                     code: 200,
@@ -55,7 +54,7 @@ class Admin {
                     msg: "登录成功"
                 })
             } catch (e) {
-                ctx.throw(500,`${new Date().toLocaleString()}：登录时出现异常`)
+                ctx.throw(500, `${new Date().toLocaleString()}：登录时出现异常`)
             }
         } else {
             fail(ctx, undefined, 400, "登录失败")

@@ -8,10 +8,10 @@
 class Response {
 
 
-    success(ctx, data, code = null, msg = null) {
+    success(ctx, data, code = null, msg='成功' ) {
         ctx.body = {
             code: code || (data ? 200 : Array.isArray(data) ? 200 : 300),
-            msg: msg || data ? '成功' : '失败',
+            msg: msg, 
             data: data
         }
         return

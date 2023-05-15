@@ -57,6 +57,17 @@ class Chat {
     }
 
 
+    async getAll(ctx) {
+        const {keyword=''} = ctx.query
+        const regex = new RegExp(keyword, 'i')
+        const where = {
+            $or: [
+                {user_id: regex},
+            ]
+        }
+        await crud.findByPagination(ctx, ServiceModel, ctx.request.query, where)
+    }
+
 }
 
 module.exports = new Chat()

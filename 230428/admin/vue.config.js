@@ -6,24 +6,13 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || 'Vue Admin' // page title
+const name = defaultSettings.title || 'Admin' // page title
 
-// If your port is set to 80,
-// use administrator privileges to execute the command line.
-// For example, Mac: sudo npm run
-// You can change the port by the following methods:
-// port = 9000 npm run dev OR npm run dev --port = 9000
-const port = process.env.port || process.env.npm_config_port || 9000 // dev port
 
-// All configuration item explanations can be find in https://cli.vuejs.org/config/
+const port = process.env.port || process.env.npm_config_port || 3428 // dev port
+
 module.exports = {
-  /**
-   * You will need to set publicPath if you plan to deploy your site under a sub path,
-   * for example GitHub Pages. If you plan to deploy your site to https://foo.github.io/bar/,
-   * then publicPath should be set to "/bar/".
-   * In most cases please use '/' !!!
-   * Detail: https://cli.vuejs.org/config/#publicpath
-   */
+
   publicPath: '/',
   outputDir: 'dist',
   assetsDir: 'static',
@@ -36,6 +25,13 @@ module.exports = {
       warnings: false,
       errors: true
     },
+    proxy: {
+      '/api':{
+        target: 'http://localhost:3000',
+        pathRewrite: { "^/api": "" }
+      },
+    },
+    before: require('./mock/mock-server.js')
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
@@ -47,19 +43,13 @@ module.exports = {
       }
     }
   },
-  // all page import css
-  css:{
-    loaderOptions: {
-      scss: {
-        prependData: `@import "~@/styles/common.scss";`
-      }
-    }
-  },
   chainWebpack(config) {
     // it can improve the speed of the first screen, it is recommended to turn on preload
     config.plugin('preload').tap(() => [
       {
         rel: 'preload',
+        // to ignore runtime.js
+        // https://github.com/vuejs/vue-cli/blob/dev/packages/@vue/cli-service/lib/config/app.js#L171
         fileBlacklist: [/\.map$/, /hot-update\.js$/, /runtime\..*\.js$/],
         include: 'initial'
       }
@@ -120,6 +110,7 @@ module.exports = {
                 }
               }
             })
+          // https:// webpack.js.org/configuration/optimization/#optimizationruntimechunk
           config.optimization.runtimeChunk('single')
         }
       )

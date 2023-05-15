@@ -7,13 +7,18 @@ module.exports = {
         /^\/admin\/register/,
         /^\/admin\/logout/,
 
-        /^\/users\/login/,
-        /^\/users\/verify/,
-        /^\/users\/register/,
-        /^\/users\/logout/,
-        /^\/users\/code/,
+        /^\/user\/login/,
+        /^\/user\/verify/,
+        /^\/user\/register/,
+        /^\/user\/logout/,
+        /^\/user\/code/,
 
         /^\/feedback/,
         /^\/favicon/,
+
+        /^\/product/,
+        /^\/category/,
+        /^\/activity/,
+        /^\/employee/,
     ]
 }

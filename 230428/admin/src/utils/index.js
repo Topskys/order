@@ -115,3 +115,12 @@ export function param2Obj(url) {
   })
   return obj
 }
+
+
+/**
+ * 判断是否为移动端
+ */
+export function isMobile() {
+  return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent)
+}

@@ -49,6 +49,13 @@ class Product {
         await crud.findByPagination(ctx, ProductModel, ctx.request.query, where)
     }
 
+    async getById(ctx) {
+        const {id = ''} = ctx.params
+        if (!id) fail(ctx, undefined, 400, "请求参数错误")
+
+        await crud.findOne(ctx, ProductModel, {_id: id})
+    }
+
 }
 
 

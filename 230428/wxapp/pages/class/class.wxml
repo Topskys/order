@@ -16,14 +16,14 @@
                 </scroll-view> -->
                 <scroll-view scroll-y class="van-side-scroll">
                     <van-sidebar active-key="{{ sideActive }}" bind:change="onSideChange" custom-class="van-side">
-                        <van-sidebar-item title="{{item.label}}" wx:for="{{sideMenus}}" wx:key="index" />
+                        <van-sidebar-item title="{{item.name}}" wx:for="{{sideMenus}}" wx:key="index" />
                     </van-sidebar>
                 </scroll-view>
                 <scroll-view scroll-y class="body-warp">
                     <view class="content-warp" wx:if="{{products.length}}">
                         <view class="product-item" wx:for="{{products}}" wx:key="index" bindtap="toDetail" data-item="{{item}}">
                             <image src="{{item.poster}}" mode="aspectFit" class="product-image image bg" />
-                            <view class="fs14 content">{{item.label}}</view>
+                            <view class="fs14 content">{{item.title}}</view>
                         </view>
                     </view>
                     <view class="no-data-warp" wx:else><text class="grey fs14 pg10">暂无数据</text></view>

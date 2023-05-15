@@ -8,13 +8,14 @@
             <input name="phone" type="number" placeholder="请输入手机号" maxlength="11" class="form-input" />
             <input name="password" type="password" placeholder="请输入密码" password class="form-input" />
             <input name="rePassword" type="password" placeholder="请输入确认密码" password class="form-input" />
-            <button formType="submit" class="form-btn">SIGN UP</button>
+            <button formType="submit" class="form-btn">注册</button>
         </form>
         <view class="agreement-warp">
             <view class='r-flex-4'>
-                Have an account？<navigator url="/pages/login/login" hover-class="none"><text class="link">Sign in</text> </navigator>
+                已有账号？<navigator url="/pages/login/login" hover-class="none"><text class="link">登录</text> </navigator>
             </view>
-            By registering, you agree to the<text class="link">《agreement》</text>
+            <!-- By registering, you agree to the<text class="link">《agreement》</text> -->
+           注册即代表同意<text class="link">《用户协议》</text>
         </view>
     </view>
 </view>

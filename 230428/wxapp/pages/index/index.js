@@ -1,12 +1,13 @@
 // index.js
 import checkAuth from "../../utils/auth"
+import request from "../../utils/request"
 
 // 获取应用实例
 const app = getApp()
 
 Page({
     data: {
-        location: app.globalData.location ,
+        location: app.globalData.location,
         locations: [{
             text: "上海",
             value: "上海"
@@ -36,133 +37,72 @@ Page({
             "https://source1.suddenfix.com/articlePic/2cdc6b7f7d77fc709430865c1f69fb68.jpg",
             "https://img0.baidu.com/it/u=1069957418,2217919900&fm=253&fmt=auto&app=138&f=JPG?w=810&h=500",
         ],
-        navList: [{
-                label: "MacBook",
-                poster: "/images/08.jpg"
-            },
-            {
-                label: "ipad",
-                poster: "/images/09.jpg"
-            },
-            {
-                label: "台式电脑",
-                poster: "/images/10.jpg"
-            },
-            {
-                label: "热水壶",
-                poster: "/images/16.jpg"
-            },
-            {
-                label: "莱卡",
-                poster: "/images/12.jpg"
-            },
-            {
-                label: "冰箱",
-                poster: "/images/13.jpg"
-            },
-            {
-                label: "电磁炉",
-                poster: "/images/17.jpg"
-            },
-            {
-                label: "电饭煲",
-                poster: "/images/15.jpg"
-            }
-        ],
-        leftList: [{
-                title: '热水壶独孤皇后的共和国包含的VB并VS大V拨打改并v发VVCVG电视电话不并v打包后',
-                price: 39.99,
-                poster: '/images/detail-01.jpg',
-                sale_num: 18090
-            },
-            {
-                title: '热水壶独孤皇后的共和国包含的VB并VS大V拨打改并v发VVCVG电视电话不并v打包后',
-                price: 99.99,
-                poster: '/images/01.jpg',
-                sale_num: 39090
-            },
-            {
-                title: '热水壶独孤皇后的共和国包含的VB并VS大V拨打改并v发VVCVG电视电话不并v打包后',
-                price: 99.99,
-                poster: '/images/01.jpg',
-                sale_num: 39090
-            },
-            {
-                title: '热水壶独孤皇后的共和国包含的VB并VS大V拨打改并v发VVCVG电视电话不并v打包后',
-                price: 99.99,
-                poster: '/images/01.jpg',
-                sale_num: 39090
-            },
-        ],
-        rightList: [{
-                title: '热水壶独孤皇后的共和国包含的VB并VS大V拨打改并v发VVCVG电视电话不并v打包后',
-                price: 99.99,
-                poster: '/images/01.jpg',
-                sale_num: 39090
-            },
-            {
-                title: '热水壶独孤皇后的共和国包含的VB并VS大V拨打改并v发VVCVG电视电话不并v打包后',
-                price: 99.99,
-                poster: '/images/01.jpg',
-                sale_num: 39090
-            },
-            {
-                title: '热水壶独孤皇后的共和国包含的VB并VS大V拨打改并v发VVCVG电视电话不并v打包后',
-                price: 39.99,
-                poster: '/images/detail-01.jpg',
-                sale_num: 18090
-            }
-        ],
+        navList: [],
+        leftList: [],
+        rightList: [],
     },
     onLoad() {
 
     },
     onShow() {
         this.setData({
-            location: app.globalData.location 
+            location: app.globalData.location
+        })
+        this.getClass()
+        this.getDataList()
+    },
+    // 获取分类列表
+    getClass() {
+        request({
+            url: 'class'
+        }).then(({
+            data
+        }) => {
+            this.setData({
+                navList: data.slice(0,8) || []
+            })
         })
     },
     // 选择服务位置
-    onChange(e){
-        app.globalData.location=e.detail
+    onChange(e) {
+        app.globalData.location = e.detail
         wx.setStorageSync('location', e.detail)
     },
     // 跳转搜索、客服事件
     navTo(e) {
         const url = e.currentTarget.dataset.url
         checkAuth(() => {
-        wx.navigateTo({
-            url: `/pages/${url}/${url}`,
-        })
+            wx.navigateTo({
+                url: `/pages/${url}/${url}`,
+            })
         }, url)
     },
     // 跳转分类
-    toClass(e){
+    toClass(e) {
         const item = e.currentTarget.dataset.item
         wx.switchTab({
-          url: '/pages/class/class',
+            url: '/pages/class/class',
         })
     },
     // 跳转详情
     toDetail(e) {
         const item = e.currentTarget.dataset.item
         wx.navigateTo({
-            url: `/pages/detail/detail?productId=${item._id}`,
+            url: `/pages/detail/detail?product_id=${item._id}`,
         })
     },
     // 获取关注列表
     getDataList() {
-        checkAuth(() => {
-            request({
-                url: 'like'
-            }).then(res => {
-                const arr = res.data || []
+        request({
+            url: 'product'
+        }).then(res => {
+            const [arr,arr0,arr1]=[res.data||[],[],[]]
+                arr.map((item, i) => (i > 0 && i % 2) ? arr1.push(item) : arr0.push(item))
                 this.setData({
-                    leftList: arr.slice(0, arr.length / 2),
-                    rightList: arr.slice(arr.length / 2, )
+                    leftList: arr0,
+                    rightList: arr1
                 })
-            })
-        }, 'like','nav')
+        })
     },
 
 

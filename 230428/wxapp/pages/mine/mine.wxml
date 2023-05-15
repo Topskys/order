@@ -24,15 +24,15 @@
         </view>
         <view class="number-warp content fs14">
             <view class="number-item c-flex-jcc">
-                <view class="tac">{{userInfo.discount?userInfo.discount:'-'}}</view>
+                <view class="tac">{{userInfo.discount.length?userInfo.discount.length:'0'}}</view>
                 <view class="tac">优惠劵</view>
             </view>
             <view class="number-item c-flex-jcc">
-                <view class="tac">{{userInfo.score?userInfo.score:'-'}}</view>
+                <view class="tac">{{userInfo.score?userInfo.score:'0'}}</view>
                 <view class="tac">积分</view>
             </view>
             <view class="number-item c-flex-jcc">
-                <view class="tac">{{userInfo.like?userInfo.like:'-'}}</view>
+                <view class="tac">{{userInfo.like?userInfo.like:'0'}}</view>
                 <navigator url="/pages/like/like" hover-class="none" class="tac">关注</navigator>
             </view>
         </view>

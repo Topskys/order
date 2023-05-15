@@ -1,0 +1,34 @@
+<!--pages/contact/contact.wxml-->
+<scroll-view scroll-y class="contact-warp scroll-y">
+    <van-cell is-link title="留言板" value="查看留言" link-type="navigateTo" url="/pages/message/message" />
+    <view class="contact-kind-warp pg15 fs16">
+        <view class="label-warp r-flex-aic mb10">
+            <text class="fs14 red mr5">*</text><text>留言类型：</text>
+        </view>
+        <view class="kind-warp pg15">
+            <van-radio-group value="{{ kind }}" bind:change="onKindChange">
+                <van-radio name="建议" custom-class="v-radio">建议</van-radio>
+                <van-radio name="投诉" custom-class="v-radio">投诉</van-radio>
+                <van-radio name="举报" custom-class="v-radio">举报</van-radio>
+            </van-radio-group>
+        </view>
+        <view class="form-warp ">
+            <view class="label-warp r-flex-aic mb10">
+                <text class="fs14 red mr5">*</text><text>留言内容：</text>
+            </view>
+            <form catchsubmit="onSubmit">
+                <textarea name="content" maxlength="{{300}}" rows="6" placeholder="请输入您的留言内容" class="input-warp"></textarea>
+                <view class="contact-type-warp r-flex-aic ">
+                    <view class="label-warp r-flex-aic ">
+                        <text class="fs14 red mr5">*</text><text>联系方式：</text>
+                    </view>
+                    <input name="contact_type" value="{{userInfo.phone}}" placeholder="请输入您的联系方式" style="flex: 1;"/>
+                </view>
+                <button form-type="submit" class="form-btn">提交留言</button>
+            </form>
+        </view>
+    </view>
+    <view class="call-warp" bindtap="onCall">
+        <van-icon name="phone-o" color="#606266" size='50rpx'/>
+    </view>
+</scroll-view>

@@ -5,56 +5,17 @@ import request from "../../utils/request"
 Page({
 
     data: {
-        leftList: [{
-                title: '热水壶独孤皇后的共和国包含的VB并VS大V拨打改并v发VVCVG电视电话不并v打包后',
-                price: 39.99,
-                poster: '/images/detail-01.jpg',
-                sale_num: 18090
-            },
-            {
-                title: '热水壶独孤皇后的共和国包含的VB并VS大V拨打改并v发VVCVG电视电话不并v打包后',
-                price: 99.99,
-                poster: '/images/01.jpg',
-                sale_num: 39090
-            },
-            {
-                title: '热水壶独孤皇后的共和国包含的VB并VS大V拨打改并v发VVCVG电视电话不并v打包后',
-                price: 99.99,
-                poster: '/images/01.jpg',
-                sale_num: 39090
-            },
-            {
-                title: '热水壶独孤皇后的共和国包含的VB并VS大V拨打改并v发VVCVG电视电话不并v打包后',
-                price: 99.99,
-                poster: '/images/01.jpg',
-                sale_num: 39090
-            },
-        ],
-        rightList: [{
-                title: '热水壶独孤皇后的共和国包含的VB并VS大V拨打改并v发VVCVG电视电话不并v打包后',
-                price: 99.99,
-                poster: '/images/01.jpg',
-                sale_num: 39090
-            },
-            {
-                title: '热水壶独孤皇后的共和国包含的VB并VS大V拨打改并v发VVCVG电视电话不并v打包后',
-                price: 99.99,
-                poster: '/images/01.jpg',
-                sale_num: 39090
-            },
-            {
-                title: '热水壶独孤皇后的共和国包含的VB并VS大V拨打改并v发VVCVG电视电话不并v打包后',
-                price: 39.99,
-                poster: '/images/detail-01.jpg',
-                sale_num: 18090
-            }
-        ],
+        leftList: [],
+        rightList: [],
+    },
+    onShow() {
+        this.getDataList()
     },
     // 跳转详情
     toDetail(e) {
         const item = e.currentTarget.dataset.item
         wx.navigateTo({
-            url: `/pages/detail/detail?_id=${item._id}`,
+            url: `/pages/detail/detail?product_id=${item._id}`,
         })
     },
     // 获取关注列表
@@ -63,15 +24,14 @@ Page({
             request({
                 url: 'like'
             }).then(res => {
-                const arr = res.data || []
+                const [arr,arr0,arr1]=[res.data||[],[],[]]
+                arr.map((item, i) => (i > 0 && i % 2) ? arr1.push(item) : arr0.push(item))
                 this.setData({
-                    leftList: arr.slice(0, arr.length / 2),
-                    rightList: arr.slice(arr.length / 2, )
+                    leftList: arr0,
+                    rightList: arr1
                 })
             })
-        }, 'like')
+        }, 'like', 'nav')
     },
-    onShow() {
-        // this.getDataList()
-    }
+
 })

@@ -1,16 +1,1 @@
 /* pages/discount/discount.wxss */
-.scroll-body{
-    padding-bottom: 50rpx;
-}
-.dis-item{
-    margin: 24rpx;
-    border: 1px solid var(--theme-light);
-    border-radius: 10rpx;
-    /* box-shadow: -1px -1px 3px var(--border); */
-    background-color: var(--white);
-    color: var(--theme-1);
-}
-
-.dis-item .title{
-    font-weight: 600;
-}

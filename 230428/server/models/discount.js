@@ -3,23 +3,23 @@ const mongoose = require('mongoose')
 
 
 const schema = new mongoose.Schema({
-    user_id: {
+    title: { // 标题
         type: String,
         require: true
     },
-    title: {
+    money_size: { // 金额大小
         type: String,
         require: true
     },
-    money_size: {
+    count: { // 数量
         type: Number,
-        default:0,
+        require: true
     },
-    expire:{
+    expire:{ // 逾期时间
         type: String,
         default:''
     },
-    limit: {
+    limit: { // 限制
         type: String,
         default:''
     },

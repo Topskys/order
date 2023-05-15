@@ -4,14 +4,14 @@
       <div class="wrapper-left">
         <a href="#">
           <img :src="logo" alt="logo" v-if="logo" />
-          <span></span>
+          <span>{{ logoText }}</span>
         </a>
       </div>
-      <div class="wrapper-right ">
+      <div class="wrapper-right">
         <el-form ref="form" :model="form" :rules="rules" class="login-form">
-          <div class="form-title">
+          <div class="title">
             <h3>欢迎登录</h3>
-            <span class="title-en ">welcome to login</span>
+            <span class="title-en">welcome to login</span>
           </div>
           <el-form-item prop="username">
             <el-input
@@ -39,10 +39,10 @@
           >
           <div class="tips">
             <span
-              >还没有账户？<a
+              >忘记密码？<a
                 href="javascript:void(0);"
                 :title="!contact || `请联系:${contact}`"
-                >注册</a
+                >联系</a
               ></span
             >
           </div>
@@ -64,8 +64,6 @@ export default {
         ? callback(new Error("The password can not be less than 6 digits"))
         : callback();
     return {
-      logo:'',
-      contact:'1820001234',
       form: {
         username: "admin",
         password: "123456",
@@ -86,6 +84,9 @@ export default {
       loading: false, // 登录按钮加载效果
     };
   },
+  computed: {
+    ...mapState("settings", ["logo", "logoText", "contact"]),
+  },
   methods: {
     // 登录
     login() {
@@ -98,14 +99,14 @@ export default {
               password: CryptoJS.MD5(this.form.password).toString(),
             };
             const res = await this.$store.dispatch("user/login", data);
-            if (res.token) {
+            if(res.token){
               this.$message({
-                type: res.code === 200 ? "success" : "error",
-                message: res.msg,
-              });
-              this.$router.push({
-                path: this.redirect || "/",
-              });
+                type:res.code===200?'success':'error',
+                message:res.msg
+              })
+this.$router.push({
+  path: this.redirect || "/"
+});
             }
             this.loading = false;
           } catch (err) {
@@ -123,7 +124,7 @@ export default {
 
 <style lang='scss' scoped>
 /* https://demo.mineadmin.com/assets/login_picture-10605a3f.svg */
-// @import "~@/styles/colors.scss";
+@import "~@/styles/colors.scss";
 .login-container {
   width: 100vw;
   height: 100vh;
@@ -139,10 +140,10 @@ export default {
     max-width: 950px;
     height: 490px;
     overflow: hidden;
-    background-color: rgb(239,246,255/1);
+    background-color: $bg-login-left;
     border: 1px solid #eee;
     border-radius: 0.3125rem;
-    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2);
     display: flex;
     position: absolute;
     top: 50%;
@@ -181,7 +182,7 @@ export default {
       border-bottom-right-radius: 0.625rem;
       .login-form {
         padding: 30px;
-        .form-title {
+        .title {
           margin-bottom: 50px;
           overflow: hidden;
           h3 {
@@ -230,18 +231,18 @@ export default {
 }
 ::v-deep el-input.is-active .el-input__inner,
 ::v-deep .el-input__inner:focus {
-  border-color: #2d8cf0;
+  border-color: $theme;
 }
 ::v-deep .el-button {
-  // background-color: $theme;
+  background-color: $theme;
   outline: none;
 }
-// ::v-deep .el-button:hover,
-// ::v-deep .el-button:focus {
-//   border-color: $border-btn-clr-hover;
-//   background-color: $bg-button-hover;
-//   outline: none;
-// }
+::v-deep .el-button:hover,
+::v-deep .el-button:focus {
+  border-color: $border-btn-clr-hover;
+  background-color: $bg-button-hover;
+  outline: none;
+}
 /* 水平抖动 */
 .shake {
   animation: shake 800ms ease-in-out;

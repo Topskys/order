@@ -1,23 +1,17 @@
 // components/order-card/order-card.js
 Component({
-    /**
-     * 组件的属性列表
-     */
     properties: {
-
+        order: {
+            type: Object,
+            value: () => ({})
+        }
     },
-
-    /**
-     * 组件的初始数据
-     */
-    data: {
-
-    },
-
-    /**
-     * 组件的方法列表
-     */
     methods: {
-
+        clickHandler(e) {
+            this.triggerEvent('btnEvent', {
+                item: e.currentTarget.dataset.item,
+                btn: e.currentTarget.dataset.btn,
+            })
+        }
     }
 })

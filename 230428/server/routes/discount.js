@@ -1,23 +1,9 @@
-/*
- * @Author: Topskys
- * @Date: 2023-04-10 23:15:34
- * @LastEditTime: 2023-04-12 22:42:37
- */
 const router = require('koa-router')()
-const { login, register, getCode, verify, getAll, logout, create, edit, remove } = require("../controller/user")
+const {  getAll,  create, edit, remove } = require("../controller/discount")
 
-router.prefix('/user')
+router.prefix('/disc')
 
 
-router.post('/login', login)
-
-router.post('/register', register)
-
-router.post('/code', getCode)
-
-router.get('/verify', verify)
-
-router.get('/logout', logout)
 
 router.post('/', create)
 

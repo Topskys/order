@@ -5,7 +5,7 @@
         <wxs module="wxs" src="../../utils/format.wxs"></wxs>
         <van-tab title="{{item.title}}" wx:for="{{categories}}" wx:key="index">
             <scroll-view scroll-y style="height: calc(100vh - 88rpx);">
-                <view class="products">
+                <block wx:if="{{products.length}}"><view class="products">
                     <view class="product-item" wx:for="{{products}}" wx:key="index" bindtap="onProductItem" data-item="{{item}}">
                         <image src="{{item.poster}}" class="product-poster" mode="widthFix"></image>
                         <view class="product-desc">{{item.title}}</view>
@@ -14,7 +14,8 @@
                             <view class="price-right" wx:if="{{item.sale_count}}"><text>{{'已售'+ wxs.formatPrice(item.sale_count)+'件'}}</text></view>
                         </view>
                     </view>
-                </view>
+                </view></block>
+                <view class="no-data" wx:else>No Data</view>
             </scroll-view>
         </van-tab>
     </van-tabs>

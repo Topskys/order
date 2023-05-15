@@ -9,7 +9,7 @@ import request from './request'
 export default function checkAuth(cb, redirect='index',rediType='tab') {
     const token = wx.getStorageSync('token')
     token ? cb && cb() : wx.navigateTo({
-        url: `/pages/login/login?redirect=${redirect}$rediType=${rediType}`,
+        url: `/pages/login/login?redirect=${redirect}&rediType=${rediType}`,
     })
 }
 

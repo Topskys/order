@@ -8,7 +8,8 @@
         "van-swipe-cell": "@vant/weapp/swipe-cell/index",
         "mp-cells": "weui-miniprogram/cells/cells",
         "mp-cell": "weui-miniprogram/cell/cell",
-        "mp-slideview": "weui-miniprogram/slideview/slideview"
+        "mp-slideview": "weui-miniprogram/slideview/slideview",
+        "order-card":"../../components/order-card/order-card"
     },
     "navigationBarTitleText": "维修订单"
 }

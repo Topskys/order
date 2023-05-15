@@ -5,13 +5,13 @@ import checkAuth from '../../utils/check'
 Page({
     data: {
         logoTitle: getApp().globalData.logoTitle,
-        redirect: '/pages/index/index',
+        redirect: 'index',
         rediType: 'tab',
     },
     onLoad(options) {
         this.setData({
-            redirect: options.rediType,
-            rediType: options.rediType,
+            redirect: options.redirect || 'index',
+            rediType: options.rediType || 'tab',
         })
     },
     onShow() {
@@ -51,37 +51,37 @@ Page({
             this.getUserInfo()
         }))
     },
+    // 获取用户信息
     getUserInfo() {
+        // 提示统一处理
+        const showT = (res) => wx.showToast({
+            title: res.msg,
+            icon: res.code == 200 ? 'success' : 'error',
+        })
+        // 路径统一处理
+        const pathHandler = (url = this.data.redirect) =>`/pages/${url}/${url}`
         checkAuth(() => {
             request({
                 url: 'user/verify'
             }).then(res => {
                 wx.setStorageSync('userInfo', res.userInfo)
-                if (this.data.redirect == 'index' || this.data.rediType == 'tab') {
-                    wx.switchTab({
-                        url: this.data.redirect || '/pages/index/index',
-                        complete: () => {
-                            const message = res.msg
-                            wx.showToast({
-                                title: message,
-                                icon: 'success',
-                            })
-                        },
-                    })
+                if (this.data.redirect == 'index' && this.data.rediType == 'tab') {
+                    showT(res)
+                    setTimeout(() => {
+                        wx.switchTab({
+                            url: pathHandler()
+                        })
+                    }, 2000)
                 } else {
-                    wx.navigateTo({
-                        url: this.data.redirect,
-                        complete: () => {
-                            const message = res.msg
-                            wx.showToast({
-                                title: message,
-                                icon: 'success',
-                            })
-                        },
-                    })
+                    showT(res)
+                    setTimeout(() => {
+                        wx.navigateTo({
+                            url: pathHandler(),
+                        })
+                    }, 2000)
                 }
             })
-        }, this.data.redirect, this.data.rediType)
+        })
     },
     // 前往注册
     linkTo() {

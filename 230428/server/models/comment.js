@@ -19,22 +19,17 @@ const schema = new mongoose.Schema({
         type: String,
         default: "",
     },
-    phone: {
-        type: String,
-        default: "",
-    },
     star: {
         type: Number,
         default: 0,
-        require: true
     },
     content: {
         type: String,
-        default: "",
+        require: true
     },
     service: {
         type: String,
-        default: '',
+        require:true
     },
     status: {
         type: Boolean,

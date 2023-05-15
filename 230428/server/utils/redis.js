@@ -1,5 +1,5 @@
 const {createClient} = require('redis')
-
+const {CONFIG, EXPIRE} = require("../controller/config/redis.js")
 
 /**
  * Redis 缓存
@@ -7,11 +7,7 @@ const {createClient} = require('redis')
 class Cache {
 
     constructor() {
-        this.client = createClient({
-            host: "127.0.0.1",	//	redis地址
-            port: 6379, // 端口号
-            legacyMode: true //redis@v4必须
-        })
+        this.client = createClient(CONFIG)
 
         this.client.on('error', err => console.error('Redis Error: ', err))
         this.client.on('connect', () => console.log(new Date().toLocaleString(), 'Redis is connected'))
@@ -29,11 +25,11 @@ class Cache {
      * @param expire 过期时间（second秒）
      * @returns {Promise<unknown>}
      */
-    set(key, value, expire) {
-        typeof value === 'object' && (value=JSON.stringify(value))
+    set(key, value, expire = EXPIRE) {
+        typeof value === 'object' && (value = JSON.stringify(value))
 
         return new Promise((resolve, reject) => {
-            this.client.set(key, value, function(err, result){
+            this.client.set(key, value, function (err, result) {
 
                 if (err) reject(err)
 
@@ -76,7 +72,6 @@ class Cache {
 
 
 }
-
 
 
 module.exports = new Cache()

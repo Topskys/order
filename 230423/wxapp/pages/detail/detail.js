@@ -60,22 +60,20 @@ Page({
         })
     },
     // 获取商品评价信息
-    getProEvaluate(id) {
-        request({
-            url: `evaluate/${id}`
-        }).then(res => {
-            this.setData({
-                evaluattions: res.data || []
-            })
+    async getProEvaluate(id) {
+        this.setData({
+            evaluattions: (await request({
+                url: `evaluate/${id}`
+            })).data || []
         })
     },
-    // 客服
+    // 联系我们
     onService() {
         checkAuth(() => {
             wx.navigateTo({
-                url: `/images/service/service?redirect=servce&rediType=nav`,
+                url: `/pages/contact/contact`,
             })
-        }, 'service', 'nav')
+        }, 'contact', 'nav')
     },
     // 加入收藏
     onCollect() {
@@ -109,7 +107,7 @@ Page({
             const data = {
                 product_id: this.currrent_product_id || this.data.detail._id || wx.getStorageSync('current_product_id'),
                 title: this.data.detail.title,
-                poster:this.data.detail.poster,
+                poster: this.data.detail.poster,
                 service: currSel.title,
                 origin_price: currSel.price,
                 ...user

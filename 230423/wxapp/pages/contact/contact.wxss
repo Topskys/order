@@ -1,0 +1,50 @@
+/* pages/contact/contact.wxss */
+
+.contact-kind-warp {
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.kind-warp {
+    padding-bottom: 20rpx;
+    border-bottom: 1px solid #eee;
+}
+
+.v-radio {
+    margin-bottom: 20rpx !important;
+}
+
+.form-warp {
+    padding: 30rpx 0;
+}
+
+.input-warp {
+    padding: 10rpx;
+    color: var(--black-light);
+}
+
+.contact-type-warp {
+    padding: 20rpx 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.form-btn {
+    color: var(--white);
+    margin-top: 50rpx;
+    background-color: var(--theme);
+}
+
+.call-warp {
+    position: fixed;
+    right: 20rpx;
+    top: 55vh;
+    padding: 20rpx;
+    width: 50rpx;
+    height: 50rpx;
+    text-align: center;
+    line-height: 50rpx;
+    border-radius: 500rpx;
+    background-color: var(--white);
+    box-shadow: 0 0 5px 3px var(--border);
+}

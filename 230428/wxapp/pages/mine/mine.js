@@ -23,7 +23,7 @@ Page({
         services: [{
                 icon: '/images/mine-08.png',
                 label: '联系客服',
-                url: '/pages/server/server'
+                url: '/pages/service/service'
             },
             {
                 icon: '/images/mine-07.png',

@@ -77,7 +77,8 @@
     }
 
     .is-active>.el-submenu__title {
-      color: $subMenuActiveText !important;
+      // color: $subMenuActiveText !important;
+      color:#4d70ff !important;
     }
 
     & .nest-menu .el-submenu>.el-submenu__title,

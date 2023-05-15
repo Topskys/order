@@ -1,0 +1,21 @@
+<!--pages/message/message.wxml-->
+<scroll-view scroll-y class="msg-warp scroll-y theme-bg">
+    <view class="scroll-body">
+        <block wx:if="{{list.length}}">
+            <view class="msg-item fs14 pg15" wx:for="{{list}}" wx:key="index">
+            <view class="label-warp r-flex-aic mb10 kind">
+                <text class="mr5 title">留言类型：</text><text class="content">{{item.kind}}</text>
+            </view>
+            <view class="label-warp r-flex-aic mb10 ">
+                <text class="mr5 title">留言时间：</text><text class=" grey">{{item.createdAt}}</text>
+            </view>
+            <view class="label-warp r-flex-aic mb10 title">
+                留言内容：
+            </view>
+            <view class="content-warp content">
+                {{item.content}}
+            </view>
+        </view></block>
+        <view class="no-data" wx:else>No Data</view>
+    </view>
+</scroll-view>

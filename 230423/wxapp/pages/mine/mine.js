@@ -1,14 +1,10 @@
 // pages/query.js
+const app = getApp()
 Page({
 
     data: {
-        userInfo: getApp().globalData.userInfo,
+        userInfo: app.globalData.userInfo,
         links: [{
-                title: '钱包',
-                icon: 'credit-pay',
-                url: ''
-            },
-            {
                 title: '收藏',
                 icon: 'star-o',
                 url: "/pages/collection/collection"
@@ -16,23 +12,24 @@ Page({
             {
                 title: '优惠劵',
                 icon: 'coupon-o',
-                url: ''
+                url: '/pages/activity/activity'
             }
         ],
         menuList: [{
-                title: '我的发布',
-                url: '#'
-            }, {
-                title: '联系客服',
-                url: '#'
+                title: '联系我们',
+                url: '/pages/contact/contact'
             },
             {
-                title: '个人信息',
+                title: '修改信息',
                 url: '/pages/info/info'
             },
             {
+                title: '我的收藏',
+                url: "/pages/collection/collection"
+            },
+            {
                 title: '领优惠劵',
-                url: '#'
+                url: '/pages/activity/activity'
             },
             {
                 title: '关注我们',
@@ -50,7 +47,7 @@ Page({
     onShow() {
         // strorage获取用户信息
         this.setData({
-            userInfo: getApp().globalData.userInfo
+            userInfo: wx.getStorageSync('userInfo')||app.globalData.userInfo 
         })
     },
     handleLinkClick(e) {

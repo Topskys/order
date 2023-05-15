@@ -9,11 +9,10 @@ Page({
         rediType: 'tab',
     },
     onLoad(options) {
-        console.log(options)
         // 获取重定向路径或重定向类型
         this.setData({
-            redirect: options?.redirect,
-            rediType: options?.rediType,
+            redirect: options.redirect || 'index',
+            rediType: options.rediType || 'tab',
         })
     },
     // 数据效验
@@ -51,13 +50,11 @@ Page({
             url: 'user/verify'
         }).then(res => {
             wx.setStorageSync('userInfo', res.userInfo)
-            if (res.code == 200 && this.data.redirect) {
-                this.data.rediType == 'tab' ? wx.switchTab({
-                    url: '/pages/index/index',
-                }) : wx.navigateTo({
-                    url: this.data.redirect
-                })
-            }
+            this.data.rediType == 'tab' ? wx.switchTab({
+                url: '/pages/index/index',
+            }) : wx.navigateTo({
+                url: `/pages/${this.data.redirect}/${this.data.redirect}`
+            })
         })
     },
 

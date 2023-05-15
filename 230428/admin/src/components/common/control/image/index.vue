@@ -1,5 +1,5 @@
 <template>
-  <el-image :src="config.cb?config.cb(data):data[prop]" :fit="config.fit" :style="[sizeStyle]"></el-image>
+  <el-image :src="config.cb?config.cb(data):data[prop]" :fit="config.fit" :style="[sizeStyle]" ></el-image>
 </template>
 
 <script>
@@ -21,8 +21,8 @@ export default {
   },
   computed: {
     sizeStyle(){
-      const width = this.config?.width || "50px";
-      const height = this.config?.height || "50px";
+      const width = this.config?.width || "36px";
+      const height = this.config?.height || "36px";
       const borderRadius = this.config?.borderRadius||"4px"
       return { width, height,borderRadius };
     }

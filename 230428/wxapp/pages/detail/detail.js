@@ -7,99 +7,52 @@ Page({
     data: {
         // 关注图标
         like: "like-o",
-        noticeList:["价格保障","质量保障","纠纷无忧","意外保险"],
+        noticeList: ["价格保障", "质量保障", "纠纷无忧", "意外保险"],
         // 当前商品
         product: {
-            _id: '8888888888888888',
-            title: '苹果MacBoook Pro 16笔记本维修',
-            startPrice: 30,
-            sale_num: 3576,
-            description: '服务须知。很简单交换机啊是萨克的大姐夫维护VR五二后货架更明显是框架内就基本韩国嗯人家那就是并且文化方便合格下午好成功过为婚外情想昵称被国务院鱼呢喝喝茶而且小姐妹编辑侧和U为以你们放飞机',
-            imgs: ["/images/test-01.jpg", "/images/test-02.jpg", "/images/test-03.jpg"],
-            comments: [{
-                    avatarUrl: "https://thirdwx.qlogo.cn/mmopen/vi_32/OqbjGV9UibfRJj3d4Dia0MCk9Hx6Pr7NgDlibN8JTiaM9e8TSAx6Rynoyhpusl2RBw4kGlEMxOUEZ449bedX6Eicguw/132",
-                    nickName: 'Topsky',
-                    star: 4,
-                    phone: "18200001234",
-                    star_count: 5,
-                    content: "很简单交换机啊是萨克的大姐夫维护VR五二后货架更明显是框架内就基本韩国嗯人家那就是并且文化方便合格下午好成功过为婚外情想昵称被国务院鱼呢喝喝茶而且小姐妹编辑侧和U为以你们放飞机",
-                    createdAt: "2023-4-27"
-                },
-                {
-                    avatarUrl: "https://thirdwx.qlogo.cn/mmopen/vi_32/OqbjGV9UibfRJj3d4Dia0MCk9Hx6Pr7NgDlibN8JTiaM9e8TSAx6Rynoyhpusl2RBw4kGlEMxOUEZ449bedX6Eicguw/132",
-                    nickName: 'Topsky',
-                    star: 3,
-                    phone: "18200001234",
-                    star_count: 5,
-                    content: "很简单交换机啊是萨克的大姐夫维护VR五二后货架更明显是框架内就基本韩国嗯人家那就是并且文化方便合格下午好成功过为婚外情想昵称被国务院鱼呢喝喝茶而且小姐妹编辑侧和U为以你们放飞机",
-                    createdAt: "2023-4-27"
-                },
-                {
-                    avatarUrl: "https://thirdwx.qlogo.cn/mmopen/vi_32/OqbjGV9UibfRJj3d4Dia0MCk9Hx6Pr7NgDlibN8JTiaM9e8TSAx6Rynoyhpusl2RBw4kGlEMxOUEZ449bedX6Eicguw/132",
-                    nickName: 'Topsky',
-                    star: 1,
-                    phone: "18200001234",
-                    star_count: 5,
-                    content: "很简单交换机啊是萨克的大姐夫维护VR五二后货架更明显",
-                    createdAt: "2023-4-27"
-                },
-                {
-                    avatarUrl: "https://thirdwx.qlogo.cn/mmopen/vi_32/OqbjGV9UibfRJj3d4Dia0MCk9Hx6Pr7NgDlibN8JTiaM9e8TSAx6Rynoyhpusl2RBw4kGlEMxOUEZ449bedX6Eicguw/132",
-                    nickName: 'Topsky',
-                    star: 5,
-                    phone: "18200001234",
-                    star_count: 5,
-                    content: "很简单交换机啊是萨克的大姐夫维护VR五二后货架更明显是框架内就基本韩国嗯人家那就是并且文化方便合格下午好成功过为婚外情想昵称被国务院鱼呢喝喝茶而且小姐妹编辑侧和U为以你们放飞机VB和GV神盾局个和v的模拟四等分的吧 点击的地方那部分 表达式包浆豆腐百分百局",
-                    createdAt: "2023-4-27"
-                }
-            ],
-            selections: [{
-                    title: '手机号到付件那是根本不能说VB',
-                    price: 69.99
-                },
-                {
-                    title: '豹女成本南北朝向内部的成绩单',
-                    price: 79.99
-                },
-                {
-                    title: "保存电脑版苍南县并v成内部",
-                    price: 89.89
-                }, {
-                    title: "内存是和比女性把新农村吧VB许昌南",
-                    price: 99.98
-                }
-            ],
+            selections: [],
         },
+        comments: [],
         // popup弹窗
         showPopup: false,
         // 选中服务
         selActive: 0,
         // 当前商品操作所需的数据
-        selProduct: {
-            productId: null,
-            selTitle: null,
-            selPrice: null,
+        select: {
+            service: undefined,
+            price: undefined
         },
     },
     onLoad(options) {
-        const _id = options.productId
-        wx.setStorageSync('detail_product_id', _id)
+        const _id = options.product_id
+        wx.setStorageSync('product_id', _id)
         this.getProDetail(_id)
     },
-    onShow() {
-
-    },
+    onShow() {},
     // 请求商品详情数据
     getProDetail(id) {
-        const _id = id || this.data.product._id || wx.getStorageSync("detail_product_id")
+        const _id = id || this.data.product._id || wx.getStorageSync("product_id")
         request({
-            url: `detail/${_id}`
+            url: `product/${_id}`
         }).then(res => {
             this.setData({
                 product: res.data || {}
             })
-        }).finally(() => {
-            this.setSelProduct()
+            this.getComment(_id)
+            this.setSelect(res.data.selections[0])
+            this.getLike(_id)
+        })
+    },
+    // 获取商品评论信息
+    getComment(id) {
+        request({
+            url: `comment/${id}`
+        }).then(({
+            data
+        }) => {
+            this.setData({
+                comments: data || []
+            })
         })
     },
     // 控制popup显隐
@@ -115,16 +68,30 @@ Page({
         this.setData({
             selActive: index || 0,
         })
-        this.setSelProduct(item)
+        this.setSelect(item)
+        this.onShowPopup()
     },
     // 设置当前选择商品规格
-    setSelProduct(data) {
+    setSelect(data) {
         this.setData({
-            selProduct: {
-                productId: this.data.selProduct.productId || this.data.product._id,
-                selTitle: data.title || this.data.product.selections[0].title,
-                selPrice: data.price || this.data.product.selections[0].price
+            select: {
+                service: data.service || this.data.product.selections[0].service,
+                price: data.price || this.data.product.selections[0].price
             }
+        })
+    },
+    // 获取关注信息
+    getLike(product_id){
+        checkAuth(()=>{
+            request({
+                url:`like/${product_id}`
+            }).then(({data})=>{
+                if(data._id){
+                    this.setData({
+                        like:'like'
+                    })
+                }
+            })
         })
     },
     // 关注
@@ -135,10 +102,13 @@ Page({
             })
             this.updateLike({
                 like: !this.data.product.like
-            }).then(res => {
+            }).then(({
+                code,
+                msg
+            }) => {
                 wx.showToast({
-                    title: res.msg,
-                    icon: 'success',
+                    title: msg,
+                    icon: 'none',
                 })
             })
         }, 'order')
@@ -161,11 +131,22 @@ Page({
                 url: 'order',
                 method: 'post',
                 data: {
-                    ...this.data.selProduct
+                    ...this.data.select,
+                    product_id: this.data.product._id
                 }
-            }).then(res => {
-                code == 200 && wx.navigateTo({
-                    url: `/pages/pay/pay?productId=${this.data.product._id}`,
+            }).then(({
+                code,
+                data,
+                msg
+            }) => {
+                wx.showToast({
+                    title: msg,
+                    icon: 'none',
+                    complete: (res) => {
+                        code == 200 && wx.navigateTo({
+                            url: `/pages/pay/pay?order_id=${data._id}`,
+                        })
+                    },
                 })
             })
         }, 'order')

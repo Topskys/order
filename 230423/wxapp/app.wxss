@@ -248,6 +248,7 @@ page {
 .pg0-15{
     padding: 0 30rpx;
 }
+
 /* margin */
 .mn15{
     margin: 30rpx;
@@ -274,6 +275,9 @@ page {
     margin-left: 10rpx;
 }
 
+.mt5{
+    margin-top: 10rpx;
+}
 .mt10{
     margin-top: 20rpx;
 }

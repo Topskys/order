@@ -1,2 +1,30 @@
 <!--components/order-card/order-card.wxml-->
-<text>components/order-card/order-card.wxml</text>
+<view class="order-card-warp pg15">
+    <view class="id-time-warp fs12 grey r-flex-jcsb-aic" wx:if="{{order._id}}">
+        <view class="id-warp" >编号:{{order._id}}</view>
+        <!-- <view class="time-warp">{{order.createdAt}}</view> -->
+    </view>
+    <view class="product-warp fs14">
+        <view class="product-poster" wx:if="{{order.poster}}" >
+            <image src="{{order.poster}}" class="image pro-image"></image>
+        </view>
+        <view class="product-desc">
+            <view class="top">
+                <view class="pro-title">{{order.title}}</view>
+                <view class="pro-service">{{order.service}}</view>
+            </view>
+            <view class="price-num-warp">
+                <view class="price-warp fs16 red" wx:if="{{order.price}}"><text class="fs12 price-str">￥</text>
+                    <text>{{order.price}}</text>
+                </view>
+                <view class="number-warp fs14"><text class="fs12  num-str">x</text>
+                    <text>1</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="buttons-warp">
+        <view class="btn1" wx:if="{{order.btn1}}" bindtap="clickHandler" data-item="{{order}}"  data-btn="{{order.btn1}}" >{{order.btn1}}</view>
+        <view class="btn2" wx:if="{{order.btn2}}" bindtap="clickHandler" data-item="{{order}}"  data-btn="{{order.btn2}}" >{{order.btn2}}</view>
+    </view>
+</view>

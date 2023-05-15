@@ -24,14 +24,14 @@ async function login(ctx) {
     }, res => (res ? (admin = res) : fail(ctx, res, 400, "该账号不存在")))
 
     if (admin && admin.username === username && admin.password === password) {
-        const expires = await isExpired(ctx)
-        const hasToken = await cache.get(admin._id.toString())
+        // const expires = await isExpired(ctx)
+        // const hasToken = await cache.get(admin._id.toString())
 
-        if (expires && hasToken) return self(ctx, {
-            code: 200,
-            token: ctx.get("Authorization"),
-            msg: "已登录"
-        })
+        // if (expires && hasToken) return self(ctx, {
+        //     code: 200,
+        //     token: ctx.get("Authorization"),
+        //     msg: "已登录"
+        // })
 
         try {
             const token = createToken({_id: admin._id, username: admin.username})
@@ -40,10 +40,10 @@ async function login(ctx) {
             token && result && self(ctx, {
                 code: 200,
                 token,
-                msg: "success"
+                msg: "登录成功"
             })
         } catch (e) {
-            ctx.throw(`${new Date().toLocaleString()}：登录时出现异常`)
+            fail(ctx,undefined,500,`${new Date().toLocaleString()}：登录时出现异常`)
         }
     } else {
         fail(ctx, undefined, 400, "登录失败")

@@ -1,15 +1,15 @@
 const crud = require('../controller/crud')
 const UserModel = require('../models/user')
-const {isExpired, createToken} = require('../utils/jwt')
+const { isExpired, createToken } = require('../utils/jwt')
 const cache = require('../utils/redis')
 const jwt = require('../utils/jwt')
-const {success, self, fail, exception} = require('../utils/response')
+const { success, self, fail, exception } = require('../utils/response')
 
 
 // 客户端用户登录
 async function login(ctx) {
     let temp = null;
-    const {username, password} = ctx.request.body;
+    const { username, password } = ctx.request.body;
 
     if (!username || !password) return ctx.throw(400, "账号或密码未填写！")
     await crud.findOne(ctx, UserModel, {
@@ -25,7 +25,7 @@ async function login(ctx) {
 
     if (temp && username === temp.username && password === temp.password) {
         try {
-            const token = createToken({username: temp.username, _id: temp._id}, 24 * 60 * 60) // 3600 * 24 * 1 one day
+            const token = createToken({ username: temp.username, _id: temp._id }, 24 * 60 * 60) // 3600 * 24 * 1 one day
             const result = await cache.set(temp._id.toString(), token, 24 * 60 * 60) // 7days
 
             token && result && self(ctx, {
@@ -44,13 +44,13 @@ async function login(ctx) {
 
 // 用户注册
 async function register(ctx) {
-    let {username, password} = ctx.request.body
+    let { username, password, gender = 0 } = ctx.request.body
     let temp = null;
 
     if (!username || !password) return fail(ctx, undefined, 400, "账号或密码未填写！")
 
     // 判断该账户是否已经注册
-    await crud.find(ctx, UserModel, {username}, rel => {
+    await crud.find(ctx, UserModel, { username }, rel => {
         if (rel && rel.length) {
             temp = rel
             self(ctx, {
@@ -62,7 +62,7 @@ async function register(ctx) {
     })
 
     // 插入数据库
-    !temp && await crud.add(ctx, UserModel, ctx.request.body, rel => {
+    !temp && await crud.add(ctx, UserModel, { ...ctx.request.body, gender: `${gender != 0 ? '女' : '男'}` }, rel => {
         rel ? self(ctx, {
             code: 200,
             data: rel,
@@ -74,7 +74,7 @@ async function register(ctx) {
 
 // 获取邮箱验证码（暂无）
 async function getCode(ctx) {
-    const {username} = ctx.request.body;
+    const { username } = ctx.request.body;
 
     if (!username) return fail(ctx, undefined, 400, "账号未填写！")
 
@@ -99,7 +99,7 @@ async function getCode(ctx) {
         // 设置验证码Redis缓存
         await cache.set("code", code, 5 * 60) // 5 minutes
         // 发送验证邮箱验证码
-        const res = await mailer.sendMail(mailOptions)
+        // const res = await mailer.sendMail(mailOptions)
         res ? self(ctx, {
             code: 200,
             msg: 'Please enter the verification code, which has been sent to your email.'
@@ -116,7 +116,7 @@ async function getUserInfo(ctx) {
     !auth && ctx.throw(401, 'Token无效')
     try {
         const res = await jwt.isExpired(ctx)
-        await crud.findOne(ctx, UserModel, {_id: res._id}, rel => {
+        await crud.findOne(ctx, UserModel, { _id: res._id }, rel => {
             rel ? self(ctx, {
                 code: 200,
                 userInfo: rel,
@@ -147,12 +147,12 @@ async function logout(ctx) {
 
 // 获取用户列表
 async function getUsers(ctx) {
-    const {keyword = ''} = ctx.query
+    const { keyword = '' } = ctx.query
     const regex = new RegExp(keyword, 'i')
     await crud.findByPagination(ctx, UserModel, ctx.request.query, {
         $or: [
-            {username: regex},
-            {nickname: regex},
+            { username: regex },
+            { nickname: regex },
         ]
     })
 }
@@ -161,7 +161,7 @@ async function getUsers(ctx) {
 // 管理员新增用户
 async function createUser(ctx) {
     let temp
-    await crud.findOne(ctx, UserModel, {username: ctx.request.body.username}, function (rel) {
+    await crud.findOne(ctx, UserModel, { username: ctx.request.body.username }, function (rel) {
         rel ? (temp = rel) : fail(ctx, undefined, 400, "该账号已经存在")
     })
     temp && await crud.add(ctx, UserModel, ctx.request.body)
@@ -170,14 +170,14 @@ async function createUser(ctx) {
 
 async function removeUser(ctx) {
     let temp
-    const {id} = ctx.params
-    await crud.findOne(ctx, UserModel, {_id: id}, rel => {
+    const { id } = ctx.params
+    await crud.findOne(ctx, UserModel, { _id: id }, rel => {
         rel ? (temp = rel) : fail(ctx, undefined, 400, "该账号未注册")
     })
-    temp && await crud.del(ctx, UserModel, {_id: id})
+    temp && await crud.del(ctx, UserModel, { _id: id })
 }
 
-const updateUserInfo = async ctx => await crud.update(ctx, UserModel, {_id: ctx.params.id}, ctx.request.body)
+const updateUserInfo = async ctx => await crud.update(ctx, UserModel, { _id: ctx.params.id }, ctx.request.body)
 
 
-module.exports = {login, register, getUserInfo, getUsers, createUser, removeUser, updateUserInfo,logout}
+module.exports = { login, register, getUserInfo, getUsers, createUser, removeUser, updateUserInfo, logout }
