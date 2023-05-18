@@ -9,7 +9,7 @@
                     <view class="title fs14 content">{{item.title}}</view>
                     <view class="price r-flex-aic red">
                         <text class="fs12">￥</text>
-                        <text class="fs16">{{item.price}}</text>
+                        <text class="fs16">{{item.start_price}}</text>
                         <text class="fs12 grey ml10">已维修{{obj.formatNum(item.sale_num)}}件</text>
                     </view>
                 </view>
@@ -22,7 +22,7 @@
                     <view class="title fs14 content">{{item.title}}</view>
                     <view class="price r-flex-aic red">
                         <text class="fs12">￥</text>
-                        <text class="fs16">{{item.price}}</text>
+                        <text class="fs16">{{item.start_price}}</text>
                         <text class="fs12 grey ml10">已维修{{obj.formatNum(item.sale_num)}}件</text>
                     </view>
                 </view>

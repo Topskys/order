@@ -1,7 +1,7 @@
 <!--pages/query.wxml-->
 <!-- 分类帅选 -->
 <view class="query-warp">
-    <van-tabs active="{{ active }}" bind:change="onChange" animated>
+    <van-tabs active="{{ activeTab }}" bind:change="onChange" animated>
         <wxs module="wxs" src="../../utils/format.wxs"></wxs>
         <van-tab title="{{item.title}}" wx:for="{{categories}}" wx:key="index">
             <scroll-view scroll-y style="height: calc(100vh - 88rpx);">

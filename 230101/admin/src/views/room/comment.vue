@@ -8,20 +8,24 @@
         :inline="true"
         @keyup.enter.native="getPageList()"
       >
-        <el-form-item>
+      <div style='margin:5px 0 30px;'>查找搜索</div>
+        <el-form-item label="评论内容：">
           <el-input
             v-model="form.keyword"
             placeholder="请输入评论内容"
             prefix-icon="el-icon-search"
+            clearable
           ></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="getPageList()"
             >查询</el-button
           >
+           <el-button icon="el-icon-refresh" @click="resetForm">重置</el-button>
         </el-form-item>
       </el-form>
-
+    </el-card>
+    <el-card shadow="never" style="margin-top: 20px">
       <!-- 表格 -->
       <e-table
         :config="t_config"
@@ -77,6 +81,7 @@ export default {
             type: "text",
             prop: "content",
             label: "评论",
+            show_tooltip: false,
           },
           {
             type: "tag",
@@ -86,9 +91,11 @@ export default {
               let tag_type = "default";
               switch (data.satisfaction) {
                 case true:
+                  data.satisfaction="是"
                   tag_type = "success";
                   break;
                 case false:
+                  data.satisfaction="否"
                   tag_type = "info";
                   break;
               }
@@ -148,6 +155,11 @@ export default {
     // 单页显示大小变化
     sizeChange(data) {
       this.form.pageSize = data;
+    },
+    // 重置按钮
+    resetForm() {
+      this.form.keyword = "";
+      this.getPageList()
     },
     // 表格删除按钮
     del(data) {

@@ -43,9 +43,9 @@
                 <view class="black-light service">{{order.service}}</view>
             </view>
             <view class="price-num-warp r-flex-jcsb-aic">
-                <view class="price red fs12" wx:if="{{order.price}}">
+                <view class="price red fs12">
                     <text>￥</text>
-                    <text class="fs16">{{order.price}}</text>
+                    <text class="fs16">{{order.price||0}}</text>
                 </view>
                 <view class="num-warp grey fa14"><text class="fs12">x</text>
                     <text>1</text>
@@ -73,16 +73,27 @@
     <!-- 总计导航栏 -->
     <wxs module="obj" src="../../utils/format.wxs"></wxs>
     <view class="pay-nav-wap r-flex-jcsb-aic">
-        <view class="r-flex-aic  fs12" wx:if="{{order.actual_pay}}">
-            <view>实付款</view>
-            <view class="price red ml5">
-                <text>￥</text>
-                <text class="fs16">{{order.actual_pay}}</text>
+        <view class="r-flex-aic">
+            <!-- <view>实付款</view> -->
+            <view class="price ml5">
+                <text class="fs12">￥</text>
+                <text class="fs18">{{order.actual_pay||0}}</text>
             </view>
         </view>
-        <view class="submit-btn fs16" bindtap="onSubmit">提交订单</view>
+        <view class="submit-btn fs16" bindtap="onShowPay">提交订单</view>
     </view>
     <!-- 在页面内添加对应的节点 -->
     <van-notify id="van-notify" />
-
+    <!-- 支付 -->
+    <van-popup show="{{ showPay }}" bind:close="onShowPay" position="bottom" closeable>
+        <view class="popup-pay pg15 ">
+            <view class="pg10 tac popup-title">支付订单</view>
+            <view class="popup-price tac">
+                <text class="fs14">￥</text>
+                <text class="">{{order.actual_pay||0}}</text>
+            </view>
+            <view class="pg15 tac content">请确认是否支付该订单？</view>
+            <view class="pg10 tac conform-pay" bindtap="onConfirm">确认支付</view>
+        </view>
+    </van-popup>
 </view>

@@ -46,14 +46,14 @@
                 placeholder="请输入"
               ></el-input>
             </el-form-item>
-            <el-form-item label="密码" required prop="password">
+            <!-- <el-form-item label="密码" required prop="password">
               <el-input
                 v-model="f_field.password"
                 type="password"
                 placeholder="请输入"
                 show-password
               ></el-input>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="手机号" required prop="phone">
               <el-input
                 type="number"

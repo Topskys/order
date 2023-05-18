@@ -4,7 +4,8 @@
         "van-dropdown-item": "@vant/weapp/dropdown-item/index",
         "van-icon": "@vant/weapp/icon/index",
         "van-search": "@vant/weapp/search/index",
-        "van-sticky": "@vant/weapp/sticky/index"
+        "van-sticky": "@vant/weapp/sticky/index",
+        "product-list":"../../components/product-list"
       }
       
 }

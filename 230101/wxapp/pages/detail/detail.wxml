@@ -37,7 +37,7 @@
     <!-- <view bindtap="handleShopCart" style="background-color: #127970;">订单</view>
     <view bindtap="handleAdd" style="background-color: #f76260;">加入订单</view>
     <view bindtap="handlePurchase" style="background-color: #6c44ac;">立即预定</view> -->
-    <van-goods-action>
+    <van-goods-action custom-class='good-action'>
         <van-goods-action-icon icon="cart-o" text="订单" bindtap="handleShopCart" />
         <van-goods-action-button color="#be99ff" text="加入订单" type="warning" bindtap="handleAdd" />
         <van-goods-action-button color="#7232dd" text="立即预定" bindtap="handlePurchase" />

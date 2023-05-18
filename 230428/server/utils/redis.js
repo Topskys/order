@@ -10,7 +10,7 @@ class Cache {
         this.client = createClient(CONFIG)
 
         this.client.on('error', err => console.error('Redis Error: ', err))
-        this.client.on('connect', () => console.log(new Date().toLocaleString(), 'Redis is connected'))
+        this.client.on('connect', () => console.log(new Date().toLocaleString().replace(/\//g, '-'), 'Redis is connected'))
         this.client.on('end', () => console.log('Redis is Closed!'));
 
         // 检查Redis是否连接

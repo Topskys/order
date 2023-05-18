@@ -5,9 +5,6 @@ import request from "../../utils/request"
 // pages/pay/pay.js
 Page({
 
-    /**
-     * 页面的初始数据
-     */
     data: {
         // 订单信息
         order: null,
@@ -17,10 +14,6 @@ Page({
         // 用户信息
         userInfo: wx.getStorageSync('userInfo'),
     },
-
-    /**
-     * 生命周期函数--监听页面加载
-     */
     onLoad(options) {
         JSON.parse(options.ids).forEach(id => this.getOrderInfo(id))
     },
@@ -40,7 +33,8 @@ Page({
                 order: {
                     ...res.data,
                     total: this.sum([res.data], this.data.userInfo.discounts),
-                    rent: `${startDate}至${endDate}`
+                    rent: `${startDate}至${endDate}`,
+                    discount:Math.max(...this.data.userInfo.discounts)
                 }
             })
         })

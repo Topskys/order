@@ -156,7 +156,7 @@ export default {
                 this.$set(data, "loading", false);
                 this.$message({
                   type: code === 200 ? "success" : "error",
-                  message: msg,
+                  message: msg||"成功",
                 })
               }).catch((err) => {
                 this.$set(data, "loading", false);

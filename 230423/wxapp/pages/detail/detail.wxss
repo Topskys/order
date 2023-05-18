@@ -47,7 +47,7 @@
 .service-warp {
     box-sizing: border-box;
     padding-bottom: 168rpx;
-    background-color: var(--white);
+    /* background-color: var(--white); */
 }
 
 
@@ -58,7 +58,7 @@
     height: calc(100vh - 88rpx );
     padding: 20rpx 0;
     padding-bottom: 168rpx;
-    background-color: var(--white);
+    /* background-color: var(--white); */
 }
 
 .evaluations .evaluate-item .user-warp .user-avatar {

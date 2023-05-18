@@ -53,8 +53,8 @@ export default {
     return {
       // 收集表单数据
       form: {
-        username: "admin",
-        password: "123456",
+        username: "",
+        password: "",
       },
       // 记住密码
       checked: false,

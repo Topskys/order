@@ -244,7 +244,12 @@ export default {
           url: "/rooms/add",
           method: "POST",
           data: this.f_field,
-        })
+        }).then((res) => {
+          this.$message({
+            type: res.code == 200 ? "success" : "error",
+            message: res.msg,
+          });
+        });
       });
     },
     handleRemove(file, fileList) {

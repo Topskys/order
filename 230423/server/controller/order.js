@@ -1,13 +1,13 @@
-const {find, findOne, findByPagination, add, del, update} = require('./crud')
+const { find, findOne, findByPagination, add, del, update } = require('./crud')
 const OrderModel = require('../models/order')
 const UserModel = require('../models/user')
-const {isExpired} = require('../utils/jwt')
-const {success, self, fail} = require('../utils/response')
+const { isExpired } = require('../utils/jwt')
+const { success, self, fail } = require('../utils/response')
 
 
 // 取消或删除订单
 async function delOrder(ctx) {
-    await del(ctx, OrderModel, {_id: ctx.params.id}, rel => {
+    await del(ctx, OrderModel, { _id: ctx.params.id }, rel => {
         ctx.body = {
             code: 200,
             msg: '取消成功',
@@ -19,11 +19,11 @@ async function delOrder(ctx) {
 
 // 获取订单列表
 async function getAll(ctx) {
-    const {keyword = ''} = ctx.query
+    const { keyword = '' } = ctx.query
     await findByPagination(ctx, OrderModel, ctx.request.query, {
         $or: [
-            {title: new RegExp(keyword, 'i')},
-            {nickName: new RegExp(keyword, 'i')}
+            { title: new RegExp(keyword, 'i') },
+            { nickName: new RegExp(keyword, 'i') }
         ]
     })
 }
@@ -31,13 +31,13 @@ async function getAll(ctx) {
 
 // 查询订单
 const getOrderById = async (ctx) => {
-    const {id = ''} = ctx.params
+    const { id = '' } = ctx.params
     if (!id) {
         fail(ctx, undefined, 400, "请求失败")
         return
     }
 
-    await findOne(ctx, OrderModel, {_id: id}, function (rel) {
+    await findOne(ctx, OrderModel, { _id: id }, function (rel) {
         if (rel) {
             self(ctx, {
                 code: 200,
@@ -69,7 +69,7 @@ async function createOrder(ctx) {
         return
     }
 
-    await add(ctx, OrderModel, {...ctx.request.body, actual_price: 0}, rel => {
+    await add(ctx, OrderModel, { ...ctx.request.body, actual_price: 0 }, rel => {
         if (rel) {
             self(ctx, {
                 code: 200,
@@ -83,46 +83,52 @@ async function createOrder(ctx) {
 
 // 支付订单
 async function payOrder(ctx) {
-    const {id = ''} = ctx.params
+    const { id = '' } = ctx.params
     if (!id) return fail(ctx, undefined, 400, "请求失败")
 
     // 在此做支付操作（常规需要企业级认证开发者，才能使用支付接口）
-    await update(ctx, OrderModel, {_id: id}, {...ctx.request.body, status: "进行中"}, function (rel) {
+    await update(ctx, OrderModel, { _id: id }, {
+        $set: {
+            ...ctx.request.body,
+            // status: "进行中"
+        }
+    }, rel => {
+        console.log(rel);
         if (rel && rel.modifiedCount > 0) {
-            return self(ctx, {
+            ctx.body = {
                 code: 200,
                 data: rel,
                 msg: "支付成功",
                 pay_token: Buffer.from(Date.now()).toString('base64')
-            })
+            }
         } else {
-            return self(ctx, {
+            ctx.body = {
                 code: 400,
                 data: rel,
                 msg: "支付失败"
-            })
+            }
         }
     })
 }
 
 // 更新订单状态信息
 async function updateOrder(ctx) {
-    const [{id = ''}, body] = [ctx.params, ctx.request.body]
+    const [{ id = '' }, body] = [ctx.params, ctx.request.body]
     let order
-    await findOne(ctx, OrderModel, {_id: id}, function (rel) {
+    await findOne(ctx, OrderModel, { _id: id }, function (rel) {
         if (rel) {
             order = rel
         } else {
             return fail(ctx, undefined, 400, "请求失败")
         }
     })
-    
-    if(body){
-        const {status}=body
-        
+
+    if (body) {
+        const { status } = body
+
     }
-    await update(ctx, OrderModel, {_id: id}, body)
+    await update(ctx, OrderModel, { _id: id }, body)
 }
 
 
-module.exports = {getAll, getOrderById, delOrder, payOrder, createOrder}
+module.exports = { getAll, getOrderById, delOrder, payOrder, createOrder }

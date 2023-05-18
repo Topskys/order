@@ -9,18 +9,22 @@
         :inline="true"
         @keyup.enter.native="getPageList()"
       >
-        <el-form-item>
+      <div style='margin:5px 0 30px;'>查找搜索</div>
+        <el-form-item label="手机号：">
           <el-input
             v-model="form.keyword"
             placeholder="请输入手机号"
             prefix-icon="el-icon-search"
+            clearable
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="getPageList()">查询</el-button>
+          <el-button type="primary" @click="getPageList()" icon='el-icon-search'>查询</el-button>
+          <el-button  @click="resetForm" icon='el-icon-refresh'>重置</el-button>
         </el-form-item>
       </el-form>
-
+      </el-card>
+<el-card shadow="never" style='margin-top:20px;'>
       <!-- 表格 -->
       <e-table
         :config="t_config"
@@ -256,6 +260,14 @@ export default {
     this.getPageList();
   },
   methods: {
+    resetForm(){
+      this.form={
+        keyword:'',
+        page:1,
+        pageSize:10,
+      }
+      this.getPageList()
+    },
     // 获取数据列表
     getPageList() {
       this.$http({
@@ -288,7 +300,7 @@ export default {
      * 表格删除按钮
      */
     del(data) {
-      this.$confirm(`你确定删除项数据?`, "提示", {
+      this.$confirm(`你确定删除该项数据?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",

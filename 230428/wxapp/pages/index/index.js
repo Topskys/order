@@ -3,11 +3,11 @@ import checkAuth from "../../utils/auth"
 import request from "../../utils/request"
 
 // 获取应用实例
-const app = getApp()
+const app = getApp().globalData
 
 Page({
     data: {
-        location: app.globalData.location,
+        location: app.location,
         locations: [{
             text: "上海",
             value: "上海"
@@ -46,10 +46,9 @@ Page({
     },
     onShow() {
         this.setData({
-            location: app.globalData.location
+            location: app.location
         })
         this.getClass()
-        this.getDataList()
     },
     // 获取分类列表
     getClass() {
@@ -59,13 +58,13 @@ Page({
             data
         }) => {
             this.setData({
-                navList: data.slice(0,8) || []
+                navList: data.slice(0, 8) || []
             })
         })
     },
     // 选择服务位置
     onChange(e) {
-        app.globalData.location = e.detail
+        app.location = e.detail
         wx.setStorageSync('location', e.detail)
     },
     // 跳转搜索、客服事件
@@ -80,30 +79,10 @@ Page({
     // 跳转分类
     toClass(e) {
         const item = e.currentTarget.dataset.item
+        app.curr_class_tab = 0
+        app.curr_class_side = e.currentTarget.dataset.index
         wx.switchTab({
             url: '/pages/class/class',
         })
     },
-    // 跳转详情
-    toDetail(e) {
-        const item = e.currentTarget.dataset.item
-        wx.navigateTo({
-            url: `/pages/detail/detail?product_id=${item._id}`,
-        })
-    },
-    // 获取关注列表
-    getDataList() {
-        request({
-            url: 'product'
-        }).then(res => {
-            const [arr,arr0,arr1]=[res.data||[],[],[]]
-                arr.map((item, i) => (i > 0 && i % 2) ? arr1.push(item) : arr0.push(item))
-                this.setData({
-                    leftList: arr0,
-                    rightList: arr1
-                })
-        })
-    },
-
-
 })

@@ -4,6 +4,9 @@
     overflow: hidden;
     /* background-color: aqua; */
 }
+.scroll-body{
+    padding-bottom: 10rpx;
+}
 .product-card{
     background-color: var(--white) !important;
 }

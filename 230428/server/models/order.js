@@ -55,10 +55,6 @@ const schema = new mongoose.Schema({
         type: String,
         default: Buffer.from(Date.now()+'').toString("base64")
     },
-    worker: { // 维修师傅
-        type: String,
-        default: "王师傅",
-    },
     user_id: {
         type: String,
         require: true
@@ -66,6 +62,14 @@ const schema = new mongoose.Schema({
     product_id: {
         type: String,
         default: true
+    },
+    worker_id: { // 维修员_id
+        type: String,
+        default: ''
+    },
+    worker: { // 维修师傅
+        type: String,
+        default: "",
     },
     status: {
         type: String,

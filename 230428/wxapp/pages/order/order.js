@@ -131,7 +131,7 @@ Page({
                 break;
             case "完成":
                 request({
-                    url: `order/${item._id}`,
+                    url: `order/service/${item._id}`,
                     method: "put",
                     data: {
                         ...item,
@@ -140,6 +140,10 @@ Page({
                 }).then(({
                     msg
                 }) => {
+                    this.setData({
+                        active: this.data.active+1,
+                        orders: []
+                    })
                     wx.showToast({
                         title: msg,
                         icon: 'none',

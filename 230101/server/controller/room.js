@@ -47,7 +47,19 @@ const add = async ctx => {
  * @param ctx
  * @returns {Promise<void>}
  */
-const findAll = async ctx => crud.findByPagination(ctx, Room, ctx.query, {description: new RegExp(ctx.query.keyword || '')});
+const findAll = async ctx => {
+    let {keyword='',title=''}=ctx.query
+    title && (keyword=title)
+    const rep=new RegExp(keyword,'i')
+
+    await crud.findByPagination(ctx, Room, ctx.query, {
+        $or:[
+            { title: rep },
+            { room_number: rep },
+            {description: rep},
+        ]
+    });
+}
 
 
 /**
@@ -55,12 +67,7 @@ const findAll = async ctx => crud.findByPagination(ctx, Room, ctx.query, {descri
  * @param ctx
  * @returns {Promise<void>}
  */
-const del = async ctx => await crud.update(ctx, Room, {_id: ctx.params.id}, {
-    $set: {
-        status: 'delete',
-        updateTime: dtf(undefined, "YYYY-MM-DD hh:mm:ss")
-    }
-})
+const del = async ctx => await crud.del(ctx, Room, {_id: ctx.params.id} )
 
 
 

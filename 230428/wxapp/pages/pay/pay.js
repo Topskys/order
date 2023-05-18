@@ -1,8 +1,12 @@
 // pages/pay/pay.js
-import checkAuth from "../../utils/auth"
+import checkAuth, {
+    getInfo
+} from "../../utils/auth"
 import request from "../../utils/request"
 import Notify from '@vant/weapp/notify/notify';
-import {computed} from "./computed"
+import {
+    computed
+} from "./computed"
 
 const app = getApp()
 Page({
@@ -10,7 +14,8 @@ Page({
     data: {
         userInfo: app.globalData.userInfo,
         order: {},
-        noticeList: ["价格保障", "质量保障", "纠纷无忧", "意外保险"]
+        noticeList: ["价格保障", "质量保障", "纠纷无忧", "意外保险"],
+        showPay: false,
     },
     onLoad(options) {
         const id = options.order_id
@@ -19,7 +24,7 @@ Page({
     },
     onShow() {
         this.setData({
-            userInfo: app.globalData.userInfo
+            userInfo: wx.getStorageSync('userInfo')
         })
     },
     // 获取订单数据
@@ -33,7 +38,9 @@ Page({
                 this.setData({
                     order: {
                         ...data,
-                        actual_pay:computed(data.price)
+                        discount: computed(data.price).disc || 0,
+                        disc_id: computed(data.price).disc_id || '',
+                        actual_pay: computed(data.price).actual_pay
                     }
                 })
             })
@@ -58,41 +65,41 @@ Page({
         })
     },
     // 提交订单
-    onSubmit() {
+    // 确认支付订单
+    onConfirm() {
+        const order = this.data.order
+        const user = this.data.userInfo || wx.getStorageSync('userInfo')
         checkAuth(() => {
-            wx.showModal({
-                title: '确认支付',
-                content: `${this.data.order.actual_pay}`,
-                confirmColor: "#0066cc",
-                cancelColor: "#b2b2b2",
-                success(res) {
-                    res.confirm && this.payOrder()
-                    // res.cancel
-                }
-            })
-        }, 'index')
-    },
-    payOrder() {
-        request({
-            url: `order/${this.data.order._id||wx.getStorageSync('pay_order_id')}`,
-            method: 'put',
-            data: {
-                ...this.data.order
-            }
-        }).then(({
-            code,
-            msg,
-            data
-        }) => {
-            Notify({
-                type: code == 200 ? 'success' : 'error',
-                message: msg || "支付成功"
-            });
-            code == 200 && setTimeout(() => {
+            request({
+                url: `order/wx/${this.data.order._id||wx.getStorageSync('pay_order_id')}`,
+                method: 'put',
+                data: {
+                    phone: user.phone,
+                    address: user.address,
+                    actual_pay: order.actual_pay || 0,
+                    discount: order.discount || 0,
+                    work_date: order.work_date,
+                    remark: order.remark,
+                    disc_id: order.disc_id,
+                    status: '待上门'
+                },
+            }).then(res => {
+                this.onShowPay()
+                Notify({
+                    type: 'success',
+                    message: res.msg
+                });
                 wx.navigateTo({
-                    url: '/pages/',
+                    url: `/pages/paid/paid?pay_token=${res.pay_token}`,
                 })
-            }, 3000)
+                getInfo()
+            })
         })
-    }
+    },
+    // 打开支付弹窗或关闭
+    onShowPay() {
+        this.setData({
+            showPay: !this.data.showPay || false
+        })
+    },
 })

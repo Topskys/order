@@ -98,7 +98,7 @@ export default {
               color:echarts.graphic.LinearGradient(0,1,0,0,[
                 {
                   offset:0.4,
-                  color:"#010c17"
+                  color:"#fff" // 010c17
                 },
                 {
                   offset:1,

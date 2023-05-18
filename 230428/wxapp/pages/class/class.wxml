@@ -34,20 +34,21 @@
         <van-tab title="福利来袭">
             <scroll-view scroll-y class="scroll-2 bg">
                 <view class="scroll-body-2">
-                    <view class="dis-item fs12 pg15 red" wx:for="{{disList}}" wx:key="index" bindtap="getDisc" data-item="{{item}}">
+                    <view class="dis-item fs12 pg15 red" wx:for="{{disList}}" wx:key="index">
                         <view class="left r-flex-jcsb-aic">
                             <view class="desc">
                                 <view class="title fs16">{{item.title}}</view>
                                 <view class="expire fs12" style="color:var(--theme-light);margin-bottom: 10rpx;">有效期到今日</view>
                             </view>
                             <view class="num">
-                                <view class="size fs18" wx:if="{{item.discount_size}}">
-                                    <text class="fs12">￥</text>{{item.discount_size}}
+                                <view class="size fs18" wx:if="{{item.money_size}}">
+                                    <text class="fs12">￥</text>{{item.money_size}}
                                 </view>
                             </view>
                         </view>
-                        <view class="fs12 grey" style="padding-top:10rpx;">
-                            仅用于商品价格
+                        <view class="fs12 grey r-flex-jcsb-aic" style="padding-top:10rpx;">
+                            <view>{{item.limit}}</view>
+                            <view class="fs12 get-btn" bindtap="getDisc" data-item="{{item}}">领取</view>
                         </view>
                     </view>
                 </view>

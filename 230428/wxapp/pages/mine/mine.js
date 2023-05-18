@@ -1,8 +1,8 @@
 // pages/mine/mine.js
-const app = getApp()
+const app = getApp().globalData
 Page({
     data: {
-        userInfo: app.globalData.userInfo,
+        userInfo: app.userInfo,
         orderMenus: [{
                 icon: '/images/mine-01.png',
                 label: '待付款'
@@ -38,7 +38,7 @@ Page({
             {
                 icon: '/images/mine-05.png',
                 label: '福利中心',
-                url: '/pages/discount/discount'
+                url: '/pages/class/class'
             },
             {
                 icon: '/images/mine-10.png',
@@ -60,9 +60,15 @@ Page({
     },
     // 跳转订单页
     toOrder(e) {
-        app.globalData.curr_order_tab = e.currentTarget.dataset.index+1 || 0
+        app.curr_order_tab = e.currentTarget.dataset.index + 1 || 0
         wx.switchTab({
             url: "/pages/order/order",
         })
     },
+    toClass(e) {
+        app.curr_class_tab = 1
+        wx.switchTab({
+            url: e.currentTarget.dataset.url || "/pages/class/class",
+        })
+    }
 })

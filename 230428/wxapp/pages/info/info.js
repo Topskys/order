@@ -1,22 +1,41 @@
-import { logout } from "../../utils/auth"
+import checkAuth, {
+    logout
+} from "../../utils/auth"
+import request from "../../utils/request"
 
-// pages/info/info.js
+
 Page({
-
-    /**
-     * 页面的初始数据
-     */
     data: {
-
+        userInfo: wx.getStorageSync('userInfo'),
     },
-    onLoad(options) {
-
-    },
-    onShow() {
-
+    // 提交表单
+    onSubmit(e) {
+        checkAuth(() => {
+            request({
+                url: `user/${this.data.userInfo._id}`,
+                method: 'put',
+                data: {
+                    ...this.data.userInfo,
+                    ...e.detail.value
+                }
+            }).then(() => {
+                request({
+                    url: 'user/verify'
+                }).then(res => {
+                    wx.setStorageSync('userInfo', res.userInfo)
+                    this.setData({
+                        userInfo: wx.getStorageSync('userInfo')
+                    })
+                    wx.showToast({
+                        title: res.msg,
+                        icon: 'none',
+                    })
+                })
+            })
+        }, 'info', 'nav')
     },
     // 退出登录
-    logout(){
+    logout() {
         logout()
     }
 

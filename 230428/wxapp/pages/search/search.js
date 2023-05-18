@@ -91,17 +91,8 @@ Page({
           url: `/pages/detail/detail?productId=${item._id}`,
         })
     },
-    onLoad(options) {
-
-    },
-    onReady() {
-
-    },
     onShow() {
         this.onSearch()
-    },
-    onReachBottom() {
-
     },
 
 })

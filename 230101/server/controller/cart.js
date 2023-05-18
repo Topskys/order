@@ -2,7 +2,7 @@ const Carts = require('../models/cart');
 const Rooms = require('../models/room');
 const Users = require('../models/user');
 const crud = require('./crudUtil');
-const {success, responseSelf, exception, fail} = require("../util/response");
+const { success, responseSelf, exception, fail } = require("../util/response");
 const dtf = require('../util/dateTimeFormat');
 
 
@@ -13,33 +13,34 @@ const dtf = require('../util/dateTimeFormat');
  */
 const add = async ctx => {
     let params = ctx.request.body;
-    let [update, flag] = [null, false];
+    let flag = false
 
-    await Carts.findOne({phone: params.phone, roomId: params.roomId, status: '0'})
-        .then(rel => { // 条件并列查询 ---- roomId and status
-            if (rel) {
-                rel.number = (isNaN(rel.number) ? rel.number : Number(rel.number)) + 1
-                rel.updateTime = dtf()
-                update = rel
-            } else {
-                flag = true
-            }
-        }).catch(err => {
-            exception(ctx, err)
-        })
-    !flag && await crud.update(ctx, Carts, {_id: update._id}, update)
-
-
-    if (flag) {
-
-        params = {
-            ...params,
-            // roomNumber: `${Date.now()}`.slice(9) // 房间号
+    // 查找该订单是否已经存在，防止加入购物车的统一房间数量大于1
+    await Carts.findOne({
+        phone: params.phone,
+        roomId: params.roomId,
+        status: '0'
+    }).then(rel => {
+        if (rel) {
+            flag = false
+        } else {
+            flag = true
         }
+    }).catch(err => {
+        exception(ctx, err)
+    })
 
-        await crud.findOne(ctx, Rooms, {_id: params.roomId}, rel => params.room = rel)
-
-        await crud.add(ctx, Carts, params, rel => success(ctx, rel))
+    // 如果没有找到，则可以加入购物车
+    if (flag) {
+        // 获取房间信息
+        await crud.findOne(ctx, Rooms, { _id: params.roomId }, rel => params.room = rel)
+        // 加入购物车数据库表
+        await crud.add(ctx, Carts, params, rel => success(ctx, rel, 200, "加入购物车成功"))
+    } else {
+        ctx.body = {
+            code: 200,
+            msg: "该房间已存在",
+        }
     }
 }
 
@@ -49,7 +50,15 @@ const add = async ctx => {
  * @param ctx
  * @returns {Promise<void>}
  */
-const del = async ctx => await crud.del(ctx, Carts, {_id: ctx.params.id})
+const del = async ctx => {
+    await crud.del(ctx, Carts, { _id: ctx.params.id }, rel => {
+        ctx.body = {
+            code: 200,
+            msg: "订单取消成功",
+            data: rel
+        }
+    });
+}
 
 
 /**
@@ -58,17 +67,62 @@ const del = async ctx => await crud.del(ctx, Carts, {_id: ctx.params.id})
  * @returns {Promise<void>}
  */
 const update = async ctx => {
-    let params= ctx.request.body;
+    let flag = false
+    let params = ctx.request.body;
+
+    const resp = (rel) => {
+        if (rel && rel.modifiedCount > 0) {
+            ctx.body = {
+                code: 200,
+                msg: "操作成功",
+                data: rel
+            }
+        } else {
+            fail(ctx, undefined, 400, "请求失败")
+        }
+    }
 
     // 入住 或 退房
-    ["2","3"].includes(params.status) && await crud.update(ctx, Users, {_id: params.userId}, {
+    if (["2", "3"].includes(params.status)) {
+        console.log("----2-3---", params)
+        await crud.update(ctx, Users, { _id: params.userId }, {
+            $set: {
+                room_number: params.status == "2" ? (params.room.room_number || Math.random() * 999) : '',
+                updateTime: dtf(undefined, "YYYY-MM-DD hh:mm:ss")
+            }
+        }, rel => resp(rel))
+    }
+
+    await crud.update(ctx, Carts, {
+        _id: params._id
+    }, {
+        ...params,
+        updateTime: dtf(undefined, "YYYY-MM-DD hh:mm:ss")
+    }, rel => resp(rel))
+}
+
+
+// 选择订单项
+const setChecked = async ctx => {
+    let cart
+    const { id = '' } = ctx.params
+    await crud.findOne(ctx, Carts, { _id: id }, rel => (cart = rel))
+
+    await crud.update(ctx, Carts, { _id: id }, {
         $set: {
-            room_number: params.status === "2"?params.room_number:'',
-            updateTime: dtf(undefined, "YYYY-MM-DD hh:mm:ss")
+            checked: !cart.checked
+        }
+    }, rel => {
+        if (rel && rel.modifiedCount > 0) {
+            ctx.body = {
+                code: 200,
+                msg: "操作成功",
+                data: rel
+            }
+        } else {
+            fail(ctx, undefined, 400, "请求失败")
         }
     })
-
-    await crud.update(ctx, Carts, {_id: params._id}, {...params, updateTime: dtf(undefined, "YYYY-MM-DD hh:mm:ss")})
 }
 
 
@@ -78,11 +132,11 @@ const update = async ctx => {
  * @returns {Promise<void>}
  */
 const queryAll = ctx => {
-    let {page = 1, pageSize = 10, phone = ''} = ctx.query;
+    let { page = 1, pageSize = 10, phone = '' } = ctx.query;
 
     if (!phone) return fail(ctx, null, 400, '请重新登录');
 
-    return crud.findByPagination(ctx, Carts, {page, pageSize}, {phone});
+    return crud.findByPagination(ctx, Carts, { page, pageSize }, { phone });
 }
 
 
@@ -91,7 +145,7 @@ const queryAll = ctx => {
  * @param ctx
  * @returns {Promise<void>}
  */
-const findAll = async ctx => crud.findByPagination(ctx, Carts, ctx.query, {keyword: new RegExp(ctx.query.keyword || '')});
+const findAll = async ctx => crud.findByPagination(ctx, Carts, ctx.query, { keyword: new RegExp(ctx.query.keyword || '') });
 
 
 /**
@@ -99,7 +153,7 @@ const findAll = async ctx => crud.findByPagination(ctx, Carts, ctx.query, {keywo
  * @param ctx
  * @returns {Promise<void>}
  */
-const findById = async ctx => await crud.findOne(ctx, Carts, {_id: ctx.params.id});
+const findById = async ctx => await crud.findOne(ctx, Carts, { _id: ctx.params.id });
 
 
 /**
@@ -110,10 +164,10 @@ const pay = async ctx => {
     let [params, update, user] = [ctx.request.body, null, null];
 
     // 查找用户信息
-    await crud.findOne(ctx, Users, {_id: params.userId}, rel => (user = rel))
+    await crud.findOne(ctx, Users, { _id: params.userId }, rel => (user = rel))
 
     // 查找订单
-    await crud.findOne(ctx, Carts, {_id: params._id, status: '0'}, rel => {
+    await crud.findOne(ctx, Carts, { _id: params._id, status: '0' }, rel => {
         if (rel) {
             rel.total = user.discounts.length > 0 ? (params.room.price - Math.max(...user.discounts)) : params.total
             rel.payType = params.payType
@@ -121,12 +175,12 @@ const pay = async ctx => {
             rel.updateTime = dtf(undefined, "YYYY-MM-DD hh:mm:ss")
             update = rel
         } else {
-            fail(ctx, rel, 300, '支付失败')
+            fail(ctx, rel, 400, '支付失败')
         }
     })
 
     // 更新用户信息
-    const fun = (options) => crud.update(ctx, Users, {_id: params.userId}, {
+    const fun = (options) => crud.update(ctx, Users, { _id: params.userId }, {
         $set: {
             ...options,
             updateTime: dtf(undefined, "YYYY-MM-DD hh:mm:ss")
@@ -136,16 +190,16 @@ const pay = async ctx => {
     // 余额支付
     if (params.payType === "余额支付") {
         user.balance = +(user.balance - update.total).toFixed(2);
-        user.balance < 0 ? (update = null, params.discount = 0, fail(ctx, null, 300, '余额不足')) : await fun({balance: user.balance});
+        user.balance < 0 ? (update = null, params.discount = 0, fail(ctx, null, 400, '余额不足')) : await fun({ balance: user.balance });
     }
 
     // 优惠劵
-    params.discount > 0 && await fun({discounts: user.discounts.filter(x => x !== params.discount && x)})
+    params.discount > 0 && await fun({ discounts: user.discounts.filter(x => x !== params.discount && x) })
 
 
     // 更新订单信息
-    update && await crud.update(ctx, Carts, {_id: update._id}, update, rel => responseSelf(ctx, {
-        code: rel ? 200 : 300,
+    update && await crud.update(ctx, Carts, { _id: update._id }, update, rel => responseSelf(ctx, {
+        code: rel ? 200 : 400,
         msg: rel ? '支付成功' : '支付失败',
         data: {
             ...rel,
@@ -166,12 +220,12 @@ const pay = async ctx => {
  * @returns {Promise<void>}
  */
 async function clear(ctx) {
-    let [{roomNumber}, update] = [ctx.request.body, null];
-    if (!roomNumber) return fail(ctx, undefined, 400, '您或暂未入住');
+    const { room_number = '', phone = '', order = '', nickName = '', userId = '' } = ctx.request.body
+    if (!room_number || !phone || !order || !nickName || !userId) return fail(ctx, undefined, 400, '请稍后重试');
 
-    await crud.update(ctx, Carts, {roomNumber}, {
+    await crud.update(ctx, Carts, { room_number }, {
         $set: {
-            status: 1,// 清洁
+            status: 'clear',// 清洁
             updateTime: dtf(undefined, "YYYY-MM-DD hh:mm:ss")
         }
     })
@@ -187,4 +241,5 @@ module.exports = {
     findById,
     pay,
     clear,
+    setChecked,
 }

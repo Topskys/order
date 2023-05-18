@@ -1,0 +1,30 @@
+<!--components/product-list/index.wxml-->
+<view class="product-list-warp r-flex">
+    <wxs module="obj" src='../../utils/format.wxs'></wxs>
+    <view class="result res-left">
+        <view class="product-item left" wx:for="{{leftList}}" wx:key="index" bindtap="toDetail" data-item="{{item}}">
+            <image src="{{item.poster}}" mode="widthFix" class="image product-image"></image>
+            <view class="desc">
+                <view class="title fs14">{{item.title}}</view>
+                <view class="price r-flex-aic">
+                    <text class="fs12">￥</text>
+                    <text class="fs16">{{item.start_price||item.selections[0].price||null}}</text>
+                    <text class="fs12 grey ml10">已预约{{obj.formatNum(item.sale_num)}}次</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="result res-right">
+        <view class="product-item right" wx:for="{{rightList}}" wx:key="index" bindtap="toDetail" data-item="{{item}}">
+            <image src="{{item.poster}}" mode="widthFix" class="image product-image"></image>
+            <view class="desc">
+                <view class="title fs14">{{item.title}}</view>
+                <view class="price r-flex-aic">
+                    <text class="fs12">￥</text>
+                    <text class="fs16">{{item.start_price||item.selections[0].price||null}}</text>
+                    <text class="fs12 grey ml10">已预约{{obj.formatNum(item.sale_num)}}次</text>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

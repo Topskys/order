@@ -43,3 +43,15 @@ export function getAll(params) {
         params
     })
 }
+
+
+/**
+ * 查询所有维修师傅
+ * @param {object} params 
+ * @returns 
+ */
+export function getList() {
+    return request({
+        url: prefix+'/wx',
+    })
+}

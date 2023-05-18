@@ -8,18 +8,21 @@
         :inline="true"
         @keyup.enter.native="getPageList()"
       >
-        <el-form-item>
+      <div style='margin:5px 0 30px;'>查找搜索</div>
+        <el-form-item label="手机号：">
           <el-input
             v-model="form.keyword"
             placeholder="请输入手机号"
             prefix-icon="el-icon-search"
+            clearable
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="getPageList()">查询</el-button>
-        </el-form-item>
+          <el-button type="primary" icon="el-icon-search" @click="getPageList()">查询</el-button>
+        <el-button icon="el-icon-refresh" @click="resetForm">重置</el-button></el-form-item>
       </el-form>
-
+      </el-card>
+<el-card shadow="never" style='margin-top:20px;'>
       <!-- 表格 -->
       <e-table
         :config="t_config"
@@ -29,20 +32,20 @@
         <template v-slot:operation="slot_data">
           <el-button
             @click="operation(slot_data.data, 'confirm')"
-            type="primary"
+            type="text"
             size="mini"
             :disabled="slot_data.data.status!=='clear'" 
             >确认</el-button
           >
           <el-button
             @click="operation(slot_data.data, 'update')"
-            type="warning"
+            type="text"
             size="mini"
             >编辑</el-button
           >
           <el-button
             @click="operation(slot_data.data, 'success')"
-            type="success"
+            type="text"
             size="mini"
             :disabled="slot_data.data.status!=='clearing'" 
             >完成</el-button
@@ -171,8 +174,7 @@ export default {
             label: "操作",
             prop: "operation",
             slot_name: "operation",
-            align: "center",
-            // show_tooltip: false,
+            show_tooltip: false,
           },
         ],
         // 分页
@@ -219,6 +221,11 @@ export default {
     // 单页显示大小变化
     sizeChange(data) {
       this.form.pageSize = data;
+    },
+     // 重置按钮
+    resetForm() {
+      this.form.keyword = "";
+      this.getPageList()
     },
     // 表格操作事件(确认、编辑、完成)
     operation(data, which) {

@@ -64,21 +64,6 @@ Page({
         ],
         switch: '全部', // value
     },
-
-    /**
-     * 生命周期函数--监听页面加载
-     */
-    onLoad(options) {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady() {
-        // this.getDataList();
-    },
-
     /**
      * 生命周期函数--监听页面显示
      */
@@ -92,26 +77,6 @@ Page({
         this.getDataList(2);
         wx.setStorageSync('rentTime', this.data.rentTime)
     },
-
-    /**
-     * 生命周期函数--监听页面
-     */
-    onHide() {},
-
-    /**
-     * 生命周期函数--监听页面卸载
-     */
-    onUnload() {
-
-    },
-
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh() {
-
-    },
-
     /**
      * 页面上拉触底事件的处理函数
      */
@@ -122,13 +87,6 @@ Page({
             })
             this.getDataList()
         }
-    },
-
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage() {
-
     },
     getBanner() {
         request({

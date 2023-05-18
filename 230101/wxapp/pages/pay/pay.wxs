@@ -3,22 +3,28 @@
  * @param array 商品数组
  * @param discounts 优惠劵数组
  */
-function sum(arr, discounts = []) {
+function sum(obj, discounts = []) {
+    console.log('---sum---', obj, '---2--', discounts)
     var total = 0
+    var arr = [obj]
     for (var i = 0; i < arr.length; i++) {
         if (arr[i].checked) {
+            console.log('--arr---', arr[i])
             total += arr[i].room.price * arr[i].number
         }
     }
-    return (discounts.length ? (total - discountsMax(discounts)) : total).toFixed(2)
+    return Number((discounts.length > 0 ? (total - discountsMax(discounts)) : total).toFixed(2))
 }
 
 /**
  * 求优惠劵最大值
  * @param arr 
  */
-function discountsMax(arr=[]) {
+function discountsMax(arr = []) {
     // return  - Math.max(...arr) wxs不支持ES6+
+    if (arr.length <= 0) {
+        arr = wx.getStorageSync('userInfo').discounts || []
+    }
     return arr.sort(function (a, b) {
         return a - b
     })[arr.length - 1]

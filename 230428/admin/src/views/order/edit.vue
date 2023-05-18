@@ -1,61 +1,36 @@
 <template>
   <div class="user-edit-container">
     <el-dialog
-      :title="title"
+      title="派遣维修员"
       :visible.sync="visible"
-      width="50%"
+      width="500px"
       append-to-body
       :close-on-click-modal="false"
     >
       <el-form
         ref="form"
         :model="form"
-        :rules="rules"
-        label-width="100px"
-        size="small"
-        style="
-          min-width: 500px;
-          max-width: 800px;
-          margin: 0 auto;
-          padding: 0 60px;
-        "
       >
-        <el-form-item label="账号" prop="username" required>
-          <el-input v-model="form.username" placeholder="请输入" />
-        </el-form-item>
-        <el-form-item label="密码" prop="password" required>
-          <el-input
-            v-model="form.password"
-            placeholder="请输入"
-            show-password
-          />
-        </el-form-item>
-        <el-form-item label="昵称" prop="nickName" required>
-          <el-input v-model="form.nickName" placeholder="请输入" />
-        </el-form-item>
-        <el-form-item label="手机号" prop="phone" required>
-          <el-input v-model="form.phone" placeholder="请输入" />
-        </el-form-item>
-        <el-form-item label="地址" prop="address" required>
-          <el-input v-model="form.address" placeholder="请输入" />
-        </el-form-item>
-        <el-form-item label="城市" prop="city">
-          <el-input v-model="form.city" placeholder="请输入" />
-        </el-form-item>
-        <el-form-item label="省份" prop="province">
-          <el-input v-model="form.province" placeholder="请输入" />
-        </el-form-item>
-        <el-form-item label="禁用" prop="status">
-          <el-switch
-            v-model="form.status"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-          ></el-switch>
+        <el-form-item label="">
+          <el-select
+            v-model="form.worker"
+            placeholder="请选择"
+            @click.native="getStaff"
+            style="width:100%"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item._id"
+              :label="item.name"
+              :value="`${item.name}:${item._id.toString()}`"
+            >
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="cancel" size="small">取 消</el-button>
-        <el-button type="primary" @click="confirm" size="small"
+        <el-button @click="cancel" >取 消</el-button>
+        <el-button type="primary" @click="confirm"
           >确 定</el-button
         >
       </span>
@@ -64,10 +39,9 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+
 import eTable from "@/components/common/table";
 export default {
-  name: "CompanyEdit",
   components: {
     eTable,
   },
@@ -83,47 +57,42 @@ export default {
   data() {
     return {
       // Dialog
-      title: "编辑信息",
       dialogVisible: true,
       // form
       form: {},
       rules: {},
-      // upload
-      dialogImageUrl: "",
-      visiblePoster: false,
+      // 列表项
+      options:[]
     };
-  },
-  computed: {
-    ...mapState({
-      userInfo: (state) => state.user.userInfo,
-    }),
   },
   watch: {
     data: {
       handler(newValue) {
-        this.form = { ...newValue, super: this.userInfo._id };
-        this.title = this.form?._id ? "编辑信息" : "新增用户";
+        this.form = { ...newValue };
       },
     },
   },
   methods: {
+    // 获取维系员工数组
+    async getStaff() {
+      const { data = [] } = await this.$staff.getList();
+      this.options= data;
+    },
     // Dialog取消按钮
     cancel() {
       this.$emit("update:visible", false);
-      this.form = {};
     },
     // Dialog确认按钮
     confirm() {
       this.$refs.form.validate(async (valid) => {
         if (valid) {
-          const _id = this.form._id || "";
           try {
-            const { msg } = await (_id
-              ? this.$user.update(this.form)
-              : this.$user.create(this.form));
+            const { msg } = await this.$order.update({
+              _id:this.form._id,
+              worker:this.form.worker
+            });
             this.$emit("update:visible", false);
             this.$emit("confirm");
-            this.form = {};
             this.$message({
               type: "success",
               message: msg,

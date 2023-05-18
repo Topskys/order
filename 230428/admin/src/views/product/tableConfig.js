@@ -3,11 +3,13 @@ const tableConfig = {
   columns: [
     {
       prop: 'title',
-      label: '标题'
+      label: '标题',
+      show_tooltip: false,
     },
     {
       prop: 'description',
-      label: '描述'
+      label: '描述',
+      show_tooltip: true,
     },
     {
       type: 'image',
@@ -17,15 +19,24 @@ const tableConfig = {
     {
       prop: 'start_price',
       label: '起售价',
-      cb:({start_price})=>start_price?`￥${start_price}`:''
+      cb:(data)=>{
+        if(data.selections.length > 0){
+          return `￥${data.selections[0].price}`
+        }else{
+          return "无"
+        }
+      },
+      show_tooltip: false,
     },
     {
       prop: 'sale_num',
-      label: '已预约'
+      label: '已预约',
+      show_tooltip: false,
     },
      {
-      prop: 'class_id',
-      label: '类别编号' // title
+      prop: 'class_name',
+      label: '类别', // title,
+      show_tooltip: false,
     },
     {
       type: 'tag',
@@ -48,7 +59,7 @@ const tableConfig = {
       label: '操作',
       prop: 'operation',
       slot_name: 'operation',
-      align: 'center'
+      show_tooltip: false,
     }
   ],
   checkbox: true,
@@ -57,7 +68,7 @@ const tableConfig = {
     page: 1,
     pageSize: 10,
     total: 0,
-    align: 'right'
+    align: 'center'
   }
 }
 

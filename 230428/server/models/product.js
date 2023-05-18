@@ -27,6 +27,10 @@ const schema = new mongoose.Schema({
         type: String,
         default: true
     },
+    class_name: { // 类别名称
+        type: String,
+        default: ''
+    },
     comment_id: { // 评价主键
         type: String,
         default: ''

@@ -4,7 +4,7 @@
       <div
         class="image-item"
         v-for="(item, i) in images"
-        :key="`${item}-${Math.random() * 1000}}`"
+        :key="`${item}-${Math.random() * 1000}`"
       >
         <el-popover placement="left" title="" trigger="hover" width="300">
           <img v-if="item" :src="item" width="100%" />

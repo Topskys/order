@@ -22,7 +22,7 @@ const verify = () => request({
 }).then(({
     code,
     userInfo
-}) => code === 200 && setStorage(userInfo))
+}) => setStorage(userInfo))
 
 
 module.exports = {

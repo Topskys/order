@@ -12,7 +12,7 @@
       :buttons="f_buttons"
       :before-submit="submitForm"
     >
-      <template v-slot:upload>
+      <!-- <template v-slot:upload>
         <el-upload
           action="http"
           list-type="picture-card"
@@ -25,7 +25,7 @@
         >
           <i class="el-icon-plus"></i>
         </el-upload>
-      </template>
+      </template> -->
     </e-form>
   </el-dialog>
 </template>
@@ -44,7 +44,7 @@ export default {
   },
   data() {
     return {
-        imgList:[],
+      imgList: [],
       // form
       f_field: this.config.room,
       f_items: [
@@ -112,34 +112,43 @@ export default {
           ],
           multiple: false, // 多选
         },
-        {
-          type: "slot",
-          slot_name: "upload",
-          prop: "poster",
-          label: "图片",
-          required: true,
-        },
+        // {
+        //   type: "slot",
+        //   slot_name: "upload",
+        //   prop: "poster",
+        //   label: "图片",
+        //   required: true,
+        // },
       ],
 
       f_buttons: [
-        { label: "取消", key: "cancel", type: "danger",cb:()=>{
-          this.config.dialogVisible=false
-        } },
-        { label: "提交", key: "confirm", type: "primary",cb:()=>{
-          this.config.dialogVisible=false,
-          this.$emit('submit' )
-        }  },
+        {
+          label: "取消",
+          key: "cancel",
+          type: "danger",
+          cb: () => {
+            this.config.dialogVisible = false;
+          },
+        },
+        {
+          label: "提交",
+          key: "confirm",
+          type: "primary",
+          cb: () => {
+            (this.config.dialogVisible = false), this.$emit("submit");
+          },
+        },
       ],
     };
   },
   watch: {
-    'config':{
-      handler(n){
-        this.f_field={...n.room}
+    config: {
+      handler(n) {
+        this.f_field = { ...n.room };
       },
-      deep:true,
-      immediate:true,
-    }
+      deep: true,
+      immediate: true,
+    },
   },
   methods: {
     // 表单提交
@@ -150,7 +159,7 @@ export default {
           method: "put",
           data: this.f_field,
         });
-      });
+      })
     },
     handleRemove(file, fileList) {
       // file删除的那张图，剩下的照片墙fileList
@@ -178,7 +187,7 @@ export default {
     },
     // 弹窗关闭之前清除数据
     handleClose(done) {
-      this.config.dialogVisible=false;
+      this.config.dialogVisible = false;
       this.f_field = {};
     },
   },

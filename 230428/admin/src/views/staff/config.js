@@ -7,11 +7,19 @@ export const pageConf = {
             {
                 prop: "name",
                 label: "姓名",
+                show_tooltip: false,
+            },
+            {
+                prop: "is_allow",
+                label: "资格认证",
+                show_tooltip: false,
+                cb:({is_allow})=>is_allow==true?'通过':'异常'
             },
             {
                 type: "text",
                 prop: "phone",
                 label: "手机号",
+                show_tooltip: false,
             },
             {
                 prop: "work_year",
@@ -19,7 +27,8 @@ export const pageConf = {
             },
             {
                 prop: "skill",
-                label: "技能"
+                label: "技能",
+                show_tooltip: false,
             },
             {
                 prop: "region",
@@ -33,13 +42,13 @@ export const pageConf = {
             {
                 prop: "age",
                 label: "年龄",
-                cb:({age})=>`${age}岁`
-             },
+                cb: ({ age }) => `${age}岁`
+            },
             {
                 type: "tag",
                 prop: "status",
                 label: "在职",
-                cb: ({ status }) => (status === true ? "success" : "warning"),
+                cb: (data) => data.status == '否'?"warning":"primary" ,
             },
             {
                 type: "text",
@@ -55,7 +64,7 @@ export const pageConf = {
                 label: "操作",
                 prop: "operation",
                 slot_name: "operation",
-                align: "center",
+                show_tooltip: false,
             },
         ],
         checkbox: true,

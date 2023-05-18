@@ -23,7 +23,7 @@
         <el-form-item label="姓名" prop="name" required>
           <el-input v-model="form.name" placeholder="请输入" />
         </el-form-item>
-         <el-form-item label="行业经验" prop="work_year" required>
+        <el-form-item label="行业经验" prop="work_year" required>
           <el-input v-model="form.work_year" placeholder="请输入" />
         </el-form-item>
         <el-form-item label="技能" prop="skill" required>
@@ -34,22 +34,23 @@
         </el-form-item>
         <el-form-item label="手机号" prop="phone" required>
           <el-input v-model="form.phone" placeholder="请输入" />
-        </el-form-item>  
+        </el-form-item>
         <el-form-item label="性别" prop="gender">
-            <el-select v-model="form.gender" placeholder="请选择">
-    <el-option value="男"/>
-    <el-option value="女"/>
-  </el-select>
-        </el-form-item> 
+          <el-select v-model="form.gender" placeholder="请选择">
+            <el-option value="男" />
+            <el-option value="女" />
+          </el-select>
+        </el-form-item>
         <el-form-item label="年龄" prop="age">
           <el-input v-model="form.age" placeholder="请输入" />
         </el-form-item>
         <el-form-item label="在职" prop="status">
-          <el-switch
+          <!-- <el-switch
             v-model="form.status"
             active-color="#13ce66"
             inactive-color="#ff4949"
-          ></el-switch>
+          ></el-switch> -->
+          <el-input v-model="form.status" placeholder="请输入" />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -100,7 +101,9 @@ export default {
   watch: {
     data: {
       handler(newValue) {
-        this.form = { ...newValue };
+        this.form = {
+          ...newValue,
+        };
         this.title = this.form._id ? "编辑信息" : "新增维修师傅";
       },
     },
@@ -109,7 +112,7 @@ export default {
     // Dialog取消按钮
     cancel() {
       this.$emit("update:visible", false);
-      this.form = {};
+      // this.form = {};
     },
     // Dialog确认按钮
     confirm() {

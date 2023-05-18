@@ -23,6 +23,10 @@ const schema = new mongoose.Schema({
         type: String,
         require:true
     },
+    is_allow: { // 从业资格证等
+        type: Boolean,
+        default: true
+    },
     skill: { // 技能
         type: String,
         default: ''
@@ -34,6 +38,10 @@ const schema = new mongoose.Schema({
     work_year: { // 工作经验
         type: String,
         default: '1',
+    },
+    is_busy:{ // 是否已经在维修服务中
+        type:Boolean,
+        default:false
     },
     status: {
         type: String,

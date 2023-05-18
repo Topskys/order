@@ -22,6 +22,15 @@ export const update = (data) => request({ url: `${prefix}/${data._id}`, method: 
 
 
 /**
+ * 完成订单，结束服务
+ * @param {*} data 
+ * @returns 
+ */
+export const serviceOver=data=>request({ url: `${prefix}/over/${data._id}`, method: 'put', data })
+
+
+
+/**
  * 查询订单列表（支持带参搜索）
  * @param {object} params 
  * @returns 

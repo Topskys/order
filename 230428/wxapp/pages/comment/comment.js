@@ -6,7 +6,7 @@ Page({
     data: {
         star: 0,
         stars: 5,
-        productId: null,
+        product_id: null,
     },
     // 监听评星状态
     onStar(e) {
@@ -19,7 +19,7 @@ Page({
         const form = e.detail.value
         checkAuth(() => {
             request({
-                url: `comment/${this.productId}`,
+                url: `comment/${this.data.product_id}`,
                 method: 'post',
                 data: {
                     star: this.data.star || 0,
@@ -33,10 +33,17 @@ Page({
                     title: msg,
                     icon: code == 200 ? 'success' : 'error',
                 })
+                setTimeout(()=>{
+                    wx.switchTab({
+                      url: '/pages/index/index',
+                    })
+                },2000)
             })
         }, 'index')
     },
     onLoad(options) {
-
+        this.setData({
+            product_id:options.product_id
+        })
     }
 })

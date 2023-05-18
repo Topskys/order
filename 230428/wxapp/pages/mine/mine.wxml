@@ -56,11 +56,17 @@
     <view class="service-tool-warp pg15 mn15">
         <view class="title fs18">服务与工具</view>
         <view class="menus mt15">
-            <view class="menu-item" wx:for="{{services}}" wx:key="index" >
-                <navigator url="{{item.url}}" hover-class="none">
+            <view class="menu-item" wx:for="{{services}}" wx:key="index">
+                <navigator url="{{item.url}}" hover-class="none" wx:if="{{item.label!='福利中心'}}">
                     <image src="{{item.icon}}" class="image menu-image"></image>
                     <view><text class="content fs14">{{item.label}}</text></view>
                 </navigator>
+                <view wx:else bindtap="toClass" data-url="{{item.url}}">
+                    <image src="{{item.icon}}" class="image menu-image"></image>
+                    <view>
+                        <text class="content fs14">{{item.label}}</text>
+                    </view>
+                </view>
             </view>
         </view>
     </view>

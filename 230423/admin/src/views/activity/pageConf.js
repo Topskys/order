@@ -17,7 +17,7 @@ const tableConf = {
                 type: "text",
                 prop: "discount",
                 label: "卷面大小",
-                cb: data => data.discount ? `${data.discount}元` : 0,
+                cb: data => data.discount ? `${data.discount}元` : 0, // function name (data){return } // data.dis + 'yaun'
             },
             {
                 prop: "count",

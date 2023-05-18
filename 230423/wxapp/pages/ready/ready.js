@@ -12,7 +12,7 @@ const app = getApp()
 Page({
 
     data: {
-        userInfo: app.globalData.userInfo,
+        userInfo: wx.getStorageSync('userInfo'),
         order: null,
         currrent_order_id: null,
     },
@@ -63,12 +63,21 @@ Page({
     // 预约并支付
     onPay() {
         checkAuth(() => {
+            const order=this.data.order
+            const userInfo=wx.getStorageSync('userInfo')
             request({
                 url: `order/${this.data.order._id||wx.getStorageSync('current_order_id')}`,
                 method: 'put',
                 data: {
-                    ...this.data.order,
-                    actual_price: computedPrice(this.data.order.origin_price)
+                    address:userInfo.address,
+                    user_id:userInfo._id,
+                    remark:order.remark,
+                    pay_type:order.pay_type,
+                    work_time:order.work_time,
+                    discount:order.discount+'',
+                    origin_price:order.origin_price+'',
+                    work_time:order.work_time,
+                    actual_price: computedPrice(order.origin_price)+''
                 }
             }).then(res => {
                 if (res.pay_token) {

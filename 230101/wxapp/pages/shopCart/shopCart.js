@@ -1,15 +1,10 @@
 // // pages/shopCart/shopCart.js
 
 import CheckAuth from '../../utils/auth';
-import user from '../../utils/user';
+const {verify} =require('../../utils/user');
 import request from '../../utils/request';
 
-
 Page({
-
-    /**
-     * 页面的初始数据
-     */
     data: {
         tabActive: 0, // tab选中栏
         slideButtons: [{
@@ -24,10 +19,6 @@ Page({
         carts3: [], // 入驻中
         carts4: [], // 待评价
     },
-
-    /**
-     * 生命周期函数--监听页面加载
-     */
     onLoad(options) {},
     onShow() {
         this.setData({
@@ -35,9 +26,6 @@ Page({
         })
         this.getOrderList()
     },
-    /**
-     * 生命周期函数--监听页面
-     */
     onHide() {
         getApp().globalData.tabActive = 0
     },
@@ -195,25 +183,29 @@ Page({
     // 按钮点击事件的回调
     btnEvent(o) {
         CheckAuth(() => {
-            o.detail.btn === "评价" ? wx.navigateTo({
+            o.detail.btn == "评价" ? wx.navigateTo({
                 url: `/pages/comment/comment?cart=${ JSON.stringify(o.detail.item)}`
-            }) : request({
-                url: 'carts',
-                method: 'put',
-                data: {
-                    ...o.detail.item,
-                    status: o.detail.btn === "入住" ? '2' : '3'
-                }
-            }).then(({
-                code,
-                msg
-            }) => {
-                code===200 && user.verify()
-                wx.showToast({
-                    title: msg,
-                    icon: code === 200 ? 'success' : 'error',
-                    complete: () => this.getOrderList()
-                })
+            }) : wx.showModal({
+                content: `您确定${o.detail.btn}？`,
+                showCancel: true,
+                title: o.detail.btn,
+                success: (result) => {
+                    request({
+                        url: 'carts',
+                        method: 'put',
+                        data: {
+                            ...o.detail.item,
+                            status: o.detail.btn == "入住" ? '2' : '3'
+                        }
+                    }).then(async res => {
+                        await verify()
+                        this.getOrderList()
+                        wx.showToast({
+                            title: res.msg,
+                            icon: 'none',
+                        })
+                    })
+                },
             })
         })
     }

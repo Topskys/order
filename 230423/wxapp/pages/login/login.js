@@ -59,13 +59,13 @@ Page({
             icon: res.code == 200 ? 'success' : 'error',
         })
         // 路径统一处理
-        const pathHandler = (url = this.data.redirect) =>`/pages/${url}/${url}`
+        const pathHandler = (url = this.data.redirect) => `/pages/${url}/${url}`
         checkAuth(() => {
             request({
                 url: 'user/verify'
             }).then(res => {
                 wx.setStorageSync('userInfo', res.userInfo)
-                if (this.data.redirect == 'index' && this.data.rediType == 'tab') {
+                if (this.data.rediType == 'tab' || ['index', 'queyr', 'order', 'mine'].includes(this.data.redirect)) {
                     showT(res)
                     setTimeout(() => {
                         wx.switchTab({
@@ -77,8 +77,13 @@ Page({
                     setTimeout(() => {
                         wx.navigateTo({
                             url: pathHandler(),
+                            fail: () => {
+                                wx.switchTab({
+                                    url: pathHandler()
+                                })
+                            }
                         })
-                    }, 2000)
+                    }, 1000)
                 }
             })
         })

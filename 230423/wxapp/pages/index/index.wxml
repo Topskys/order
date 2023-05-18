@@ -42,7 +42,7 @@
     </swiper> -->
     <!-- 分类 -->
     <view class="categories">
-        <view class="cgy-item " wx:for="{{categories}}" wx:key="index" bindtap="toQuery" data-item="{{item}}">
+        <view class="cgy-item " wx:for="{{categories}}" wx:key="index" bindtap="toQuery" data-item="{{item}}" data-index="{{index}}">
             <image src="{{item.poster}}" class="cgy-img" />
             <view class="cgy-title">{{item.label}}</view>
         </view>

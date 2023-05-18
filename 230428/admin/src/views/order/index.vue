@@ -51,9 +51,7 @@
     <!-- Table -->
     <el-card shadow="never" style="margin-top: 15px">
       <div style="margin-bottom: 20px">
-        <el-button icon="el-icon-delete" @click="del()"
-          >批量删除</el-button
-        >
+        <el-button icon="el-icon-delete" @click="del()">批量删除</el-button>
       </div>
       <e-table
         :config="tableConfig"
@@ -64,16 +62,20 @@
         <template v-slot:operation="{ data }">
           <el-button
             type="text"
-            @click="addOrEdit(data)"
             size="small"
-            >接单</el-button
+            style="color: #e6a23c"
+            :disabled="!data.status.includes('待上门')"
+            v-show="data.status.includes('待上门')"
+            @click="setWorker(data)"
+            >派遣</el-button
           >
           <el-button
             type="text"
+            @click="onSerSuccess(data)"
+            :disabled="!data.status.includes('待上门')"
+            :v-show="data.status.includes('待评价')"
             size="small"
-            style="color:#E6A23C"
-            @click="del(data)"
-            >派遣</el-button
+            >完成</el-button
           >
           <el-button
             type="text"
@@ -107,7 +109,7 @@ export default {
       // Search
       query: {
         page: 1,
-        pageSize: 10,
+        pageSize: 5,
         name: "",
         phone: "",
       },
@@ -147,9 +149,18 @@ export default {
       this.getList();
     },
     // 新增或表格修改按钮
-    async addOrEdit(data = {}) {
+    async setWorker(data = {}) {
       this.dialogForm = { ...data };
       this.dialogVisible = true;
+    },
+    // 订单完成
+    async onSerSuccess(data) {
+      const { msg, code } = await this.$order.serviceOver(data);
+      this.getList()
+      this.$message({
+        type: code == 200 ? "success" : "error",
+        message: msg,
+      });
     },
     // 批量删除及单项删除按钮
     del(data) {
@@ -157,7 +168,7 @@ export default {
       data
         ? delArr.push(data._id)
         : (delArr = this.checkList.map((item) => item?._id && item._id));
-      this.$confirm(`确定删除?`, "提示", {
+      this.$confirm(`当前订单状态为${data.status}，确定删除?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",

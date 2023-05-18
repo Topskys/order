@@ -10,26 +10,27 @@ class Comment {
 
     async create(ctx) {
         let user, product
-        //        const [product_id = '', jt] = [ctx.params.id, await isExpired(ctx)]
-        //        if (!product_id) return fail(ctx, undefined, 400, "请求错误")
+        const [product_id = '', jt] = [ctx.params.id, await isExpired(ctx)]
+        if (!product_id) return fail(ctx, undefined, 400, "请求错误")
 
-        //        await crud.findOne(ctx, ProductModel, {_id: product_id}, rel => rel ? (product = rel) : fail(ctx, rel, 400, "评价发布失败"))
-        //        jt && await crud.findOne(ctx, UserModel, {_id: jt._id}, rel => rel ? (user = rel) : fail(ctx, rel, 400, "评价发布失败"))
-        //        if (user) {
-        await crud.add(ctx, CommentModel, {
-            ...ctx.request.body,
-            //                ...product,
-            //                ...user,
-        }, rel => {
-            self(ctx, {
-                code: 200,
-                msg: '发布成功',
-                data: rel
+        await crud.findOne(ctx, ProductModel, { _id: product_id }, rel => rel ? (product = rel) : fail(ctx, rel, 400, "评价发布失败"))
+        await crud.findOne(ctx, UserModel, { _id: jt._id.toString() }, rel => rel ? (user = rel) : fail(ctx, rel, 400, "评价发布失败"))
+        
+        if (user) {
+            await crud.add(ctx, CommentModel, {
+                ...ctx.request.body,
+                ...product,
+                ...user,
+            }, rel => {
+                self(ctx, {
+                    code: 200,
+                    msg: '发布成功',
+                    data: rel
+                })
             })
-        })
-        //        } else {
-        //            fail(ctx, undefined, 400, "发布失败")
-        //        }
+        } else {
+            fail(ctx, undefined, 400, "发布失败")
+        }
     }
 
 

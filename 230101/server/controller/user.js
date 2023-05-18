@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const Users = require('../models/user')
 const Dashboard = require('../models/dashboard');
 const crud = require('../controller/crudUtil');
-const {responseSelf, fail, exception} = require('../util/response')
+const { responseSelf, fail, exception } = require('../util/response')
 const dtf = require('../util/dateTimeFormat');
 
 
@@ -15,10 +15,10 @@ const update = async ctx => {
     let params = ctx.request.body;
     params = {
         ...params,
-        gender: ['0','1'].includes(params.gender)?params.gender==='1'?'女':'男':params.gender,
+        gender: ['0', '1'].includes(params.gender) ? params.gender === '1' ? '女' : '男' : params.gender,
         updateTime: dtf(Date.now(), "YYYY-MM-DD hh:mm:ss")
     }
-    await crud.update(ctx, Users, {_id: params._id}, params)
+    await crud.update(ctx, Users, { _id: params._id }, params)
 }
 
 
@@ -27,7 +27,7 @@ const update = async ctx => {
  * @param ctx
  * @returns {Promise<void>}
  */
-const findAll = async ctx => crud.findByPagination(ctx,Users,ctx.query,{phone: new RegExp(ctx.query.keyword)})
+const findAll = async ctx => crud.findByPagination(ctx, Users, ctx.query, { phone: new RegExp(ctx.query.keyword) })
 
 
 /**
@@ -36,7 +36,7 @@ const findAll = async ctx => crud.findByPagination(ctx,Users,ctx.query,{phone: n
  * @returns {Promise<void>}
  */
 const login = async ctx => {
-    let [{phone, nickName}, token, flag, dashboard] = [ctx.request.body, null, false, null];
+    let [{ phone, nickName }, token, flag, dashboard] = [ctx.request.body, null, false, null];
     if (!phone || !nickName) return fail(ctx, null, 300, '手机号或昵称不能为空');
 
 
@@ -58,7 +58,7 @@ const login = async ctx => {
     }
 
     // 执行登录操作
-    await crud.findOne(ctx, Users, {nickName: nickName, phone: phone}, rel => rel ? fun(ctx, rel) : (flag = true))
+    await crud.findOne(ctx, Users, { nickName: nickName, phone: phone }, rel => rel ? fun(ctx, rel) : (flag = true))
 
 
     // 新增用户并执行登录操作
@@ -68,7 +68,7 @@ const login = async ctx => {
     if (token) {
         await crud.findOne(ctx, Dashboard, {}, rel => (dashboard = rel));
 
-        await crud.update(ctx, Dashboard, {_id: dashboard._id}, {
+        await crud.update(ctx, Dashboard, { _id: dashboard._id }, {
             $set: {
                 visitor: dashboard.visitor + 1,
                 updateTime: dtf(undefined, "YYYY-MM-DD hh:mm:ss")
@@ -94,7 +94,7 @@ const verify = async ctx => {
     try {
         let res = jwt.verify(token, '2311-server-jwt')
 
-        await Users.findOne({_id: res._id}).then(rel => {
+        await Users.findOne({ _id: res._id }).then(rel => {
             if (rel) {
                 rel.phone = rel.phone.replace(/^(\d{3})\d{4}(\d+)/, "$1****$2")
                 ctx.body = {
@@ -124,7 +124,7 @@ const verify = async ctx => {
  * @returns {Promise<void>}
  */
 const charge = async ctx => {
-    let [{_id, chargeValue}, q, price,dashboard] = [ctx.request.body, null, ctx.request.body.chargeValue,null];
+    let [{ _id, chargeValue }, q, price, dashboard] = [ctx.request.body, null, ctx.request.body.chargeValue, null];
     if (!_id || !chargeValue) return fail(ctx, null, 400, '未登录或充值金额为空');
     !isNaN(chargeValue) && (chargeValue = Number(chargeValue));
 
@@ -139,14 +139,14 @@ const charge = async ctx => {
 
 
     // 更新数据面板日充值数据
-    await crud.findOne(ctx, Dashboard, undefined, rel => (dashboard = rel))
+    // await crud.findOne(ctx, Dashboard, undefined, rel => (dashboard = rel))
 
-    dashboard?crud.update():crud.add()
+    // dashboard ? crud.update() : crud.add()
 
     // 查找用户并更新余额
-    await crud.findOne(ctx, Users, {_id}, rel => (q = rel))
+    await crud.findOne(ctx, Users, { _id }, rel => (q = rel))
 
-    await crud.update(ctx, Users, {_id}, {
+    await crud.update(ctx, Users, { _id }, {
         $set: {
             balance: chargeValue + q.balance,
             updateTime: dtf(Date.now(), "YYYY-MM-DD hh:mm:ss")
@@ -175,7 +175,7 @@ const charge = async ctx => {
 const del = async ctx => {
     let params = ctx.request.body;
 
-    await crud.update(ctx, Users, {_id: params._id}, {
+    await crud.update(ctx, Users, { _id: params._id }, {
         $set: {
             status: 'delete',
             updateTime: dtf(Date.now(), "YYYY-MM-DD hh:mm:ss")

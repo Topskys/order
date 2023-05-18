@@ -3,7 +3,8 @@
     <van-search value="{{ inputVal }}" placeholder="Search..." show-action bind:search="onSearch" bind:cancel="onCancel" bind:change="onChange" />
     <wxs module="wxs" src='../../utils/format.wxs'></wxs>
     <scroll-view scroll-y class="search-scroll">
-        <view class="search-content r-flex">
+        <product-list></product-list>
+        <!-- <view class="search-content r-flex">
             <view class="result res-left">
                 <view class="product-item left" wx:for="{{leftList}}" wx:key="index" bindtap="toDetail" data-item="{{item}}">
                     <image src="{{item.poster}}" mode="widthFix" class="image product-image"></image>
@@ -30,7 +31,7 @@
                     </view>
                 </view>
             </view>
-        </view>
+        </view> -->
     </scroll-view>
 
 </view>

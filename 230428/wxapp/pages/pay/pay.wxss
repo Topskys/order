@@ -86,14 +86,18 @@
 /* 支付导航栏 */
 .pay-nav-wap {
     position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100vw;
+    left: 24rpx;
+    right: 24rpx;
+    bottom: 60rpx;
     box-sizing: border-box;
-    padding: 16rpx 30rpx 60rpx;
+    overflow: hidden;
+    padding-left: 30rpx;
+    border-radius: 300rpx;
     z-index: 99;
-    background-color: var(--white);
+    color: var(--white);
+    background-color: #333;
     border: 1px solid var(--border);
+    box-shadow: 0 0 50rpx 10rpx #d2d1cf;
 }
 
 .submit-btn {
@@ -101,7 +105,21 @@
     padding: 16rpx;
     color: var(--white);
     text-align: center;
-    border-radius: 10rpx;
-    border: 1px solid var(--border);
-    background-color: var(--theme-dark);
+    border-top-right-radius: 300rpx;
+    border-bottom-right-radius: 300rpx;
+    background-color: var(--theme);
+}
+
+
+/* popup-pay */
+.popup-price{
+    font-size: 60rpx;
+    font-weight: 600;
+    z-index: 99;
+}
+.conform-pay{
+    margin-top: 200rpx;
+    color: var(--white);
+    border-radius: 4rpx;
+    background-color: var(--theme);
 }

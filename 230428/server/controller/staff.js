@@ -37,12 +37,16 @@ class Staff {
         const regex = new RegExp(keyword, 'i')
         const where = {
             $or: [
+                { work_year: regex },
                 {name: regex},
                 {phone: regex},
-                {work_year: regex},
             ]
         }
         await crud.findByPagination(ctx, StaffModel, ctx.request.query, where)
+    }
+
+    async getList(ctx) {
+        await crud.find(ctx, StaffModel,{is_busy:false})
     }
 
     async getById(ctx) {

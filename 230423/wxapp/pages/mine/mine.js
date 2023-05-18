@@ -35,10 +35,6 @@ Page({
                 title: '关注我们',
                 url: '/pages/follow/follow'
             },
-            {
-                title: '服务协议',
-                url: '#'
-            }
         ],
     },
     onLoad(options) {
@@ -47,7 +43,7 @@ Page({
     onShow() {
         // strorage获取用户信息
         this.setData({
-            userInfo: wx.getStorageSync('userInfo')||app.globalData.userInfo 
+            userInfo: wx.getStorageSync('userInfo') || app.globalData.userInfo
         })
     },
     handleLinkClick(e) {
@@ -57,24 +53,20 @@ Page({
     },
     toLogin() {
         wx.navigateTo({
-            url: '/pages/login/login?back=mine'
+            url: '/pages/login/login?redirect=mine&rediType=nav'
         })
     },
     // 客户端退出，删除验证信息
     logout() {
-        // wx.removeStorageSync('userInfo')
-        // wx.removeStorageSync({
-        //     key: 'token',
-        //     compelet: () => {
+        wx.removeStorageSync('token')
+        wx.removeStorageSync('userInfo')
         wx.navigateTo({
             url: '/pages/login/login',
             success: (res) => wx.showToast({
                 title: '退出成功',
-                icon: 'success',
+                icon: 'none',
             }),
         })
-        //         }
-        //     })
     },
     // 联系客服
     contactServer() {

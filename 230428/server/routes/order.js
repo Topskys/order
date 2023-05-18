@@ -1,12 +1,18 @@
 const router = require('koa-router')()
-const {getAll, create, edit, del, getById} = require("../controller/order")
+const { getAll, create, pay, del, getById, setWorker,over,servicing } = require("../controller/order")
 
 router.prefix('/order')
 
 
 router.post('/', create)
 
-router.put('/:id', edit)
+router.put('/wx/:id', pay)
+
+router.put('/:id', setWorker)
+
+router.put('/service/:id', servicing)
+
+router.put('/over/:id', over)
 
 router.delete('/:id', del)
 

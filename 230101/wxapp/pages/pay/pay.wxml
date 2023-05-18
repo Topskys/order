@@ -1,6 +1,6 @@
 <!--pages/pay/pay.wxml-->
 <!-- 确认订单页面wx:if="{{order}}" -->
-<view class="ready-pay" >
+<view class="ready-pay">
     <!-- 房间信息 -->
     <scroll-view scroll-y style="max-height: 450rpx;background-color: white;">
         <view class="room">
@@ -23,10 +23,10 @@
         <van-field model:value="{{ order.message }}" label="备注留言" placeholder="其他需求" input-align="right" />
     </view>
     <!-- 支付配置 -->
-    <wxs src='./pay.wxs' module="obj"></wxs>
+    <wxs module="obj" src='./pay.wxs'></wxs>
     <view class="pay-config">
         <!-- <van-checkbox value="{{ order.checked||false }}" bind:change="onCheckChange">复选框</van-checkbox> -->
-        <van-cell title="优惠劵" value="{{obj.discountsMax(userInfo.discounts)||'无'}}" />
+        <van-cell title="优惠劵" value="{{order.discount||'无'}}" />
         <picker bindchange="onPickerChange" value="{{index}}" range="{{columns}}">
             <van-cell title="支付方式" is-link value="{{order.payType||columns[index]}}" />
         </picker>
@@ -42,7 +42,7 @@
     <view class="pay-nav">
         <view class="total">
             <text style="margin-right: 20rpx;">实付款</text>
-            <text class="price" style="color: #ee0a24;font-size: 36rpx;">￥{{obj.sum([order],userInfo.discounts)}}</text>
+            <text class="price" style="color: #ee0a24;font-size: 36rpx;">￥{{order.total}}</text>
         </view>
         <view class="pay-btn" bindtap="handleOrder">
             立即预订

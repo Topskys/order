@@ -8,11 +8,13 @@
         :inline="true"
         @keyup.enter.native="getPageList()"
       >
-        <el-form-item>
+      <div style='margin:5px 0 30px;'>查找搜索</div>
+        <el-form-item label="标题：">
           <el-input
             v-model="form.keyword"
             placeholder="请输入标题"
             prefix-icon="el-icon-search"
+            clearable
           ></el-input>
         </el-form-item>
         <el-form-item>
@@ -24,7 +26,8 @@
           >
         </el-form-item>
       </el-form>
-
+      </el-card>
+<el-card shadow="never" style='margin-top:20px;'>
       <!-- 表格 -->
       <e-table
         :config="t_config"
@@ -130,6 +133,7 @@ export default {
             type: "text",
             prop: "title",
             label: "标题",
+            show_tooltip:false,
           },
           {
             type: "image",
@@ -142,11 +146,13 @@ export default {
             type: "text",
             prop: "description",
             label: "描述",
+            show_tooltip:false,
           },
           {
             type: "text",
             prop: "createTime",
             label: "上报时间",
+            show_tooltip:false,
           },
           {
             type: "function",
@@ -154,21 +160,25 @@ export default {
             label: "领取地址",
             cb: (data) =>
               `<a href='https://www.amap.com/search?query=${data.address}&city=350100'  target='_blank' ><i class='el-icon-location'></i>${data.address}</a>`,
+          show_tooltip:false,
           },
           {
             type: "text",
             prop: "finder",
             label: "联系人",
+            show_tooltip:false,
           },
           {
             type: "text",
             prop: "phone",
             label: "电话",
+            show_tooltip:false,
           },
           {
             type: "text",
             prop: "receiver",
             label: "领取人电话", // 领取人联系电话
+            show_tooltip:false,
           },
           {
             type: "tag",
@@ -191,13 +201,14 @@ export default {
             type: "text",
             prop: "updateTime",
             label: "领取时间",
+            show_tooltip:false,
           },
           {
             type: "slot",
             label: "操作",
             prop: "operation",
             slot_name: "operation",
-            align: "center",
+            show_tooltip:false,
           },
         ],
         // 分页

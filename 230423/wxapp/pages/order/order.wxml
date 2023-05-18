@@ -30,7 +30,4 @@
             </scroll-view>
         </van-tab>
     </van-tabs>
-
-
-
 </view>

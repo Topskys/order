@@ -162,16 +162,8 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://github.com/Topskys/order/tree/main/230101',
-        meta: { title: 'Github', icon: 'link' }
-      }
-    ]
-  },
+  
+  
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

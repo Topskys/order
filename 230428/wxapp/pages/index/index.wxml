@@ -34,7 +34,7 @@
                 <view class="label fs12 grey tac">累计预约</view>
             </view> -->
             <view class="analysis-item">
-                <view class="num tac">45</view>
+                <view class="num tac">6888</view>
                 <view class="label fs12 grey tac">用户故障咨询</view>
             </view>
             <view class="analysis-item">
@@ -44,7 +44,8 @@
         </view>
         <!-- 分区导航 -->
         <view class="nav-warp fs14 black-light">
-            <view class="nav-item c-flex-jcc" wx:for="{{navList}}" wx:key="index" bindtap="toClass" data-item="{{item}}">
+            <view class="nav-item c-flex-jcc" wx:for="{{navList}}" wx:key="index" bindtap="toClass" data-item="{{item}}"
+            data-index="{{index}}">
                 <image src="{{item.poster}}" class="nav-image image" />
                 <text class="fs13 content">{{item.name}}</text>
             </view>
@@ -64,9 +65,10 @@
         </view>
     </view> -->
     <!-- 一键报修 -->
-    <view class="product-warp ">
+    <view class="product-warp bg " style="height: 100%;">
         <view class="fs18 title pg15">一键报修</view>
-        <view class="scroll-body r-flex">
+        <product-list></product-list>
+        <!-- <view class="scroll-body r-flex">
             <wxs module="obj" src='../../utils/format.wxs'></wxs>
             <view class="result res-left ">
                 <view class="product-item left" wx:for="{{leftList}}" wx:key="index" bindtap="toDetail" data-item="{{item}}">
@@ -94,6 +96,6 @@
                     </view>
                 </view>
             </view>
-        </view>
+        </view> -->
     </view>
 </scroll-view>

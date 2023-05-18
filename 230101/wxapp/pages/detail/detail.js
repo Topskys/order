@@ -4,14 +4,11 @@ import CheckAuth from "../../utils/auth"
 // pages/detail/detail.js
 Page({
 
-    /** 
-     * 页面的初始数据
-     */
     data: {
         detail: {},
         current: 0,
         comments: [],
-        temp: null,
+        temp: {},
     },
 
     /**
@@ -55,14 +52,6 @@ Page({
             current: e.currentTarget.dataset.current
         })
     },
-
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady() {
-
-    },
-
     /**
      * 生命周期函数--监听页面显示
      */
@@ -77,43 +66,53 @@ Page({
     },
     // 添加购物车的回调
     handleAdd() {
-        CheckAuth(() => {
-            let phone = wx.getStorageSync('phone')
-            let roomId = this.data.detail.roomId
-            let userInfo = wx.getStorageSync('userInfo')
-            request({
+        const u = wx.getStorageSync('userInfo')
+        const data = {
+            phone: wx.getStorageSync('phone'),
+            roomId: this.data.detail.roomId,
+            userId: u._id,
+            nickName: u.nickName,
+            rentTime: wx.getStorageSync('rentTime')
+        }
+        CheckAuth(async () => {
+            const res = await request({
                 url: "carts",
                 method: 'post',
-                data: {
-                    phone,
-                    roomId,
-                    userId: userInfo._id,
-                    nickName: userInfo.nickName,
-                    rentTime: wx.getStorageSync('rentTime')
-                }
-            }).then(({
-                code,
-                msg,
                 data
-            }) => {
-                
-                wx.showToast({
-                    title: msg || '加入购物车成功',
-                })
-                this.setData({
-                    temp: code === 200 && data
-                })
+            })
+            wx.showToast({
+                title: res.msg,
+                icon: 'none'
             })
         })
     },
-    // 立即购买的回调
+    // 立即预定的回调
     handlePurchase() {
-        this.handleAdd()
-        console.log('iii',this.data.temp)
-        temp ? wx.navigateTo({
-            url: `/pages/pay?ids=${JSON.stringify([this.data.temp._id])}`,
-        }) : wx.showToast({
-            title: '请稍后重试',
+        const u = wx.getStorageSync('userInfo')
+        const data = {
+            phone: wx.getStorageSync('phone'),
+            roomId: this.data.detail.roomId,
+            userId: u._id,
+            nickName: u.nickName,
+            rentTime: wx.getStorageSync('rentTime'),
+            checked:true,
+        }
+        CheckAuth(async () => {
+            const res = await request({
+                url: "carts",
+                method: 'post',
+                data
+            })
+            wx.showToast({
+                title: res.msg,
+                icon: 'none'
+            })
+            res ? wx.navigateTo({
+                url: `/pages/pay/pay?ids=${JSON.stringify([res.data._id])}`,
+            }) : wx.showToast({
+                title: '请稍后重试',
+                icon: 'none'
+            })
         })
     },
 })

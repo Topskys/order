@@ -59,7 +59,7 @@
       </div>
       <el-form-item prop="username">
         <el-input
-          placeholder="请输入内容"
+          placeholder="admin"
           prefix-icon="el-icon-user"
           v-model="form.username"
         >
@@ -68,7 +68,7 @@
       <el-form-item prop="password">
         <el-input
           type="password"
-          placeholder="请输入内容"
+          placeholder="password"
           prefix-icon="el-icon-lock"
           show-password
           v-model="form.password"
@@ -108,8 +108,8 @@ export default {
     return {
       // 收集表单数据
       form: {
-        username: "admin",
-        password: "123456",
+        username: "",
+        password: "",
       },
       // 记住密码
       checked: false,

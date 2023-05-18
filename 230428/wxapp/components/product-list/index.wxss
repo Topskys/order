@@ -1,0 +1,90 @@
+/* components/product-list/index.wxss */
+.product-list-warp {
+    position: relative;
+    background: transparent;
+}
+
+.result {
+    /* flex: 1; 375-34 =341*/
+    /* width: 345rpx; */
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    width: 50%;
+}
+
+.res-left {
+    left: 0;
+}
+
+.res-right {
+    right: 0;
+}
+
+.result .product-item {
+    overflow: hidden;
+    border-radius: 10rpx;
+    background-color: #fff;
+}
+
+.result .left {
+    margin: 24rpx;
+}
+
+.result .right {
+    margin: 24rpx 24rpx 24rpx 0;
+}
+
+.result .product-item .desc {
+    padding: 10rpx 20rpx;
+}
+
+.result .product-item .title {
+    color: #1c2438;
+    font-size: 28rpx;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.result .product-item .price {
+    margin-top: 10rpx;
+}
+
+.result .product-item .product-image {
+    display: block;
+    width: 100%;
+    border-top-left-radius: 10rpx;
+    border-top-right-radius: 10rpx;
+}y
+
+
+.r-flex {
+    display: flex;
+}
+
+.grey {
+    color: #c9d0d3;
+}
+
+.ml10 {
+    margin-left: 20rpx;
+}
+
+.fs12 {
+    font-size: 24rpx;
+}
+
+.fs14 {
+    font-size: 28rpx;
+}
+
+.fs16 {
+    font-size: 32rpx;
+}
+
+.fs18 {
+    font-size: 36rpx;
+}

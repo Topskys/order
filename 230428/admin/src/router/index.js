@@ -62,11 +62,11 @@ export const initRoutes = [
     component: Layout,
     redirect: "/product/list",
     name: 'Product',
-    meta: { title: '产品管理', icon: 'product' },
+    meta: { title: '维修产品管理', icon: 'product' },
     children: [{
       path: 'list',
       component: () => import('@/views/product/index'),
-      meta: { title: '产品信息', icon: '' }
+      meta: { title: '维修产品', icon: '' }
     },
     ]
   },
@@ -94,6 +94,18 @@ export const initRoutes = [
         component: () => import('@/views/comment/index'),
         meta: { title: '商品评价', icon: '' }
       },
+    ]
+  },
+  {
+    path: '/category',
+    component: Layout,
+    redirect: "/category/list",
+    meta: { title: '维修类别', icon: 'el-icon-tickets' },
+    children: [{
+      path: 'list',
+      component: () => import('@/views/category/index'),
+      meta: { title: '类别信息', icon: '' }
+    },
     ]
   },
   {

@@ -46,7 +46,7 @@ Page({
         ],
         recommends: []
     },
-    onLoad(){
+    onLoad() {
         this.getDataList()
     },
     // 获取商品列表数据
@@ -63,16 +63,13 @@ Page({
         })
     },
     // 选择服务位置
-    onChange(e){
-        app.globalData.location=e.detail
+    onChange(e) {
+        app.globalData.location = e.detail
         wx.setStorageSync('location', e.detail)
         this.getDataList(e.detail)
     },
     toQuery(e) {
-        const {
-            item
-        } = e.currentTarget.dataset
-        // getApp().globalData.key=item
+        wx.setStorageSync('query_tab', e.currentTarget.dataset.index)
         wx.switchTab({
             url: '/pages/query/query'
         })

@@ -101,7 +101,7 @@ export default {
   watch: {
     data: {
       handler(newValue) {
-        this.form = { ...newValue, super: this.userInfo._id };
+        this.form = { ...newValue, status: newValue.status==='异常'?false:true };
         this.title = this.form?._id ? "编辑信息" : "新增用户";
       },
     },

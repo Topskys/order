@@ -8,15 +8,20 @@
         :inline="true"
         @keyup.enter.native="getPageList()"
       >
-        <el-form-item>
+      <div style='margin:5px 0 30px;'>查找搜索</div>
+        <el-form-item label="手机号：">
           <el-input
             v-model="form.keyword"
             placeholder="请输入手机号"
             prefix-icon="el-icon-search"
+            clearable
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button icon="el-icon-search" type="primary" @click="getPageList()">查询</el-button>
+          <el-button icon="el-icon-search" type="primary" @click="getPageList()"
+            >查询</el-button
+          >
+          <el-button icon="el-icon-refresh" @click="resetForm">重置</el-button>
         </el-form-item>
         <!-- <el-form-item>
           <el-button
@@ -33,7 +38,8 @@
           >
         </el-form-item> -->
       </el-form>
-
+    </el-card>
+    <el-card shadow="never" style="margin-top: 20px">
       <!-- 表格 -->
       <e-table
         :config="t_config"
@@ -52,7 +58,7 @@
             @click="operation(slot_data.data, '3')"
             type="text"
             style="color: #e6a23c"
-            :disabled="Number(slot_data.data.status) !==2"
+            :disabled="Number(slot_data.data.status) !== 2"
             >退房</el-button
           >
           <el-button
@@ -89,7 +95,7 @@ export default {
         // 序号
         // index: true,
         // 选择
-        checkbox:true,
+        checkbox: true,
         // 列表数据
         tableData: [],
         // 列
@@ -103,21 +109,24 @@ export default {
             type: "text",
             prop: "phone",
             label: "手机号",
+            show_tooltip: false,
           },
           {
             type: "text",
             prop: "room.title",
             label: "标题",
             cb: (data) => data.room.title,
-          },
-          {
-            type: "image",
-            prop: "room.poster",
-            label: "图片",
-            align: "center",
             show_tooltip: false,
-            cb: (data) => data.room.poster,
           },
+          // {
+          //   type: "image",
+          //   prop: "room.poster",
+          //   label: "图片",
+          //   align: "center",
+          //   show_tooltip: false,
+          //   cb: (data) => data.room.poster,
+          //   show_tooltip: false,
+          // },
           {
             type: "text",
             prop: "room.room_number",
@@ -135,18 +144,21 @@ export default {
             label: "预租时间",
             // name: alias
             cb: ({ rentTime: data }) => `${data.startDate}-${data.endDate}`,
+            show_tooltip: false,
           },
           {
             type: "function",
             prop: "room.price",
             label: "价格",
             cb: (data) => `￥${Number(data.room.price).toFixed(2)}`,
+            show_tooltip: false,
           },
           {
             type: "function",
             prop: "price",
             label: "支付价格",
             cb: (data) => `￥${Number(data.total).toFixed(2)}`,
+            show_tooltip: false,
           },
           {
             type: "text",
@@ -157,6 +169,7 @@ export default {
             type: "text",
             prop: "message",
             label: "留言",
+            show_tooltip: false,
           },
           {
             type: "tag",
@@ -193,18 +206,12 @@ export default {
             prop: "createTime",
             label: "下单时间",
           },
-          // {
-          //   type: "text",
-          //   prop: "updateTime",
-          //   label: "更新日期",
-          // },
           {
             type: "slot",
             label: "操作",
             prop: "operation",
             slot_name: "operation",
-            align: "center",
-            // show_tooltip: false,
+            show_tooltip: false,
           },
         ],
         // 分页
@@ -212,7 +219,7 @@ export default {
           show: true,
           align: "center",
           page: 1,
-          pageSize:10,
+          pageSize: 10,
           total: 0,
         },
       },
@@ -244,6 +251,12 @@ export default {
       this.form.pageSize = data;
       // this.getPageList();
     },
+    // 重置按钮
+    resetForm() {
+      console.log("---------");
+      this.form.keyword = "";
+      this.getPageList()
+    },
     // 表格操作事件(确认、完成)
     operation(data, which) {
       which === "delete"
@@ -252,7 +265,8 @@ export default {
             confirmButtonText: "确定",
             cancelButtonText: "取消",
             type: "warning",
-          }).then(() => {
+          })
+            .then(() => {
               this.$http({
                 url: `/carts`,
                 method: "put",

@@ -89,3 +89,19 @@ export function logout() {
     //     })
     // })
 }
+
+
+/**
+ * 获取用户信息
+ */
+export function getInfo(){
+    var result
+    request({
+        url: 'user/verify'
+    }).then(res => {
+        result=res
+        wx.setStorageSync('userInfo', res.userInfo)
+    }).finally(()=>{
+        return result
+    })
+}

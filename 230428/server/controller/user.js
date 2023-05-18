@@ -192,7 +192,10 @@ class User {
 
     async edit(ctx) {
         const data = ctx.request.body
-        await crud.update(ctx, UserModel, { _id: ctx.params.id }, data)
+        await crud.update(ctx, UserModel, { _id: ctx.params.id }, {
+            ...data,
+            gender: Number(data.gender == '女' ? 1 : 0)
+        })
     }
 
 }

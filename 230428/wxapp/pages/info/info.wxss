@@ -1,5 +1,5 @@
 /* pages/info/info.wxss */
-.info-warp{
+.info-warp {
     height: 100vh;
     overflow: hidden;
 }
@@ -8,4 +8,43 @@
 .info-warp .logout-btn {
     margin-top: 100rpx;
     font-weight: 400 !important;
+}
+
+.shadow {
+    margin: 8rpx 30rpx;
+    border-radius: 8rpx;
+    /* box-shadow: 0 0 5px 10px #eee; */
+    background-color: var(--white);
+}
+
+.info-image {
+    width: 92rpx;
+    height: 92rpx;
+    border-radius: 8rpx;
+}
+
+.form-item {
+    margin: 24rpx 0;
+}
+
+.label {
+    width: 100rpx;
+    color: #646566;
+    text-align: left;
+    word-wrap: break-word;
+}
+
+.input-warp {
+    flex: 1;
+    color: #323233;
+    padding: 10rpx 24rpx;
+    text-align: center;
+    border-bottom: 2rpx solid var(--border);
+}
+
+.form-btn {
+    color: var(--white);
+    font-weight: 400;
+    margin: 100rpx 0;
+    background-color: var(--theme);
 }

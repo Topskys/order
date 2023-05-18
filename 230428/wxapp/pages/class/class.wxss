@@ -101,3 +101,10 @@
 .left {
     border-bottom: 1px dashed var(--grey);
 }
+
+.get-btn {
+    padding: 0 20rpx;
+    color: var(--white);
+    border-radius: 20rpx;
+    background-color: var(--theme-light);
+}

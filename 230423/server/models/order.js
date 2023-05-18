@@ -24,16 +24,16 @@ module.exports = mongoose.model('orders', new mongoose.Schema({
         default: ''
     },
     origin_price: { // 优惠前的价格
-        type: Number,
-        require: true
+        type: String,
+        default: ''
     },
     actual_price: { // 实际支付，优惠后支付的价格
-        type: Number,
-        default: 0
+        type: String,
+        default: '0'
     },
     discount: { // 优惠劵金额
-        type: Number,
-        default: 0,
+        type: String,
+        default: '0',
     },
     service: { // 选择的服务
         type: String,
@@ -41,7 +41,7 @@ module.exports = mongoose.model('orders', new mongoose.Schema({
     },
     work_time: { // 预约上门时间
         type: String,
-        default: new Date().toLocaleDateString()
+        default: ''
     },
     remark: { // 备注
         type: String,

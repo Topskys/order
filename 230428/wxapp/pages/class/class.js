@@ -1,74 +1,35 @@
 // pages/class/class.js
 import request from '../../utils/request'
-const app = getApp()
+import checkAuth from '../../utils/auth'
+const app = getApp().globalData
 
 Page({
 
     data: {
-        tabActive: app.globalData.curr_class_tab || 0,
-        sideActive: app.globalData.curr_class_side || 0,
+        tabActive: app.curr_class_tab || 0,
+        sideActive: app.curr_class_side || 0,
         sideMenus: [],
-        products: [{
-                classId: 1,
-                poster: '/images/girl.jpg',
-                label: '空调',
-            },
-            {
-                classId: 2,
-                poster: '/images/detail-01.jpg',
-                label: '冰箱',
-            },
-            {
-                classId: 3,
-                poster: '/images/01.jpg',
-                label: '空调',
-            },
-            {
-                poster: '/images/detail-01.jpg',
-                label: '冰箱',
-            },
-            {
-                poster: '/images/01.jpg',
-                label: '空调',
-            }
-        ],
-        disList: [{
-            title: '新人专享红包',
-            discount_size: 2,
-        }, {
-            title: '新人专享红包',
-            discount_size: 6,
-        }, {
-            title: '新人专享红包',
-            discount_size: 5,
-        }, {
-            title: '新人专享红包',
-            discount_size: 8,
-        }]
+        products: [],
+        disList: []
     },
     onShow() {
-        // !this.data.sideMenus.length && this.getSideMenus()
         this.getSideMenus()
         this.setData({
-            tabActive: app.globalData.curr_class_tab || 0,
-            sideActive: app.globalData.curr_class_side || 0,
+            tabActive: app.curr_class_tab,
+            sideActive: app.curr_class_side,
         })
+        this.getDiscList()
     },
     // 侧边栏菜单项点击事件
     onSideChange(e) {
-        const index = e.detail||0
+        const index = e.detail || 0
         this.setData({
             sideActive: index
         })
         this.getDataList(index)
     },
     // 顶部Tabs点击事件
-    onTabChange(event) {
-        wx.showToast({
-            title: `切换到标签 ${event.detail.name}`,
-            icon: 'none',
-        });
-    },
+    onTabChange(event) {},
     // 跳转详情
     toDetail(e) {
         const item = e.currentTarget.dataset.item
@@ -103,30 +64,33 @@ Page({
             this.getDataList()
         })
     },
-    // 获取优惠劵列表
+    // 获取福利数据
     async getDiscList() {
-        const res = await request({
-            url: 'discount'
-        })
         this.setData({
-            disList: res.data || []
+            disList: (await request({
+                url: 'disc/wx'
+            })).data || []
         })
     },
-    // 领取优惠劵
+    // 领取福利
     getDisc(e) {
         const item = e.currentTarget.dataset.item
-        checkAuth(async () => {
-            const res = await request({
-                url: `discount/${item._id}`,
-                method: 'post',
-                data: {
-                    ...item
-                }
+        checkAuth(() => {
+            request({
+                url: `disc/${item._id}`,
+            }).then(({
+                msg
+            }) => {
+                wx.showToast({
+                    title: msg,
+                    icon: 'none',
+                })
+            }).catch(() => {
+                wx.showToast({
+                    title: "领取失败",
+                    icon: 'none',
+                })
             })
-            wx.showToast({
-                title: res.msg,
-                icon: res.code == 200 ? 'success' : 'error',
-            })
-        }, 'discount', 'nav')
+        })
     }
 })

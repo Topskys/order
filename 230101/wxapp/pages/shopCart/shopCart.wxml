@@ -8,9 +8,12 @@
             <mp-slideview buttons="{{slideButtons}}" bindbuttontap="slideButtonTap" data-id="{{item._id}}" wx:for="{{carts1}}" wx:key="index">
                 <mp-cell>
                     <view slot="footer" class="cell-footer">
-                        <text bindtap="handleMinus" data-item="{{item}}">-</text>
+                        <!-- <text bindtap="handleMinus" data-item="{{item}}">-</text>
                         <text style="background-color: white;">{{item.number}}</text>
-                        <text bindtap="handleAdd" data-item="{{item}}">+</text>
+                        <text bindtap="handleAdd" data-item="{{item}}">+</text> -->
+                        <text  >-</text>
+                        <text style="background-color: white;">{{item.number}}</text>
+                        <text >+</text>
                     </view>
                     <view class="cell-content">
                         <checkbox checked="{{ item.checked }}" bindtap="handleCheck" data-item="{{item}}"></checkbox>

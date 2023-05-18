@@ -1,7 +1,4 @@
-/*
-* CRUD模块
-*/
-
+// 增删改查工具模块
 const {success, exception, fail} = require('../../util/response')
 
 

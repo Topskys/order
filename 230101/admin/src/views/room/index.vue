@@ -7,7 +7,12 @@
         ref="form"
         :inline="true"
         @keyup.enter.native="getPageList()"
+        style="margin:20px 0"
       >
+      <div style="margin:20px 0;">搜索查找</div>
+      <el-form-item label="标题:">
+          <el-input v-model="form.title" placeholder="请输入标题或房间号" clearable> </el-input>
+        </el-form-item>
         <el-form-item label="选择:">
           <el-select v-model="form.keyword" placeholder="请选择">
             <el-option
@@ -20,9 +25,11 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <router-link :to="{ path: '/room/add' }">
+          <el-button type="primary" icon="el-icon-search" @click.native="getPageList()">查询</el-button>
+          <router-link :to="{ path: '/room/add' }" style="margin:0 10px;">
             <el-button type="primary" icon="el-icon-plus">新增</el-button>
           </router-link>
+          <el-button icon="el-icon-refresh" @click="resetForm">重置</el-button>
         </el-form-item>
         <!-- <el-form-item>
           <el-button type="primary" icon="el-icon-document">导入</el-button>
@@ -88,9 +95,10 @@ export default {
   data() {
     return {
       form: {
+        title:"",
         keyword: "",
         page: 1,
-        pageSize: 10,
+        pageSize: 5,
       },
       selections: [
         {
@@ -141,6 +149,7 @@ export default {
             type: "text",
             prop: "title",
             label: "标题",
+            show_tooltip: false,
           },
           {
             type: "image",
@@ -153,28 +162,33 @@ export default {
             type: "text",
             prop: "room_number",
             label: "房间号",
+            show_tooltip: false,
           },
           {
             type: "function",
             prop: "origin_price",
             label: "原价",
             cb: (data) => `￥${Number(data.origin_price).toFixed(2)}`,
+            show_tooltip: false,
           },
           {
             type: "function",
             prop: "price",
             label: "价格",
             cb: (data) => `￥${Number(data.price).toFixed(2)}`,
+            show_tooltip: false,
           },
           {
             type: "text",
             prop: "description",
             label: "描述",
+            show_tooltip: false,
           },
           {
             type: "text",
             prop: "sale",
             label: "销量",
+            show_tooltip: false,
           },
           {
             type: "tag",
@@ -200,21 +214,22 @@ export default {
             type: "text",
             prop: "updateTime",
             label: "更新日期",
+            show_tooltip: false,
           },
           {
             type: "slot",
             label: "操作",
             prop: "operation",
             slot_name: "operation",
-            align: "center",
+            show_tooltip: false,
           },
         ],
         // 分页
         pagination: {
           show: true,
-          align: "center",
+          align: "left",
           page: 1,
-          pageSize: 10,
+          pageSize: 5,
           total: 0,
         },
       },
@@ -357,12 +372,11 @@ export default {
      * 表格删除按钮
      */
     del(data) {
-      this.$confirm(`你确定删除项数据?`, "提示", {
+      this.$confirm(`你确定删除该项数据?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
-      })
-        .then(() => {
+      }).then(() => {
           this.$http({
             url: `/rooms/del/${data._id}`,
             method: "DELETE",
@@ -381,6 +395,16 @@ export default {
           });
         });
     },
+    // 重置按钮
+    resetForm(){
+      this.form={
+        title:"",
+        keyword: "",
+        page: 1,
+        pageSize: 5,
+      },
+      this.getPageList()  
+    },
     // 表单提交
     submitForm() {
       return this.$http({
@@ -389,13 +413,12 @@ export default {
         data: {
           ...this.f_field,
         },
+      }).then(({ code, msg}) => {
+        this.$message({
+          type: code === 200 ? "success" : "error",
+          message: msg,
+        });
       });
-      // .then(({ code, msg}) => {
-      //   this.$message({
-      //     type: code === 200 ? "success" : "error",
-      //     message: msg,
-      //   });
-      // });
     },
   },
   watch: {

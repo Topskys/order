@@ -8,6 +8,7 @@ export const pageConf = {
                 type: "text",
                 prop: "username",
                 label: "账号",
+                show_tooltip: false,
             },
             {
                 type: "text",
@@ -23,6 +24,7 @@ export const pageConf = {
                 type: "text",
                 prop: "phone",
                 label: "手机号",
+                show_tooltip: false,
             },
             {
                 type: "function",
@@ -37,7 +39,7 @@ export const pageConf = {
                 label: "地址",
                 cb: ({ address }) =>
                     `<a href='https://www.amap.com/search?query=${address}' target='_blank' class='a-hover'>${address}</a>`,
-            },
+                show_tooltip: false, },
             {
                 type: "text",
                 prop: "like",
@@ -54,7 +56,17 @@ export const pageConf = {
                 type: "tag",
                 prop: "status",
                 label: "状态",
-                cb: ({ status }) => (status === true ? "success" : "warning"),
+                cb: (data) => {
+                    let type 
+                    if ((typeof data.status == 'boolean' && data.status ==true) || data.status=="正常") {
+                        data.status = "正常"
+                        type = "success"
+                    }else{
+                        data.status = "异常"
+                        type = "danger"
+                    }
+                    return type
+                },
             },
             {
                 type: "text",
@@ -64,13 +76,14 @@ export const pageConf = {
                     const d = new Date(updatedAt).toGMTString();
                     return new Date(d).toLocaleString().replace(/\//g, "-");
                 },
+                show_tooltip: false,
             },
             {
                 type: "slot",
                 label: "操作",
                 prop: "operation",
                 slot_name: "operation",
-                align: "center",
+                show_tooltip:false,
             },
         ],
         checkbox: true,
@@ -79,7 +92,7 @@ export const pageConf = {
             page: 1,
             pageSize: 10,
             total: 0,
-            align: "left",
+            align: "center",
         },
     }
 }

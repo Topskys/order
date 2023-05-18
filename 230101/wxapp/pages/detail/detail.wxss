@@ -81,6 +81,7 @@
     text-align: center;
     color: white;
     width: 100vw;
+    border-top: 2rpx solid #eee;
     height: 100rpx;
     line-height: 100rpx;
 }
@@ -91,6 +92,10 @@
 
 
 
-.van-goods-action{
+/* .van-goods-action{
     padding: 0 0 20rpx !important;
+} */
+
+.good-action{
+    padding-bottom: 40rpx !important;
 }

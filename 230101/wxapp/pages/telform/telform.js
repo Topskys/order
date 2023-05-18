@@ -10,21 +10,12 @@ Page({
     data: {
         phone: ''
     },
-
-    /**
-     * 生命周期函数--监听页面加载
-     */
-    onLoad(options) {
-
-    },
     // 获取输入的手机号
     formInputChange(e) {
         this.setData({
             phone: e.detail.value
         })
     },
-    // 检验手机号
-
     // 确定按钮的回调
     submitForm() {
         wx.setStorageSync('phone', this.data.phone)
@@ -37,9 +28,12 @@ Page({
                 phone: this.data.phone || wx.getStorageSync('phone')
             }
         }).then(res => {
-            res.code === 200 && (wx.setStorageSync('token', res.token), user.verify(), wx.navigateBack({
-                delta: 3, // 回退第二个页面
+            res.code === 200 && (wx.setStorageSync('token', res.token), user.verify(), wx.switchTab({
+              url: '/pages/home/home',
             }))
+            // wx.navigateBack({
+            //     delta: 3, // 回退第二个页面
+            // })
         }) : wx.showToast({
             title: '手机号有误',
             icon: 'error',

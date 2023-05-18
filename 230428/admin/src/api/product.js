@@ -15,7 +15,7 @@ const prefix = '/product'
  */
 export function addOrEditProduct(data) {
   return request({
-    url: `${prefix}/${data._id || ''}`,
+    url: prefix + (data._id ? `/${data._id}` : ''),
     method: data._id ? 'PUT' : 'POST',
     data
   })
@@ -66,30 +66,42 @@ export function getProductList(params) {
   })
 }
 
-export function addExpand(data) {
+/**
+ * 新增服务选择项
+ * @param {*} data 
+ * @returns 
+ */
+export function addService(data) {
   return request({
-    url: `${prefix}/expand`,
+    url: `${prefix}/service/${data.product_id}`,
     method: 'POST',
     data
   })
 }
 
-export function delExpand(_id) {
+/**
+ * 删除服务选择项
+ * @param {*} data
+ * @returns 
+ */
+export function delService(data) {
   return request({
-    url: `${prefix}/expand/${_id}`,
-    method:'delete',
+    url: `${prefix}/service/${data.product_id}`,
+    method: 'delete',
+    data
   })
 }
 
-export function getExpand(product_id) {
+/**
+ * 获取所有服务选择项
+ * @param {*} product_id 
+ * @returns 
+ */
+export function getService(product_id) {
   return request({
-    url: `${prefix}/expand/${product_id}`
+    url: `${prefix}/Service/${product_id}`
   })
 }
 
 
-export function getIcons() {
-  return request({
-    url: `${prefix}/icons`
-  })
-}
+

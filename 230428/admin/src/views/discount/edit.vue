@@ -12,7 +12,6 @@
         :model="form"
         :rules="rules"
         label-width="100px"
-        size="small"
         style="
           min-width: 500px;
           max-width: 800px;
@@ -35,13 +34,13 @@
         <el-form-item label="仅限" prop="limit">
           <el-input v-model="form.limit" placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="启用" prop="status">
+        <!-- <el-form-item label="启用" prop="status">
           <el-switch
             v-model="form.status"
             active-color="#13ce66"
             inactive-color="#ff4949"
           ></el-switch>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="cancel" size="small">取 消</el-button>

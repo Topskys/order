@@ -1,5 +1,5 @@
 const router =require('koa-router')()
-const {create,del,edit,getById,getAll}=require("../controller/class")
+const {create,del,edit,getById,getAll,getList}=require("../controller/class")
 
 router.prefix("/class")
 
@@ -12,7 +12,9 @@ router.put("/:id", edit)
 
 router.get("/:id", getById)
 
-router.get("/", getAll)
+router.get("/", getList)
+
+router.get("/wx", getAll)
 
 
 module.exports = router

@@ -1,6 +1,8 @@
-const crud = require("./crud") 
+const crud = require("./crud")
 const DiscModel = require("../models/discount")
-const { fail} = require("../utils/response")
+const UserModel = require("../models/user")
+const { isExpired } = require("../utils/jwt")
+const { fail, self } = require("../utils/response")
 
 
 
@@ -48,12 +50,52 @@ class Discount {
         const where = {
             $or: [
                 {
+                    title: new RegExp(keyword, 'i'),
                     money_size: new RegExp(keyword, 'i'),
-                    title: new RegExp(keyword, 'i')
                 }
             ]
         }
-        await crud.findByPagination(ctx, DiscModel,ctx.request.query, where)
+        await crud.findByPagination(ctx, DiscModel, ctx.request.query, where)
+    }
+
+    async getList(ctx) {
+        await crud.find(ctx, DiscModel)
+    }
+
+    // 用户领取福利
+    async getById(ctx) {
+        let user, disc, flag = false
+        // user info
+        await crud.findOne(ctx, UserModel, { _id: (await isExpired(ctx))._id.toString() }, rel => rel ? (user = rel) : fail(ctx, rel, 400, "该账号未注册"))
+        // discount info
+        await crud.findOne(ctx, DiscModel, { _id: ctx.params.id }, rel => rel ? (disc = rel) : fail(ctx, rel, 400, "未找到福利信息"))
+
+        // 判断福利是否已经存在
+        const arr = user.discount || []
+        if (arr.length > 0) {
+            arr.forEach(item => (flag = !(item._id.toString() == ctx.params.id)))
+        } else {
+            flag = true
+        }
+
+        // update user info
+        flag ? await crud.update(ctx, UserModel, {
+            _id: (await isExpired(ctx))._id.toString()
+        }, {
+            $set: {
+                discount: [...arr, disc]
+            }
+        }, rel => {
+            if (rel && rel.modifiedCount) {
+                ctx.body = {
+                    code: 200,
+                    msg: "领取成功",
+                    data: rel
+                }
+            } else {
+                fail(ctx, rel, 400, "信息更新失败")
+            }
+        }) : fail(ctx, undefined, 400, "你已领取")
     }
 
 }
