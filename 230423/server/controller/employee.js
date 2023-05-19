@@ -10,9 +10,13 @@ async function addEmployee(ctx) {
     if (!id || !name || !experience || !category || !skill || !phone) return fail(ctx, null, 400, "表单未填写完整！")
 
     await crud.findOne(ctx, EmployeeModel, { id }, rel => rel ? fail(ctx, null, 400, "该工号的员工已存在") : (flag = true))
-
+const cate=category.split(":")
+    const data={
+        ...ctx.request.body,
+        category:cate[0],
+    }
     if (flag) {
-        await crud.add(ctx, EmployeeModel, ctx.request.body, function (rel) {
+        await crud.add(ctx, EmployeeModel,data, function (rel) {
             ctx.body = {
                 code: 200,
                 msg: "添加成功",

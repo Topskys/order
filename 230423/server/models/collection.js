@@ -15,7 +15,7 @@ module.exports = mongoose.model('collections', new mongoose.Schema({
         type: String,
         require: true
     },
-    title: { // 商品标题
+    employee_name: { 
         type: String,
         require: true
     },

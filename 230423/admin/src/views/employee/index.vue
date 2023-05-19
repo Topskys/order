@@ -110,9 +110,19 @@
             placeholder="请输入地址"
           ></el-input>
         </el-form-item>
-        <el-form-item label="类别" required prop="category">
-          <el-select placeholder="请选择" v-model="f_field.category">
-            <el-option value="清洁"> </el-option>
+        <el-form-item label="类别" prop="category" required>
+          <el-select
+            v-model="f_field.category"
+            placeholder="请选择家政类别"
+            @click.native="getCateOption"
+          >
+            <el-option
+              v-for="item in cates"
+              :key="item._id"
+              :label="item.title"
+              :value="`${item.title}:${item._id}`"
+            >
+            </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="工作经验" required prop="experience">
@@ -254,6 +264,8 @@ export default {
       dialogVisible: false,
       f_field: {},
       imgList: [],
+      // 
+      cates:[]
     };
   },
   mounted() {
@@ -270,6 +282,13 @@ export default {
       }).then((res) => {
         this.t_config.tableData = res.data;
         this.t_config.pagination.total = res.total;
+      });
+    },
+    getCateOption() {
+      this.$http({
+        url: "/category/wx",
+      }).then((res) => {
+        this.cates = res.data;
       });
     },
     // 页码变化

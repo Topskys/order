@@ -83,6 +83,7 @@ Page({
                 method: 'post',
                 data: {
                     ...this.data.detail,
+                    start_price: this.data.detail.services[0].price,
                     product_id: this.data.currrent_product_id || this.data.detail._id,
                 },
             }).then(res => {

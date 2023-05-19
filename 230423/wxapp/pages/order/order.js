@@ -52,7 +52,18 @@ Page({
                             btn2: "完成"
                         })
                     }
-                    item.status.includes("待评价") && (item.btn2 = "评价")
+                    if (item.status.includes("待评价")) {
+                        item.btn2 = "评价"
+                        arr2.push({
+                            ...item,
+                            btn1: "",
+                            btn2: "评价"
+                        })
+                    }
+                    if (item.status.includes("完成")) {
+                        item.btn1 = ""
+                        item.btn2 = ""
+                    }
                 })
                 this.setData({
                     orders: orders || [],
@@ -140,8 +151,15 @@ Page({
         const {
             item
         } = e.currentTarget.dataset
-        wx.navigateTo({
-            url: `/pages/ready/ready?order_id=${item._id}`,
-        })
+        if (item.btn == '支付' || item.btn2 == '支付') {
+            wx.navigateTo({
+                url: `/pages/ready/ready?order_id=${item._id}`,
+            })
+        }
+        if (item.btn2 == '评价') {
+            wx.navigateTo({
+                url: `/pages/evaluate/evaluate?product_id=${item.product_id}`,
+            })
+        }
     }
 })

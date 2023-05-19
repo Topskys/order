@@ -24,7 +24,7 @@
                                     </view>
                                 </view>
                                 <view class="fs12 tar mt10">
-                                    <text style="background-color: var(--theme);color:var(--white);padding: 6rpx 30rpx;border-radius: 30rpx;overflow: hidden;box-sizing: border-box;" bindtap="toPay" data-item="{{item}}" wx:if="{{item.btn2}}">{{item.btn2}}</text>
+                                    <text style="background-color: var(--theme);color:var(--white);padding: 6rpx 30rpx;border-radius: 30rpx;overflow: hidden;box-sizing: border-box;" bindtap="toPay" data-item="{{item}}" wx:if="{{item.btn2}}" >{{item.btn2}}</text>
                                 </view>
                             </mp-cell>
                         </mp-slideview>

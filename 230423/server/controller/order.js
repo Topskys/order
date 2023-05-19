@@ -85,7 +85,6 @@ async function createOrder(ctx) {
 async function payOrder(ctx) {
     const { id = '' } = ctx.params
     if (!id) return fail(ctx, undefined, 400, "请求失败")
-    console.log('-------', ctx.request.body)
     await update(ctx, OrderModel, { _id: id }, {
         $set: {
             ...ctx.request.body,
@@ -118,10 +117,21 @@ async function updateOrder(ctx) {
 // 修改订单信息
 async function editOrder(ctx) {
     const { id = '' } = ctx.params
-    await update(ctx, OrderModel, { 
-        _id: id 
-    }, ctx.request.body)
+    if (!id) {
+        return fail(ctx, undefined, 400, '请求错误')
+    }
+
+    let order
+    await findOne(ctx, OrderModel, { _id: id }, rel => (order = rel))
+    await update(ctx, OrderModel, {
+        _id: id
+    },
+        {
+            $set:{
+            ...ctx.request.body
+            }
+        })
 }
 
 
-module.exports = { getAll, getOrderById,editOrder, delOrder, payOrder, createOrder }
+module.exports = { getAll, getOrderById, editOrder, delOrder, payOrder, createOrder }

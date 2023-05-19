@@ -17,14 +17,13 @@ Page({
     getDataList() {
         checkAuth(() => {
             request({
-                url: 'favorite',
-                data: this.data.query,
+                url: `favorite/${wx.getStorageSync('userInfo')._id}`,
             }).then(({
                 code,
                 data,
                 msg
             }) => {
-                code == 200 && this.setData({
+               this.setData({
                     collections: data || []
                 })
             })

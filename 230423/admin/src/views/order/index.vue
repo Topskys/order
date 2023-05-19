@@ -32,22 +32,22 @@
         @sizeChange="sizeChange"
       >
         <template v-slot:operation="slot_data">
-          <el-button
+          <!-- <el-button
             @click="operation(slot_data.data, 1)"
             type="text"
             style="color: #409eff"
             :disabled="slot_data.data.status !== '已支付'"
             >确认</el-button
-          >
+          > -->
           <el-button
-            @click="operation(slot_data.data, 2)"
+            @click="onSuccess(slot_data.data, 2)"
             type="text"
             style="color: #e6a23c"
-            :disabled="slot_data.data.status !== '进行中'"
+            :disabled="slot_data.data.status !== '待评价'"
             >完成</el-button
           >
           <el-button
-            @click="operation(slot_data.data, 3)"
+            @click="del(slot_data.data, 3)"
             type="text"
             style="color: #f56c6c"
             >删除</el-button
@@ -100,6 +100,22 @@ export default {
     sizeChange(data) {
       this.form.pageSize = data;
       // this.getPageList();
+    },
+    // 完成
+    onSuccess(data){
+this.$http({
+  url:`/order/wx/${data._id}`,
+  method:'put',
+  data:{
+    status:'完成'
+  }
+}).then(res=>{
+  this.$message({
+                  type: res.code == 200 ? "success" : "error",
+                  message: res.msg,
+                });
+                this.getPageList();
+})
     },
     // 表格操作事件(确认、完成)
     operation(data, which) {

@@ -37,9 +37,12 @@ const tableConf = {
                 show_tooltip: false,
             },
             {
-                prop: "start_price",
+                type:"function",
+                prop: "services",
                 label:"起始价",
-                cb: (data) => data.sale_price ? `￥${Number(data.sale_price).toFixed(2)}` : '未定价',
+                cb: (data) => {
+                    return data.services[0].price ? `￥${Number(data.services[0].price).toFixed(2)}` : '未定价'
+                }
             },
             {
                 prop: "sale_count",

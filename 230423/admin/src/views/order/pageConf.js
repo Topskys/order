@@ -65,29 +65,29 @@ const tableConf = {
             },
             {
                 type: "tag",
-                prop: "status_text",
+                prop: "status",
                 label: "状态",
-                cb: (data) => {
-                    let tag_type = "default";
-                    switch (data.status) {
-                        case "待支付":
-                            tag_type = "danger";
-                            data.status_text = "未支付";
-                            break;
-                        case "进行中":
-                            tag_type = "warning";
-                            data.status_text = "待服务";
-                            break;
-                        case "待评价":
-                            tag_type = "info";
-                            break;
-                        case "完成":
-                            tag_type = "success";
-                            data.status_text = "完成";
-                            break;
-                    }
-                    return tag_type;
-                },
+                // cb: (data) => {
+                //     let tag_type = "default";
+                //     switch (data.status) {
+                //         case "待支付":
+                //             tag_type = "danger";
+                //             data.status_text = "未支付";
+                //             break;
+                //         case "进行中":
+                //             tag_type = "warning";
+                //             data.status_text = "待服务";
+                //             break;
+                //         case "待评价":
+                //             tag_type = "info";
+                //             break;
+                //         case "完成":
+                //             tag_type = "success";
+                //             data.status_text = "完成";
+                //             break;
+                //     }
+                //     return tag_type;
+                // },
             },
             {
                 type: "text",
