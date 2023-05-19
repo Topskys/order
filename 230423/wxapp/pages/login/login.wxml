@@ -7,7 +7,7 @@
     </view>
     <view class="login-form">
         <view class="form-head">
-            <view class="head-logo">景春高级家政</view>
+            <view class="head-logo">家政服务平台</view>
             <view class="head-desc">Please sign in to continue</view>
         </view>
         <view class="form-body">

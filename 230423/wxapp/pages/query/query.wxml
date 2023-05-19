@@ -8,9 +8,9 @@
                 <block wx:if="{{products.length}}"><view class="products">
                     <view class="product-item" wx:for="{{products}}" wx:key="index" bindtap="onProductItem" data-item="{{item}}">
                         <image src="{{item.poster}}" class="product-poster" mode="widthFix"></image>
-                        <view class="product-desc">{{item.title}}</view>
+                        <view class="product-desc">{{item.employee_name}}</view>
                         <view class="product-price r-flex-3">
-                            <view class="price-left" wx:if="{{item.start_price}}"><text class="price-str">￥</text>{{item.start_price}}</view>
+                            <view class="price-left" wx:if="{{item.services[0].price}}"><text class="price-str">￥</text>{{item.services[0].price}}</view>
                             <view class="price-right" wx:if="{{item.sale_count}}"><text>{{'已售'+ wxs.formatPrice(item.sale_count)+'件'}}</text></view>
                         </view>
                     </view>

@@ -50,12 +50,23 @@
         <van-sticky>
             <van-tabs active="{{ tabActive }}" bind:change="onChange">
                 <van-tab title="服务内容">
-                    <view class="service-warp">
-                        <view class="service">
-                            <view class="service-desc pg15 fs14 content">{{detail.description}}</view>
-                            <!-- <view class="service-images" wx:for="{{detail.images}}" wx:key="index">
-                                <image src="{{item}}" class="image-item image" mode="aspectFill" />
-                            </view> -->
+                    <view class="service-warp  fs14">
+                    <!-- <view class="tac title mt10 fs16" >服务详情</view> -->
+                        <view class="service content">
+                            <view style="padding: 20rpx 30rpx 0;">
+                                <view  class="r-flex-aic" wx:if="{{detail.employee_name}}">
+                                    <text>服务人员：</text><text>{{detail.employee_name}}</text>
+                                </view>
+                                <view  class="r-flex-aic" wx:if="{{detail.experience}}">
+                                    <text>服务经验：</text><text>{{detail.experience}}</text>
+                                </view>
+                                <view  class="r-flex-aic" wx:if="{{detail.skill}}">
+                                    <text>技能描述：</text><text>{{detail.skill}}</text>
+                                </view>
+                            </view>
+                            <view class="service-desc pg0-15 fs14 content" style="padding-bottom: 30rpx;" wx:if="{{detail.description}}">
+                            服务描述：{{detail.description}}
+                            </view>
                         </view>
                     </view>
                 </van-tab>

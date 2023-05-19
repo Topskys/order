@@ -22,8 +22,8 @@ async function getAll(ctx) {
     const { keyword = '' } = ctx.query
     await findByPagination(ctx, OrderModel, ctx.request.query, {
         $or: [
-            { title: new RegExp(keyword, 'i') },
-            { nickName: new RegExp(keyword, 'i') }
+            { phone: new RegExp(keyword, 'i') },
+            { employee_name: new RegExp(keyword, 'i') }
         ]
     })
 }
@@ -53,19 +53,19 @@ const getOrderById = async (ctx) => {
 async function createOrder(ctx) {
     const {
         service = '',
-        title = '',
+        employee_name = '',
         poster = '',
         address = '',
         origin_price = '',
         product_id = '',
         user_id = ''
     } = ctx.request.body
-    if (!service || !title || !poster || !origin_price || !product_id || !user_id) {
+    if (!service || !employee_name || !poster || !origin_price || !product_id || !user_id) {
         fail(ctx, null, 400, "请求失败")
         return
     }
     if (!address) {
-        fail(ctx, undefind, 400, "请填写地址信息")
+        fail(ctx, undefined, 400, "请填写地址信息")
         return
     }
 
@@ -85,21 +85,19 @@ async function createOrder(ctx) {
 async function payOrder(ctx) {
     const { id = '' } = ctx.params
     if (!id) return fail(ctx, undefined, 400, "请求失败")
-
-    // 在此做支付操作（常规需要企业级认证开发者，才能使用支付接口）
+    console.log('-------', ctx.request.body)
     await update(ctx, OrderModel, { _id: id }, {
         $set: {
             ...ctx.request.body,
-            // status: "进行中"
+            status: "进行中"
         }
     }, rel => {
-        console.log(rel);
         if (rel && rel.modifiedCount > 0) {
             ctx.body = {
                 code: 200,
                 data: rel,
                 msg: "支付成功",
-                pay_token: Buffer.from(Date.now()).toString('base64')
+                pay_token: Date.now()
             }
         } else {
             ctx.body = {
@@ -111,24 +109,19 @@ async function payOrder(ctx) {
     })
 }
 
-// 更新订单状态信息
+// 更新订单状态信息（停用）
 async function updateOrder(ctx) {
     const [{ id = '' }, body] = [ctx.params, ctx.request.body]
-    let order
-    await findOne(ctx, OrderModel, { _id: id }, function (rel) {
-        if (rel) {
-            order = rel
-        } else {
-            return fail(ctx, undefined, 400, "请求失败")
-        }
-    })
-
-    if (body) {
-        const { status } = body
-
-    }
     await update(ctx, OrderModel, { _id: id }, body)
 }
 
+// 修改订单信息
+async function editOrder(ctx) {
+    const { id = '' } = ctx.params
+    await update(ctx, OrderModel, { 
+        _id: id 
+    }, ctx.request.body)
+}
 
-module.exports = { getAll, getOrderById, delOrder, payOrder, createOrder }
+
+module.exports = { getAll, getOrderById,editOrder, delOrder, payOrder, createOrder }

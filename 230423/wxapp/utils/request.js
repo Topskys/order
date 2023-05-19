@@ -14,22 +14,25 @@ function request(options) {
             url: `${baseUrl}/${options.url}`,
             method: options.method || 'get',
             header: {
-                authorization: wx.getStorageSync('token') ,
+                authorization: wx.getStorageSync('token'),
             },
             timeout: options.timeout || 5000,
-            success: ({data}) => {
-                const {code,msg}=data
+            success: ({
+                data
+            }) => {
+                const {
+                    code,
+                    msg
+                } = data
                 if (code !== 200) {
+                    code == 401 && wx.navigateTo({
+                        url: '/pages/login/login'
+                    })
                     wx.showToast({
                         title: msg,
                         icon: 'none',
-                        complete: () => {
-                            code == 401 && wx.navigateTo({
-                                url: '/pages/login/login'
-                            })
-                        }
                     })
-                    return 
+                    return
                 }
                 resolve(data)
             },

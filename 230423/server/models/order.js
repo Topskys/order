@@ -15,7 +15,7 @@ module.exports = mongoose.model('orders', new mongoose.Schema({
         type: String,
         require: true
     },
-    title: { // 商品标题
+    employee_name: { // 
         type: String,
         default: ''
     },
@@ -41,7 +41,7 @@ module.exports = mongoose.model('orders', new mongoose.Schema({
     },
     work_time: { // 预约上门时间
         type: String,
-        default: ''
+        default: new Date().toLocaleDateString(),
     },
     remark: { // 备注
         type: String,

@@ -22,9 +22,6 @@
             >查询</el-button
           >
         </el-form-item>
-        <el-form-item>
-          <el-button type="primary" icon="el-icon-printer">打印</el-button>
-        </el-form-item>
       </el-form>
     </el-card>
     <el-card shadow="never" style="margin-top: 20px">

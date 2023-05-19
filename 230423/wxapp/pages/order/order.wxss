@@ -3,3 +3,17 @@
     height: 100vh;
     overflow: hidden;
 }
+.order-cell-warp .order-title{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.order-cell-warp .order-content{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #646566 !important;
+    font-size: var(--fs14);
+}

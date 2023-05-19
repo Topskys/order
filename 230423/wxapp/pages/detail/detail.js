@@ -106,7 +106,8 @@ Page({
             }
             const data = {
                 product_id: this.currrent_product_id || this.data.detail._id || wx.getStorageSync('current_product_id'),
-                title: this.data.detail.title,
+                employee_name: this.data.detail.employee_name,
+                experience: this.data.detail.experience,
                 poster: this.data.detail.poster,
                 service: currSel.title,
                 origin_price: currSel.price,

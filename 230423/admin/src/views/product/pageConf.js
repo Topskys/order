@@ -10,8 +10,9 @@ const tableConf = {
         columns: [
             {
                 type: "text",
-                prop: "title",
-                label: "标题",
+                prop: "employee_name",
+                label: "名称",
+                show_tooltip: false,
             },
             {
                 type: "image",
@@ -21,8 +22,18 @@ const tableConf = {
                 show_tooltip: false,
             },
             {
+                prop: "experience",
+                label: "服务经验",
+                show_tooltip: false,
+            },
+            {
+                prop: "skill",
+                label: "技能",
+                show_tooltip: false,
+            },
+            {
                 prop: "description",
-                label: "描述",
+                label: "服务描述",
                 show_tooltip: false,
             },
             {
@@ -33,10 +44,17 @@ const tableConf = {
             {
                 prop: "sale_count",
                 label: "已售",
+                show_tooltip: false,
+            },
+            {
+                prop: "cate_title",
+                label: "家政类别",
+                show_tooltip: false,
             },
             {
                 prop: "location",
                 label: "服务区域",
+                show_tooltip: false,
             },
             {
                 type: "function",
@@ -45,9 +63,9 @@ const tableConf = {
                 cb: (data) => {
                     let type = 'warning'
                     let txt = '下架'
-                    if (data.status) {
+                    if (data.status===true) {
                         type = 'primary'
-                        txt = '在售'
+                        txt = '可服务'
                     }
                     return `<div class="e-tag">
                     <span class='el-tag el-tag--${type} el-tag--light'>${txt}</span>
@@ -61,7 +79,8 @@ const tableConf = {
                 cb: function(data){
                     const date=new Date(data.updatedAt).toGMTString()
                     return new Date(date).toLocaleString()
-                }
+                },
+                show_tooltip: false,
             },
             {
                 type: "slot",

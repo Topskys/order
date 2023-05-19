@@ -2,7 +2,6 @@
 import request from '../../utils/request'
 
 Page({
-
     data: {
         categories: [],
         activeTab: 0,
@@ -18,7 +17,7 @@ Page({
     // 获取分类数据
     getCateList() {
         request({
-            url: 'category'
+            url: 'category/wx'
         }).then((res) => {
             this.setData({
                 categories: res.data || []
@@ -28,7 +27,7 @@ Page({
     // 获取商品列表数据
     getDataList(keyword = '') {
         request({
-            url: 'product',
+            url: 'product/wx',
             data: {
                 keyword
             }
@@ -41,6 +40,7 @@ Page({
     // 点击tabs回调事件
     onChange(e) {
         this.getDataList(e.detail.title)
+        
         this.setData({
             activeTab:e.detail.index
         })

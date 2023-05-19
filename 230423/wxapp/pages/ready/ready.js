@@ -62,45 +62,60 @@ Page({
     },
     // 预约并支付
     onPay() {
+        wx.showModal({
+            cancelText: '取消',
+            confirmText: '确认',
+            content: '是否确认支付',
+            showCancel: true,
+            title: '支付',
+            success: () => this.doPay() // like: function success(){return this.doPay()}
+        })
+    },
+    // 执行模拟支付操作
+    doPay() {
         checkAuth(() => {
-            const order=this.data.order
-            const userInfo=wx.getStorageSync('userInfo')
+            const order = this.data.order
+            const userInfo = wx.getStorageSync('userInfo')
             request({
                 url: `order/${this.data.order._id||wx.getStorageSync('current_order_id')}`,
                 method: 'put',
                 data: {
-                    address:userInfo.address,
-                    user_id:userInfo._id,
-                    remark:order.remark,
-                    pay_type:order.pay_type,
-                    work_time:order.work_time,
-                    discount:order.discount+'',
-                    origin_price:order.origin_price+'',
-                    work_time:order.work_time,
-                    actual_price: computedPrice(order.origin_price)+''
+                    address: userInfo.address,
+                    user_id: userInfo._id,
+                    remark: order.remark,
+                    pay_type: order.pay_type,
+                    work_time: order.work_time,
+                    discount: order.discount + '',
+                    origin_price: order.origin_price + '',
+                    work_time: order.work_time,
+                    actual_price: computedPrice(order.origin_price) + ''
                 }
             }).then(res => {
-                if (res.pay_token) {
-                    setTimeout(() => {
-                        wx.switchTab({
-                            url: '/pages/index/index',
-                        })
-                    }, 5000)
-                    Notify({
-                        type: 'success',
-                        message: res.msg
-                    });
-                    wx.showToast({
-                        title: res.msg,
-                        icon: res.code === 200 ? 'success' : 'error',
-                    })
-                } else {
-                    Notify({
-                        type: 'error',
-                        message: '请求失败'
-                    });
-                }
+                this.handleResult(res)
             })
         }, 'order', 'tab')
     },
+    // 处理支付结果
+    handleResult(res) {
+        if (res.pay_token) {
+            setTimeout(() => {
+                wx.switchTab({
+                    url: '/pages/index/index',
+                })
+            }, 2000)
+            Notify({
+                type: 'success',
+                message: res.msg
+            });
+            wx.showToast({
+                title: res.msg,
+                icon: res.code === 200 ? 'success' : 'error',
+            })
+        } else {
+            Notify({
+                type: 'error',
+                message: '请求失败'
+            });
+        }
+    }
 })

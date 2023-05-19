@@ -59,12 +59,12 @@ export const constantRoutes = [
     path: '/product',
     component: Layout,
     redirect: '/product/list',
-    meta: { title: '产品管理', icon: 'el-icon-sell' },
+    meta: { title: '家政服务管理', icon: 'el-icon-sell' },
     children: [
       {
         path: 'list',
         component: () => import('@/views/product/index.vue'),
-        meta: { title: '产品列表', icon: '' }
+        meta: { title: '家政服务', icon: '' }
       },
     ]
   },
@@ -82,19 +82,6 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/employee',
-    component: Layout,
-    redirect: '/employee/list',
-    meta: { title: '员工管理', icon: 'peoples' },
-    children: [
-      {
-        path: 'list',
-        component: () => import('@/views/employee/index.vue'),
-        meta: { title: '员工列表', icon: '' }
-      },
-    ]
-  },
-  {
     path: '/activity',
     component: Layout,
     redirect: '/activity/list',
@@ -105,6 +92,19 @@ export const constantRoutes = [
         component: () => import('@/views/activity/index.vue'),
         meta: { title: '活动列表', icon: '' }
       }, 
+    ]
+  },
+  {
+    path: '/category',
+    component: Layout,
+    redirect: '/category/list',
+    meta: { title: '类别管理', icon: 'el-icon-notebook-2' },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/category/index.vue'),
+        meta: { title: '类别列表', icon: '' }
+      },
     ]
   },
   {
@@ -121,6 +121,19 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/employee',
+    component: Layout,
+    redirect: '/employee/list',
+    meta: { title: '员工管理', icon: 'peoples' },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/employee/index.vue'),
+        meta: { title: '员工列表', icon: '' }
+      },
+    ]
+  },
+  {
     path: '/contact',
     component: Layout,
     redirect: '/contact/list',
@@ -133,6 +146,7 @@ export const constantRoutes = [
       },
     ]
   },
+  
   
   
   // 404 page must be placed at the end !!!

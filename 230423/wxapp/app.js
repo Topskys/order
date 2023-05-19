@@ -8,7 +8,7 @@ App({
     },
     globalData: {
         userInfo: wx.getStorageSync('userInfo'),
-        logoTitle: "景春高级家政",
+        logoTitle: "家政服务平台",
         location: wx.getStorageSync('location') || "福州",
     }
 })

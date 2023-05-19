@@ -14,6 +14,7 @@ const tableConf = {
                 type: "text",
                 prop: "user_id",
                 label: "顾客编号",
+                show_tooltip: false,
             },
             {
                 type: "text",
@@ -23,8 +24,9 @@ const tableConf = {
             },
             {
                 type: "text",
-                prop: "title",
-                label: "商品标题",
+                prop: "employee_name",
+                label: "名称",
+                show_tooltip: false,
             },
             {
                 type: "text",
@@ -36,11 +38,13 @@ const tableConf = {
                 type: "text",
                 prop: "actual_price",
                 label: "支付价格",
+                show_tooltip: false,
             },
             {
                 type: "text",
                 prop: "pay_type",
                 label: "支付方式",
+                show_tooltip: false,
             },
             {
                 prop: "work_time",
@@ -51,11 +55,13 @@ const tableConf = {
                 type: "text",
                 prop: "address",
                 label: "上门地址",
+                show_tooltip: false,
             },
             {
                 type: "text",
                 prop: "remark",
                 label: "备注",
+                show_tooltip: false,
             },
             {
                 type: "tag",
@@ -85,8 +91,9 @@ const tableConf = {
             },
             {
                 type: "text",
-                prop: "createTime",
+                prop: "createdAt",
                 label: "下单时间",
+                show_tooltip: false,
             },
             {
                 type: "slot",

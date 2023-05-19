@@ -8,7 +8,11 @@ Page({
         orders: [], // 全部
         arr0: [], // 待付款
         arr1: [], // 进行中
-        arr2: [] // 评价
+        arr2: [], // 评价
+        slideButtons: [{
+            type: "warn",
+            text: "删除"
+        }],
     },
     onChange(event) {
         // console.log(event.detail)
@@ -48,7 +52,7 @@ Page({
                             btn2: "完成"
                         })
                     }
-                    item.status.includes("评价") && (item.btn2 = "")
+                    item.status.includes("待评价") && (item.btn2 = "评价")
                 })
                 this.setData({
                     orders: orders || [],
@@ -73,10 +77,10 @@ Page({
                     url: `order/${item._id}`,
                     method: "delete"
                 }).then(res => {
+                    this.getOrderList()
                     wx.showToast({
                         title: res.msg,
                         icon: 'none',
-                        complete: () => this.getOrderList()
                     })
                 })
                 break;
@@ -85,16 +89,17 @@ Page({
                 break;
             case "完成":
                 request({
-                    url: `order/${item._id}`,
+                    url: `order/wx/${item._id}`,
                     method: "put",
                     data: {
-                        ...item
+                        ...item,
+                        status: '待评价'
                     }
                 }).then(res => {
+                    this.getOrderList()
                     wx.showToast({
                         title: res.msg,
                         icon: 'none',
-                        complete: () => this.getOrderList()
                     })
                 })
                 break;
@@ -105,6 +110,38 @@ Page({
                 break;
         }
     },
-
-
+    // 左滑删除
+    slideButtonTap(e) {
+        var id = e.currentTarget.dataset.id
+        wx.showModal({
+            cancelText: '取消',
+            confirmText: '删除',
+            content: '您确定删除订单',
+            showCancel: true,
+            title: '删除订单',
+            success: (result) => {
+                request({
+                    url: `order/${id}`,
+                    method: "delete"
+                }).then(res => {
+                    this.setData({
+                        orders: this.data.orders.filter(x => x._id != id)
+                    })
+                    wx.showToast({
+                        title: res.msg,
+                        icon: res.code == 200 ? 'success' : 'error',
+                    })
+                })
+            },
+        })
+    },
+    // 跳转支付
+    toPay(e) {
+        const {
+            item
+        } = e.currentTarget.dataset
+        wx.navigateTo({
+            url: `/pages/ready/ready?order_id=${item._id}`,
+        })
+    }
 })

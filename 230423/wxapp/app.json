@@ -19,7 +19,7 @@
     "window": {
         "backgroundTextStyle": "light",
         "navigationBarBackgroundColor": "#fff",
-        "navigationBarTitleText": "景春高级家政",
+        "navigationBarTitleText": "家政服务平台",
         "navigationBarTextStyle": "black"
     },
     "sitemapLocation": "sitemap.json",

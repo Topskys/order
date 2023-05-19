@@ -47,7 +47,18 @@ Page({
         recommends: []
     },
     onLoad() {
-        this.getDataList()
+        this.getDataList(),
+            this.cates()
+    },
+    // 
+    cates() {
+        request({
+            url: 'category/wx'
+        }).then(res => {
+            this.setData({
+                categories: res.data.slice(0,4) // 截取四个
+            })
+        })
     },
     // 获取商品列表数据
     getDataList(keyword = app.globalData.location || '福州') {
@@ -81,6 +92,12 @@ Page({
         } = e.currentTarget.dataset
         wx.navigateTo({
             url: `/pages/detail/detail?product_id=${item._id}`
+        })
+    },
+    // 跳转领取优惠劵
+    toDiscount() {
+        wx.navigateTo({
+            url: '/pages/discount/discount',
         })
     }
 })

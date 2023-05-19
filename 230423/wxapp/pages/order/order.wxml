@@ -3,8 +3,32 @@
     <van-tabs animated active="{{ active }}" bind:change="onChange">
         <van-tab title="全部">
             <scroll-view scroll-y class="scroll-y-88 theme-bg">
-                <view>
-                    <order-item wx:for="{{orders}}" wx:key="index" order="{{item}}" bind:btnEvent="clickHandler"></order-item>
+                <view wx:if="{{orders.length}}">
+                    <mp-cells>
+                        <mp-slideview buttons="{{slideButtons}}" bindbuttontap="slideButtonTap" data-id="{{item._id}}" wx:for="{{orders}}" wx:key="index">
+                            <mp-cell>
+                                <view class="r-flex order-cell-warp">
+                                    <image src='{{item.poster}}' class="image mr10" style="width: 150rpx;height: 150rpx;border-radius: 6rpx;"></image>
+                                    <view style="flex: 1;" class="c-flex-jcsb">
+                                        <view>
+                                            <view class=" fs16 order-title">{{item.employee_name}}</view>
+                                            <view class="fs14 order-content">{{item.service}}</view>
+                                        </view>
+                                        <view class="r-flex-jcsb-aic fs12 gray mt5">
+                                            <view>
+                                                <text class="red">￥</text>
+                                                <text class="red fs16">{{item.origin_price||item.services[0].price }}</text>
+                                            </view>
+                                            <text>x1</text>
+                                        </view>
+                                    </view>
+                                </view>
+                                <view class="fs12 tar mt10">
+                                    <text style="background-color: var(--theme);color:var(--white);padding: 6rpx 30rpx;border-radius: 30rpx;overflow: hidden;box-sizing: border-box;" bindtap="toPay" data-item="{{item}}" wx:if="{{item.btn2}}">{{item.btn2}}</text>
+                                </view>
+                            </mp-cell>
+                        </mp-slideview>
+                    </mp-cells>
                 </view>
             </scroll-view>
         </van-tab>

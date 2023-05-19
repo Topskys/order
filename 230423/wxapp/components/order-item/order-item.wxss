@@ -1,5 +1,5 @@
 /* components/order-item/order-item.wxss */
-.order-card{
+.order-card {
     box-sizing: border-box;
     border-radius: 10rpx;
     margin: 24rpx;
@@ -7,12 +7,34 @@
     background-color: var(--white) !important;
 }
 
-.title-card{
+.title-card {
     font-size: var(--fs16);
     font-weight: 400 !important;
 }
 
-.desc-card{
+.desc-card {
     margin-top: 10rpx;
     font-size: var(--fs14);
+}
+
+.thumb {
+    display: block;
+    width: 150rpx;
+    height: 150rpx !important;
+    border-radius: 8rpx !important;
+}
+
+.btn1 {
+    font-size: 24rpx !important;
+    border: 1px solid #bce2d9 !important;
+    border-radius: 30rpx !important;
+    color: #303332 !important;
+    background-color: #e9fffb !important;
+}
+
+.btn2 {
+    font-size: 24rpx !important;
+    color: #fff !important;
+    border-radius: 30rpx !important;
+    background-color: #35bb99 !important;
 }

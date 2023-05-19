@@ -1,56 +1,36 @@
 <template>
-  <!-- 家政人员产品管理 -->
-  <div class="product">
-    <el-card shadow="never">
+  <div class="category">
+    <el-card shadow="never" style="margin-bottom: 10px">
       <!-- 表单 -->
       <el-form
         :model="form"
         ref="form"
+        :inline="true"
         @keyup.enter.native="getPageList()"
-        inline
       >
-        <div class="form-head" style="margin-bottom: 40px">家政服务</div>
-        <div class="r-flex">
-          <el-form-item label="名称：">
-            <el-input
-              v-model="form.name"
-              placeholder="请输入家政人员的名称"
-              prefix-icon="el-icon-search"
-              clearable
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="家政类别：">
-            <el-select
-              v-model="form.select"
-              placeholder="请选择家政类别"
-              @click.native="getOptions"
-            >
-              <el-option
-                v-for="item in options"
-                :key="item._id"
-                :label="item.title"
-                :value="item.title"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
+        <div class="form-head" style="margin-bottom: 40px">类别列表</div>
+        <el-form-item label="标题：">
+          <el-input
+            v-model="form.keyword"
+            placeholder="请输入标题"
+            prefix-icon="el-icon-search"
+            clearable
+          ></el-input>
+        </el-form-item>
+        <el-form-item>
           <el-button type="primary" @click="getPageList()" icon="el-icon-search"
-            >查询</el-button
+            >搜索</el-button
           >
-          <el-button @click="resetForm" 
-            >重置</el-button
-          >
-        </div>
-      </el-form>
-    </el-card>
-    <el-card shadow="never" style="margin-top: 10px">
-        <el-button
+          <el-button
         type="primary"
-        @click="addOrEdit()"
+        @click="addOrEdit"
         icon="el-icon-plus"
-        style="margin-bottom: 20px"
         >添加</el-button
       >
+        </el-form-item>
+      </el-form>
+    </el-card>
+    <el-card shadow="never">
       <!-- 表格 -->
       <e-table
         :config="t_config"
@@ -58,46 +38,75 @@
         @sizeChange="sizeChange"
       >
         <template v-slot:operation="slot_data">
-          <el-button @click="addOrEdit(slot_data.data)" type="text">修改</el-button>
+          <el-button
+            @click="edit(slot_data.data)"
+            type="primary"
+            size='mini'
+            >修改</el-button
+          >
           <el-button
             @click="del(slot_data.data)"
-            type="text"
-            style="color: #f56c6c"
+            type="danger"
+            size='mini'
             >删除</el-button
           >
         </template>
       </e-table>
     </el-card>
-    <EditForm :config="editConf" @getData="getPageList"/>
+
+    <!-- Dialog 表单 :rules="f_rules"-->
+    <el-dialog
+      :title="`${f_field._id ? '修改类别' : '添加类别'}`"
+      :visible.sync="dialogVisible"
+      append-to-body
+      width="50%"
+    >
+      <el-form
+        ref="dialog_form"
+        :model="f_field"
+        label-width="100px"
+        style="margin: 0 auto; max-width: 700px"
+      >
+        <el-form-item label="类别名称" required prop="title">
+          <el-input v-model="f_field.title" placeholder="请输入标题"></el-input>
+        </el-form-item>
+        <el-form-item label="海报" v-show="!f_field._id">
+          <div class="form-upload">
+            <el-upload
+              action="http"
+              list-type="picture-card"
+              :http-request="handlerUpload"
+              :limit="1"
+            >
+              <i class="el-icon-plus"></i>
+            </el-upload>
+          </div>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="cancel">取 消</el-button>
+        <el-button type="primary" @click="confirm">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { tableConf } from "./pageConf";
-import EditForm from './edit.vue'
+import {tableConf} from './pageConf' 
 export default {
   components: {
     "e-table": () => import("@/components/common/table/index.vue"),
     "e-form": () => import("@/components/common/form/index.vue"),
-    EditForm
   },
   data() {
     return {
       form: {
-        name: "",
-        select: "",
+        keyword: "",
         page: 1,
         pageSize: 10,
       },
-      // 类别选择框数组
-      options: [],
       // 列表配置
-      ...tableConf,
-      // Dialog 表单
-      editConf:{
-        services:[],
-        dialogVis:false
-      }
+     ...tableConf,
     };
   },
   mounted() {
@@ -107,7 +116,7 @@ export default {
     // 获取数据列表
     getPageList() {
       this.$http({
-        url: "/product",
+        url: "/category",
         params: {
           ...this.form,
         },
@@ -124,30 +133,32 @@ export default {
     sizeChange(data) {
       this.form.pageSize = data;
     },
-    // 重置按钮
-    resetForm(){
-      this.form.name= ""
-        this.form.select=""
+    // 新增或编辑按钮事件回调
+    addOrEdit(data) {
+      this.f_field = {
+        ...data,
+      };
+      this.dialogVisible = true;
     },
-    // 点击类别选择框事件
-    async getOptions() {
-      this.options =
-        (await this.$http({
-          url: "/category/wx",
-        })).data || [];
+    // 表格编辑按钮事件回调
+    edit(data) {
+      this.f_field = {
+        ...data,
+      };
+      this.dialogVisible = true;
     },
     /**
      * 表格删除按钮
      */
     del(data) {
-      this.$confirm(`你确定删除项数据?`, "提示", {
+      this.$confirm(`你确定删除该项数据?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       })
         .then((res) => {
           this.$http({
-            url: `/product/${data._id}`,
+            url: `/category/${data._id}`,
             method: "DELETE",
             data,
           }).then(({ code, msg }) => {
@@ -166,12 +177,24 @@ export default {
         });
     },
     handleClose() {
-      this.dialogVis = false;
-      this.imgList = [];
+      this.dialogVisible = false;
       this.f_field = {};
     },
-
-
+    handleRemove(file, fileList) {
+      this.f_field.poster = "";
+    },
+    // 上传文件
+    handlerUpload(data) {
+      const form = new FormData(); 
+      form.append("file", data.file); 
+      this.$http({
+        url: "/upload",
+        method: "post",
+        data: form,
+      }).then(({ url }) => {
+        this.f_field.poster = url;
+      });
+    },
     /**
      * Dialog表单确定按钮
      * 提交更数据
@@ -180,11 +203,10 @@ export default {
       this.$refs.dialog_form.validate(async (valid) => {
         if (valid) {
           this.$http({
-            url: "/product",
-            method: "put",
+            url: this.f_field._id?`/category/${this.f_field._id}`:'/category',
+            method: this.f_field._id?'put':"post",
             data: {
               ...this.f_field,
-              gender: this.f_field.gender.slice(":")[1],
             },
           }).then(({ code, msg }) => {
             this.$message({
@@ -204,16 +226,8 @@ export default {
      */
     cancel() {
       this.dialogVisible = false;
-      this.imgList = [];
       this.f_field = {};
     },
-    // 添加或修改
-    addOrEdit(data={}){
-        this.editConf = {...data};
-      this.editConf.dialogVis = true;
-    }
-
-
   },
   watch: {
     form: {
@@ -227,7 +241,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.product {
+.category {
   padding: 20px;
 }
 </style>

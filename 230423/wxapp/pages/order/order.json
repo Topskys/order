@@ -4,7 +4,10 @@
         "van-button": "@vant/weapp/button/index",
         "van-tab": "@vant/weapp/tab/index",
         "van-tabs": "@vant/weapp/tabs/index",
-        "order-item": "../../components/order-item/order-item"
+        "order-item": "../../components/order-item/order-item",
+        "mp-cells": "weui-miniprogram/cells/cells",
+        "mp-cell": "weui-miniprogram/cell/cell",
+        "mp-slideview": "weui-miniprogram/slideview/slideview"
     },
     "navigationBarTitleText": "订单信息"
 

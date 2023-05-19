@@ -3,15 +3,11 @@ const mongoose = require('mongoose')
 
 
 module.exports = mongoose.model('products', new mongoose.Schema({
-    cate_id: { // 分类主键
+    employee_name: { // 家政人员名称
         type: String,
         require: true
     },
-    evaluate_id: { // 评价主键
-        type: String,
-        default: ''
-    },
-    title: { // 商品标题
+    employee_id: { // 家政人员表主键
         type: String,
         require: true
     },
@@ -19,7 +15,23 @@ module.exports = mongoose.model('products', new mongoose.Schema({
         type: String,
         require: true
     },
-    start_price: { // 商品起售价
+    experience: { // 服务经验
+        type: String,
+        default: ''
+    },
+    cate_id: { // 分类主键
+        type: String,
+        require: true
+    },
+    cate_title: { // 分类标题
+        type: String,
+        require: true
+    },
+    evaluate_id: { // 评价主键
+        type: String,
+        default: ''
+    },
+    start_price: { // 起始价
         type: String,
         default: ''
     },
@@ -31,13 +43,13 @@ module.exports = mongoose.model('products', new mongoose.Schema({
         type: Array,
         default: [] // [{title,price}]
     },
-    description: { // （详情）描述
+    skill: { // 家政人员技能描述
         type: String,
         default: ''
     },
-    images: { // 详情图片描述
-        type: Array,
-        default: [] // ["img1","img2"]
+    description: { // 服务描述
+        type: String,
+        default: ''
     },
     location: { // 定位，根据位置推荐相应服务
         type: String,

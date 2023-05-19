@@ -1,11 +1,10 @@
 <!--components/order-item/order-item.wxml-->
 <!-- 订单商品卡片 -->
 <view class="order-item-warp">
-    <van-card num="1" tag="" price="{{order.origin_price}}" desc="{{order.service}}" title="{{order.title}}" thumb="{{order.poster}}"
-    custom-class="order-card" title-class="title-card" desc-class="desc-card">
+    <van-card num="1" tag="" price="{{order.origin_price||order.services[0].price}}" desc="{{order.service}}" title="{{order.employee_name}}" thumb="{{order.poster}}" custom-class="order-card" thumb-mode='widthFix' thumb-class='thumb' title-class="title-card" desc-class="desc-card">
         <view slot="footer">
-            <van-button size="mini" wx:if="{{order.btn1}}" bindtap="clickHandler" data-item="{{order}}" data-btn="{{order.btn1}}" type="danger" style="margin-right: 20rpx;">{{order.btn1}}</van-button>
-            <van-button size="mini" wx:if="{{order.btn2}}" bindtap="clickHandler" data-item="{{order}}" data-btn="{{order.btn2}}" type="primary">{{order.btn2}}</van-button>
+            <van-button size="mini" wx:if="{{order.btn1}}" bindtap="clickHandler" data-item="{{order}}" data-btn="{{order.btn1}}" type="danger" style="margin-right: 20rpx;" custom-class="btn1">{{order.btn1}}</van-button>
+            <van-button size="mini" wx:if="{{order.btn2}}" bindtap="clickHandler" data-item="{{order}}" data-btn="{{order.btn2}}" type="primary" custom-class="btn2">{{order.btn2}}</van-button>
         </view>
     </van-card>
 </view>
