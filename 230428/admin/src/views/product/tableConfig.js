@@ -66,7 +66,7 @@ const tableConfig = {
   pagination: {
     show: true,
     page: 1,
-    pageSize: 10,
+    pageSize: 5,
     total: 0,
     align: 'center'
   }

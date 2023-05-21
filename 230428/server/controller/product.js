@@ -39,22 +39,23 @@ class Product {
         const { title = '', poster = '', class_id = '' } = ctx.request.body
         if (!title || !poster || !class_id) fail(ctx, undefined, 400, "请求参数错误")
 
-        await crud.findOne(ctx, ProductModel, { _id:id }, rel => rel ? (pro = rel) : fail(ctx, undefined, 400, "该商品不存在"))
+        await crud.findOne(ctx, ProductModel, { _id: id }, rel => rel ? (pro = rel) : fail(ctx, undefined, 400, "该商品不存在"))
         pro ? await crud.update(ctx, ProductModel, { _id: id }, {
             ...ctx.request.body,
-            selections:[...pro.selections],
+            selections: [...pro.selections],
         }) : ctx.throw(400, "更新失败")
     }
 
 
     async getAll(ctx) {
-        const { class_name = '', title = '', startAt = '', endAt = '' } = ctx.query
-        const keyword = class_name || title
-        const reg = new RegExp(keyword, 'i')
+        const { class_name = '', title = '', startAt = '', endAt = '', keyword = '' } = ctx.query
+        const k = class_name || title || keyword
+        const reg = new RegExp(k, 'i')
         const where = {
             $or: [
                 { title: reg },
                 { class_name: reg },
+                { class_id: reg },
             ]
         }
         // // 将查询条件GMT换算成时间戳，dataTime ∈ [startAt,endAt]

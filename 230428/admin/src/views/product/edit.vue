@@ -154,9 +154,11 @@ export default {
       this.activeName == "second" && this.resetData();
     },
     resetData() {
-      this.$emit("update:dialogVis", false);
+      // this.$emit("update:dialogVis", false);
+      this.dialogVis=false
       this.$emit("reReqList");
       this.activeName = "first";
+      this.form={}
     },
     // 图片上传
     handleRemove(file, fileList) {

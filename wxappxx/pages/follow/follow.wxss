@@ -1,7 +1,0 @@
-/* pages/fullow/fullow.wxss */
-.fullow-warp{
-    height: 100vh;
-    display: grid;
-    place-items: center;
-    /* background-color: var(--theme-bg); */
-}

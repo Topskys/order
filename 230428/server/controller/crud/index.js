@@ -133,7 +133,7 @@ class CRUD{
         // 计算起始位置
         let start = (page - 1) * pageSize
 
-        await model.find(where).skip(start).limit(pageSize).then(rel => {
+        await model.find(where).sort({"createdAt":-1}).skip(start).limit(pageSize).then(rel => {
             if (rel) {
                 cb ? cb({rel,total: count}) : (ctx.body = {
                     code: 200,

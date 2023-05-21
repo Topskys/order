@@ -109,7 +109,7 @@
       </e-table>
     </el-card>
     <!-- Dialog -->
-    <dialogEdit :data="dialogData" :dialogVis.sync="dialogVis" />
+    <dialogEdit :data="dialogData" :dialogVis.sync="dialogVis" @reReqList="getList()"/>
     <!-- Category -->
     <Category :data="categories" :diaVis.sync="dialogVisClass"/>
   </div>
@@ -152,9 +152,6 @@ export default {
     this.getList();
   },
   watch: {
-    query: {
-      handler() {},
-    },
     checkList(value) {
       console.log(value);
     },

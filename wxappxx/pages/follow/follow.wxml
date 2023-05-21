@@ -1,5 +1,0 @@
-<!--pages/fullow/fullow.wxml-->
-<!-- 关注我们 -->
-<view class="fullow-warp">
-    <image src="{{qrImg}}" mode="widthFix"></image>
-</view>

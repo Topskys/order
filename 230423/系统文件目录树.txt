@@ -1,0 +1,90 @@
+卷 Data 的文件夹 PATH 列表
+卷序列号为 8A12-85C2
+D:.
+├─admin
+│  ├─build
+│  ├─public
+│  ├─src
+│  │  ├─api
+│  │  ├─assets
+│  │  │  └─404_images
+│  │  ├─components
+│  │  │  ├─Breadcrumb
+│  │  │  ├─common
+│  │  │  │  ├─control
+│  │  │  │  │  ├─button
+│  │  │  │  │  ├─function
+│  │  │  │  │  ├─image
+│  │  │  │  │  ├─input
+│  │  │  │  │  ├─select
+│  │  │  │  │  ├─switch
+│  │  │  │  │  ├─tag
+│  │  │  │  │  ├─text
+│  │  │  │  │  └─upload
+│  │  │  │  ├─form
+│  │  │  │  └─table
+│  │  │  ├─Hamburger
+│  │  │  └─SvgIcon
+│  │  ├─icons
+│  │  │  └─svg
+│  │  ├─layout
+│  │  │  ├─components
+│  │  │  │  └─Sidebar
+│  │  │  └─mixin
+│  │  ├─router
+│  │  ├─store
+│  │  │  └─modules
+│  │  ├─styles
+│  │  │  └─35BB99
+│  │  │      └─theme
+│  │  │          └─fonts
+│  │  ├─utils
+│  │  └─views
+│  │      ├─activity
+│  │      ├─category
+│  │      ├─contact
+│  │      ├─dashboard
+│  │      │  └─echarts
+│  │      ├─employee
+│  │      ├─evaluate
+│  │      ├─login
+│  │      ├─member
+│  │      ├─order
+│  │      └─product
+├─server
+│  ├─controller
+│  │  ├─config
+│  │  └─crud
+│  ├─db
+│  ├─models
+│  ├─public
+│  │  ├─images
+│  │  ├─javascripts
+│  │  ├─stylesheets
+│  │  └─uploads
+│  ├─routes
+│  ├─utils
+│  └─views
+└─wxapp
+    ├─components
+    │  └─order-item
+    ├─images
+    ├─pages
+    │  ├─activity
+    │  ├─collection
+    │  ├─contact
+    │  ├─detail
+    │  ├─discount
+    │  ├─evaluate
+    │  ├─follow
+    │  ├─index
+    │  ├─info
+    │  ├─login
+    │  ├─logs
+    │  ├─message
+    │  ├─mine
+    │  ├─order
+    │  ├─query
+    │  ├─ready
+    │  └─register
+    └─utils

@@ -1,9 +1,0 @@
-{
-    "usingComponents": {
-        "van-tree-select": "@vant/weapp/tree-select/index",
-        "van-tab": "@vant/weapp/tab/index",
-        "van-tabs": "@vant/weapp/tabs/index"
-    },
-    "navigationBarTitleText": "分类帅选"
-
-}
